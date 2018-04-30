@@ -4,7 +4,7 @@ import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 import { DataTableModule } from './main/data-table';
 import { DataTableSortExpand } from './main/sort-expand/data-table-sort-expand';
-
+import { IonRangeSliderModule } from "ng2-ion-range-slider";
 
 import { AppComponent } from './app.component';
 import { MainComponent } from './main/main.component';
@@ -21,8 +21,10 @@ import { SignupComponent } from './main/signup/signup.component';
 import { ContentComponent } from './main/content/content.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FooterNavComponent } from './main/footer-nav/footer-nav.component';
-
-
+import { CandlestickComponent } from './main/graph-section/candlestick/candlestick.component';
+import { AmChartsModule } from "@amcharts/amcharts3-angular";
+import { LineGraphComponent } from './main/graph-section/line-graph/line-graph.component';
+import {AccordionModule} from "ng2-accordion";
 
 @NgModule({
   declarations: [
@@ -40,14 +42,19 @@ import { FooterNavComponent } from './main/footer-nav/footer-nav.component';
     SignupComponent,
     ContentComponent,
     DataTableSortExpand,
-    FooterNavComponent
+    FooterNavComponent,
+    CandlestickComponent,
+    LineGraphComponent,
+    
 
   ],
   imports: [
-  
+    AmChartsModule,
     BrowserModule,
     AppRoutingModule,
+    AccordionModule,
     DataTableModule,
+    IonRangeSliderModule,
     MDBBootstrapModule.forRoot()
   ],
   

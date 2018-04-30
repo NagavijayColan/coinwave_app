@@ -554,4 +554,43 @@ td.column-dayChange::after {
 
   td.column-HRchange::after{font-size: 13px ; right:-8px; top:16px;}
   td.column-dayChange::after{font-size: 13px; right:-8px; top:16px;}
+.chart_rgt_cont ul li label { width: 100%; padding: 4px;  font-size: 17px; color:#fff}
+.chart_rgt_cont {   background: #232526; padding: 33px 21px; min-height: 250px;}
+.chart_rgt_cont ul li span { padding: 10px; text-align: left; width: 100%;}
+.chart_rgt_cont select {  margin-top: -6px; margin-bottom: 4px;}
+.chart_rgt_cont ul li{margin: 10px 0px}
+
+.black-theme .chart_rgt_cont ul li span { background: #f1f1f1;color: #000;}
+.white-theme .chart_rgt_cont ul li span {   background: #000;}
+.black-theme .chart_rgt_cont select {
+  color: #000;
+  background: url("/assets/images/white_sel_arw.png") 59px / 12px no-repeat #fff !important;
+   }
+
+
+
+.chart_rgt_cont .in_sel-term{border:0px !important;}
+.amChartsPeriodSelector  fieldset   div:nth-child(1){
+  display: none !important;
+}
+
+.collapse:not(.show){
+  display: block !important;
+}
+#advancedSearchFilter h4.panel-title{
+  line-height: 42px;
+  text-transform: uppercase;
+  font-size: 16px;
+  border-bottom: 1px solid #333535;
+}
+.irs-with-grid .irs-bar{
+  background: #6bfffe;
+}
+.irs-line-left,.irs-line-mid,.irs-line-right,.irs-bar-edge{
+  background: #ccc;
+}
+
+.irs-from,.irs-to{
+  background: #6bfffe;
+  color: #000;
 }

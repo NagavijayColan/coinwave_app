@@ -1,0 +1,12 @@
+<div *ngIf="enableGraphType"><label><button (click)="changeType('candlestick');">Candlestick</button></label>
+  <label><button (click)="changeType('ohlc');">OHLC</button></label>
+  <label><button (click)="changeType('line');">Area</button></label>
+  <label><button (click)="changeTheme('dark');">Theme</button></label>
+  <label><button [disabled]="disabled" (click)="vwapaaaa();">VWAP</button></label>
+  </div>
+  
+
+
+<div id="chartdiv1" [ngStyle]="{'background-color': backgroundColor  }" [style.width.%]="100" [style.height.px]="250"></div>
+
+
