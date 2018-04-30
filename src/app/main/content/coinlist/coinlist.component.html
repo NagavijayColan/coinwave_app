@@ -21,11 +21,89 @@
 
          <div class="sort_by">
             <h1 class="sort_by_head"><i class="fa fa-filter advance_filter" aria-hidden="true"></i> <!--<img src="/assets/images/filter.png" class="advance_filter"/>--> Advance <span>Search Filters</span></h1>
-            <ul>
+            <!-- <ul>
               <li><a href="#">7 Day Change </a></li>
               <li><a href="#">24 Hr Volume </a></li>
               <li><a href="#">Coin Supply </a></li>
             </ul>
+           -->
+           <accordion id="advancedSearchFilter">
+            <accordion-group heading="7 DAY CHANGE" [isOpened]="true">
+              <ion-range-slider #sliderElement
+              type="double"
+              [min]="10"
+              max="30"
+              from="0"
+              from_min="0"
+              from_max="30"
+              from_shadow="false"
+              to="40"
+              to_min="0"
+              step="5"
+              to_max="30"
+              to_shadow="true"
+              grid="true"
+              grid_num="4"
+            
+              postfix=" day change"
+              decorate_both="false"
+              (onUpdate)="myOnUpdate($event)"
+              (onChange)="myOnChange($event)"
+              (onFinish)="myOnFinish($event)"></ion-range-slider>
+            </accordion-group>
+            <accordion-group heading="24 HR Volume">
+              <ion-range-slider #sliderElement
+              type="double"
+              [min]="10"
+              max="30"
+              from="0"
+              from_min="0"
+              from_max="30"
+              from_shadow="false"
+              to="40"
+              to_min="0"
+              step="5"
+              to_max="30"
+              to_shadow="true"
+              grid="true"
+              grid_num="4"
+             
+              postfix=" hr volume"
+              decorate_both="false"
+              (onUpdate)="myOnUpdate($event)"
+              (onChange)="myOnChange($event)"
+              (onFinish)="myOnFinish($event)"></ion-range-slider>
+            </accordion-group>
+            <accordion-group heading="COIN SUPPLY">
+              <ion-range-slider #sliderElement
+              type="double"
+              [min]="10"
+              max="30"
+              from="0"
+              from_min="0"
+              from_max="30"
+              from_shadow="false"
+              to="40"
+              to_min="0"
+              step="5"
+              to_max="30"
+              to_shadow="true"
+              grid="true"
+              grid_num="4"
+             
+              postfix=" coin supply"
+              decorate_both="false"
+              (onUpdate)="myOnUpdate($event)"
+              (onChange)="myOnChange($event)"
+              (onFinish)="myOnFinish($event)"></ion-range-slider>
+            </accordion-group>
+            <!-- <accordion-group>
+                <accordion-heading>
+                    <b>Custom</b> <i style="color: deeppink">heading</i>
+                </accordion-heading>
+                Its all about me.
+            </accordion-group> -->
+        </accordion>
           </div>
 
           <app-advertisement></app-advertisement>

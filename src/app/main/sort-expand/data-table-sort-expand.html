@@ -27,6 +27,9 @@
 
         <ng-template #dataTableExpand let-item="item">
             <div [textContent]="item.description" style="padding: 5px; color: gray"></div>
+            <div >
+                <app-graph-section ></app-graph-section>
+            </div>
         </ng-template>
        
         <data-table-column
