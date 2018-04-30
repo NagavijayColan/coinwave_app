@@ -3,7 +3,7 @@
     <div class="sub_theme">
        <ul>
          <li><a (click)="refreshrate.show()"><img src="/assets/images/price_interval.png"><span>Refresh Rate</span></a></li>
-         <li><a href="#"><img src="/assets/images/black_out_color.png"/><span>Night Mode</span></a></li>
+         <li><a (click)="nightmode()"><img src="/assets/images/black_out_color.png"/><span>Night Mode</span></a></li>
          <li><a><label class="switch">
             <input type="checkbox" checked  (click)="siteColor()">
             <span class="slider round"></span></label> <!-- <img src="/assets/images/site_color.png"/>-->    
@@ -12,12 +12,28 @@
        </ul>
 
        <div class="sel-term">
-          <div class="in_sel-term"><select><option>USD</option></select></div>
-          <div class="in_sel-term"><select><option>ENG</option></select></div>
+          <div class="in_sel-term1">
+            <div class="opt_tlt" (click)="CurrencySelect()"><img [src]="currencyImg"/><span>{{currencyText}}</span><i class="fa fa-chevron-down" aria-hidden="true"></i></div>
+            <div class="opt_lst" *ngIf="hideOptionsection">
+                <div class="opt_tlt" (click)="selectCurrency('USD','/assets/images/usd.png')"><!--i class="fa fa-font-awesome"></i>--><img src="/assets/images/usd.png"/><span>USD</span></div>
+                <div class="opt_tlt" (click)="selectCurrency('INR','/assets/images/inr.png')"><!--<i class="fa fa-columns"></i>--><img src="/assets/images/inr.png"/><span>INR</span></div>
+            </div>
+          </div>
+
+          <div class="in_sel-term1">
+                <div class="opt_tlt" (click)="LanguageSelect()"><img [src]="languageImg"/><span>{{languageText}}</span><i class="fa fa-chevron-down" aria-hidden="true"></i></div>
+                <div class="opt_lst" *ngIf="hideLanguageSection">
+                    <div class="opt_tlt" (click)="selectLanguage('ENG','/assets/images/united-kingdom.png')"><!--i class="fa fa-font-awesome"></i>--><img src="/assets/images/united-kingdom.png"/><span>ENG</span></div>
+                    <div class="opt_tlt" (click)="selectLanguage('FRE','/assets/images/france.png')"><!--<i class="fa fa-columns"></i>--><img src="/assets/images/france.png"/><span>FRE</span></div>
+                </div>
+              </div>
+
+          <!-- <div class="in_sel-term"><select><option value="en">USD</option></select></div> -->
+          <!-- <div class="in_sel-term"><select><option>ENG</option></select></div> -->
           <!-- <a href="#" class="button_icon"><i class="fa fa-save waves-light " aria-hidden="true"></i>Save</a> -->
           <button type="button" class="button_icon" (click)="style.show()"><i class="fa fa-save waves-light " aria-hidden="true"></i>Save</button>
           <input type="search" placeholder="" class="search_icon"/>
-          <a class="close_icon" (click)="themeSectionHide()" ><i class="fa fa-close" aria-hidden="true"></i></a>
+          <a class="close_icon" (click)="themeSectionHide()"><i class="fa fa-close" aria-hidden="true"></i></a>
         </div>
     </div>  
   </div>
