@@ -1,0 +1,157 @@
+<div class="header">
+  <div class="container">
+<mdb-navbar SideClass="navbar  navbar-expand-lg navbar-dark scrolling-navbar ie-nav" [containerInside]="false">
+  <logo>
+      <a href="#" class="logo"><img src="/assets/images/logo.png" alt="Coinwave"/><span>Coin <b>wave</b></span></a>
+      <div class="login_register mob_top">
+        <a href="#">Login</a> <span>or</span> <a href="#">Register</a>
+      </div>
+  </logo>
+
+
+  <links>
+      <ul class="navbar-nav nav-lft mr-auto">
+          <li class="nav-item active waves-light" mdbRippleRadius>
+              <a class="nav-link">COINS</a>
+          </li>
+          <li class="nav-item waves-light" mdbRippleRadius>
+              <a class="nav-link">PORTFOLIO</a>
+          </li>
+          <li class="nav-item waves-light" mdbRippleRadius>
+              <a class="nav-link">EXCHANGES</a>
+          </li>
+          <li class="nav-item waves-light" mdbRippleRadius>
+              <a class="nav-link">NEWS</a>
+          </li>
+          <!-- <li class="nav-item waves-light" mdbRippleRadius>
+              <a class="nav-link">TUTORIALS</a>
+          </li>
+          <li class="nav-item waves-light" mdbRippleRadius>
+              <a class="nav-link">TOOLS</a>
+          </li> -->
+      </ul>
+      <ul class="navbar-nav log_reg nav-flex-icons">
+          <li  mdbRippleRadius>
+            <input type="search" placeholder="Type the Search"/>
+          </li>
+          <li class="" mdbRippleRadius>
+                     <div class="login_register">
+                      <a (click)="loginform.show()">Login</a> <span>or</span> <a (click)="registerform.show()">Register</a>
+                    </div>
+          </li>
+          <li>
+              <div class="follw_us">
+                  <p>Follow us</p>
+                  <div class="d-flex flex-row">
+                  <a href="#" class="facebook"><img src="/assets/images/facebook_fol_us.png" alt="Facebook "/></a>
+                  <a href="#" class="youtube"><img src="/assets/images/you_tube.png" alt="youtube"/></a>
+                </div>
+                </div>
+          </li>
+        
+      </ul>
+  </links>
+</mdb-navbar>
+</div>
+</div>
+
+
+<!--Modal: Login Form-->
+<div mdbModal #loginform="mdb-modal" class=" modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog cascading-modal" role="document">
+        <!--Content-->
+        <div class="modal-content">
+
+            <!--Header-->
+            <div class="modal-header light-blue darken-3 white-text">
+                <h4 class="title"><i class="fa fa-user"></i> Log in</h4>
+                <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close" (click)="loginform.hide()">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+                <div class="md-form form-sm">
+                    <i class="fa fa-envelope prefix"></i>
+                    <input mdbInputDirective type="text" id="form30" class="form-control">
+                    <label for="form30">Your email</label>
+                </div>
+
+                <div class="md-form form-sm">
+                    <i class="fa fa-lock prefix"></i>
+                    <input mdbInputDirective type="password" id="form31" class="form-control">
+                    <label for="form31">Your password</label>
+                </div>
+
+                <div class="text-center mt-2">
+                    <button class="btn btn-info waves-light" mdbWavesEffect>Log in <i class="fa fa-sign-in ml-1"></i></button>
+                </div>
+
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <div class="options text-center text-md-right mt-1">
+                    <p>Not a member? <a (click)="loginform.hide();registerform.show()" >Sign Up</a></p>
+                    <p>Forgot <a href="#">Password?</a></p>
+                </div>
+                <button type="button" class="btn btn-outline-info ml-auto" data-dismiss="modal" (click)="loginform.hide()" mdbWavesEffect>Close</button>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!--Modal: Login Form-->
+
+
+
+<!--Modal: Register Form-->
+<div mdbModal #registerform="mdb-modal" class="modal fade" id="modalRegister" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog cascading-modal" role="document">
+        <!--Content-->
+        <div class="modal-content">
+
+            <!--Header-->
+            <div class="modal-header light-blue darken-3 white-text">
+                <h4 class="title"><i class="fa fa-user-plus"></i> Register</h4>
+                <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close" (click)="registerform.hide()">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+                <div class="md-form form-sm">
+                    <i class="fa fa-envelope prefix"></i>
+                    <input mdbInputDirective type="text" id="form32" class="form-control">
+                    <label for="form32">Your email</label>
+                </div>
+
+                <div class="md-form form-sm">
+                    <i class="fa fa-lock prefix"></i>
+                    <input mdbInputDirective type="password" id="form33" class="form-control">
+                    <label for="form33">Your password</label>
+                </div>
+
+                <div class="md-form form-sm">
+                    <i class="fa fa-lock prefix"></i>
+                    <input mdbInputDirective type="password" id="form34" class="form-control">
+                    <label for="form34">Repeat password</label>
+                </div>
+
+                <div class="text-center mt-2">
+                    <button class="btn btn-info waves-light" mdbWavesEffect>Sign up <i class="fa fa-sign-in ml-1"></i></button>
+                </div>
+
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <div class="options text-center text-md-right mt-1">
+                    <p>Already have an account? <a (click)="registerform.hide();loginform.show()">Log In</a></p>
+                </div>
+                <button type="button" class="btn btn-outline-info ml-auto" data-dismiss="modal" (click)="registerform.hide()" mdbWavesEffect>Close</button>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!--Modal: Register Form-->
+                

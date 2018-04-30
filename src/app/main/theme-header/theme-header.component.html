@@ -1,0 +1,117 @@
+<div class="theme_color_section" *ngIf="hideThemesection">
+  <div class="container">
+    <div class="sub_theme">
+       <ul>
+         <li><a (click)="refreshrate.show()"><img src="/assets/images/price_interval.png"><span>Refresh Rate</span></a></li>
+         <li><a href="#"><img src="/assets/images/black_out_color.png"/><span>Night Mode</span></a></li>
+         <li><a><label class="switch">
+            <input type="checkbox" checked  (click)="siteColor()">
+            <span class="slider round"></span></label> <!-- <img src="/assets/images/site_color.png"/>-->    
+<span>Site Color</span></a></li>  
+         <li> <span class="customize_call" (click)="customize.show()" mdbWavesEffect><i class="fa fa-columns" aria-hidden="true"></i>Customize Columns</span></li> 
+       </ul>
+
+       <div class="sel-term">
+          <div class="in_sel-term"><select><option>USD</option></select></div>
+          <div class="in_sel-term"><select><option>ENG</option></select></div>
+          <!-- <a href="#" class="button_icon"><i class="fa fa-save waves-light " aria-hidden="true"></i>Save</a> -->
+          <button type="button" class="button_icon" (click)="style.show()"><i class="fa fa-save waves-light " aria-hidden="true"></i>Save</button>
+          <input type="search" placeholder="" class="search_icon"/>
+          <a class="close_icon" (click)="themeSectionHide()" ><i class="fa fa-close" aria-hidden="true"></i></a>
+        </div>
+    </div>  
+  </div>
+</div>
+
+<!-- Refresh Rate -->
+
+<div mdbModal #refreshrate="mdb-modal" class="modal fade" id="centralModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog cascading-modal" role="document">
+            <!--Content-->
+            <div class="modal-content">
+    
+                <!--Header-->
+                <div class="modal-header light-blue darken-3 white-text">
+                    <h4 class="title"> Refresh Rate</h4>
+                    <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close" (click)="refreshrate.hide()">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <!--Body-->
+                <div class="modal-body refresh_rate">
+                 
+               
+                </div>
+                <!--Footer-->
+                <div class="modal-footer">
+                 
+                    <button type="button" class="btn btn-outline-info ml-auto" data-dismiss="modal" (click)="refreshrate.hide()" mdbWavesEffect>Close</button>
+                </div>
+            </div>
+            <!--/.Content-->
+        </div>
+</div>
+
+<!-- Refresh Rate -->
+
+
+<!-- Customize -->
+
+
+
+
+
+<!--Modal: customize column-->
+<div mdbModal #customize="mdb-modal" class="modal fade" id="modalRegister" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog cascading-modal" role="document">
+        <!--Content-->
+        <div class="modal-content">
+
+            <!--Header-->
+            <div class="modal-header light-blue darken-3 white-text">
+                <h4 class="title"><i class="fa fa-columns" aria-hidden="true"></i> Customize Columns</h4>
+                <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close" (click)="customize.hide()">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body customize_main">
+             
+               <div class="customize_col">
+                  
+                    <div class="options_list">
+                        <div class="desktop_options col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                            <span class="lst_tlt">Desktop Columns</span>
+                            <div class="form-check" *ngFor="let desklist of desktoplists">
+                                    <input class="form-check-input" mdbInputDirective [checked]="desklist.ischecked"  type="checkbox"  name="listsgroup">
+                                    <label class="form-check-label">{{desklist.label}}</label>
+                                </div>
+
+                        </div>
+                        <div class="mobile_options col-md-6 col-lg-6 col-sm-12 col-xs-12">
+                                <span class="lst_tlt">Mobile Columns</span>
+                                <div class="form-check" *ngFor="let moblist of mobilelists">
+                                        <input class="form-check-input" mdbInputDirective [checked]="moblist.ischecked"  type="checkbox"  name="listsgroup">
+                                        <label class="form-check-label">{{moblist.label}}</label>
+                                  </div>
+                        </div>
+
+                    </div>
+               </div>
+             
+
+             
+
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+             
+                <button type="button" class="btn btn-outline-info ml-auto" data-dismiss="modal" (click)="customize.hide()" mdbWavesEffect>Close</button>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!--Modal: Customize column Form-->
+<!-- popup -->
+
