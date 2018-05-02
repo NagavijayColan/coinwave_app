@@ -16,7 +16,7 @@ export class GraphSectionComponent implements OnInit {
       for(let i = 0; i < k.length ; i++){
         k[i].setAttribute('style','display:none !important')
       }
-     
+
     },300)
    
     this.myOptions =[{
