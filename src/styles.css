@@ -530,7 +530,7 @@ td.column-dayChange::after {
 
 .night_mode td.column-HRchange::after {color: rgba(252,0,1,0.4);}
 .night_mode td.column-dayChange::after{ color:rgba(0,252,46,0.4);}
-.night_mode td.column-price{ color:rgba(0,252,46,0.4);}
+.night_mode td.column-price{ color:rgba(0,252,46,0.6);}
 
 .in_sel-term1 .opt_tlt{ cursor:pointer; display: flex; padding: 8px;  margin-top: 1px; }
 .in_sel-term1 .opt_tlt i { padding: 0px 10px;}
@@ -554,6 +554,8 @@ td.column-dayChange::after {
 
   td.column-HRchange::after{font-size: 13px ; right:-8px; top:16px;}
   td.column-dayChange::after{font-size: 13px; right:-8px; top:16px;}
+}
+
 .chart_rgt_cont ul li label { width: 100%; padding: 4px;  font-size: 17px; color:#fff}
 .chart_rgt_cont {   background: #232526; padding: 33px 21px; min-height: 250px;}
 .chart_rgt_cont ul li span { padding: 10px; text-align: left; width: 100%;}
@@ -566,8 +568,6 @@ td.column-dayChange::after {
   color: #000;
   background: url("/assets/images/white_sel_arw.png") 59px / 12px no-repeat #fff !important;
    }
-
-
 
 .chart_rgt_cont .in_sel-term{border:0px !important;}
 .amChartsPeriodSelector  fieldset   div:nth-child(1){

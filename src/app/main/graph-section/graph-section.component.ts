@@ -10,7 +10,7 @@ export class GraphSectionComponent implements OnInit {
   public myOptions;
   constructor() { }
  
-  ngOnInit() {debugger
+  ngOnInit() {
     setTimeout(function(){
       let k = document.getElementsByClassName('amcharts-period-selector-div');
       for(let i = 0; i < k.length ; i++){
