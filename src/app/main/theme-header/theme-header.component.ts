@@ -7,12 +7,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ThemeHeaderComponent implements OnInit {
  public hideThemesection:Boolean;
+ public hideOptionsection:Boolean;
+ public hideLanguageSection:Boolean;
+ public currencyText;
+ public currencyIcon;
+ public currencyImg;
+ public languageText;
+ public languageImg;
  desktoplists:Array<any>;
  mobilelists:Array<any>;
   constructor() { }
  
 
   ngOnInit() {
+    this.currencyText = 'USD';
+    //this.currencyIcon = 'fa-font-awesome';
+    this.currencyImg = '/assets/images/usd.png';
+    this.languageText = 'ENG';
+    this.languageImg = '/assets/images/united-kingdom.png';
+    this.hideThemesection = true;
+    this.hideOptionsection = false;
+    this.hideLanguageSection = false;
     if(sessionStorage.getItem('hideThemesection')){
       this.hideThemesection = JSON.parse(sessionStorage.getItem('hideThemesection'));
     }
@@ -77,6 +92,47 @@ export class ThemeHeaderComponent implements OnInit {
   {debugger
     sessionStorage.setItem('hideThemesection','false');
     this.hideThemesection = JSON.parse(sessionStorage.getItem('hideThemesection'));
+  }
+
+
+  CurrencySelect()
+  {
+    this.hideOptionsection = !this.hideOptionsection
+  }
+
+  LanguageSelect()
+  {
+    this.hideLanguageSection = !this.hideLanguageSection
+  }
+  
+
+  nightmode()
+  {
+    let body = document.getElementsByTagName('body')[0];
+    
+    if ( !(body.classList.contains('night_mode')))
+    {
+      body.classList.add('night_mode');
+    }
+    else
+    {
+      body.classList.remove('night_mode');
+    }
+
+  }
+  selectCurrency(text,image){
+    this.currencyText = text;
+    //this.currencyIcon = icon;
+    this.currencyImg = image;
+    this.hideOptionsection = !this.hideOptionsection;
+  }
+
+
+  selectLanguage(text,image){
+    this.languageText = text;
+    //this.currencyIcon = icon;
+    this.languageImg = image;
+    this.hideLanguageSection = !this.hideLanguageSection;
   }
 
 }
