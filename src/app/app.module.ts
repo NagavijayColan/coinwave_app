@@ -2,6 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
+
+
+
 import { DataTableModule } from './main/data-table';
 import { DataTableSortExpand } from './main/sort-expand/data-table-sort-expand';
 import { IonRangeSliderModule } from "ng2-ion-range-slider";
@@ -25,6 +28,8 @@ import { CandlestickComponent } from './main/graph-section/candlestick/candlesti
 import { AmChartsModule } from "@amcharts/amcharts3-angular";
 import { LineGraphComponent } from './main/graph-section/line-graph/line-graph.component';
 import {AccordionModule} from "ng2-accordion";
+import { OrderModule } from 'ngx-order-pipe';
+
 
 @NgModule({
   declarations: [
@@ -52,14 +57,16 @@ import {AccordionModule} from "ng2-accordion";
     AmChartsModule,
     BrowserModule,
     AppRoutingModule,
+    OrderModule,
     AccordionModule,
     DataTableModule,
     IonRangeSliderModule,
     MDBBootstrapModule.forRoot()
   ],
-  
+ 
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [ NO_ERRORS_SCHEMA ]
 
   
 })

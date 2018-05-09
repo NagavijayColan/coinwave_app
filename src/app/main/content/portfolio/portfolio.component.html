@@ -1,3 +1,79 @@
-<p>
-  portfolio works!
-</p>
+
+                           <div class="portfolio_main">
+  <div class="container">
+
+    <div class="grid_view_head">
+       <h6>User Name/Info</h6>
+       <div class="price_data"><h2>$2,000.00<i class="fa fa-arrows-v" aria-hidden="true"></i></h2></div>
+       <div class="grid_list_tab">
+         <ul>
+           <li (click)="changeGridView('list_view')" class="active" id="list_view"><i class="fa fa-list-ul" aria-hidden="true"></i><span>List View</span></li>
+           <li (click)="changeGridView('grid_view')" id="grid_view"><i class="fa fa-table" aria-hidden="true"></i><span>Grid View</span></li>
+         </ul>
+       </div>
+    </div>
+    
+
+     <!--grid_view-->
+      <div class="grid_view" *ngIf="gridSelected">
+        <div class="grid_view_details">
+         <div  class=" col-xs-12 col-sm-12 col-md-4 col-lg-4" *ngFor="let person of portfoliogrid">
+               <div class="bitsoin">
+                <h2> {{person.title}}</h2>
+                <ul>
+                <li><p><label>{{ person.name }}  </label>  <span class="price_head">{{ person.price }}</span> </p></li> 
+                <li><p><label>{{ person.name1 }} </label>  <span>{{ person.price1 }}</span> </p></li> 
+                <li><p><label>{{ person.name2 }} </label>  <span>{{ person.price2 }}</span> </p></li>   
+                <li><p><label>{{ person.name3 }} </label>  <span>{{ person.price3 }}</span> </p></li> 
+                <li><p><label>{{ person.name4 }} </label>  <span>{{ person.price4 }}</span> </p></li> 
+                <li><p><label>{{ person.name5 }} </label>  <span>{{ person.price5 }}</span> </p></li>  
+                </ul>
+              </div> 
+              </div> 
+         </div>
+      </div>
+      <!--grid_view-->
+
+      <!--list_view-->
+      <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 coin-page-lft list_view_table" *ngIf="listSelected">
+          <table border="0" cellpadding="0" cellspacing="0"  class="table-responsive">
+          <thead>
+            <tr>
+                <th>#</th>
+                <th>Coin</th>
+                <th>price</th>
+                <th>24 Hr Change</th>
+                <th>7 Day change</th>
+                <th>24 Hr Volume</th>
+                <th>Market Cap</th>
+                <th>24 Hr High</th>
+                <th>24 Hr Low</th>
+              </tr>
+          </thead>
+
+          <tbody>
+             <tr *ngFor="let listview of listData">
+              <td>{{listview.Sno}}</td>
+              <td>{{listview.coin}}</td>
+              <td class="ls_price">{{listview.price}}</td>
+              <td>{{listview.HRchange}}</td>
+              <td>{{listview.dayChange}}</td>
+              <td>{{listview.Hrvolume}}</td>
+              <td>{{listview.marketCap}}</td>
+              <td>{{listview.hrhigh}}</td>
+              <td>{{listview.hrlow}}</td>
+            </tr>
+              
+          </tbody>
+      </table>
+    </div>
+      <!--list_view-->
+
+
+
+
+  </div>
+ </div>
+
+
+                                                       

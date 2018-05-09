@@ -7,16 +7,19 @@ import { Component,OnInit } from '@angular/core';
 })
 export class CoinlistComponent implements OnInit {
 
+
   constructor() { 
 
   }
-
-
 
 // special params:
 
 
   ngOnInit() {
+ 
+ 
   }
+
+
 
 }

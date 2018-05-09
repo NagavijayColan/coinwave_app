@@ -2,6 +2,7 @@ import {
     Component, Input, Output, EventEmitter, ContentChildren, QueryList,
     TemplateRef, ContentChild, ViewChildren, OnInit
 } from '@angular/core';
+import { Router } from '@angular/router'
 import { DataTableColumn } from './column';
 import { DataTableRow } from './row';
 import { DataTableParams, RowCallback, DataTableTranslations, defaultTranslations } from './types';
@@ -14,6 +15,10 @@ import { drag } from '../utils/drag';
   styleUrls: ['./table.css']
 })
 export class DataTable implements DataTableParams, OnInit {
+
+    constructor(private router : Router){
+
+    }
 
     private _items: any[] = [];
 
@@ -219,6 +224,8 @@ export class DataTable implements DataTableParams, OnInit {
     }
 
     headerClicked(column: DataTableColumn, event: MouseEvent) {
+      
+
         if (!this._resizeInProgress) {
             this.headerClick.emit({ column, event });
         } else {
@@ -291,6 +298,7 @@ export class DataTable implements DataTableParams, OnInit {
     }
 
     onRowSelectChanged(row: DataTableRow) {
+        //alert("hi")
 
         // maintain the selectedRow(s) view
         if (this.multiSelect) {
@@ -354,4 +362,9 @@ export class DataTable implements DataTableParams, OnInit {
         }
         return true;
     }
+    nextPage(){
+        this.router.navigate(['/coinpage'])
+        
+    }
+    
 }

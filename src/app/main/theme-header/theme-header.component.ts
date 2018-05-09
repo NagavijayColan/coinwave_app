@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { OrderPipe } from 'ngx-order-pipe';
 
 @Component({
   selector: 'app-theme-header',
@@ -6,6 +7,27 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./theme-header.component.css']
 })
 export class ThemeHeaderComponent implements OnInit {
+   
+  order: string = 'info.languagename';
+  currencyorder: string = 'info.currencyname';
+
+  reverse: boolean = false;
+  collection: any[] = [
+    { info: {languagename: 'ENG', languageimage:'assets/images/united-kingdom.png'} }, 
+    { info: {languagename: 'FRE', languageimage:'assets/images/france.png'} },
+
+  ];
+
+  collection1: any[] = [
+   
+    { info: {currencyname: 'USD', currencyimage:'assets/images/usd.png'} }, 
+    { info: {currencyname: 'INR', currencyimage:'assets/images/inr.png'} },
+  ];
+
+  
+  sortedCollection: any[];
+  sortedCollection1: any[];
+
  public hideThemesection:Boolean;
  public hideOptionsection:Boolean;
  public hideLanguageSection:Boolean;
@@ -16,10 +38,47 @@ export class ThemeHeaderComponent implements OnInit {
  public languageImg;
  desktoplists:Array<any>;
  mobilelists:Array<any>;
-  constructor() { }
+
+ constructor(private orderPipe: OrderPipe) { 
+
+  this.sortedCollection = orderPipe.transform(this.collection, 'info.languagename');
+  console.log(this.sortedCollection);
+  this.sortedCollection1 = orderPipe.transform(this.collection1, 'info.currencyname');
+  console.log(this.sortedCollection1);
+ }
+
+
+
+
+ setOrder(value: string) {
+  if (this.order === value) {
+    this.reverse = !this.reverse;
+  }
+  this.order = value;
+
+}
+
+setCurrencyOrder(value: string) {
+  if (this.currencyorder === value) {
+    this.reverse = !this.reverse;
+  }
+  this.currencyorder = value;
+
+}
+
+
+
+
+
+
  
 
   ngOnInit() {
+    
+  
+
+
+
     this.currencyText = 'USD';
     //this.currencyIcon = 'fa-font-awesome';
     this.currencyImg = '/assets/images/usd.png';
@@ -34,7 +93,9 @@ export class ThemeHeaderComponent implements OnInit {
     else{
       this.hideThemesection = true;
      sessionStorage.setItem('hideThemesection','true')
+     
     }
+    this.hideThemesection = true;
    
     this.desktoplists = [
         { label:'Favourite', ischecked:true },
@@ -135,4 +196,8 @@ export class ThemeHeaderComponent implements OnInit {
     this.hideLanguageSection = !this.hideLanguageSection;
   }
 
+
+
 }
+
+

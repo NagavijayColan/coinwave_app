@@ -12,28 +12,105 @@
        </ul>
 
        <div class="sel-term">
-          <div class="in_sel-term1">
+          <!-- <div class="in_sel-term1">
             <div class="opt_tlt" (click)="CurrencySelect()"><img [src]="currencyImg"/><span>{{currencyText}}</span><i class="fa fa-chevron-down" aria-hidden="true"></i></div>
             <div class="opt_lst" *ngIf="hideOptionsection">
-                <div class="opt_tlt" (click)="selectCurrency('USD','/assets/images/usd.png')"><!--i class="fa fa-font-awesome"></i>--><img src="/assets/images/usd.png"/><span>USD</span></div>
-                <div class="opt_tlt" (click)="selectCurrency('INR','/assets/images/inr.png')"><!--<i class="fa fa-columns"></i>--><img src="/assets/images/inr.png"/><span>INR</span></div>
+                <div class="opt_tlt" (click)="selectCurrency('USD','/assets/images/usd.png')"><img src="/assets/images/usd.png"/><span>USD</span></div>
+                <div class="opt_tlt" (click)="selectCurrency('INR','/assets/images/inr.png')"><img src="/assets/images/inr.png"/><span>INR</span></div>
             </div>
-          </div>
+          </div> -->
+               
+          <!-- <div class="in_sel-term1">
+                
+                    <div class="opt_tlt" (click)="CurrencySelect()"><img [src]="currencyImg"/><span>{{currencyText}}</span><i class="fa fa-chevron-down" aria-hidden="true"></i></div>
+                    <div class="opt_lst"  *ngIf="hideOptionsection">
+                    
+                    <span class="opt_arw" [class.active]="currencyorder === 'info.currencyname'" (click)="setCurrencyOrder('info.currencyname')"> <label>sort</label>
+                        <span [hidden]="reverse">▼</span>
+                        <span [hidden]="!reverse">▲</span>
+                       
+                    </span>
+                      <div *ngFor="let row of collection1 | orderBy: currencyorder:reverse:'case-insensitive'">
+                        
+                        <div class="opt_tlt" (click)="selectCurrency(row.info.currencyname,row.info.currencyimage)"><img src={{row.info.currencyimage}}> {{ row.info.currencyname }}</div>
+                    
 
-          <div class="in_sel-term1">
-                <div class="opt_tlt" (click)="LanguageSelect()"><img [src]="languageImg"/><span>{{languageText}}</span><i class="fa fa-chevron-down" aria-hidden="true"></i></div>
-                <div class="opt_lst" *ngIf="hideLanguageSection">
-                    <div class="opt_tlt" (click)="selectLanguage('ENG','/assets/images/united-kingdom.png')"><!--i class="fa fa-font-awesome"></i>--><img src="/assets/images/united-kingdom.png"/><span>ENG</span></div>
-                    <div class="opt_tlt" (click)="selectLanguage('FRE','/assets/images/france.png')"><!--<i class="fa fa-columns"></i>--><img src="/assets/images/france.png"/><span>FRE</span></div>
-                </div>
-              </div>
+                      </div>
+                    </div>
+                   
+                  </div> -->
+
+                  <div class="in_sel-term1">
+                    
+                        <div class="opt_tlt" ><img [src]="currencyImg"/><span>{{currencyText}}</span><i class="fa fa-chevron-down" aria-hidden="true"></i></div>
+                        <div class="opt_lst">
+                        
+                        <span class="opt_arw" [class.active]="currencyorder === 'info.currencyname'" (click)="setCurrencyOrder('info.currencyname')"> <label>sort</label>
+                            <span [hidden]="reverse">▼</span>
+                            <span [hidden]="!reverse">▲</span>
+                           
+                        </span>
+                          <div *ngFor="let row of collection1 | orderBy: currencyorder:reverse:'case-insensitive'">
+                            
+                            <div class="opt_tlt" (click)="selectCurrency(row.info.currencyname,row.info.currencyimage)"><img src={{row.info.currencyimage}}> {{ row.info.currencyname }}</div>
+                        
+    
+                          </div>
+                        </div>
+                       
+                      </div>
+         
+
+
+                <!-- <div class="in_sel-term1">
+                
+                    <div class="opt_tlt" (click)="LanguageSelect()"><img [src]="languageImg"/><span>{{languageText}}</span><i class="fa fa-chevron-down" aria-hidden="true"></i></div>
+                    <div class="opt_lst"  *ngIf="hideLanguageSection">
+                    
+                    <span class="opt_arw" [class.active]="order === 'info.languagename'" (click)="setOrder('info.languagename')"> <label>sort</label>
+                        <span [hidden]="reverse">▼</span>
+                        <span [hidden]="!reverse">▲</span>
+                       
+                    </span>
+                      <div *ngFor="let row of collection | orderBy: order:reverse:'case-insensitive'">
+                        
+                        <div class="opt_tlt" (click)="selectLanguage(row.info.languagename,row.info.languageimage)"><img src={{row.info.languageimage}}> {{ row.info.languagename }}</div>
+                    
+
+                      </div>
+                    </div>
+                   
+                  </div> -->
+
+                  <div class="in_sel-term1">
+                    
+                        <div class="opt_tlt" ><img [src]="languageImg"/><span>{{languageText}}</span><i class="fa fa-chevron-down" aria-hidden="true"></i></div>
+                        <div class="opt_lst" >
+                        
+                        <span class="opt_arw" [class.active]="order === 'info.languagename'" (click)="setOrder('info.languagename')"> <label>sort</label>
+                            <span [hidden]="reverse">▼</span>
+                            <span [hidden]="!reverse">▲</span>
+                           
+                        </span>
+                          <div *ngFor="let row of collection | orderBy: order:reverse:'case-insensitive'">
+                            
+                            <div class="opt_tlt" (click)="selectLanguage(row.info.languagename,row.info.languageimage)"><img src={{row.info.languageimage}}> {{ row.info.languagename }}</div>
+                        
+    
+                          </div>
+                        </div>
+                       
+                      </div>
+
+
+
 
           <!-- <div class="in_sel-term"><select><option value="en">USD</option></select></div> -->
           <!-- <div class="in_sel-term"><select><option>ENG</option></select></div> -->
           <!-- <a href="#" class="button_icon"><i class="fa fa-save waves-light " aria-hidden="true"></i>Save</a> -->
           <button type="button" class="button_icon" (click)="style.show()"><i class="fa fa-save waves-light " aria-hidden="true"></i>Save</button>
           <input type="search" placeholder="" class="search_icon"/>
-          <a class="close_icon" (click)="themeSectionHide()"><i class="fa fa-close" aria-hidden="true"></i></a>
+          <span class="close_icon" ><i (click)="themeSectionHide()" class="fa fa-close" aria-hidden="true"></i></span>
         </div>
     </div>  
   </div>
@@ -59,15 +136,15 @@
                     <ion-range-slider #sliderElement
           type="single"
           [min]="0"
-          max="30000"
+          max="120"
           from="0"
           from_min="0"
-          from_max="30000"
+          from_max="120"
           from_shadow="false"
-          to="40"
+          to="20"
           to_min="0"
-          step="5000"
-          to_max="30000"
+          step="5"
+          to_max="120"
           to_shadow="true"
           grid="true"
           grid_num="6"
