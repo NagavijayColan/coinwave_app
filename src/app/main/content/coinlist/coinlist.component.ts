@@ -7,8 +7,14 @@ import {GraphSectionComponent} from '../../graph-section/graph-section.component
 })
 export class CoinlistComponent implements OnInit {
   @ViewChild("component1") component1: GraphSectionComponent;
-  constructor() {}
+  constructor() {   }
+
+// special params:
+
+
   ngOnInit() {
+ 
+ 
   }
   sortTable(key){
     this.component1.sort(key);

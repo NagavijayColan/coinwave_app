@@ -105,9 +105,9 @@ nav .nav-item a {font-size: 14px;}
  font-family: ProximaNova-Bold; padding: 7px 20px !important;border-radius: 5px;
  align-items: center;  display: flex; height:35px;margin-left:20px;}
 .button_icon i {margin-right: 4px;}
-a.close_icon i {align-items: center;display: flex;flex-basis: auto;
-font-size: 37px;text-align: right;}
-a.close_icon {display: flex; width: 100%;justify-content: flex-end;}
+span.close_icon i {align-items: center;display: flex;flex-basis: auto;
+font-size: 37px;text-align: right; cursor: pointer;}
+span.close_icon {display: flex; width: 100%;justify-content: flex-end;}
 .theme_color_section .sub_theme ul li a i {
   font-size: 42px;
 }
@@ -144,7 +144,7 @@ font-family: ProximaNova-Bold;}
 .data-table.table th{font-size:13px; padding: 10px !important;}
 .data-table.table td {padding: 0.95rem 0px !important;text-align: center;}
 .button_icon, .button_icon:hover{line-height: 20px; border:0px;  cursor:pointer; margin-top:0px !important;}
-a.close_icon{margin-top:0px !important;}
+span.close_icon{margin-top:0px !important;}
 
 .data-table-box table.table-responsive{display:table;}
 .column-sort-icon span i {display: flex;align-items: center; flex-direction: row;  height: 3px; top:4px;}
@@ -159,10 +159,11 @@ th.select-column-header { width: 73px !important}
   .sub_theme ul {-ms-flex-direction: column;flex-direction: column;}
   .sel-term { flex-wrap: wrap;}
   .button_icon, .button_icon:hover {margin-left:0px;margin-top: 20px;}
-  a.close_icon {width: auto;margin-top: 18px; margin-left: 27px;}
+  span.close_icon {width: auto;margin-top: 18px; margin-left: 27px;}
   .sub_theme ul li{border: 0px;}
   .sort_with_table {-ms-flex-direction: column;flex-direction: column;}
   .data-table-box table.table-responsive{display:block !important;}
+  .sub_theme ul li:last-child{display: none;}
   }
 
 
@@ -195,7 +196,7 @@ th.select-column-header { width: 73px !important}
     .sub_theme{ padding-bottom: 0px;}
     .sub_theme ul li{padding:13px 2px;}
     .header{margin-bottom:11px;}
-    a.close_icon{display:none;}
+    span.close_icon{display:none;}
     .sort_content_section{padding-top:0px;}
     .search_icon {
     border: 0 none;  height: 20px; margin-left: 15px; width: 20px; display:block !important;}
@@ -287,6 +288,10 @@ a.logo{margin-right:0px !important;}
 }
 
 /**normal**/
+.dollar { background-color: #1a1a1a; display: flex; border-left: 10px solid #000; }
+.dollar label{color:#fff;}
+.dollar .red{color:#ff0037;}
+.dollar .green{color:#53cc05;}
 
 .modal-content .modal-header {font-family: ProximaNova-Bold;}
 .modal-content .modal-header button.close {font-size: 28px;}
@@ -310,7 +315,7 @@ nav .nav-item.active a , nav .nav-item a:hover{border-bottom: 2px solid #6bfffe;
 .button_icon ,.button_icon:hover {background: #6bfffe; color: #000;}
 .in_sel-term select{background: #000; border: 1px solid #000; color: #6bfffe;}
 .in_sel-term { border-right: 6px solid #212121;}
-a.close_icon i{ color: #000000;}
+span.close_icon i{ color: #000000;}
 .new-sort tr:nth-child(2n+1) { background: #212121 none repeat scroll 0 0;}
 
 .sort-table-lst table th {background: #cfd1d2 none repeat scroll 0 0; color: #000000;}
@@ -344,6 +349,20 @@ background: url("/assets/images/sel_arw.png") right / 13px no-repeat #000 !impor
 /**normal**/
 
 /**blacktheme**/
+
+.black-theme .bitsoin { background: #242527 none repeat scroll 0 0;}
+.black-theme .bitsoin ul { background: #000000 none repeat scroll 0 0;}
+.black-theme .grid_view_head { background: #d0d1d3;}
+.black-theme .grid_view_head h6 { color: #000000;}
+
+
+
+
+.black-theme .dollar { background-color: #1a1a1a; display: flex; border-left: 10px solid #000; }
+.black-theme .dollar label{color:#fff;}
+.black-theme .dollar .red{color:#ff0037;}
+.black-theme .dollar .green{color:#53cc05;}
+
 .black-theme .header .logo span b{color: #fff;}
  body.black-theme { background:#000000; color:#ffffff;}
 .black-theme .header {border-bottom: 5px solid #fff;}
@@ -360,7 +379,7 @@ background: url("/assets/images/sel_arw.png") right / 13px no-repeat #000 !impor
 .black-theme .button_icon , .black-theme .button_icon:hover {background: #6bfffe; color: #000;}
 .black-theme .in_sel-term select{background: #000; border: 1px solid #000; color: #6bfffe;}
 .black-theme .in_sel-term { border-right: 6px solid #212121;}
-.black-theme a.close_icon i{ color: #000000;}
+.black-theme span.close_icon i{ color: #000000;}
 .black-theme .new-sort tr:nth-child(2n+1) { background: #212121 none repeat scroll 0 0;}
 
 .black-theme .sort-table-lst table th {background: #cfd1d2 none repeat scroll 0 0; color: #000000;}
@@ -398,6 +417,18 @@ background: url("/assets/images/sel_arw.png") 59px / 12px no-repeat #000 !import
 /**blacktheme**/
 
 /**whitetheme**/
+
+.white-theme .bitsoin { background: #dadada none repeat scroll 0 0;}
+.white-theme .bitsoin ul { background: #f1f1f1 none repeat scroll 0 0;}
+.white-theme .grid_view_head { background: #242527;}
+.white-theme .grid_view_head h6 { color: #ffffff;}
+
+
+.white-theme .dollar { background-color: #ffffff; display: flex; border: 2px solid #dadada; margin:0px 3px; }
+.white-theme .dollar label{color:#000;}
+.white-theme .dollar .red{color:#ff0037;}
+.white-theme .dollar .green{color:#53cc05;}
+
 .white-theme .header .logo span b{color: #000;}
 body.white-theme { background:#ffffff; color:#000000;}
 .white-theme .sub_theme ul li a img{
@@ -419,7 +450,7 @@ filter:grayscale(100%) brightness(1%) sepia(0%) hue-rotate(101deg) saturate(10%)
 .white-theme .button_icon , .white-theme .button_icon:hover {background: #6bfffe; color: #000;}
 .white-theme .in_sel-term select{ border: 1px solid #f1f1f1; color: #000;}
 .white-theme .in_sel-term { border-right: 6px solid #ffffff;}
-.white-theme a.close_icon i{ color: #000000;}
+.white-theme span.close_icon i{ color: #000000;}
 .white-theme .new-sort tr:nth-child(2n+1) { background: #212121 none repeat scroll 0 0;}
 
 .white-theme .sort-table-lst table th {background: #242527 none repeat scroll 0 0; color: #ffffff;}
@@ -641,3 +672,116 @@ td.column-dayChange::after {
   height: 60px;
   cursor: pointer;
 }
+
+
+
+.in_sel-term1 .opt_lst {display: none;}
+.in_sel-term1:hover .opt_lst {display: block;}
+.bitcoin_logo {  max-width: 290px; width: 100%;}
+.coin-page-lft table { margin-bottom: 24px;}
+.coin-page-lft .table-responsive{display: table;}
+
+td.cp_24four_change , td.cp_7day_change , td.cp_30day_change{position:relative;}
+td.cp_24four_change::after , td.cp_7day_change::after , td.cp_30day_change::after {
+  content: '\25b2';
+  float: right;
+  position: absolute;
+  right: 2px;
+  top: 7px;
+  font-size: 17px;
+  text-align: center;
+  width: 33px;
+  color: rgba(0,252,46,0.9);
+}
+.black-theme .coin-page-lft table thead th, .black-theme .coin-page-lft table tbody td{
+  border: 2px solid #000000;
+}
+.white-theme .coin-page-lft table thead th, .white-theme .coin-page-lft table tbody td {
+  border: 2px solid #ffffff;
+}
+.white-theme .coin-page-lft table thead th {
+  background: #212121 none repeat scroll 0 0;
+  color: #fff;
+}
+.white-theme .coin-page-lft table tbody td {
+  background: #dadada none repeat scroll 0 0;
+}
+
+
+
+
+/**02-05-2018**/
+.graph-image {width: 100%;}
+.add_lst{display: flex; margin-top:10px;}
+.add_lst li img { display: flex; flex-direction: column; width: 138px; height: 30px; margin-right:10px;}
+
+.coinpage-head { display: flex; margin-bottom: 20px;}
+.dollar { justify-content: center;}
+.dollar label{font-size:36px; margin:0px !important; line-height: 100px;}
+.dollar .red{background: transparent !important;} 
+.dollar .green{ background: transparent !important;}
+.coin-page-lft table{width:100%;}
+.coin-page-lft table thead th {background: #cfd1d2; color: #333; font-size: 15px;font-family: ProximaNova-Bold;}
+.coin-page-lft table thead th, .coin-page-lft table tbody td { padding: 9px; text-align: center;}
+.coin-page-lft table tbody td {background: #232526; vertical-align: middle;text-align: center;font-size: 17px;}
+.list_view_table table tbody td {font-size: 14px;}
+/**02-05-2018**/
+
+
+@media only screen and (min-width: 768px) and (max-width: 979px) {
+.dollar label{font-size: 26px;}
+.coinpage-head {display: flex;margin: 20px 0;}
+}
+
+@media only screen and (min-width:320px) and (max-width: 979px) {
+  .dollar label{font-size: 26px;}
+  .coinpage-head { display: flex;margin: 20px 0;flex-direction: column;}
+  /* .coinpage-head div {align-self: center;  width: 100%;flex: 100% !important;margin-bottom: 10px;} */
+  .coinpage-head div {
+    align-self: center;
+    flex: 1 1 100%;
+    margin-bottom: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+}
+
+
+.grid_view .grid_view_details{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/*portfolio css*/
+.bitsoin { padding:16px; margin-bottom: 20px;}
+.bitsoin h2 {font-family: ProximaNova-Bold; font-size: 25px; text-align: center;
+text-transform: uppercase; width: 100%;}
+.bitsoin ul {padding: 22px;}
+.bitsoin ul li{padding-bottom: 10px;}
+.bitsoin ul li:last-child{padding-bottom: 0px !important;}
+.bitsoin ul li p {display: flex; width: 100%;margin-bottom: 0px !important;}
+.bitsoin ul li p label {text-align: left; flex: 1; text-transform: uppercase; font-size: 15px;}
+.bitsoin ul li p span.price_head { color: #ff0000;}
+.grid_view_head { margin: 14px;padding: 6px 20px;flex: 1; display: flex;}
+.grid_view_head h6 { text-transform: uppercase;  line-height: 41px;
+margin-bottom: 0px !important;-webkit-box-pack: start; justify-content: flex-start; width: 25%;}
+.grid_view_head h2 {  font-size: 30px;color: #2bb12b; justify-content: center;display: flex;
+font-family: ProximaNova-Bold;margin-bottom: 0px; line-height: 42px;}
+.grid_view_head h2 i { margin-top: 4px;}
+.price_data {display: flex;justify-content: center;width: 45%;}
+/*portfolio css*/
+
+
+
+.grid_list_tab {display: flex; justify-content: flex-end; width: 26%;}
+.grid_list_tab ul {display: flex;}
+.grid_list_tab ul li { font-size: 16px;padding: 10px 15px; margin-right: 8px;}
+.grid_list_tab ul li i {font-size: 18px;  padding-right: 7px;}
+
+.black-theme .grid_list_tab ul li{color:#000;}
+.black-theme .grid_list_tab ul li.active {background: #000; color:#fff;}
+
+.white-theme .grid_list_tab ul li{color:#fff;}
+.white-theme .grid_list_tab ul li.active {background: #fff; color:#000;}
