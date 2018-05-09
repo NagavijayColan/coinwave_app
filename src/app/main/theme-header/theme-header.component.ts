@@ -22,7 +22,7 @@ export class ThemeHeaderComponent implements OnInit {
   ngOnInit() {
     this.currencyText = 'USD';
     //this.currencyIcon = 'fa-font-awesome';
-    this.currencyImg = '/assets/images/usd.png';
+    this.currencyImg = '/assets/images/dollar.png';
     this.languageText = 'ENG';
     this.languageImg = '/assets/images/united-kingdom.png';
     this.hideThemesection = true;
@@ -37,6 +37,7 @@ export class ThemeHeaderComponent implements OnInit {
     }
    
     this.desktoplists = [
+        { label:'Expand', ischecked:true },
         { label:'Favourite', ischecked:true },
         { label:'Coin', ischecked:true },
         { label:'Price', ischecked:true },
@@ -53,7 +54,8 @@ export class ThemeHeaderComponent implements OnInit {
        ];
 
        this.mobilelists = [
-        { label:'Favourite', ischecked:false },
+        { label:'Expand', ischecked:true },
+        { label:'Favourite', ischecked:true },
         { label:'Coin', ischecked:true },
         { label:'Price', ischecked:true },
         { label:'24 HR Change', ischecked:true },
@@ -134,5 +136,7 @@ export class ThemeHeaderComponent implements OnInit {
     this.languageImg = image;
     this.hideLanguageSection = !this.hideLanguageSection;
   }
-
+  myOnUpdate(aa){
+    alert()
+  }
 }

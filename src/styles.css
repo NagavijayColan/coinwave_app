@@ -352,7 +352,7 @@ background: url("/assets/images/sel_arw.png") right / 13px no-repeat #000 !impor
 .black-theme .login_register a {color: #fff;}
 .black-theme .login_register span{color: #9c9c9c;}
 .black-theme nav .nav-item.active a , .black-theme nav .nav-item a:hover{border-bottom: 2px solid #6bfffe; color: #6bfffe !important;}
-.black-theme .log_reg input{ background: #ffffff none repeat scroll 0 0; border: 1px solid #ffffff;}
+.black-theme .log_reg input{ background: #cfd1d2  none repeat scroll 0 0; border: 1px solid #ffffff;}
 .black-theme .sub_theme  { background: #212121 none repeat scroll 0 0;}
 .black-theme .sub_theme ul li {border-right: 4px solid #000000;}
 .black-theme .sub_theme ul li a{color: #ffffff;}
@@ -409,7 +409,7 @@ filter:grayscale(100%) brightness(1%) sepia(0%) hue-rotate(101deg) saturate(10%)
 .white-theme .search-sec input[type="search"]{border: 1px solid #000;}
 .white-theme .login_register a {color: #000;}
 .white-theme .login_register span{color: #9c9c9c;}
-.white-theme nav .nav-item.active a , .white-theme nav .nav-item a:hover{border-bottom: 2px solid #6bfffe; color: #6bfffe !important; }
+.white-theme nav .nav-item.active a , .white-theme nav .nav-item a:hover{border-bottom: 2px solid #6bfffe; color: #000 !important; }
 .white-theme nav .nav-item a{color:#000 !important;}
 .white-theme .log_reg input{ background: #ccc none repeat scroll 0 0; border: 1px solid #ccc; color:#fff;}
 .white-theme .sub_theme  { background: #ffffff none repeat scroll 0 0; border:1px solid #ccc;}
@@ -429,14 +429,14 @@ filter:grayscale(100%) brightness(1%) sepia(0%) hue-rotate(101deg) saturate(10%)
 .white-theme .sort_by ul li a{color: #212121;}
 .white-theme tr.data-table-row.row-odd.clickable, .white-theme .data-table .data-table-row:hover { background: #dadada !important;}
 .white-theme data-table-sort-expands .data-table-box th {color: #fff;}
-.white-theme .data-table.table th, .white-theme .data-table.table th span i{color:#fff;}
+.white-theme .data-table.table th, .white-theme .data-table.table th span i{color:#333;}
 .white-theme .data-table-box table thead th, .white-theme .data-table-box table tbody td {
   border: 2px solid #fff !important;
 }
 
 
 .white-theme .data-table-box table thead{
-  background: #212121 none repeat scroll 0 0;
+  background: #848484  none repeat scroll 0 0;
 }
 
 .white-theme .modal-content .modal-header { background: #000 !important;color: #fff !important;}
@@ -570,6 +570,7 @@ td.column-dayChange::after {
    }
 
 .chart_rgt_cont .in_sel-term{border:0px !important;}
+
 .amChartsPeriodSelector  fieldset   div:nth-child(1){
   display: none !important;
 }
@@ -593,4 +594,50 @@ td.column-dayChange::after {
 .irs-from,.irs-to{
   background: #6bfffe;
   color: #000;
+}
+.modal-dialog.cascading-modal .modal-header{
+  margin:0px !important;
+}
+.irs-from, .irs-to, .irs-single{
+  z-index: 999;
+}
+.irs-grid-pol.small{
+  height: 0px !important;
+ }
+
+
+
+ .black-theme table#coin_list_table tbody:nth-child(2n-1) tr td {
+  background: #232526 !important;
+}
+.black-theme table#coin_list_table thead th,.black-theme table#coin_list_table tbody td,.black-theme #coin_list_table thead th {
+  border-right: 1px solid #000 !important;
+}
+
+.black-theme #coin_list_table thead {
+  background: #cfd1d2;
+}
+
+.white-theme table#coin_list_table tbody:nth-child(2n-1) tr td {
+  background: #ccc!important;
+}
+.white-theme table#coin_list_table thead th,.white-theme table#coin_list_table tbody td,.black-theme #coin_list_table thead th {
+  border-right: 1px solid #fff !important;
+}
+.white-theme  #coin_list_table thead {
+  background: #ccc;    
+}
+#coin_list_table{
+  width: 100%;
+  text-align: center;
+  display: table;
+  border-collapse: inherit !important;
+}
+
+#coin_list_table thead th{
+  font-weight: bold;
+  display: table-cell;
+  vertical-align: middle;
+  height: 60px;
+  cursor: pointer;
 }

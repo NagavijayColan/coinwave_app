@@ -4,106 +4,93 @@
     <div class="sort_with_table">
 
       <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 coin_list_lft">
-          <div class="row">
+        <div class="row">
 
-         <div class="sort_by">
-           <h1 class="sort_by_head">Sort By <i class="fa fa-chevron-down sort_by_icon" aria-hidden="true"></i><!--<img src="/assets/images/sort_arw.png" class="sort_by_icon"/>--></h1>
-           <ul>
-             <li><a href="#">Price </a></li>
-             <li><a href="#">24 Hr Change </a></li>
-             <li><a href="#">7 Day Change </a></li>
-             <li><a href="#">24 Hr Volume </a></li>
-             <li><a href="#">Coin Supply </a></li>
-             <li><a href="#">Market Cap </a></li>
-             <li><a href="#">24 Hr High </a></li>
-           </ul>
-         </div>
-
-         <div class="sort_by">
-            <h1 class="sort_by_head"><i class="fa fa-filter advance_filter" aria-hidden="true"></i> <!--<img src="/assets/images/filter.png" class="advance_filter"/>--> Advance <span>Search Filters</span></h1>
-            <!-- <ul>
-              <li><a href="#">7 Day Change </a></li>
-              <li><a href="#">24 Hr Volume </a></li>
-              <li><a href="#">Coin Supply </a></li>
+          <div class="sort_by">
+            <h1 class="sort_by_head">Sort By
+              <i class="fa fa-chevron-down sort_by_icon" aria-hidden="true"></i>
+              <!--<img src="/assets/images/sort_arw.png" class="sort_by_icon"/>-->
+            </h1>
+            <ul>
+                <li (click)="sortTable('coin')">
+                    <a>Coin</a>
+                  </li>
+              <li (click)="sortTable('price')">
+                <a>Price </a>
+              </li>
+              <li (click)="sortTable('HRchange')">
+                <a>24 Hr Change </a>
+              </li>
+              <li (click)="sortTable('dayChange')">
+                <a>7 Day Change </a>
+              </li>
+              <li (click)="sortTable('Hrvolume')">
+                <a>24 Hr Volume </a>
+              </li>
+             
+              <li (click)="sortTable('marketCap')">
+                <a>Market Cap </a>
+              </li>
+              <li (click)="sortTable('hrhigh')">
+                <a>24 Hr High </a>
+              </li>
+              <li (click)="sortTable('hrlow')">
+                  <a>24 Hour Low</a>
+                </li>
             </ul>
-           -->
-           <accordion id="advancedSearchFilter">
-            <accordion-group heading="7 DAY CHANGE" [isOpened]="true">
-              <ion-range-slider #sliderElement
-              type="double"
-              [min]="10"
-              max="30"
-              from="0"
-              from_min="0"
-              from_max="30"
-              from_shadow="false"
-              to="40"
-              to_min="0"
-             
-              to_max="30"
-              to_shadow="true"
-              grid="true"
-              grid_num="4"
-            
-              postfix=" day change"
-              decorate_both="false"
-              (onUpdate)="myOnUpdate($event)"
-              (onChange)="myOnChange($event)"
-              (onFinish)="myOnFinish($event)"></ion-range-slider>
-            </accordion-group>
-            <accordion-group heading="24 HR Volume">
-              <ion-range-slider #sliderElement
-              type="double"
-              [min]="10"
-              max="30"
-              from="0"
-              from_min="0"
-              from_max="30"
-              from_shadow="false"
-              to="40"
-              to_min="0"
-             
-              to_max="30"
-              to_shadow="true"
-              grid="true"
-              grid_num="4"
-             
-              postfix=" hr volume"
-              decorate_both="false"
-              (onUpdate)="myOnUpdate($event)"
-              (onChange)="myOnChange($event)"
-              (onFinish)="myOnFinish($event)"></ion-range-slider>
-            </accordion-group>
-            <accordion-group heading="COIN SUPPLY">
-              <ion-range-slider #sliderElement
-              type="double"
-              [min]="10"
-              max="30"
-              from="0"
-              from_min="0"
-              from_max="30"
-              from_shadow="false"
-              to="40"
-              to_min="0"
-             
-              to_max="30"
-              to_shadow="true"
-              grid="true"
-              grid_num="4"
-             
-              postfix=" coin supply"
-              decorate_both="false"
-              (onUpdate)="myOnUpdate($event)"
-              (onChange)="myOnChange($event)"
-              (onFinish)="myOnFinish($event)"></ion-range-slider>
-            </accordion-group>
-            <!-- <accordion-group>
-                <accordion-heading>
-                    <b>Custom</b> <i style="color: deeppink">heading</i>
-                </accordion-heading>
-                Its all about me.
-            </accordion-group> -->
-        </accordion>
+          </div>
+
+          <div class="sort_by">
+            <h1 class="sort_by_head">
+              <i class="fa fa-filter advance_filter" aria-hidden="true"></i>
+              <!--<img src="/assets/images/filter.png" class="advance_filter"/>-->Advance
+              <span>Search Filters</span>
+            </h1>
+            <accordion id="advancedSearchFilter">
+              <accordion-group heading="PRICE" [isOpened]="true">
+                <ion-range-slider #sliderElement type="double" [min]="10" max="30" from="0" from_min="0" from_max="30" from_shadow="false"
+                  to="40" to_min="0" to_max="30" to_shadow="true" grid="true" grid_num="4" postfix=" Price" decorate_both="false"
+                  (onUpdate)="myOnUpdate($event)" (onChange)="myOnChange($event)" (onFinish)="myOnFinish($event)"></ion-range-slider>
+
+              </accordion-group>
+              <accordion-group heading="24 HOUR CHANGE" [isOpened]="false">
+                <ion-range-slider #sliderElement type="double" [min]="10" max="30" from="0" from_min="0" from_max="30" from_shadow="false"
+                  to="40" to_min="0" to_max="30" to_shadow="true" grid="true" grid_num="4" postfix=" 24 HOUR CHANGE" decorate_both="false"
+                  (onUpdate)="myOnUpdate($event)" (onChange)="myOnChange($event)" (onFinish)="myOnFinish($event)"></ion-range-slider>
+
+              </accordion-group>
+              <accordion-group heading="7 DAY CHANGE" [isOpened]="false">
+                <ion-range-slider #sliderElement type="double" [min]="10" max="30" from="0" from_min="0" from_max="30" from_shadow="false"
+                  to="40" to_min="0" to_max="30" to_shadow="true" grid="true" grid_num="4" postfix=" 7 DAY CHANGE" decorate_both="false"
+                  (onUpdate)="myOnUpdate($event)" (onChange)="myOnChange($event)" (onFinish)="myOnFinish($event)"></ion-range-slider>
+
+              </accordion-group>
+              <accordion-group heading="24 HOUR VOLUME" [isOpened]="false">
+                <ion-range-slider #sliderElement type="double" [min]="10" max="30" from="0" from_min="0" from_max="30" from_shadow="false"
+                  to="40" to_min="0" to_max="30" to_shadow="true" grid="true" grid_num="4" postfix=" 24 HOUR VOLUME" decorate_both="false"
+                  (onUpdate)="myOnUpdate($event)" (onChange)="myOnChange($event)" (onFinish)="myOnFinish($event)"></ion-range-slider>
+
+              </accordion-group>
+              <accordion-group heading="COIN SUPPLY" [isOpened]="false">
+                <ion-range-slider #sliderElement type="double" [min]="10" max="30" from="0" from_min="0" from_max="30" from_shadow="false"
+                  to="40" to_min="0" to_max="30" to_shadow="true" grid="true" grid_num="4" postfix=" COIN SUPPLY" decorate_both="false"
+                  (onUpdate)="myOnUpdate($event)" (onChange)="myOnChange($event)" (onFinish)="myOnFinish($event)"></ion-range-slider>
+
+              </accordion-group>
+              <accordion-group heading="MARKET CAP" [isOpened]="false">
+                <ion-range-slider #sliderElement type="double" [min]="10" max="30" from="0" from_min="0" from_max="30" from_shadow="false"
+                  to="40" to_min="0" to_max="30" to_shadow="true" grid="true" grid_num="4" postfix=" MARKET CAP" decorate_both="false"
+                  (onUpdate)="myOnUpdate($event)" (onChange)="myOnChange($event)" (onFinish)="myOnFinish($event)"></ion-range-slider>
+
+              </accordion-group>
+              <accordion-group heading="24 HOUR HIGH" [isOpened]="false">
+                <ion-range-slider #sliderElement type="double" [min]="10" max="30" from="0" from_min="0" from_max="30" from_shadow="false"
+                  to="40" to_min="0" to_max="30" to_shadow="true" grid="true" grid_num="4" postfix=" 24 HOUR HIGH" decorate_both="false"
+                  (onUpdate)="myOnUpdate($event)" (onChange)="myOnChange($event)" (onFinish)="myOnFinish($event)"></ion-range-slider>
+
+              </accordion-group>
+
+            </accordion>
           </div>
 
           <app-advertisement></app-advertisement>
@@ -113,14 +100,9 @@
       </div>
 
       <div class="col-sm-12 col-xs-12 col-md-10 col-lg-10 rgt-coin-tab">
-         <data-table-sort-expands></data-table-sort-expands>
-          
+        <!-- <data-table-sort-expands></data-table-sort-expands> -->
+        <app-graph-section #component1></app-graph-section>
       </div>
-
-
-
-      
-  </div>
-
+    </div>
   </div>
 </div>
