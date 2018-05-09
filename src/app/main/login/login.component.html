@@ -1,45 +1,61 @@
-<!--Modal: Login Form-->
-<div mdbModal #form="mdb-modal" class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog cascading-modal" role="document">
-        <!--Content-->
-        <div class="modal-content">
-
-            <!--Header-->
-            <div class="modal-header light-blue darken-3 white-text">
-                <h4 class="title"><i class="fa fa-user"></i> Log in</h4>
-                <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close" (click)="form.hide()">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <!--Body-->
-            <div class="modal-body">
-                <div class="md-form form-sm">
-                    <i class="fa fa-envelope prefix"></i>
-                    <input mdbInputDirective type="text" id="form30" class="form-control">
-                    <label for="form30">Your email</label>
-                </div>
-
-                <div class="md-form form-sm">
-                    <i class="fa fa-lock prefix"></i>
-                    <input mdbInputDirective type="password" id="form31" class="form-control">
-                    <label for="form31">Your password</label>
-                </div>
-
-                <div class="text-center mt-2">
-                    <button class="btn btn-info waves-light" mdbWavesEffect>Log in <i class="fa fa-sign-in ml-1"></i></button>
-                </div>
-
-            </div>
-            <!--Footer-->
-            <div class="modal-footer">
-                <div class="options text-center text-md-right mt-1">
-                    <p>Not a member? <a href="/signup">Sign Up</a></p>
-                    <p>Forgot <a href="#">Password?</a></p>
-                </div>
-                <button type="button" class="btn btn-outline-info ml-auto" data-dismiss="modal" (click)="form.hide()" mdbWavesEffect>Close</button>
-            </div>
+<div class="login-frm-main">
+    <div class="container">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div class="row">
+          <div class="login_logo">
+            <a href="#" class="logo"><img src="/assets/images/logo.png" alt="Coinwave"/><span>Coin <b>wave</b></span></a>
+          </div>
         </div>
-        <!--/.Content-->
+        </div>
+
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 sign_login">
+                <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5"> 
+            <div class="sign_login_left">
+                    
+                <ul class="sign_login_tab">
+                    <li class="active"><a href="#">Sign Up</a></li>
+                    <li><a href="#">Login</a></li>
+                </ul>
+                <div class="log_pg">
+                 <h3>Sign Up a <a href="#">FREE</a> account & Save<br/>
+                   Your Site Preferences and Coins</h3>
+                 <a href="#" class="email_mg"><img src="/assets/images/login_signinemail.png" alt="Sign Up with email"/></a>
+                 <span>Or Sign With:</span>
+                 <ul>
+                     <li><a href="#"><img src="/assets/images/login_facebook.png" alt="Facebook"/></a></li>
+                     <li><a href="#"><img src="/assets/images/login_google.png" alt="Coogle Plus"/></a></li>
+                     <li><a href="#"><img src="/assets/images/login_twitter.png" alt="Twitter"/></a></li>
+                     <li><a href="#"><img src="/assets/images/login_linkedin.png" alt="Linkedin"/></a></li>
+  
+                 </ul>
+                </div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
+            <div class="sign_login_right">
+                  
+                    <h2>Sign Up A 100% <a href="#">FREE</a> Account & Be Able to:</h2>
+                    <ul>
+                        <li><p>Add Coins To Your Portfolio</p></li>
+                        <li><p>Save & Edit The Frequency Of Coin Pricing Updates</li>
+                        <li><p>Save Your Favorite Coins</li>
+                        <li><p>Save Your Graph Settings</p></li>
+                        <li><p>Save Your Site Color</p></li>
+                        <li><p>Customize Your Data Columns</p></li>
+                        <li><p>Save Your Advanced Search Filters</p></li>
+                        <li><p>SAVE ALL CUSTOM SITE VIEW OPTIONS</p></li>
+                        <li><p>All of your settings will be saved and stored on the desktop, tablet, &
+                         mobile site, as well on our iOS and Adroid App (coming soon).</p></li>
+                    </ul>
+                    <p>You can keep track of your favorite coins, pricing, and exchanges all from
+                            one central location</p>
+            </div>
+            </div>
+       
+
+        </div>
+        
+        
+        
     </div>
 </div>
-<!--Modal: Login Form-->
