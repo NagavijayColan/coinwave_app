@@ -81,7 +81,7 @@ setCurrencyOrder(value: string) {
 
     this.currencyText = 'USD';
     //this.currencyIcon = 'fa-font-awesome';
-    this.currencyImg = '/assets/images/usd.png';
+    this.currencyImg = '/assets/images/dollar.png';
     this.languageText = 'ENG';
     this.languageImg = '/assets/images/united-kingdom.png';
     this.hideThemesection = true;
@@ -98,6 +98,7 @@ setCurrencyOrder(value: string) {
     this.hideThemesection = true;
    
     this.desktoplists = [
+        { label:'Expand', ischecked:true },
         { label:'Favourite', ischecked:true },
         { label:'Coin', ischecked:true },
         { label:'Price', ischecked:true },
@@ -114,7 +115,8 @@ setCurrencyOrder(value: string) {
        ];
 
        this.mobilelists = [
-        { label:'Favourite', ischecked:false },
+        { label:'Expand', ischecked:true },
+        { label:'Favourite', ischecked:true },
         { label:'Coin', ischecked:true },
         { label:'Price', ischecked:true },
         { label:'24 HR Change', ischecked:true },

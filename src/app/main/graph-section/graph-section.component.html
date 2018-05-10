@@ -1,12 +1,49 @@
-<div class="col-md-5 float-left">
-  <app-candlestick></app-candlestick>
-</div>
-<div class="col-md-5 float-left">
-  <app-line-graph></app-line-graph>
-</div>
-<div class="col-md-2 float-right chart_rgt_cont">
-    <ul>
-      <li><label>Currency</label><div class="in_sel-term"><select><option>USD</option></select></div></li>
-      <li><label>Low/High 24h</label><span>$0.08903-$0.09261</span></li>
-    </ul>
-</div>
+
+
+<table id="coin_list_table" class="table table-condensed table-bordered data-table table-responsive">
+  <thead>
+    <th sortable-column="id">GRAPH</th>
+    <th sortable-column="firstname"># No</th>
+    <th (click)="sort('coin')">COIN <span class="glyphicon sort-icon" *ngIf="key =='coin'" [ngClass]="{'fa fa-sort-up':reverse,'fa fa-sort-down':!reverse}"></span></th>
+    <th>FAVOURITE</th>
+    <th (click)="sort('price')">PRICE</th>
+    <th (click)="sort('HRchange')">24 HOUR CHANGE</th>
+    <th (click)="sort('dayChange')">7 DAY CHANGE</th>
+    <th (click)="sort('Hrvolume')">24 HOUR VOLUME</th>
+    <th (click)="sort('marketCap')">MARKET CAP</th>
+    <th (click)="sort('hrhigh')">24 HOUR HIGH</th>
+    <th (click)="sort('hrlow')">24 LOW HIGH</th>
+  </thead>
+  <tbody *ngFor="let coins of films | orderBy: key : reverse ; let i = index">
+       <tr>
+         <td (click)="expandGraph($event,'expand'+i,'chartdiv'+i)">
+           <i class="fa fa-arrows-alt" ></i>
+         </td>
+         <td>{{i+1}}</td>
+         <td>{{coins.coin}}</td>
+         <td><input type="checkbox"></td>
+         <td class="column-price">{{coins.price}}</td>
+         <td  class="column-HRchange">{{coins.HRchange}}</td>
+         <td class="column-dayChange">{{coins.dayChange}}</td>
+         <td>{{coins.Hrvolume}}</td>
+         <td>{{coins.marketCap}}</td>
+         <td>{{coins.hrhigh}}</td>
+         <td>{{coins.hrlow}}</td>
+    
+       </tr>
+       <tr  class="hidingNow" id="expand{{i}}">
+         <td colspan="11" height="300px;" width="100%">
+    
+            
+            <div id="chart1div{{i}}" [ngStyle]="{'background-color': backgroundColor  }" [style.width.%]="40" [style.height.px]="250" style="float:left;margin-right:10px;" ></div>
+            <div class="col-md-2 float-right chart_rgt_cont">
+                <ul>
+                  <li><label>Currency</label><div class="in_sel-term"><select><option>USD</option></select></div></li>
+                  <li><label>Low/High 24h</label><span>$0.08903-$0.09261</span></li>
+                </ul>
+            </div>
+            <div id="chartdiv{{i}}" [ngStyle]="{'background-color': backgroundColor  }" [style.width.%]="40" [style.height.px]="250" style="float:left;margin-right:10px;" ></div>
+         </td>
+       </tr>
+  </tbody>
+</table>

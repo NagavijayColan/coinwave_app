@@ -133,37 +133,38 @@
                 <!--Body-->
                 <div class="modal-body refresh_rate">
                  
-                    <ion-range-slider #sliderElement
-          type="single"
-          [min]="0"
-          max="120"
-          from="1"
-          from_min="1"
-          from_max=""
-          from_shadow="false"
-          to="70"
-          to_min="0"
-          step="6"
-          to_max=""
-          to_shadow="true"
-          grid="true"
-          grid_num="6"
-          postfix=" sec interval"
-          decorate_both="false"
-          (onUpdate)="myOnUpdate($event)"
-          (onChange)="myOnChange($event)"
-          (onFinish)="myOnFinish($event)"></ion-range-slider>
+                    <ion-range-slider #sliderElement 
+                        type="single"
+                        [min]="0"
+                        max="30"
+                        from="0"
+                        from_min="0"
+                        from_max="30"
+                        from_shadow="false"
+                        to="0"
+                        hasGrid="false"
+                        to_min="0"
+                        step="5"
+                        to_max="30"
+                        to_shadow="false"
+                        grid="true"
+                        grid_num="6"
+                        postfix=" Seconds Interval"
+                        decorate_both="false"
+                        (onUpdate)="myOnUpdate($event)"
+                        (onChange)="myOnChange($event)"
+                        (onFinish)="myOnFinish($event)" >
+                    </ion-range-slider>
                 </div>
                 <!--Footer-->
                 <div class="modal-footer">
-                 
-                    <button type="button" class="btn btn-outline-info ml-auto" data-dismiss="modal" (click)="refreshrate.hide()" mdbWavesEffect>Close</button>
+                    <button type="button" class="btn btn-outline-info float-left" data-dismiss="modal" (click)="refreshrate.hide()" mdbWavesEffect>Pause</button>
+                    <button type="button" class="btn btn-outline-info float-right" data-dismiss="modal" (click)="refreshrate.hide()" mdbWavesEffect>Close</button>
                 </div>
             </div>
             <!--/.Content-->
         </div>
 </div>
-
 <!-- Refresh Rate -->
 
 
@@ -197,8 +198,7 @@
                             <div class="form-check" *ngFor="let desklist of desktoplists">
                                     <input class="form-check-input" mdbInputDirective [checked]="desklist.ischecked"  type="checkbox"  name="listsgroup">
                                     <label class="form-check-label">{{desklist.label}}</label>
-                                </div>
-
+                            </div>
                         </div>
                         <div class="mobile_options col-md-6 col-lg-6 col-sm-12 col-xs-12">
                                 <span class="lst_tlt">Mobile Columns</span>
@@ -210,14 +210,9 @@
 
                     </div>
                </div>
-             
-
-             
-
             </div>
             <!--Footer-->
             <div class="modal-footer">
-             
                 <button type="button" class="btn btn-outline-info ml-auto" data-dismiss="modal" (click)="customize.hide()" mdbWavesEffect>Close</button>
             </div>
         </div>
@@ -226,4 +221,6 @@
 </div>
 <!--Modal: Customize column Form-->
 <!-- popup -->
+
+
 

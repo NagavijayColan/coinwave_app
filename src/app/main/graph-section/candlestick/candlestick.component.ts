@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input  } from '@angular/core';
 import { AmChartsService, AmChart } from "@amcharts/amcharts3-angular";
 @Component({
   selector: 'app-candlestick',
@@ -26,6 +26,7 @@ export class CandlestickComponent implements OnInit {
   public disabled;
   public enableGraphType;
   constructor(private AmCharts: AmChartsService) {}
+  @Input() childMessage: string;
   ngOnInit() {
     this.enableGraphType= false
     this.disabled = false
@@ -226,7 +227,7 @@ export class CandlestickComponent implements OnInit {
       },
       "mouseWheelZoomEnabled": true
     }
-    this.themeType = 'dark';
+    this.themeType = 'light';
     this.backgroundColor = '#000'
     this.themeDo();
     this.calcVWAP();

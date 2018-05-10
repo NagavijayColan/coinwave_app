@@ -268,7 +268,7 @@ export class LineGraphComponent implements OnInit {
   //     color: "#ccffcc",
   //     title: "Moving average"
   // });
-    this.chart = this.AmCharts.makeChart( "chartdiv1", this.chartConfig);
+    this.chart = this.AmCharts.makeChart( "chartdivline", this.chartConfig);
     
   }
   changeTheme(type){

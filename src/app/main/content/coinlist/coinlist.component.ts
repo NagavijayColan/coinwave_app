@@ -1,16 +1,13 @@
-import { Component,OnInit } from '@angular/core';
-
+import { Component,OnInit, ViewChild } from '@angular/core';
+import {GraphSectionComponent} from '../../graph-section/graph-section.component'
 @Component({
   selector: 'app-coinlist',
   templateUrl: './coinlist.component.html',
   styleUrls: ['./coinlist.component.css']
 })
 export class CoinlistComponent implements OnInit {
-
-
-  constructor() { 
-
-  }
+  @ViewChild("component1") component1: GraphSectionComponent;
+  constructor() {   }
 
 // special params:
 
@@ -19,7 +16,7 @@ export class CoinlistComponent implements OnInit {
  
  
   }
-
-
-
+  sortTable(key){
+    this.component1.sort(key);
+  }
 }

@@ -16,8 +16,6 @@ export class HeaderComponent implements OnInit {
   
   loginform1()
   {
-   
-      this.router.navigate(['/login'])
-      
+      this.router.navigate(['/login'])  
   }
 }

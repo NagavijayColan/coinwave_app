@@ -1,12 +1,12 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { Ng2OrderModule } from 'ng2-order-pipe';
 
 
 
 
-import { DataTableModule } from './main/data-table';
-import { DataTableSortExpand } from './main/sort-expand/data-table-sort-expand';
+
 import { IonRangeSliderModule } from "ng2-ion-range-slider";
 
 import { AppComponent } from './app.component';
@@ -31,6 +31,7 @@ import {AccordionModule} from "ng2-accordion";
 import { OrderModule } from 'ngx-order-pipe';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -46,7 +47,7 @@ import { OrderModule } from 'ngx-order-pipe';
     LoginComponent,
     SignupComponent,
     ContentComponent,
-    DataTableSortExpand,
+   
     FooterNavComponent,
     CandlestickComponent,
     LineGraphComponent,
@@ -59,11 +60,11 @@ import { OrderModule } from 'ngx-order-pipe';
     AppRoutingModule,
     OrderModule,
     AccordionModule,
-    DataTableModule,
+    Ng2OrderModule,
+   
     IonRangeSliderModule,
     MDBBootstrapModule.forRoot()
   ],
- 
   providers: [],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA ]
