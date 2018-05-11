@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderPipe } from 'ngx-order-pipe';
-
+import { CompDataSharingService } from "../../comp-data-sharing.service";
 @Component({
   selector: 'app-theme-header',
   templateUrl: './theme-header.component.html',
@@ -11,7 +11,7 @@ export class ThemeHeaderComponent implements OnInit {
   order: string = 'info.languagename';
   currencyorder: string = 'info.currencyname';
 
-  reverse: boolean = false;
+  // reverse: boolean = false;
   collection: any[] = [
     { info: {languagename: 'ENG', languageimage:'assets/images/united-kingdom.png'} }, 
     { info: {languagename: 'FRE', languageimage:'assets/images/france.png'} },
@@ -20,7 +20,7 @@ export class ThemeHeaderComponent implements OnInit {
 
   collection1: any[] = [
    
-    { info: {currencyname: 'USD', currencyimage:'assets/images/usd.png'} }, 
+    { info: {currencyname: 'USD', currencyimage:'assets/images/dollar.png'} }, 
     { info: {currencyname: 'INR', currencyimage:'assets/images/inr.png'} },
   ];
 
@@ -36,55 +36,53 @@ export class ThemeHeaderComponent implements OnInit {
  public currencyImg;
  public languageText;
  public languageImg;
+ graphThemeColor:any;
+ themeBlack : any;
+ themeWhite : any;
  desktoplists:Array<any>;
  mobilelists:Array<any>;
-
- constructor(private orderPipe: OrderPipe) { 
-
-  this.sortedCollection = orderPipe.transform(this.collection, 'info.languagename');
-  console.log(this.sortedCollection);
-  this.sortedCollection1 = orderPipe.transform(this.collection1, 'info.currencyname');
-  console.log(this.sortedCollection1);
- }
+ constructor(private orderPipe: OrderPipe, private changeGraphTheme : CompDataSharingService) { }
 
 
 
 
- setOrder(value: string) {
-  if (this.order === value) {
-    this.reverse = !this.reverse;
-  }
-  this.order = value;
+//  setOrder(value: string) {
+//   if (this.order === value) {debugger
+//     this.reverse = !this.reverse;
+//   }
+//   this.order = value;
 
+// }
+key: string = 'name'; 
+reverse: boolean = false;
+sort(key){
+  this.key = key;
+  this.reverse = !this.reverse;
 }
-
-setCurrencyOrder(value: string) {
-  if (this.currencyorder === value) {
-    this.reverse = !this.reverse;
-  }
-  this.currencyorder = value;
-
-}
-
-
-
-
-
-
- 
-
-  ngOnInit() {
-    
-  
-
-
-
+// setCurrencyOrder(value: string) {
+//   if (this.currencyorder === value) {
+//     this.reverse = !this.reverse;
+//   }
+//   this.currencyorder = value;
+// }
+ngOnInit() {
+    this.themeBlack = {
+      bgCOlor : '#000',
+      theme:"dark"
+    }
+    this.themeWhite = {
+      bgCOlor : '#fff',
+      theme:"light"
+    }
+    this.changeGraphTheme.currentMessage.subscribe(message => this.graphThemeColor = message)
+    this.sortedCollection = this.orderPipe.transform(this.collection, 'info.languagename');
+    this.sortedCollection1 = this.orderPipe.transform(this.collection1, 'info.currencyname');
     this.currencyText = 'USD';
     //this.currencyIcon = 'fa-font-awesome';
     this.currencyImg = '/assets/images/dollar.png';
     this.languageText = 'ENG';
     this.languageImg = '/assets/images/united-kingdom.png';
-    this.hideThemesection = true;
+    // this.hideThemesection = true;
     this.hideOptionsection = false;
     this.hideLanguageSection = false;
     if(sessionStorage.getItem('hideThemesection')){
@@ -92,10 +90,10 @@ setCurrencyOrder(value: string) {
     }
     else{
       this.hideThemesection = true;
-     sessionStorage.setItem('hideThemesection','true')
+      sessionStorage.setItem('hideThemesection','true')
      
     }
-    this.hideThemesection = true;
+    
    
     this.desktoplists = [
         { label:'Expand', ischecked:true },
@@ -130,22 +128,23 @@ setCurrencyOrder(value: string) {
         { label:'Total Supply', ischecked:false },
         { label:'Exchanges ', ischecked:false },
        ];
-  }
+       this.changeGraphTheme.changeMessage( this.themeBlack);
+      }
 
 
 
   siteColor() {
-
     let body = document.getElementsByTagName('body')[0];
     var currentList = body.classList.contains('black-theme');
-    
     if (currentList)
     {
+      this.changeGraphTheme.changeMessage(this.themeWhite)
       body.classList.remove('black-theme');
       body.classList.add('white-theme');
     }
     else
     {
+      this.changeGraphTheme.changeMessage(this.themeBlack)
       body.classList.add('black-theme');
       body.classList.remove('white-theme');
     }
@@ -181,7 +180,6 @@ setCurrencyOrder(value: string) {
     {
       body.classList.remove('night_mode');
     }
-
   }
   selectCurrency(text,image){
     this.currencyText = text;

@@ -792,3 +792,45 @@ font-family: ProximaNova-Bold;margin-bottom: 0px; line-height: 42px;}
 
 
 
+table.table a {
+  display: none !important;
+}
+
+input.amChartsButton, .amChartsButtonSelected {
+  width: 17%;
+  background: #0c0c0c !important;
+  border: 1px solid #ccc !important;
+  padding: 3px 5px;
+  margin-right:2% !important;
+}
+
+.graph_head {
+  display: flex;
+  padding: 0px 22px;
+}
+.graph_head li label button {
+  border: 0px;
+  margin: 3px 11px;
+  width: 246px;
+  padding: 6px 0px;
+  border-radius: 3px;
+  font-size: 20px;
+ 
+}
+
+.black-theme .graph_head li label button:hover , .black-theme .graph_head li.active label button {
+  background: #F69019;
+}
+.white-theme .graph_head li label button:hover , .white-theme .graph_head li.active label button {
+  background: #F69019;
+  color:#fff;
+}
+
+
+.black-theme .graph_head li label button{
+  background: #1a1a1a;
+  color: #fff;
+}
+.graph_head.d-flex ul {
+  display: flex;
+}

@@ -8,7 +8,7 @@ import { Ng2OrderModule } from 'ng2-order-pipe';
 
 
 import { IonRangeSliderModule } from "ng2-ion-range-slider";
-
+import {CompDataSharingService} from "./comp-data-sharing.service"
 import { AppComponent } from './app.component';
 import { MainComponent } from './main/main.component';
 import { HeaderComponent } from './main/header/header.component';
@@ -47,6 +47,7 @@ import { OrderModule } from 'ngx-order-pipe';
     LoginComponent,
     SignupComponent,
     ContentComponent,
+    
    
     FooterNavComponent,
     CandlestickComponent,
@@ -65,7 +66,7 @@ import { OrderModule } from 'ngx-order-pipe';
     IonRangeSliderModule,
     MDBBootstrapModule.forRoot()
   ],
-  providers: [],
+  providers: [CompDataSharingService],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA ]
 

@@ -15,20 +15,20 @@
     <th (click)="sort('hrlow')">24 LOW HIGH</th>
   </thead>
   <tbody *ngFor="let coins of films | orderBy: key : reverse ; let i = index">
-       <tr>
+       <tr style="cursor:pointer">
          <td (click)="expandGraph($event,'expand'+i,'chartdiv'+i)">
            <i class="fa fa-arrows-alt" ></i>
          </td>
          <td>{{i+1}}</td>
-         <td>{{coins.coin}}</td>
+         <td (click)="coinDetails(coins.id)">{{coins.coin}}</td>
          <td><input type="checkbox"></td>
-         <td class="column-price">{{coins.price}}</td>
-         <td  class="column-HRchange">{{coins.HRchange}}</td>
-         <td class="column-dayChange">{{coins.dayChange}}</td>
-         <td>{{coins.Hrvolume}}</td>
-         <td>{{coins.marketCap}}</td>
-         <td>{{coins.hrhigh}}</td>
-         <td>{{coins.hrlow}}</td>
+         <td (click)="coinDetails(coins.id)" class="column-price">{{coins.price}}</td>
+         <td (click)="coinDetails(coins.id)" class="column-HRchange">{{coins.HRchange}}</td>
+         <td (click)="coinDetails(coins.id)" class="column-dayChange">{{coins.dayChange}}</td>
+         <td (click)="coinDetails(coins.id)">{{coins.Hrvolume}}</td>
+         <td (click)="coinDetails(coins.id)">{{coins.marketCap}}</td>
+         <td (click)="coinDetails(coins.id)">{{coins.hrhigh}}</td>
+         <td (click)="coinDetails(coins.id)">{{coins.hrlow}}</td>
     
        </tr>
        <tr  class="hidingNow" id="expand{{i}}">
