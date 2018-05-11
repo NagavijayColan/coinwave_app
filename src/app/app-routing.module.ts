@@ -32,7 +32,7 @@ const routes: Routes = [
   },
 
   { 
-    path: 'coinpage',
+    path: 'coinpage/:id',
     component: CoinpageComponent
   },
 

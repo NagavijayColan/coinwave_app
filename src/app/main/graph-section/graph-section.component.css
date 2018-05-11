@@ -8,3 +8,6 @@
     width:100%;
     text-align: center;
 }
+.amChartsPeriodSelector  fieldset{
+    display: none !important;
+}
