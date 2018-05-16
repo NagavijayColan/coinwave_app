@@ -2,9 +2,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { Ng2OrderModule } from 'ng2-order-pipe';
-
-
-
+import { HttpModule } from '@angular/http';
+import { GoogleApiModule, GoogleApiService, GoogleAuthService,  NgGapiClientConfig, 
+  NG_GAPI_CONFIG, GoogleApiConfig} from "ng-gapi";
 
 
 import { IonRangeSliderModule } from "ng2-ion-range-slider";
@@ -19,7 +19,7 @@ import { CoinlistComponent } from './main/content/coinlist/coinlist.component';
 import { PortfolioComponent } from './main/content/portfolio/portfolio.component';
 import { ExchangeComponent } from './main/content/exchange/exchange.component';
 import { CoinpageComponent } from './main/content/coinpage/coinpage.component';
-import { LoginComponent } from './main/login/login.component';
+import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './main/signup/signup.component';
 import { ContentComponent } from './main/content/content.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -30,7 +30,14 @@ import { LineGraphComponent } from './main/graph-section/line-graph/line-graph.c
 import {AccordionModule} from "ng2-accordion";
 import { OrderModule } from 'ngx-order-pipe';
 
-
+let gapiClientConfig: NgGapiClientConfig = {
+  client_id: "347517327969-njvciggsghu7ppjmjmcs3pbunvmpfmqg.apps.googleusercontent.com",
+  discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
+  scope: [
+      "https://www.googleapis.com/auth/analytics.readonly",
+      "https://www.googleapis.com/auth/analytics"
+  ].join(" ")
+};
 
 @NgModule({
   declarations: [
@@ -62,9 +69,14 @@ import { OrderModule } from 'ngx-order-pipe';
     OrderModule,
     AccordionModule,
     Ng2OrderModule,
+    HttpModule,
    
     IonRangeSliderModule,
-    MDBBootstrapModule.forRoot()
+    MDBBootstrapModule.forRoot(),
+    GoogleApiModule.forRoot({
+      provide: NG_GAPI_CONFIG,
+      useValue: gapiClientConfig
+    }),
   ],
   providers: [CompDataSharingService],
   bootstrap: [AppComponent],

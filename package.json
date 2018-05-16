@@ -31,6 +31,7 @@
     "font-awesome": "^4.7.0",
     "install": "^0.11.0",
     "ng-click-outside": "^3.3.0",
+    "ng-gapi": "0.0.51",
     "ng2-accordion": "0.0.15",
     "ng2-ion-range-slider": "^2.0.0",
     "ng2-order-pipe": "^0.1.5",

@@ -1,3 +1,31 @@
-<p>
-  exchange works!
-</p>
+<div class="exchanges_page">
+  <div class="container">
+ <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 coin-page-lft list_view_table">
+  <table border="0" cellpadding="0" cellspacing="0"  class="table-responsive">
+  <thead>
+    <tr>
+        <th>#</th>
+        <th>Exchange</th>
+        <th>No.coins</th>
+        <th>Volume</th>
+        <th>Volume%</th>
+        <th>Trade</th>
+      </tr>
+  </thead>
+
+  <tbody>
+     <tr *ngFor="let exchanges of exchangeData">
+      <td>{{exchanges.Sno}}</td>
+      <td class="exchange_clr">{{exchanges.exchange}}</td>
+      <td>{{exchanges.nocoins}}</td>
+      <td>{{exchanges.volume}}</td>
+      <td>{{exchanges.volumeper}}</td>
+      <td class="trade_btn"><span>{{exchanges.trade}}</span></td>
+     
+    </tr>
+      
+  </tbody>
+</table>
+</div>
+</div>
+</div>

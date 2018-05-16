@@ -834,3 +834,21 @@ input.amChartsButton, .amChartsButtonSelected {
 .graph_head.d-flex ul {
   display: flex;
 }
+
+
+.exchanges_page {
+  margin-top: 25px;
+}
+
+.coin-page-lft table tbody td.trade_btn span {
+  background: #e67e22;
+  padding: 7px 30px;
+  border-radius: 5px;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-family: 'ProximaNova-Bold';
+  color: #fff !important;
+}
+
+.black-theme .coin-page-lft table tbody td.exchange_clr {color:#57c9c8;}
+.white-theme .coin-page-lft table tbody td.exchange_clr {color:#12c9c8;}
