@@ -93,6 +93,49 @@
 <div mdbModal #refreshrate="mdb-modal" class="modal fade" id="centralModalSuccess" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
     aria-hidden="true">
     <div class="modal-dialog cascading-modal" role="document">
+<<<<<<< HEAD
+            <!--Content-->
+            <div class="modal-content">
+    
+                <!--Header-->
+                <div class="modal-header light-blue darken-3 white-text">
+                    <h4 class="title"> Refresh Rate</h4>
+                    <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close" (click)="refreshrate.hide()">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <!--Body-->
+                <div class="modal-body refresh_rate">
+                 
+                    <ion-range-slider #sliderElement 
+                        type="single"
+                        [min]="0"
+                        max="30"
+                        from="0"
+                        from_min="0"
+                        from_max="30"
+                        from_shadow="false"
+                        to="0"
+                        hasGrid="false"
+                        to_min="0"
+                        step="5"
+                        to_max="30"
+                        to_shadow="false"
+                        grid="true"
+                        grid_num="6"
+                        postfix=" Seconds Interval"
+                        decorate_both="false"
+                        (onUpdate)="myOnUpdate($event)"
+                        (onChange)="myOnChange($event)"
+                        (onFinish)="myOnFinish($event)" >
+                    </ion-range-slider>
+                </div>
+                <!--Footer-->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-info float-left" data-dismiss="modal" (click)="refreshrate.hide()" mdbWavesEffect>Pause</button>
+                    <button type="button" class="btn btn-outline-info float-right" data-dismiss="modal" (click)="refreshrate.hide()" mdbWavesEffect>Close</button>
+                </div>
+=======
         <!--Content-->
         <div class="modal-content">
 
@@ -115,6 +158,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-info float-left" data-dismiss="modal" (click)="refreshrate.hide()" mdbWavesEffect>Pause</button>
                 <button type="button" class="btn btn-outline-info float-right" data-dismiss="modal" (click)="refreshrate.hide()" mdbWavesEffect>Close</button>
+>>>>>>> fa03f27f076f68756574cfa26fe051c22c4b84dc
             </div>
         </div>
         <!--/.Content-->

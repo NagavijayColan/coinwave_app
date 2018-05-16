@@ -141,7 +141,7 @@ font-family: ProximaNova-Bold;}
 .data-table.table-bordered {border: 0px;box-shadow: inherit !important;}
 .data-table.table th, .data-table.table th span i{ text-align: center;
  vertical-align: bottom; position: relative;}
-.data-table.table th{font-size:13px; padding: 10px !important;}
+.data-table.table th{font-size:13px; padding: 8px !important;}
 .data-table.table td {padding: 0.95rem 0px !important;text-align: center;}
 .button_icon, .button_icon:hover{line-height: 20px; border:0px;  cursor:pointer; margin-top:0px !important;}
 span.close_icon{margin-top:0px !important;}
@@ -453,8 +453,8 @@ filter:grayscale(100%) brightness(1%) sepia(0%) hue-rotate(101deg) saturate(10%)
 .white-theme span.close_icon i{ color: #000000;}
 .white-theme .new-sort tr:nth-child(2n+1) { background: #212121 none repeat scroll 0 0;}
 
-.white-theme .sort-table-lst table th {background: #242527 none repeat scroll 0 0; color: #ffffff;}
-.white-theme .sort_by h1.sort_by_head { background: #242527 none repeat scroll 0 0;color: #ffffff;}
+.white-theme .sort-table-lst table th {background: #656565 none repeat scroll 0 0; color: #ffffff;}
+.white-theme .sort_by h1.sort_by_head { background: #656565 none repeat scroll 0 0;color: #ffffff;}
 .white-theme .sort_by ul {background: #dadada;}
 .white-theme .sort_by ul li{border-bottom: 1px solid #cacaca;}
 .white-theme .sort_by ul li a{color: #212121;}
@@ -656,7 +656,10 @@ td.column-dayChange::after {
   border-right: 1px solid #fff !important;
 }
 .white-theme  #coin_list_table thead {
-  background: #ccc;    
+  background: #656565;    
+}
+.white-theme  #coin_list_table thead th{
+  color: #fff;
 }
 #coin_list_table{
   width: 100%;
@@ -666,7 +669,7 @@ td.column-dayChange::after {
 }
 
 #coin_list_table thead th{
-  font-weight: bold;
+  font-family: 'ProximaNova-Bold';
   display: table-cell;
   vertical-align: middle;
   height: 60px;
@@ -785,6 +788,8 @@ font-family: ProximaNova-Bold;margin-bottom: 0px; line-height: 42px;}
 
 .white-theme .grid_list_tab ul li{color:#fff;}
 .white-theme .grid_list_tab ul li.active {background: #fff; color:#000;}
+
+
 
 
 table.table a {

@@ -40,9 +40,9 @@
         </thead>
         <tbody>
            <tr *ngFor="let coinproduct of jsonData">
-            <td class="cp_24four_change">{{coinproduct.cp_24four_change}}</td>
-            <td class="cp_7day_change">{{coinproduct.cp_7day_change}}</td>
-            <td class="cp_30day_change">{{coinproduct.cp_30day_change}}</td>
+            <td class="cp_24four_change column-price">{{coinproduct.cp_24four_change}}</td>
+            <td class="cp_7day_change column-HRchange">{{coinproduct.cp_7day_change}}</td>
+            <td class="cp_30day_change column-dayChange">{{coinproduct.cp_30day_change}}</td>
             <td>{{coinproduct.cp_24hr_volume}}</td>
             <td>{{coinproduct.cp_24hr_high}}</td>
             <td>{{coinproduct.cp_24hr_low}}</td>
