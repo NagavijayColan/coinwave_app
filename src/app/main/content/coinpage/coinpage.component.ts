@@ -3,6 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { AmChartsService, AmChart } from "@amcharts/amcharts3-angular";
 import { CompDataSharingService } from "../../../comp-data-sharing.service";
 import { document } from 'angular-bootstrap-md/utils/facade/browser';
+import {Http} from '@angular/http';
+import 'rxjs/add/operator/map';
 @Component({
   selector: 'app-coinpage',
   templateUrl: './coinpage.component.html',
@@ -13,36 +15,43 @@ export class CoinpageComponent implements OnInit {
  id: string;
  private sub: any;
  public imgSrc;
- 
- 
-  public chartData:any;
-private chart: AmChart;
-public themeType : any;
-public backgroundColor;
-public chartConfig;
-public typical_Price;
-public vp;
-public tvp;
-public vwap;
-public vwaparray = [];
-public tv;
-public  tvDup = 0;
-public  tvpDup = 0;
-public i=0;;
-public j=0;
-public l=0;
-public ddd;
-public disabled;
-public chart1;
-public chart2;
-public chartData3;
-public chartData1;
-public inst;
-public films;
-public closeGraph:boolean;
-public graphThemeColor : any;
-constructor(private aroute: ActivatedRoute, private AmCharts: AmChartsService,private changeGraphTheme : CompDataSharingService) {}
+ public chartData:any;
+  private chart: AmChart;
+  public themeType : any;
+  public backgroundColor;
+  public chartConfig;
+  public typical_Price;
+  public vp;
+  public tvp;
+  public vwap;
+  public vwaparray = [];
+  public tv;
+  public  tvDup = 0;
+  public  tvpDup = 0;
+  public i=0;;
+  public j=0;
+  public l=0;
+  public ddd;
+  public disabled;
+  public chart1;
+  public chart2;
+  public chartData3;
+  public chartData1;
+  public jsonData1;
+  public inst;
+  public films;
+  public closeGraph:boolean;
+  public graphThemeColor : any;
+constructor(private http : Http,private aroute: ActivatedRoute, private AmCharts: AmChartsService,private changeGraphTheme : CompDataSharingService) {}
 ngOnInit() {
+  this.jsonData1 = [];
+  this.http.get("http://192.168.2.143:2000/getData").map(
+    response => response.json()).subscribe(
+      data => {   this.jsonData1 = data;
+         this.themeDo();
+    },
+    );
+
   this.sub = this.aroute.params.subscribe(params => {
     this.id = params['id']; 
  });  
@@ -155,9 +164,9 @@ ngOnInit() {
       for(let i = 0; i < k.length ; i++){
         k[i].children[0].children[1].setAttribute('style','display:none !important')
       }
-      k[0].children[0].children[2].setAttribute('style','width:100% !important;')
+      k[0].children[0].children[2].setAttribute('style','width:100% !important;visibility:hidden;')
     },300)
-  this.themeDo();
+ 
   this.calcVWAP();
  
 }
@@ -210,10 +219,15 @@ themeDo() {
 //     color: "#ccffcc",
 //     title: "Moving average"
 // });
-
+console.log("sdfsdf")
+console.log(this.jsonData1)
  this.chart =  this.AmCharts.makeChart("coinDataChart",{
     "type": "stock",
     "theme": this.themeType,
+    "mouseWheelZoomEnabled": true,
+    "categoryAxesSettings": {
+      "minPeriod": "mm"
+    },
     "dataSets": [ {
       "fieldMappings": [ {
         "fromField": "open",
@@ -235,7 +249,7 @@ themeDo() {
         "toField": "value"
       } ],
       "color": "#7f8da9",
-      "dataProvider": this.chartData1,
+      "dataProvider": this.jsonData1,
       "title": "West Stock",
       "categoryField": "date"
     },
@@ -297,50 +311,48 @@ themeDo() {
           "fillColors": "#7f8da9",
           "negativeLineColor": "#db4c3c",
           "negativeFillColors": "#db4c3c",
-          
           "useDataSetColors": false,
           "comparable": true,
           "compareField": "value",
           "showBalloon": true,
           "proCandlesticks": true
         } ],
-  
+
         "stockLegend": {
           "valueTextRegular": undefined,
           "periodValueTextComparing": "[[percents.value.close]]%"
         },
         // "drawingIconsEnabled": true
       },
-      
-      // {
-      //   "title": "Volume",
-      //   "recalculateToPercents": "never",
-      //   "marginTop": 1,
-      //   "showCategoryAxis": true,
-      //   "valueAxes": [ {
-      //     "dashLength": 5,
-      //     "gridThickness":0
-      //   } ],
+      {
+        "title": "Volume",
+        "percentHeight": 30,
+        "marginTop": 1,
+        "showCategoryAxis": true,
+        "valueAxes": [ {
+          "dashLength": 0,
+          "gridThickness":0
+        } ],
   
-      //   "categoryAxis": {
-      //     "dashLength": 5,
-      //     "gridThickness":0
-      //   },
+        "categoryAxis": {
+          "dashLength": 0,
+          "gridThickness":0
+        },
   
-      //   "stockGraphs": [ {
-      //     "valueField": "volume",
-      //     "lineThickness":2,
-      //     "showBalloon": false,
-      //   } ],
+        "stockGraphs": [ {
+          "valueField": "volume",
+          "type": "column",
+          "showBalloon": false,
+          "fillAlphas": 1
+        } ],
   
-      //   "stockLegend": {
-      //     "markerType": "none",
-      //     "markerSize": 0,
-      //     "labelText": "",
-      //     "periodValueTextRegular": "[[value.close]]"
-      //   },
-      //   // "drawingIconsEnabled": true
-      // },
+        "stockLegend": {
+          "markerType": "none",
+          "markerSize": 0,
+          "labelText": "",
+          "periodValueTextRegular": "[[value.open]]"
+        }
+      },
       
       
     ],
@@ -349,7 +361,7 @@ themeDo() {
       "graph": "g1",
       "graphType": "line",
       "usePeriod": "WW",
-      "height":0
+       "height" : 1
     },
   
     "chartCursorSettings": {
@@ -364,30 +376,39 @@ themeDo() {
       "periods": [ {
         "period": "hh",
         "count": 1,
+        "selected": true,
         "label": "1 Hour"
       },{
         "period": "DD",
         "count": 1,
-        "label": "1 day"
+        "selected": true,
+        "label": "1 Day"
       },{
         "period": "DD",
         "count": 7,
+        "selected": true,
         "label": "1 Week"
       }, {
         "period": "MM",
         "selected": true,
+        "count": 1,
+        "label": "1 month"
+      },{
+        "period": "MM",
+        "selected": true,
         "count": 3,
-        "label": "3 month"
+        "label": "3 months"
       }, {
         "period": "MM",
         "count": 6,
+        "selected": true,
         "label": "6 Months"
       }, {
         "period": "YY",
         "count": 1,
         "selected": true,
         "label": "1 Year"
-      } ]
+      }]
     },
     "export": {
       "enabled": true,
@@ -405,11 +426,19 @@ changeType(type){debugger
   if(type){
      this.chart.panels[0].stockGraphs[0].type = type;
   }
-  
-  this.chart.validateNow();
+  document.getElementById(type).closest('li').classList.add('active')
+
   let k = document.getElementsByClassName('amcharts-period-selector-div');
-        k[0].children[0].children[1].setAttribute('style','display:none !important');
-        k[0].children[0].children[2].setAttribute('style','float:left !important;');
+  k[0].children[0].children[1].setAttribute('style','display:none !important');
+  // k[0].children[0].children[2].setAttribute('style','float:left !important;');
+  this.chart.validateNow();
+   k[0].children[0].children[1].setAttribute('style','display:none !important');
+   k[0].children[0].children[2].setAttribute('style','float:left !important;width:100%;');
+   document.getElementById('line').classList.remove('active')
+   document.getElementById('smoothedLine').classList.remove('active')
+   document.getElementById('ohlc').classList.remove('active')
+   document.getElementById('candlestick').classList.remove('active')
+   document.getElementById(type).closest('li').classList.add('active')
 }
 zoomOut(){
   this.chart.zoomOut();

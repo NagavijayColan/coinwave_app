@@ -2,7 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { Ng2OrderModule } from 'ng2-order-pipe';
-
+import { HttpClientModule } from '@angular/common/http';
 
 
 
@@ -30,7 +30,7 @@ import { LineGraphComponent } from './main/graph-section/line-graph/line-graph.c
 import {AccordionModule} from "ng2-accordion";
 import { OrderModule } from 'ngx-order-pipe';
 
-
+import { HttpModule } from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -62,7 +62,7 @@ import { OrderModule } from 'ngx-order-pipe';
     OrderModule,
     AccordionModule,
     Ng2OrderModule,
-   
+    HttpModule,
     IonRangeSliderModule,
     MDBBootstrapModule.forRoot()
   ],

@@ -63,18 +63,18 @@
          <div class="graph">
             <div class="graph_head d-flex">
               <ul>
-                <li  id="area">
-                    <label><button (click)="changeType('line');">Area</button></label>
+                <li  id="line">
+                    <label><button (click)="changeType('line');">Line Chart</button></label>
                     
                 </li>
                 <li id="ohlc">
-                   <label><button  (click)="changeType('ohlc');">OHLC</button></label>
+                   <label><button  (click)="changeType('ohlc');">OHLC Chart</button></label>
                 </li>
-                <li id="candlestick" >
-                    <label><button (click)="changeType('candlestick');">Candlestick</button></label>
+                <li id="candlestick" class="active">
+                    <label><button (click)="changeType('candlestick');">Candlestick Chart</button></label>
                 </li>
-                <li  id="line">
-                    <label><button (click)="changeType('smoothedLine');">Line</button></label>
+                <li  id="smoothedLine">
+                    <label><button (click)="changeType('smoothedLine');">Advanced Chart</button></label>
                 </li>
               </ul>
              
