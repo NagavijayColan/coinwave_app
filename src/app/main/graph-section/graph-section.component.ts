@@ -30,7 +30,7 @@ export class GraphSectionComponent implements OnInit {
   //       name:"vijay"
   //     }]
   // }
-  public chartData:any;
+public chartData:any;
 private chart: AmChart;
 public themeType : any;
 public backgroundColor;
@@ -204,6 +204,7 @@ themeDo() {
 for(let k = 0; k < this.films.length ; k++){
   this.AmCharts.makeChart("chart1div"+k,{
     "type": "stock",
+    "mouseWheelZoomEnabled": true,
     "theme": this.themeType,
     "dataSets": [ {
       "fieldMappings": [ {
@@ -341,7 +342,7 @@ for(let k = 0; k < this.films.length ; k++){
       "graph": "g1",
       "graphType": "line",
       "usePeriod": "WW",
-      "height":0
+      "height":0.5
     },
   
     "chartCursorSettings": {
@@ -385,6 +386,7 @@ for(let k = 0; k < this.films.length ; k++){
   });
   this.AmCharts.makeChart("chartdiv"+k,{
     "type": "stock",
+    "mouseWheelZoomEnabled": true,
     "theme": this.themeType,
     "dataSets": [ {
       "fieldMappings": [ {
@@ -521,7 +523,7 @@ for(let k = 0; k < this.films.length ; k++){
       "graph": "g1",
       "graphType": "line",
       "usePeriod": "WW",
-      "height":0
+      "height":0.5
     },
   
     "chartCursorSettings": {

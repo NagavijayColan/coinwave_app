@@ -797,11 +797,12 @@ table.table a {
 }
 
 input.amChartsButton, .amChartsButtonSelected {
-  width: 17%;
+  width: 11.5%;
   background: #0c0c0c !important;
   border: 1px solid #ccc !important;
   padding: 3px 5px;
   margin-right:2% !important;
+  visibility: visible;
 }
 
 .graph_head {
@@ -818,10 +819,13 @@ input.amChartsButton, .amChartsButtonSelected {
  
 }
 
-.black-theme .graph_head li label button:hover , .black-theme .graph_head li.active label button {
+ .black-theme .graph_head li.active label button {
   background: #F69019;
 }
-.white-theme .graph_head li label button:hover , .white-theme .graph_head li.active label button {
+.black-theme .graph_head li label button:hover ,.white-theme .graph_head li label button:hover  {
+  background: #333;
+}
+.white-theme .graph_head li.active label button {
   background: #F69019;
   color:#fff;
 }
