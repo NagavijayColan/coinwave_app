@@ -33,7 +33,6 @@ import { LineGraphComponent } from './main/graph-section/line-graph/line-graph.c
 import {AccordionModule} from "ng2-accordion";
 import { OrderModule } from 'ngx-order-pipe';
 
-<<<<<<< HEAD
 let gapiClientConfig: NgGapiClientConfig = {
   client_id: "347517327969-njvciggsghu7ppjmjmcs3pbunvmpfmqg.apps.googleusercontent.com",
   discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
@@ -42,9 +41,7 @@ let gapiClientConfig: NgGapiClientConfig = {
       "https://www.googleapis.com/auth/analytics"
   ].join(" ")
 };
-=======
-import { HttpModule } from '@angular/http';
->>>>>>> 4e114184b71afd4b9f654fb52405b9f489fba91c
+
 
 @NgModule({
   declarations: [
@@ -77,10 +74,6 @@ import { HttpModule } from '@angular/http';
     AccordionModule,
     Ng2OrderModule,
     HttpModule,
-<<<<<<< HEAD
-   
-=======
->>>>>>> 4e114184b71afd4b9f654fb52405b9f489fba91c
     IonRangeSliderModule,
     MDBBootstrapModule.forRoot(),
     GoogleApiModule.forRoot({
