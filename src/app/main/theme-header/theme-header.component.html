@@ -107,11 +107,13 @@
             <div class="modal-body refresh_rate">
                
 
-                <ion-range-slider #sliderElement type="single" [min]="0" max="120" values="" from="0" from_min="0" from_max="120" from_shadow="false"
-                    to="0" hasGrid="false" to_min="0" step="5" to_max="120" to_shadow="false" grid="true" grid_num="6" postfix=" Seconds Interval"
+                <!-- <ion-range-slider #sliderElement type="single" [min]="0" max="120" values="" from="0" from_min="0" from_max="120" from_shadow="false"
+                    to="0" hasGrid="false" to_min="0" step="40" to_max="120" to_shadow="false" grid="true" grid_num="6" postfix=" Seconds Interval"
                     decorate_both="false" (onUpdate)="myOnUpdate.parseInt($event)" (onChange)="myOnChange.parseInt($event)" (onFinish)="myOnFinish.parseInt($event)">
                     
-                </ion-range-slider>
+                </ion-range-slider> -->
+
+                <nouislider [config]="someRange2config"  [tooltips]="[ true]"  [(ngModel)]="someRange2"  (mouseup)="refreshRate()"></nouislider>
             </div>
             <!--Footer-->
             <div class="modal-footer">

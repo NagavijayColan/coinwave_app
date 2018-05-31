@@ -3,13 +3,8 @@ import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { HttpModule } from '@angular/http';
-import { GoogleApiModule, GoogleApiService, GoogleAuthService,  NgGapiClientConfig, 
-  NG_GAPI_CONFIG, GoogleApiConfig} from "ng-gapi";
 import { HttpClientModule } from '@angular/common/http';
-
-
-
-
+import { NouisliderModule } from 'ng2-nouislider';
 import { IonRangeSliderModule } from "ng2-ion-range-slider";
 import {CompDataSharingService} from "./comp-data-sharing.service"
 import { AppComponent } from './app.component';
@@ -32,16 +27,7 @@ import { AmChartsModule } from "@amcharts/amcharts3-angular";
 import { LineGraphComponent } from './main/graph-section/line-graph/line-graph.component';
 import {AccordionModule} from "ng2-accordion";
 import { OrderModule } from 'ngx-order-pipe';
-
-let gapiClientConfig: NgGapiClientConfig = {
-  client_id: "347517327969-njvciggsghu7ppjmjmcs3pbunvmpfmqg.apps.googleusercontent.com",
-  discoveryDocs: ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"],
-  scope: [
-      "https://www.googleapis.com/auth/analytics.readonly",
-      "https://www.googleapis.com/auth/analytics"
-  ].join(" ")
-};
-
+import { TvChartContainerComponent } from './main/tv-chart-container/tv-chart-container.component';
 
 @NgModule({
   declarations: [
@@ -58,8 +44,7 @@ let gapiClientConfig: NgGapiClientConfig = {
     LoginComponent,
     SignupComponent,
     ContentComponent,
-    
-   
+    TvChartContainerComponent,
     FooterNavComponent,
     CandlestickComponent,
     LineGraphComponent,
@@ -67,6 +52,7 @@ let gapiClientConfig: NgGapiClientConfig = {
 
   ],
   imports: [
+    NouisliderModule,
     AmChartsModule,
     BrowserModule,
     AppRoutingModule,
@@ -76,10 +62,6 @@ let gapiClientConfig: NgGapiClientConfig = {
     HttpModule,
     IonRangeSliderModule,
     MDBBootstrapModule.forRoot(),
-    GoogleApiModule.forRoot({
-      provide: NG_GAPI_CONFIG,
-      useValue: gapiClientConfig
-    }),
   ],
   providers: [CompDataSharingService],
   bootstrap: [AppComponent],

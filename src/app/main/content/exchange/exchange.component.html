@@ -1,29 +1,27 @@
 <div class="exchanges_page">
   <div class="container">
- <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 coin-page-lft list_view_table">
-  <table border="0" cellpadding="0" cellspacing="0"  class="table-responsive">
+ <div class="col-sm-12 col-xs-12 col-md-12 col-lg-12 table-responsive coin-page-lft list_view_table">
+  <table border="0" cellpadding="0" cellspacing="0"  class="table-responsive" id="exchange_list">
   <thead>
     <tr>
         <th>#</th>
-        <th>Exchange</th>
-        <th>No.coins</th>
-        <th>Volume</th>
-        <th>Volume%</th>
-        <th>Trade</th>
+        <th (click)="sort('name')">Exchange</th>
+        <th (click)="sort('NoOfCoins')">No of coins</th>
+        <th (click)="sort('name')">Volume</th>
+        <th (click)="sort('name')">Volume%</th>
+        <th >Trade</th>
       </tr>
   </thead>
 
   <tbody>
-     <tr *ngFor="let exchanges of exchangeData">
-      <td>{{exchanges.Sno}}</td>
-      <td class="exchange_clr">{{exchanges.exchange}}</td>
-      <td>{{exchanges.nocoins}}</td>
+     <tr *ngFor="let exchanges of exchangeData | orderBy: key : reverse;let i = index">
+      <td>{{i +1}}</td>
+      <td class="exchange_clr">{{exchanges.name}}</td>
+      <td>{{exchanges.NoOfCoins}}</td>
       <td>{{exchanges.volume}}</td>
-      <td>{{exchanges.volumeper}}</td>
-      <td class="trade_btn"><span>{{exchanges.trade}}</span></td>
-     
+      <td>{{exchanges.volumePercent}}</td>
+      <td class="trade_btn"><button>Trade </button></td>
     </tr>
-      
   </tbody>
 </table>
 </div>

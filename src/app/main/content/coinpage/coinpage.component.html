@@ -27,7 +27,7 @@
         <table border="0" cellpadding="0" cellspacing="0"  class="table-responsive">
         <thead>
           <tr>
-              <th>24 Four Change</th>
+              <th>24 Hour Change</th>
               <th>7 Day Change</th>
               <th>30 Day Change</th>
               <th>24 Hour Volume</th>
@@ -39,7 +39,7 @@
             </tr>
         </thead>
         <tbody>
-           <tr *ngFor="let coinproduct of jsonData">
+           <tr *ngFor="let coinproduct of coinData">
             <td class="cp_24four_change column-price">{{coinproduct.cp_24four_change}}</td>
             <td class="cp_7day_change column-HRchange">{{coinproduct.cp_7day_change}}</td>
             <td class="cp_30day_change column-dayChange">{{coinproduct.cp_30day_change}}</td>
@@ -61,29 +61,8 @@
 
         
          <div class="graph">
-            <div class="graph_head d-flex">
-              <ul>
-                <li  id="line">
-                    <label><button (click)="changeType('line');">Line Chart</button></label>
-                    
-                </li>
-                <li id="ohlc">
-                   <label><button  (click)="changeType('ohlc');">OHLC Chart</button></label>
-                </li>
-                <li id="candlestick" class="active">
-                    <label><button (click)="changeType('candlestick');">Candlestick Chart</button></label>
-                </li>
-                <li  id="smoothedLine">
-                    <label><button (click)="changeType('smoothedLine');">Advanced Chart</button></label>
-                </li>
-              </ul>
-             
-              
-              
-              <!-- <label><button (click)="changeTheme('dark');">Theme</button></label>
-              <label><button [disabled]="disabled" (click)="vwapaaaa();">VWAP</button></label> -->
-              </div>
-            <div id="coinDataChart" [ngStyle]="{'background-color': backgroundColor  }" [style.width.%]="100" [style.height.px]="550" style="float:left;margin-right:10px;" ></div>
+          <div class="app-tv-chart-container app-tv-chart-container_single" id="coinDetails_tv"></div>
+            <!-- <div id="coinDataChart" [ngStyle]="{'background-color': backgroundColor  }" [style.width.%]="100" [style.height.px]="550" style="float:left;margin-right:10px;" ></div> -->
          </div>
      </div>
 

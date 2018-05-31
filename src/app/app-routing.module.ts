@@ -15,7 +15,7 @@ const routes: Routes = [
       { path:'', redirectTo: 'coinlist', pathMatch: 'full'},  
       {  path: 'coinlist', component: CoinlistComponent},
       {  path: 'signup', component: SignupComponent },
-      {  path: 'coinpage', component: CoinpageComponent },
+      {  path: 'coinpage/:id', component: CoinpageComponent },
       {  path: 'exchange', component: ExchangeComponent },
       {  path: 'portfolio', component: PortfolioComponent }
      ]

@@ -12,7 +12,11 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  makeActive(add,remove1,remove2){
+    document.getElementById(add).classList.add('active')
+    document.getElementById(remove1).classList.remove('active')
+    document.getElementById(remove2).classList.remove('active')
+  }
   
   loginform1()
   {

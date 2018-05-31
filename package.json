@@ -34,8 +34,10 @@
     "ng-gapi": "0.0.51",
     "ng2-accordion": "0.0.15",
     "ng2-ion-range-slider": "^2.0.0",
+    "ng2-nouislider": "^1.7.11",
     "ng2-order-pipe": "^0.1.5",
     "ngx-order-pipe": "^2.0.1",
+    "nouislider": "^11.1.0",
     "npm": "^6.0.0",
     "rxjs": "^5.5.6",
     "zone.js": "^0.8.19"
@@ -59,5 +61,7 @@
     "ts-node": "~4.1.0",
     "tslint": "~5.9.1",
     "typescript": "~2.5.3"
-  }
+  },
+  "nouislider": { "main": "distribute/nouislider.js", "defaultExtension": "js" },
+ "ng2-nouislider": { "main": "src/nouislider.js", "defaultExtension": "js" }
 }

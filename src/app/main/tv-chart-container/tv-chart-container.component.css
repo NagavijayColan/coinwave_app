@@ -1,0 +1,13 @@
+.app-tv-chart-container_multi {
+	height: calc(100vh - 80px);
+}
+.hidingNow{
+    display: none;
+}
+.showingNow{
+    display: table-row;
+}
+#coin_list_table{
+    width:100%;
+    text-align: center;
+}

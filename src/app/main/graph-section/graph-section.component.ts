@@ -1,7 +1,8 @@
 import { Component, OnInit ,ViewChild} from '@angular/core';
 import { AmChartsService, AmChart } from "@amcharts/amcharts3-angular";
 import { CompDataSharingService } from "../../comp-data-sharing.service";
-import {Router } from '@angular/router'
+import {Router } from '@angular/router';
+import {Http} from '@angular/http';
 @Component({
   selector: 'app-graph-section',
   templateUrl: './graph-section.component.html',
@@ -56,10 +57,17 @@ public inst;
 public films;
 public closeGraph:boolean;
 public graphThemeColor : any;
-
-constructor(private router : Router , private AmCharts: AmChartsService,private changeGraphTheme : CompDataSharingService) {}
+public jsonData1;
+constructor(private http : Http,private router : Router , private AmCharts: AmChartsService,private changeGraphTheme : CompDataSharingService) {}
 
 ngOnInit() {
+  this.jsonData1 = [];
+  this.http.get("http://182.72.201.145:5687/getData").map(
+    response => response.json()).subscribe(
+      data => {   this.jsonData1 = data;
+         this.themeDo();
+    },
+    );
   this.graphThemeColor = {
     theme : '',
     bgColor : ''
@@ -139,6 +147,7 @@ ngOnInit() {
 }
  
     this.themeType = this.graphThemeColor.theme;
+   
     this.backgroundColor = this.graphThemeColor.bgColor;
  
     setTimeout(function(){
@@ -607,7 +616,7 @@ expandGraph(ev,l,k){
   }
   }
  
-  coinDetails(id){debugger
+  coinDetails(id){
       this.router.navigate(['coinpage/' ,id]);
   }
 }

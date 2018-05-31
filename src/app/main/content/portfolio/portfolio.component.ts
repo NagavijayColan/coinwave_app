@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import {Http} from '@angular/http'
 @Component({
   selector: 'app-portfolio',
   templateUrl: './portfolio.component.html',
@@ -12,7 +12,8 @@ public addclass;
  
 public portfoliogrid;
 public listData;
-  constructor() { this.gridSelected = false; this.listSelected = true;}
+public coinList
+  constructor(private http : Http) { this.gridSelected = false; this.listSelected = true;}
   changeGridView(ev) {
 
     if(ev == 'list_view'){
@@ -119,10 +120,18 @@ public listData;
         Hrvolume:'$16,288,423,566', marketCap:'$16,288,423,566', hrhigh:'$16,784',  hrlow:'$16,784', },
 
   ];
+  this. getCoinList()
   }
 
   
-
+  getCoinList(){
+    this.http.post('http://182.72.201.145:5687/exchange/getusd',{}).map(
+        response => response.json()).subscribe(
+            data => {
+                this.coinList = data;
+               console.log(this.coinList)
+            })
+} 
 
 
 }

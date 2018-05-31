@@ -11,18 +11,18 @@
 
   <links>
       <ul class="navbar-nav nav-lft mr-auto">
-          <li class="nav-item active waves-light" mdbRippleRadius>
+          <li class="nav-item active  waves-light" id="coins" (click)="makeActive('coins','portfolio','exchanges')"  mdbRippleRadius>
               <a routerLink="/coinlist" class="nav-link">COINS</a>
           </li>
-          <li class="nav-item waves-light" mdbRippleRadius>
+          <li class="nav-item waves-light" id="portfolio" (click)="makeActive('portfolio','coins','exchanges')" mdbRippleRadius>
               <a routerLink="/portfolio" class="nav-link">PORTFOLIO</a>
           </li>
-          <li class="nav-item waves-light" mdbRippleRadius>
+          <li class="nav-item waves-light" id="exchanges" (click)="makeActive('exchanges','coins','portfolio')" mdbRippleRadius>
               <a routerLink="/exchange" class="nav-link">EXCHANGES</a>
           </li>
-          <li class="nav-item waves-light" mdbRippleRadius>
+          <!-- <li class="nav-item waves-light" mdbRippleRadius>
               <a routerLink="/news" class="nav-link">NEWS</a>
-          </li>
+          </li> -->
           <!-- <li class="nav-item waves-light" mdbRippleRadius>
               <a class="nav-link">TUTORIALS</a>
           </li>

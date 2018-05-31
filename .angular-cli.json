@@ -24,6 +24,7 @@
         "../node_modules/angular-bootstrap-md/scss/mdb-free.scss",
         "../node_modules/ion-rangeslider/css/ion.rangeSlider.css",
         "../node_modules/ion-rangeslider/css/ion.rangeSlider.skinFlat.css",
+        "../node_modules/nouislider/distribute/nouislider.min.css",
         "styles.css"
       ],
       "scripts": [ 

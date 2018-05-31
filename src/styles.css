@@ -208,6 +208,7 @@ th.select-column-header { width: 73px !important}
 
    .rgt-coin-tab{padding: 0px !important;}
    .sub_theme ul{justify-content: center;}
+   
  }
  @media (max-width: 360px) 
  {
@@ -531,6 +532,9 @@ span.lst_tlt {
   overflow-y: auto;
   height: 300px;
 }
+.chart-markup-table pane div canvas{
+    background: #000 !important;
+}
 td.column-HRchange{position:relative;}
 td.column-HRchange::after {
   content: '\25bc';
@@ -588,17 +592,18 @@ td.column-dayChange::after {
 }
 
 .chart_rgt_cont ul li label { width: 100%; padding: 4px;  font-size: 17px; color:#fff}
-.chart_rgt_cont {   background: #232526; padding: 33px 21px; min-height: 250px;}
+.chart_rgt_cont {   background: #232526; padding: 66px 21px; min-height: 250px;}
+.white-theme .chart_rgt_cont{background: #656565 !important}
 .chart_rgt_cont ul li span { padding: 10px; text-align: left; width: 100%;}
 .chart_rgt_cont select {  margin-top: -6px; margin-bottom: 4px;}
 .chart_rgt_cont ul li{margin: 10px 0px}
 
 .black-theme .chart_rgt_cont ul li span { background: #f1f1f1;color: #000;}
-.white-theme .chart_rgt_cont ul li span {   background: #000;}
+.white-theme .chart_rgt_cont ul li span {   background: #fff;}
 .black-theme .chart_rgt_cont select {
   color: #000;
   background: url("/assets/images/white_sel_arw.png") 59px / 12px no-repeat #fff !important;
-   }
+}
 
 .chart_rgt_cont .in_sel-term{border:0px !important;}
 
@@ -606,7 +611,7 @@ td.column-dayChange::after {
   display: none !important;
 }
 
-.collapse:not(.show){
+#advancedSearchFilter .collapse:not(.show){
   display: block !important;
 }
 #advancedSearchFilter h4.panel-title{
@@ -730,7 +735,37 @@ td.cp_24four_change::after , td.cp_7day_change::after , td.cp_30day_change::afte
 .list_view_table table tbody td {font-size: 14px;}
 /**02-05-2018**/
 
+@media (min-width : 768px) {
+  .app-tv-chart-container_multi{
+    width:80% !important;
+    margin:0% 0.25%;
+    float: left;
+    height:300px !important;
+  }
+  .app-tv-chart-container_single{
+    width:100% !important;
+    margin:0% 0.25%;
+    float: left;
+    height:600px !important;
+    margin-top: 12px;
+  }
+}
+@media (min-width : 320px) and (max-width : 767px){
+  .hideInResponsive{display: none !important;}
+  .app-tv-chart-container_multi{
+    width:100% !important;
+    margin:0% 0.25%;
+    float: left;
+    height:300px !important;
+  }
+  .app-tv-chart-container_single{
+    width:100% !important;
+    margin:0% 0.25%;
+    float: left;
+    height:400px !important;
+  }
 
+}
 @media only screen and (min-width: 768px) and (max-width: 979px) {
 .dollar label{font-size: 26px;}
 .coinpage-head {display: flex;margin: 20px 0;}
@@ -750,7 +785,6 @@ td.cp_24four_change::after , td.cp_7day_change::after , td.cp_30day_change::afte
     align-items: center;
 }
 }
-
 
 .grid_view .grid_view_details{
   display: flex;
@@ -844,7 +878,7 @@ input.amChartsButton, .amChartsButtonSelected {
   margin-top: 25px;
 }
 
-.coin-page-lft table tbody td.trade_btn span {
+.coin-page-lft table tbody td.trade_btn button {
   background: #e67e22;
   padding: 7px 30px;
   border-radius: 5px;
@@ -852,7 +886,105 @@ input.amChartsButton, .amChartsButtonSelected {
   text-transform: uppercase;
   font-family: 'ProximaNova-Bold';
   color: #fff !important;
+  border:0px;
 }
 
 .black-theme .coin-page-lft table tbody td.exchange_clr {color:#57c9c8;}
 .white-theme .coin-page-lft table tbody td.exchange_clr {color:#12c9c8;}
+
+#tv_chart_container iframe{
+  width: 100% !important;
+  height: 250px !important;
+}
+
+ thead th{
+   cursor: pointer;
+   -webkit-touch-callout: none; /* iOS Safari */
+   -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+      -moz-user-select: none; /* Firefox */
+       -ms-user-select: none; /* Internet Explorer/Edge */
+           user-select: none; /* Non-prefixed version, currently
+                                 supported by Chrome and Opera */
+ }
+
+.app-tv-chart-container_multi iframe{
+  background: #000 !important;
+}
+.chart-page{
+  background: #000 !important;
+  
+}
+.noUi-horizontal{
+  height: 12px !important;
+}
+.noUi-marker.noUi-marker-horizontal.noUi-marker-normal{
+  height:0px !important;
+}
+.noUi-handle{
+  border: 1px solid #e6d7d7 !important;
+  background: #6bfffe !important;
+}
+.noUi-horizontal .noUi-handle{
+  top: -10px !important;
+  width:14px !important;
+  right: -7px !important;
+}
+.noUi-handle:after{
+  left: 0px !important;
+  width:0px !important;
+}
+nouislider{
+  margin: 30px 0px !important;
+}
+.coin_list_lft li a{
+  user-select:none;
+}
+.arrow-up {
+  width: 0; 
+  height: 0; 
+  margin-top: 4px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  
+  border-bottom: 10px solid rgba(0,252,46,0.9);
+}
+
+.arrow-down {
+  width: 0; 
+  height: 0; 
+  margin-top: 4px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  
+  border-top: 10px solid rgba(252,0,1,0.9)
+}
+
+.night_mode  .arrow-down{
+  border-top: 10px solid rgba(252,0,1,0.4)
+}
+.night_mode  .arrow-up{
+  border-bottom: 10px solid rgba(0,252,46,0.4);
+}
+.colorGreen{
+  color:   rgba(0,252,46,0.9);
+}
+.colorRed{
+ color:  rgba(252,0,1,0.9)
+}
+.night_mode .colorGreen{
+  color:   rgba(0,252,46,0.4);
+}
+.night_mode .colorRed{
+ color:  rgba(252,0,1,0.4)
+}
+.upDownSymbol{
+  float: right;
+  margin-right: 10px;
+}
+iframe body .js-rootresizer__contents{
+  background: #000;
+}
+.chart-container.active{
+  border:0px !important;
+}

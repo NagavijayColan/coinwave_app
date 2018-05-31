@@ -1,0 +1,4 @@
+
+#exchange_list tbody tr td::first-letter {
+    text-transform: capitalize;
+  }
