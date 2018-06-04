@@ -262,7 +262,7 @@ export class CandlestickComponent implements OnInit {
          "vp": this.vp
       })
     }
-    console.log(this.vwaparray)
+    
   }
   themeDo() {
   //   AmCharts.addMovingAverage(this.chartConfig.dataSets[0], this.chartConfig.panels[0], 'value', {

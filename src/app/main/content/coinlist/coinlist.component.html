@@ -1,3 +1,4 @@
+
 <div class="sort_content_section">
   <div class="container">
 
@@ -12,7 +13,7 @@
               <!--<img src="/assets/images/sort_arw.png" class="sort_by_icon"/>-->
             </h1>
             <ul>
-                <li (click)="sortTable('coin')">
+                <li (click)="sortTable('name')">
                     <a>Coin</a>
                   </li>
               <li (click)="sortTable('price')">
@@ -24,17 +25,17 @@
               <li (click)="sortTable('dayChange')">
                 <a>7 Day Change </a>
               </li>
-              <li (click)="sortTable('Hrvolume')">
+              <li (click)="sortTable('dayVolume')">
                 <a>24 Hr Volume </a>
               </li>
              
               <li (click)="sortTable('marketCap')">
                 <a>Market Cap </a>
               </li>
-              <li (click)="sortTable('hrhigh')">
+              <li (click)="sortTable('highestPrice')">
                 <a>24 Hr High </a>
               </li>
-              <li (click)="sortTable('hrlow')">
+              <li (click)="sortTable('lowestPrice')">
                   <a>24 Hour Low</a>
                 </li>
             </ul>
@@ -72,8 +73,8 @@
 
               </accordion-group>
               <accordion-group heading="COIN SUPPLY" [isOpened]="false">
-                <ion-range-slider #sliderElement type="double" [min]="10" max="30" from="0" from_min="0" from_max="30" from_shadow="false"
-                  to="40" to_min="0" to_max="30" to_shadow="true" grid="true" grid_num="4" postfix=" COIN SUPPLY" decorate_both="false"
+                <ion-range-slider #sliderElement type="single" grid_snap="true" step=[10,20,30,40,50] [min]="10" max="30" from="0" from_min="0" from_max="30" from_shadow="false"
+                  to="40" to_min="0" to_max="30" to_shadow="true" grid="true" postfix=" COIN SUPPLY" decorate_both="false"
                   (onUpdate)="myOnUpdate($event)" (onChange)="myOnChange($event)" (onFinish)="myOnFinish($event)"></ion-range-slider>
 
               </accordion-group>

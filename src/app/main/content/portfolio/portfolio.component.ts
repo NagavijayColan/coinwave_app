@@ -129,7 +129,7 @@ public coinList
         response => response.json()).subscribe(
             data => {
                 this.coinList = data;
-               console.log(this.coinList)
+              
             })
 } 
 

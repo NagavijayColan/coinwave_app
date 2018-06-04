@@ -256,6 +256,7 @@ generateGraph(coinToken){
          'save_chart_properties_to_local_storage',
       ],
     //   studies_overrides : this.volume_white,
+      toolbar_bg: '#000',
       enabled_features: ['study_templates','header_chart_type','header_settings'],
       charts_storage_url: this._chartsStorageUrl,
       charts_storage_api_version: this._chartsStorageApiVersion,

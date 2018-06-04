@@ -9,6 +9,7 @@ import {
     LanguageCode,
 } from '../../../assets/charting_library/charting_library.min';
 import { window, document } from 'angular-bootstrap-md/utils/facade/browser';
+// import { clearInterval } from 'timers';
 // import { setInterval } from 'timers';
 
 @Component({
@@ -40,6 +41,8 @@ export class TvChartContainerComponent implements OnInit {
     public getallCoins;
     public setIntervalTime;
     public volume_white;
+    public runningInterval;
+    public sample;
     variable:any
     @Input()
     set symbol(symbol: ChartingLibraryWidgetOptions['symbol']) {
@@ -97,31 +100,98 @@ export class TvChartContainerComponent implements OnInit {
     }
     @Input() graphId: string;
     
-   constructor(private http : Http,private router : Router,private changeGraphTheme : CompDataSharingService){}
+   constructor(private http : Http,private router : Router,private changeGraphTheme : CompDataSharingService){
+    this.changeGraphTheme.listen().subscribe((m:any) => {
+        
+        this.refreshRateIntervalChange(m);
+    })
+   }
     ngOnInit() {
         this.volume_white = {
-            "volume.volume.color.0": "#000",
-            "volume.volume.color.1": "#fff",
-            "volume.volume.transparency": 70,
-            "volume.volume ma.color": "#FF0000",
-            "volume.volume ma.transparency": 30,
-            "volume.volume ma.linewidth": 5,
-            "volume.show ma": true,
-            "bollinger bands.median.color": "#33FF88",
-            "bollinger bands.upper.linewidth": 7
+            // "volume.volume.color.0": "#000",
+            // "volume.volume.color.1": "#fff",
+            "volume.volume.transparency": 20,
+            // "volume.volume ma.color": "#FF0000",
+            // "volume.volume ma.transparency": 30,
+            // "volume.volume ma.linewidth": 5,
+            // "volume.show ma": true,
+            // "bollinger bands.median.color": "#33FF88",
+            // "bollinger bands.upper.linewidth": 7
         }
         this.coinList=[];
         this.changeGraphTheme.currentMessage.subscribe(message => this.graphThemeColor = message);
-        this.setIntervalTime = 1000;
+        this.setIntervalTime = parseInt(this.graphThemeColor.refreshrate + '000');
+        
         this.getCoinList();
-        setInterval(() => {
-            this.getCoinList();
-            console.log("caling")
-         },this.setIntervalTime);
-        console.log("OHO",this.graphThemeColor)
-        this.overrides_obj = this.graphThemeColor;
+        this.overrides_obj = this.graphThemeColor.theme;
+        this.sample = [
+            {
+                "price": 7550.77,
+                "pair": "btcusd",
+                "volume": 976.843981186819,
+                "low": 7414.80000007,
+                "high": 7619.701,
+                "change": "true",
+                "name": "Bitcoin",
+                "checked":true,
+                "dayVolume": "976.84",
+                "lowestPrice": "7519.06",
+                "highestPrice": "7575.35"
+            },
+            {
+                "price": 0.02,
+                "pair": "scusd",
+                "volume": 2583422.7438644404,
+                "low": 0.01505256,
+                "high": 0.01550231,
+                "change": "NC",
+                "checked":true,
+                "name": "SiaCoin",
+                "dayVolume": "2583427.70",
+                "lowestPrice": "0.02",
+                "highestPrice": "0.02"
+            },
+            {
+                "price": 238.03,
+                "pair": "zecusd",
+                "volume": 429.5124123496753,
+                "low": 236.31170276,
+                "high": 247.28299771,
+                "change": "NC",
+                "checked":true,
+                "name": "Zcash",
+                "dayVolume": "429.52",
+                "lowestPrice": "237.10",
+                "highestPrice": "239.00"
+            },
+            {
+                "price": 1003.85,
+                "pair": "bccusd",
+                "volume": 873.5961621627143,
+                "low": 981.27400001,
+                "high": 1018.2196372939624,
+                "change": "NC",
+                "checked":true,
+                "name": "BitConnect",
+                "dayVolume": "873.60",
+                "lowestPrice": "997.18",
+                "highestPrice": "1010.52"
+            },
+            {
+                "price": 15.38,
+                "pair": "etcusd",
+                "volume": 14518.999036773424,
+                "low": 15.096,
+                "high": 15.555308360000001,
+                "change": "NC",
+                "checked":true,
+                "name": "Ethereum Classic",
+                "dayVolume": "14518.99",
+                "lowestPrice": "15.31",
+                "highestPrice": "15.41"
+            }]
     }
-    expandGraph(ev,i,coinToken,coinName){
+    expandGraph(ev,i,coinToken,coinName){debugger
         
         if(document.getElementById('expand'+i).classList.contains('showingNow')){
           document.getElementById('expand'+i).classList.remove('showingNow');
@@ -133,6 +203,8 @@ export class TvChartContainerComponent implements OnInit {
          }
         }
         else{
+            debugger
+          console.log(document.getElementById('expand'+i));
           document.getElementById('expand'+i).classList.add('showingNow');
           document.getElementById('expand'+i).classList.remove('hidingNow');
           let elementExp = document.getElementById('expand'+i).parentElement.children[0].children[0].children[0].classList
@@ -150,7 +222,6 @@ export class TvChartContainerComponent implements OnInit {
         this.reverse = !this.reverse;
         } 
         generateGraph(id,coinToken,coinName){
-
         this.udf_datafeed = {
             onReady(callback) {
                 var config = {
@@ -195,24 +266,32 @@ export class TvChartContainerComponent implements OnInit {
                     url : 'http://182.72.201.145:5687/exchange/getChart',
                     data : {pair : coinToken},
                     success : function(response){
-                        console.log("Bars Response" , response)
+                        
                         onHistoryCallback(response, {noData: true})
                     },
                     error: function(res){
                         return 'F'
-                    
                     }
                 })
+              
             },
             subscribeBars(symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) {
                 var configData;
-                console.log('subscribe ' + resolution);
-                setInterval(() => {
-                   configData =  chartDataUpdate();
-                   console.log(configData)
-                   onRealtimeCallback(parseJSONorNot(configData));
-                }, 1000);
-                onRealtimeCallback(parseJSONorNot(configData));
+                console.log('subscribe ' + symbolInfo);
+                // setInterval(()=>{
+                //     jQuery.ajax({
+                //         method: 'POST',
+                //         async : true,
+                //         url : 'http://182.72.201.145:5687/exchange/getChart',
+                //         data : {pair : coinToken},
+                //         success : function(response){
+                //             onRealtimeCallback(parseJSONorNot(response));
+                //         },
+                //         error: function(res){
+                //             return 'F'
+                //         }
+                //     })
+                // },1000)              
             }
         };
         function parseJSONorNot(mayBeJSON) {
@@ -224,19 +303,17 @@ export class TvChartContainerComponent implements OnInit {
             }
         }
         function chartDataUpdate(){
-            
             jQuery.ajax({
                 method: 'POST',
                 async : true,
                 url : 'http://182.72.201.145:5687/exchange/getChart',
                 data : {pair : coinToken},
                 success : function(response){
-                    console.log("Response" , response)
+                   
                     return response;
                 },
                 error: function(res){
                     return 'F'
-                
                 }
             })
         }
@@ -249,7 +326,6 @@ export class TvChartContainerComponent implements OnInit {
         this.overrides_obj = this.graphThemeColor;
 
         const widgetOptions: ChartingLibraryWidgetOptions = {
-            
             symbol: this._symbol,
             loading_screen: { backgroundColor: '#000' },
             datafeed: this.udf_datafeed,
@@ -273,9 +349,9 @@ export class TvChartContainerComponent implements OnInit {
             charts_storage_api_version: this._chartsStorageApiVersion,
             client_id: this._clientId,
             user_id: this._userId,
-            // toolbar_bg: '#212121',
+            toolbar_bg: '#000',
             // debug: true,
-            // studies_overrides : this.volume_white,
+            studies_overrides : this.volume_white,
             fullscreen: this._fullscreen,
             autosize: this._autosize,
             overrides :  this.overrides_obj    
@@ -289,26 +365,32 @@ export class TvChartContainerComponent implements OnInit {
             this.router.navigate(['coinpage/' ,id]);
         }
         getCoinList(){
+            
+            
             this.http.post('http://182.72.201.145:5687/exchange/getusd',{}).map(
                 response => response.json()).subscribe(
                     data => {
                         this.getallCoins = data;
-                       
+                        
                         if(this.coinList.length > 0 && this.getallCoins.length === this.coinList.length){
                             this.updateCoindData(this.getallCoins)
                         }
                         else{
                             this.coinList =this.getallCoins;
-                            console.log('Data' , this.getallCoins)
+                            if(parseInt(this.setIntervalTime) >= 1000){
+                           this.runningInterval = setInterval(() => {
+                                  this.getCoinList() 
+                            }, parseInt(this.setIntervalTime));
+                        }
+                              
                         }
                     })
         } 
         updateCoindData(allCoins){
-            
             for(let i=0; i < allCoins.length; i++){
 
                 for(let k = 0; k < allCoins.length; k++){
-                    if(this.coinList[k].pair == allCoins[i].pair){
+                     if(this.coinList[k].pair == allCoins[i].pair){
                         this.coinList[k].price = allCoins[i].price;
                         this.coinList[k].change = allCoins[i].change;
                         this.coinList[k].dayVolume = allCoins[i].dayVolume;
@@ -317,5 +399,31 @@ export class TvChartContainerComponent implements OnInit {
                     }
                 }
             }
+        }
+        refreshRateIntervalChange(m){
+            
+            clearInterval(this.runningInterval)
+            this.setIntervalTime = m+'000';
+            setInterval(() => {
+                this.getCoinList()
+            } , this.setIntervalTime);
+        }
+        favCoinFunctionality(pair,rr,i){
+            
+            // this.http.post('',{}).map(response => response.json()).subscribe(data => {
+            //    return;
+            // })
+            // for(let k = 0; k < this.sample.length; k++){
+            //    if(this.sample[k].pair == pair){
+            //         if(rr){
+            //             debugger
+            //             this.coinList.push(this.sample[k]);
+                        
+            //             delete this.sample[k];
+            //         }
+
+            //     }
+                
+            // }
         }
 }

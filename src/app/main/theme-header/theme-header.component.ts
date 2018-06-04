@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,Output,EventEmitter} from '@angular/core';
 import { OrderPipe } from 'ngx-order-pipe';
 import { CompDataSharingService } from "../../comp-data-sharing.service";
 @Component({
@@ -7,21 +7,21 @@ import { CompDataSharingService } from "../../comp-data-sharing.service";
   styleUrls: ['./theme-header.component.css']
 })
 export class ThemeHeaderComponent implements OnInit {
-   
+
+  @Output() onFilter: EventEmitter<any> = new EventEmitter();
   order: string = 'info.languagename';
   currencyorder: string = 'info.currencyname';
 
   // reverse: boolean = false;
   collection: any[] = [
-    { info: {languagename: 'ENG', languageimage:'assets/images/united-kingdom.png'} }, 
-    { info: {languagename: 'FRE', languageimage:'assets/images/france.png'} },
+     {languagename: 'ENG', languageimage:'assets/images/united-kingdom.png'}, 
+     {languagename: 'FRE', languageimage:'assets/images/france.png'}
 
   ];
-
   collection1: any[] = [
    
-    { info: {currencyname: 'USD', currencyimage:'assets/images/dollar.png'} }, 
-    { info: {currencyname: 'INR', currencyimage:'assets/images/inr.png'} },
+     {currencyname: 'USD', currencyimage:'assets/images/dollar.png'}, 
+    {currencyname: 'INR', currencyimage:'assets/images/inr.png'},
   ];
 
   
@@ -45,38 +45,24 @@ export class ThemeHeaderComponent implements OnInit {
  public someRange2;
  public volume_white;
  public volume_black;
+ public passData2Comp:any;
+ key: string = ''; 
+  reverse: boolean = false;
  constructor(private orderPipe: OrderPipe, private changeGraphTheme : CompDataSharingService) { 
-   
+  this.someRange2 = 10;
  }
 
-
-
-
-//  setOrder(value: string) {
-//   if (this.order === value) {
-//     this.reverse = !this.reverse;
-//   }
-//   this.order = value;
-
-// }
-key: string = 'name'; 
-reverse: boolean = false;
-sort(key){
-  this.key = key;
-  this.reverse = !this.reverse;
-}
-// setCurrencyOrder(value: string) {
-//   if (this.currencyorder === value) {
-//     this.reverse = !this.reverse;
-//   }
-//   this.currencyorder = value;
-// }
 ngOnInit() {
-  this.someRange2 = 10;
+  this.passData2Comp ={
+    theme : '',
+    refreshrate : ''
+  }
+ this.sort('currencyname');
+ this.sort('languagename');
   this.someRange2config = {
       snap :true,
-      behaviour: 'drag',
-      connect: true,
+     
+     
       range: {
         'min': 1,
         '20%': 30,
@@ -183,6 +169,7 @@ ngOnInit() {
     "mainSeriesProperties.barStyle.dontDrawOpen": false,
 
   }
+
     this.themeWhite  = {
       'volumePaneSize': "large",
       'editorFontsList': ['Verdana', 'Courier New', 'Times New Roman', 'Arial'],
@@ -349,7 +336,10 @@ this.volume_black ={
         { label:'Total Supply', ischecked:false },
         { label:'Exchanges ', ischecked:false },
        ];
-       this.changeGraphTheme.changeMessage( this.themeBlack);
+       
+       this.passData2Comp.theme = this.themeBlack
+       this.passData2Comp.refreshrate = '1';
+       this.changeGraphTheme.changeMessage(this.passData2Comp);
       }
 
 
@@ -416,11 +406,14 @@ this.volume_black ={
     this.languageImg = image;
     this.hideLanguageSection = !this.hideLanguageSection;
   }
-  refreshRate(){
-    alert
+  mouseTest(){
+    this.changeGraphTheme.filter( document.getElementsByClassName('noUi-tooltip')[0].textContent.toString());
   }
-
-
+ 
+  sort(key){
+  this.key = key;
+  this.reverse = !this.reverse;
+}
 }
 
 

@@ -41,14 +41,14 @@
                     </div>
                     <div class="opt_lst">
 
-                        <span class="opt_arw" [class.active]="currencyorder === 'info.currencyname'" (click)="sort('info.currencyname')">
+                        <span class="opt_arw" [class.active]="currencyorder === 'currencyname'" (click)="sort('currencyname')">
                             <label>sort</label>
                             <span [hidden]="reverse">▼</span>
                             <span [hidden]="!reverse">▲</span>
                         </span>
                         <div *ngFor="let row of collection1 | orderBy: key : reverse ;">
-                            <div class="opt_tlt" (click)="selectCurrency(row.info.currencyname,row.info.currencyimage)">
-                                <img src={{row.info.currencyimage}}> {{ row.info.currencyname }}</div>
+                            <div class="opt_tlt" (click)="selectCurrency(row.currencyname,row.currencyimage)">
+                                <img src={{row.currencyimage}}> {{ row.currencyname }}</div>
                         </div>
                     </div>
 
@@ -61,16 +61,16 @@
                     </div>
                     <div class="opt_lst">
 
-                        <span class="opt_arw" [class.active]="order === 'info.languagename'" (click)="sort('info.languagename')">
+                        <span class="opt_arw" (click)="sort('languagename')">
                             <label>sort</label>
                             <span [hidden]="reverse">▼</span>
                             <span [hidden]="!reverse">▲</span>
 
                         </span>
-                        <div *ngFor="let row of collection | orderBy: order:reverse:'case-insensitive'">
+                        <div *ngFor="let row of collection | orderBy: key :reverse">
 
-                            <div class="opt_tlt" (click)="selectLanguage(row.info.languagename,row.info.languageimage)">
-                                <img src={{row.info.languageimage}}> {{ row.info.languagename }}</div>
+                            <div class="opt_tlt" (click)="selectLanguage(row.languagename,row.languageimage)">
+                                <img src={{row.languageimage}}> {{ row.languagename }}</div>
 
 
                         </div>
@@ -105,15 +105,7 @@
             </div>
             <!--Body-->
             <div class="modal-body refresh_rate">
-               
-
-                <!-- <ion-range-slider #sliderElement type="single" [min]="0" max="120" values="" from="0" from_min="0" from_max="120" from_shadow="false"
-                    to="0" hasGrid="false" to_min="0" step="40" to_max="120" to_shadow="false" grid="true" grid_num="6" postfix=" Seconds Interval"
-                    decorate_both="false" (onUpdate)="myOnUpdate.parseInt($event)" (onChange)="myOnChange.parseInt($event)" (onFinish)="myOnFinish.parseInt($event)">
-                    
-                </ion-range-slider> -->
-
-                <nouislider [config]="someRange2config"  [tooltips]="[ true]"  [(ngModel)]="someRange2"  (mouseup)="refreshRate()"></nouislider>
+               <div (click)="mouseTest()"> <nouislider [config]="someRange2config"  [tooltips]="[ true]"  [(ngModel)]="someRange2" ></nouislider></div>
             </div>
             <!--Footer-->
             <div class="modal-footer">

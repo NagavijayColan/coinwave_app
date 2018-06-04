@@ -193,7 +193,7 @@ calcVWAP(){
        "vp": this.vp
     })
   }
-  console.log(this.vwaparray)
+  
 }
 
 // Sort 
@@ -605,7 +605,7 @@ expandGraph(ev,l,k){
     elementExp.remove('fa-arrows')
    }
   }
-  else{
+  else{ 
     document.getElementById(l).classList.add('showingNow');
     document.getElementById(l).classList.remove('hidingNow');
     let elementExp = document.getElementById(l).parentElement.children[0].children[0].children[0].classList
