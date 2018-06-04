@@ -9,8 +9,6 @@ import {
     LanguageCode,
 } from '../../../assets/charting_library/charting_library.min';
 import { window, document } from 'angular-bootstrap-md/utils/facade/browser';
-// import { clearInterval } from 'timers';
-// import { setInterval } from 'timers';
 
 @Component({
     selector: 'app-tv-chart-container',
@@ -191,8 +189,7 @@ export class TvChartContainerComponent implements OnInit {
                 "highestPrice": "15.41"
             }]
     }
-    expandGraph(ev,i,coinToken,coinName){debugger
-        
+    expandGraph(ev,i,coinToken,coinName){
         if(document.getElementById('expand'+i).classList.contains('showingNow')){
           document.getElementById('expand'+i).classList.remove('showingNow');
           document.getElementById('expand'+i).classList.add('hidingNow');
@@ -203,8 +200,6 @@ export class TvChartContainerComponent implements OnInit {
          }
         }
         else{
-            debugger
-          console.log(document.getElementById('expand'+i));
           document.getElementById('expand'+i).classList.add('showingNow');
           document.getElementById('expand'+i).classList.remove('hidingNow');
           let elementExp = document.getElementById('expand'+i).parentElement.children[0].children[0].children[0].classList
@@ -278,20 +273,22 @@ export class TvChartContainerComponent implements OnInit {
             subscribeBars(symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) {
                 var configData;
                 console.log('subscribe ' + symbolInfo);
-                // setInterval(()=>{
-                //     jQuery.ajax({
-                //         method: 'POST',
-                //         async : true,
-                //         url : 'http://182.72.201.145:5687/exchange/getChart',
-                //         data : {pair : coinToken},
-                //         success : function(response){
-                //             onRealtimeCallback(parseJSONorNot(response));
-                //         },
-                //         error: function(res){
-                //             return 'F'
-                //         }
-                //     })
-                // },1000)              
+                setInterval(()=>{
+                    jQuery.ajax({
+                        method: 'POST',
+                        async : true,
+                        url : 'http://192.168.2.143:3000/exchange/getLastSecData',
+                        data : {pair : coinToken},
+                        success : function(response){
+                            console.log(response[0]);
+
+                            onRealtimeCallback(parseJSONorNot(response[0]));
+                        },
+                        error: function(res){
+                            return 'F'
+                        }
+                    })
+                },1000)              
             }
         };
         function parseJSONorNot(mayBeJSON) {

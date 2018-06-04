@@ -129,8 +129,6 @@ ngOnInit() {
           "cp_circulating_supply": "$15,000,000",
           "cp_total_supply": "$16,000,000"
         },
-        
-       
       ]
     },
     );
@@ -156,73 +154,80 @@ sort(key){
 }
 generateGraph(coinToken){
 
-  this.udf_datafeed = {
-      onReady(callback) {
-          var config = {
-              configurationData: {
-                  supports_search: true,
-                  supports_group_request: false,
-                  supported_resolutions: ['1', '60', '1D', '1W', '1M', '3M', '6M', '1Y'],
-                  supports_marks: false,
-                  supports_timescale_marks: false,
-                  exchanges: []
-              }
-          };
-          callback(parseJSONorNot(config));
-      },
-      resolveSymbol(symbolName, onSymbolResolvedCallback, onResolveErrorCallback) {
-          var coinTokenSam = coinToken.toUpperCase()
-          var config2 = {
-              "name": coinTokenSam,
-              "timezone": "Europe/London",
-              "pricescale": 1000000,
-              "minmov": 1,
-              "minmov2": 0,
-              "ticker": "TEST:TEST",
-              // "description": "test description",
-              "session": "24x7",
-              "type": "bitcoin",
-              "exchange-traded": "",
-              "exchange-listed": "",
-              "has_intraday": true,
-              "intraday_multipliers": ['1', '60'],
-              "has_weekly_and_monthly": false,
-              "has_no_volume": false,
-              "regular_session": "24x7"
-              // "data_status":"streaming"
-          };
-          onSymbolResolvedCallback(parseJSONorNot(config2))
-      },
-      getBars(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest) {
-        
-          jQuery.ajax({
-              method: 'POST',
-              async : true,
-              url : 'http://182.72.201.145:5687/exchange/getChart',
-              data : {pair : coinToken},
-              success : function(response){
-                  onHistoryCallback(response, {noData: true})
-              },
-              error: function(res){
-                  return 'F'
-              
-              }
-          })
-      },
-      subscribeBars(symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) {
-          console.log('subscribe ' + resolution);
-          var config4 = [
-              {
-                  time:1508374400000,
-                  close:10,
-                  open:14,
-                  high:9,
-                  low:14,
-                  volume:200
-              }];
-          onRealtimeCallback(parseJSONorNot(config4));
-      }
-  };
+    this.udf_datafeed = {
+        onReady(callback) {
+            var config = {
+                configurationData: {
+                    supports_search: true,
+                    supports_group_request: false,
+                    supported_resolutions: ['1', '60', '1D', '1W', '1M', '3M', '6M', '1Y'],
+                    supports_marks: false,
+                    supports_timescale_marks: false,
+                    exchanges: []
+                }
+            };
+            callback(parseJSONorNot(config));
+        },
+        resolveSymbol(symbolName, onSymbolResolvedCallback, onResolveErrorCallback) {
+            var coinTokenSam = coinToken.toUpperCase()
+            var config2 = {
+                "name": coinTokenSam,
+                "timezone": "Asia/Kolkata",
+                "pricescale": 1000000,
+                "minmov": 1,
+                "minmov2": 0,
+                "ticker": "TEST:TEST",
+                // "description": "test description",
+                "session": "24x7",
+                "type": "bitcoin",
+                "exchange-traded": "",
+                "exchange-listed": "",
+                "has_intraday": true,
+                "intraday_multipliers": ['1', '60'],
+                "has_weekly_and_monthly": false,
+                "has_no_volume": false,
+                "regular_session": "24x7"
+                // "data_status":"streaming"
+            };
+            onSymbolResolvedCallback(parseJSONorNot(config2))
+        },
+        getBars(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest) {
+            jQuery.ajax({
+                method: 'POST',
+                async : true,
+                url : 'http://182.72.201.145:5687/exchange/getChart',
+                data : {pair : coinToken},
+                success : function(response){
+                    
+                    onHistoryCallback(response, {noData: true})
+                },
+                error: function(res){
+                    return 'F'
+                }
+            })
+          
+        },
+        subscribeBars(symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) {
+            var configData;
+            console.log('subscribe ' + symbolInfo);
+            setInterval(()=>{
+                jQuery.ajax({
+                    method: 'POST',
+                    async : true,
+                    url : 'http://192.168.2.143:3000/exchange/getLastSecData',
+                    data : {pair : coinToken},
+                    success : function(response){
+                        console.log(response[0]);
+
+                        onRealtimeCallback(parseJSONorNot(response[0]));
+                    },
+                    error: function(res){
+                        return 'F'
+                    }
+                })
+            },1000)              
+        }
+    };
   function parseJSONorNot(mayBeJSON) {
       if (typeof mayBeJSON === 'string') {
           return JSON.parse(mayBeJSON)
