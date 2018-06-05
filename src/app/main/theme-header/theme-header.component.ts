@@ -1,6 +1,8 @@
 import { Component, OnInit ,Output,EventEmitter} from '@angular/core';
 import { OrderPipe } from 'ngx-order-pipe';
 import { CompDataSharingService } from "../../comp-data-sharing.service";
+import { document } from 'angular-bootstrap-md/utils/facade/browser';
+// import { setTimeout } from 'timers';
 @Component({
   selector: 'app-theme-header',
   templateUrl: './theme-header.component.html',
@@ -36,6 +38,7 @@ export class ThemeHeaderComponent implements OnInit {
  public currencyImg;
  public languageText;
  public languageImg;
+ public changeRefreshRate;
  graphThemeColor:any;
  themeBlack : any;
  themeWhite : any;
@@ -53,6 +56,7 @@ export class ThemeHeaderComponent implements OnInit {
  }
 
 ngOnInit() {
+  this.changeRefreshRate = '1 Sec';
   this.passData2Comp ={
     theme : '',
     refreshrate : ''
@@ -61,15 +65,13 @@ ngOnInit() {
  this.sort('languagename');
   this.someRange2config = {
       snap :true,
-     
-     
+      animate: true,
       range: {
         'min': 1,
-        '20%': 30,
-        '40%': 60,
-        '60%': 120,
-        '80%': 1800,
-        'max': 3600
+        '25%': 5,
+        '50%': 30,
+        '75%': 60,
+        'max': 300
       },
       pips: {
         mode: 'steps',
@@ -308,12 +310,11 @@ this.volume_black ={
         { label:'Favourite', ischecked:true },
         { label:'Coin', ischecked:true },
         { label:'Price', ischecked:true },
-        { label:'24 HR Change', ischecked:true },
-        { label:'7 Day Change', ischecked:true },
-        { label:'24 HR Volume', ischecked:true },
+        { label:'24 HR (%)', ischecked:true },
+        { label:'7 Day (%)', ischecked:true },
+        { label:'Volume (24 H)', ischecked:true },
         { label:'Market Cap', ischecked:true },
-        { label:'24 HR High', ischecked:true },
-        { label:'24 HR Low', ischecked:true },
+        { label:'24 HR High/Low', ischecked:true },
         { label:'24 HR Volume', ischecked:true },
         { label:'Circulation Supply ', ischecked:false },
         { label:'Total Supply', ischecked:false },
@@ -325,12 +326,11 @@ this.volume_black ={
         { label:'Favourite', ischecked:true },
         { label:'Coin', ischecked:true },
         { label:'Price', ischecked:true },
-        { label:'24 HR Change', ischecked:true },
-        { label:'7 Day Change', ischecked:true },
-        { label:'24 HR Volume', ischecked:false },
+        { label:'24 HR (%) ', ischecked:true },
+        { label:'7 Day (%)', ischecked:true },
+        { label:'Volume (24H)', ischecked:false },
         { label:'Market Cap', ischecked:false },
-        { label:'24 HR High', ischecked:false },
-        { label:'24 HR Low', ischecked:false },
+        { label:'24 HR High/Low', ischecked:false },
         { label:'24 HR Volume', ischecked:false },
         { label:'Circulation Supply ', ischecked:false },
         { label:'Total Supply', ischecked:false },
@@ -340,6 +340,13 @@ this.volume_black ={
        this.passData2Comp.theme = this.themeBlack
        this.passData2Comp.refreshrate = '1';
        this.changeGraphTheme.changeMessage(this.passData2Comp);
+       setTimeout(()=>{
+        let valueArray = ['1 Sec','5 Sec','30 Sec ','1 Min','5 Min'];
+        let arrayL = document.getElementsByClassName('noUi-value');
+        for(let m = 0; m < valueArray.length;m++){
+          arrayL[m].textContent = valueArray[m]
+         }
+       },1000)
       }
 
 
@@ -407,7 +414,18 @@ this.volume_black ={
     this.hideLanguageSection = !this.hideLanguageSection;
   }
   mouseTest(){
-    this.changeGraphTheme.filter( document.getElementsByClassName('noUi-tooltip')[0].textContent.toString());
+    
+    this.changeRefreshRate = document.getElementsByClassName('noUi-handle')[0].getAttribute('aria-valuetext').toString();
+    console.log(this.changeRefreshRate)
+    if(this.changeRefreshRate > 59 ){
+      this.changeRefreshRate = (this.changeRefreshRate / 60) + ' Min';
+    }
+    else{
+      this.changeRefreshRate = this.changeRefreshRate + ' Sec';
+    }
+    document.getElementsByClassName('noUi-tooltip')[0].innerHTML = this.changeRefreshRate 
+    this.changeGraphTheme.filter( document.getElementsByClassName('noUi-handle')[0].getAttribute('aria-valuetext'));
+
   }
  
   sort(key){

@@ -116,9 +116,9 @@ ngOnInit() {
  });
   this.http.get("http://182.72.201.145:5687/exchange/getusd/"+this.coinKey).map(
     response => response.json()).subscribe(
-      data => {    this.coinData= [
+      data => {  
+            this.coinData= [
         {
-          
           "cp_24four_change": "14.2%",
           "cp_7day_change": "5.6%",
           "cp_30day_change": "7.6%",
@@ -130,6 +130,7 @@ ngOnInit() {
           "cp_total_supply": "$16,000,000"
         },
       ]
+      debugger
     },
     );
 
@@ -169,9 +170,8 @@ generateGraph(coinToken){
             callback(parseJSONorNot(config));
         },
         resolveSymbol(symbolName, onSymbolResolvedCallback, onResolveErrorCallback) {
-            var coinTokenSam = coinToken.toUpperCase()
             var config2 = {
-                "name": coinTokenSam,
+                "name": coinToken.toUpperCase(),
                 "timezone": "Asia/Kolkata",
                 "pricescale": 1000000,
                 "minmov": 1,

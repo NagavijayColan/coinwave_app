@@ -20,32 +20,30 @@
                 <a>Price </a>
               </li>
               <li (click)="sortTable('HRchange')">
-                <a>24 Hr Change </a>
+                <a>24 Hr (%)  </a>
               </li>
               <li (click)="sortTable('dayChange')">
-                <a>7 Day Change </a>
+                <a>7 Day (%) </a>
               </li>
               <li (click)="sortTable('dayVolume')">
-                <a>24 Hr Volume </a>
+                <a>Volume (24H) </a>
               </li>
              
               <li (click)="sortTable('marketCap')">
                 <a>Market Cap </a>
               </li>
               <li (click)="sortTable('highestPrice')">
-                <a>24 Hr High </a>
+                <a>24 Hr High/Low </a>
               </li>
-              <li (click)="sortTable('lowestPrice')">
-                  <a>24 Hour Low</a>
-                </li>
             </ul>
           </div>
 
           <div class="sort_by">
             <h1 class="sort_by_head">
-              <i class="fa fa-filter advance_filter" aria-hidden="true"></i>
-              <!--<img src="/assets/images/filter.png" class="advance_filter"/>-->Advance
+              <i class="fa fa-filter advance_filter float-left" aria-hidden="true"></i>
+              Advance
               <span>Search Filters</span>
+              <i class="fa fa-undo float-right" style="margin-top: -11px;cursor:pointer;"></i>
             </h1>
             <accordion id="advancedSearchFilter">
               <accordion-group heading="PRICE" [isOpened]="true">
@@ -54,19 +52,19 @@
                   (onUpdate)="myOnUpdate($event)" (onChange)="myOnChange($event)" (onFinish)="myOnFinish($event)"></ion-range-slider>
 
               </accordion-group>
-              <accordion-group heading="24 HOUR CHANGE" [isOpened]="false">
+              <accordion-group heading="24 HR (%)" [isOpened]="false">
                 <ion-range-slider #sliderElement type="double" [min]="10" max="30" from="0" from_min="0" from_max="30" from_shadow="false"
                   to="40" to_min="0" to_max="30" to_shadow="true" grid="true" grid_num="4" postfix=" 24 HOUR CHANGE" decorate_both="false"
                   (onUpdate)="myOnUpdate($event)" (onChange)="myOnChange($event)" (onFinish)="myOnFinish($event)"></ion-range-slider>
 
               </accordion-group>
-              <accordion-group heading="7 DAY CHANGE" [isOpened]="false">
+              <accordion-group heading="7 DAY (%)" [isOpened]="false">
                 <ion-range-slider #sliderElement type="double" [min]="10" max="30" from="0" from_min="0" from_max="30" from_shadow="false"
                   to="40" to_min="0" to_max="30" to_shadow="true" grid="true" grid_num="4" postfix=" 7 DAY CHANGE" decorate_both="false"
                   (onUpdate)="myOnUpdate($event)" (onChange)="myOnChange($event)" (onFinish)="myOnFinish($event)"></ion-range-slider>
 
               </accordion-group>
-              <accordion-group heading="24 HOUR VOLUME" [isOpened]="false">
+              <accordion-group heading="VOLUME (24H)" [isOpened]="false">
                 <ion-range-slider #sliderElement type="double" [min]="10" max="30" from="0" from_min="0" from_max="30" from_shadow="false"
                   to="40" to_min="0" to_max="30" to_shadow="true" grid="true" grid_num="4" postfix=" 24 HOUR VOLUME" decorate_both="false"
                   (onUpdate)="myOnUpdate($event)" (onChange)="myOnChange($event)" (onFinish)="myOnFinish($event)"></ion-range-slider>
@@ -84,13 +82,6 @@
                   (onUpdate)="myOnUpdate($event)" (onChange)="myOnChange($event)" (onFinish)="myOnFinish($event)"></ion-range-slider>
 
               </accordion-group>
-              <accordion-group heading="24 HOUR HIGH" [isOpened]="false">
-                <ion-range-slider #sliderElement type="double" [min]="10" max="30" from="0" from_min="0" from_max="30" from_shadow="false"
-                  to="40" to_min="0" to_max="30" to_shadow="true" grid="true" grid_num="4" postfix=" 24 HOUR HIGH" decorate_both="false"
-                  (onUpdate)="myOnUpdate($event)" (onChange)="myOnChange($event)" (onFinish)="myOnFinish($event)"></ion-range-slider>
-
-              </accordion-group>
-
             </accordion>
           </div>
 

@@ -15,7 +15,6 @@ public listData;
 public coinList
   constructor(private http : Http) { this.gridSelected = false; this.listSelected = true;}
   changeGridView(ev) {
-
     if(ev == 'list_view'){
       this.gridSelected = false;
       this.listSelected = true;
@@ -95,8 +94,6 @@ public coinList
 
                     
   ];
-
-
   this.listData = [
        {Sno:'1',  coin: 'Bitcoin(BTC)',  price: '$10222.00↓',  HRchange: '11.20%',  dayChange: '2.20%',
         Hrvolume:'$16,288,423,566', marketCap:'$16,288,423,566', hrhigh:'$16,784',  hrlow:'$16,784', },

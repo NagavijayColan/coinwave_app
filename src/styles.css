@@ -125,7 +125,7 @@ span.close_icon {display: flex; width: 100%;justify-content: flex-end;}
 
 .sort_by h1.sort_by_head { font-size: 23px;
  padding: 17px 11px; margin-bottom: 0px;  font-family: proximanova-bold; text-transform: uppercase; width:100%;} 
- .sort_by h1.sort_by_head span { display: block;font-size: 16px;}
+ .sort_by h1.sort_by_head span { display: inline-block;font-size: 16px;}
 .sort_by ul {padding-top: 11px;}
 .sort_by ul li {padding-left: 12px; display: flex;}
 .sort_by ul li a {line-height: 42px; text-transform: uppercase;}
@@ -507,7 +507,7 @@ background: url("/assets/images/white_sel_arw.png") 59px / 12px no-repeat #fff !
   display: flex;
   border:1px solid #ccc;
 }
-.options_list .desktop_options {
+.options_list .desktop_options,.options_list .mobile_options {
   border-right: 1px solid #ccc;
 }
 .options_list .form-check {
@@ -563,9 +563,9 @@ td.column-dayChange::after {
 
 
 
-.night_mode td.column-HRchange::after {color: rgba(252,0,1,0.4);}
+/* .night_mode td.column-HRchange::after {color: rgba(252,0,1,0.4);}
 .night_mode td.column-dayChange::after{ color:rgba(0,252,46,0.4);}
-.night_mode td.column-price{ color:rgba(0,252,46,0.6);}
+.night_mode td.column-price{ color:rgba(0,252,46,0.6);} */
 
 .in_sel-term1 .opt_tlt{ cursor:pointer; display: flex; padding: 8px;  margin-top: 1px; }
 .in_sel-term1 .opt_tlt i { padding: 0px 10px;}
@@ -764,11 +764,17 @@ td.cp_24four_change::after , td.cp_7day_change::after , td.cp_30day_change::afte
     float: left;
     height:400px !important;
   }
+  #modalRegister .modal-content{
+    width:100% !important;
+  }
 
 }
 @media only screen and (min-width: 768px) and (max-width: 979px) {
 .dollar label{font-size: 26px;}
 .coinpage-head {display: flex;margin: 20px 0;}
+#modalRegister .modal-content{
+  width:100% !important;
+}
 }
 
 @media only screen and (min-width:320px) and (max-width: 979px) {
@@ -988,3 +994,37 @@ iframe body .js-rootresizer__contents{
 .chart-container.active{
   border:0px !important;
 }
+#modalRegister .modal-content{
+  width:600px;
+}
+.black-theme .favorite_coin:checked:before {
+  color: rgb(255, 255, 0);
+}
+.white-theme .favorite_coin:checked:before {
+  color:green;
+}
+.black-theme .favorite_coin:before{
+  color: #fff;
+}
+.white-theme .favorite_coin:before{
+  color: #656565;
+ 
+}
+.favorite_coin:before {
+  content: '\2605';
+  visibility: visible;
+  font-size: 33px;
+  position: absolute;
+  left: -8px;
+  top: -19px;
+}
+input.favorite_coin {
+  position: relative;
+  width: 3px;
+}
+.siteRefreshText{
+  margin-bottom: 40px;
+}
+/* .noUi-value-large{
+  display: none;
+} */

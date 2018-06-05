@@ -105,12 +105,14 @@
             </div>
             <!--Body-->
             <div class="modal-body refresh_rate">
-               <div (click)="mouseTest()"> <nouislider [config]="someRange2config"  [tooltips]="[ true]"  [(ngModel)]="someRange2" ></nouislider></div>
+                <!-- <p class="siteRefreshText">Site will refresh on every {{changeRefreshRate}} </p> -->
+               <div (click)="mouseTest()"> <nouislider [config]="someRange2config"  [tooltips]="[ true]"  [(ngModel)]="someRange2" ></nouislider>
+            </div>
             </div>
             <!--Footer-->
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-info float-left" data-dismiss="modal" (click)="refreshrate.hide()" mdbWavesEffect>Pause</button>
-                <button type="button" class="btn btn-outline-info float-right" data-dismiss="modal" (click)="refreshrate.hide()" mdbWavesEffect>Close</button>
+                <button type="button" class="btn btn-outline-info float-left" data-dismiss="modal" (click)="refreshrate.hide()" mdbWavesEffect>No Refresh</button>
+                
             </div>
         </div>
         <!--/.Content-->
@@ -146,20 +148,27 @@
                 <div class="customize_col">
 
                     <div class="options_list">
-                        <div class="desktop_options col-md-6 col-lg-6 col-sm-12 col-xs-12">
-                            <span class="lst_tlt">Desktop Columns</span>
+                        <div class="desktop_options col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                            <span class="lst_tlt">Desktop</span>
                             <div class="form-check" *ngFor="let desklist of desktoplists">
                                 <input class="form-check-input" mdbInputDirective [checked]="desklist.ischecked" type="checkbox" name="listsgroup">
                                 <label class="form-check-label">{{desklist.label}}</label>
                             </div>
                         </div>
-                        <div class="mobile_options col-md-6 col-lg-6 col-sm-12 col-xs-12">
-                            <span class="lst_tlt">Mobile Columns</span>
+                        <div class="mobile_options col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                            <span class="lst_tlt">Mobile</span>
                             <div class="form-check" *ngFor="let moblist of mobilelists">
                                 <input class="form-check-input" mdbInputDirective [checked]="moblist.ischecked" type="checkbox" name="listsgroup">
                                 <label class="form-check-label">{{moblist.label}}</label>
                             </div>
                         </div>
+                        <div class="app_options col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                                <span class="lst_tlt">App</span>
+                                <div class="form-check" *ngFor="let moblist of mobilelists">
+                                    <input class="form-check-input" mdbInputDirective [checked]="moblist.ischecked" type="checkbox" name="listsgroup">
+                                    <label class="form-check-label">{{moblist.label}}</label>
+                                </div>
+                            </div>
 
                     </div>
                 </div>

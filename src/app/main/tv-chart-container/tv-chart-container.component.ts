@@ -193,7 +193,7 @@ export class TvChartContainerComponent implements OnInit {
         if(document.getElementById('expand'+i).classList.contains('showingNow')){
           document.getElementById('expand'+i).classList.remove('showingNow');
           document.getElementById('expand'+i).classList.add('hidingNow');
-          let elementExp = document.getElementById('expand'+i).parentElement.children[0].children[0].children[0].classList
+          let elementExp = document.getElementById('expand'+i).parentElement.children[0].children[3].children[0].classList
          if(elementExp.contains('fa-arrows')){
           elementExp.add('fa-arrows-alt')
           elementExp.remove('fa-arrows')
@@ -202,7 +202,7 @@ export class TvChartContainerComponent implements OnInit {
         else{
           document.getElementById('expand'+i).classList.add('showingNow');
           document.getElementById('expand'+i).classList.remove('hidingNow');
-          let elementExp = document.getElementById('expand'+i).parentElement.children[0].children[0].children[0].classList
+          let elementExp = document.getElementById('expand'+i).parentElement.children[0].children[3].children[0].classList
           if(elementExp.contains('fa-arrows-alt')){
            elementExp.add('fa-arrows')
            elementExp.remove('fa-arrows-alt')
@@ -232,9 +232,9 @@ export class TvChartContainerComponent implements OnInit {
                 callback(parseJSONorNot(config));
             },
             resolveSymbol(symbolName, onSymbolResolvedCallback, onResolveErrorCallback) {
-                var coinTokenSam = coinToken.toUpperCase()
+                
                 var config2 = {
-                    "name": coinTokenSam,
+                    "name": coinToken.toUpperCase(),
                     "timezone": "Asia/Kolkata",
                     "pricescale": 1000000,
                     "minmov": 1,
@@ -261,7 +261,6 @@ export class TvChartContainerComponent implements OnInit {
                     url : 'http://182.72.201.145:5687/exchange/getChart',
                     data : {pair : coinToken},
                     success : function(response){
-                        
                         onHistoryCallback(response, {noData: true})
                     },
                     error: function(res){
@@ -281,7 +280,7 @@ export class TvChartContainerComponent implements OnInit {
                         data : {pair : coinToken},
                         success : function(response){
                             console.log(response[0]);
-
+                            debugger
                             onRealtimeCallback(parseJSONorNot(response[0]));
                         },
                         error: function(res){
@@ -362,8 +361,6 @@ export class TvChartContainerComponent implements OnInit {
             this.router.navigate(['coinpage/' ,id]);
         }
         getCoinList(){
-            
-            
             this.http.post('http://182.72.201.145:5687/exchange/getusd',{}).map(
                 response => response.json()).subscribe(
                     data => {
