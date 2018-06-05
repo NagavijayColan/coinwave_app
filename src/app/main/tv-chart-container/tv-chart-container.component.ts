@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import {FormsModule} from '@angular/forms';
 import { CompDataSharingService } from "../../comp-data-sharing.service";
 import {Http} from '@angular/http';
 import {
@@ -41,7 +42,8 @@ export class TvChartContainerComponent implements OnInit {
     public volume_white;
     public runningInterval;
     public sample;
-    variable:any
+    variable:any;
+    public searchText;
     @Input()
     set symbol(symbol: ChartingLibraryWidgetOptions['symbol']) {
         this._symbol = symbol || this._symbol;
@@ -100,8 +102,11 @@ export class TvChartContainerComponent implements OnInit {
     
    constructor(private http : Http,private router : Router,private changeGraphTheme : CompDataSharingService){
     this.changeGraphTheme.listen().subscribe((m:any) => {
-        
         this.refreshRateIntervalChange(m);
+    })
+    this.changeGraphTheme.listen1().subscribe((searchT:any) => {
+        console.log(searchT)
+        this.searchText =searchT;
     })
    }
     ngOnInit() {
@@ -118,6 +123,7 @@ export class TvChartContainerComponent implements OnInit {
         }
         this.coinList=[];
         this.changeGraphTheme.currentMessage.subscribe(message => this.graphThemeColor = message);
+        
         this.setIntervalTime = parseInt(this.graphThemeColor.refreshrate + '000');
         
         this.getCoinList();
@@ -258,7 +264,7 @@ export class TvChartContainerComponent implements OnInit {
                 jQuery.ajax({
                     method: 'POST',
                     async : true,
-                    url : 'http://182.72.201.145:5687/exchange/getChart',
+                    url : 'http://coinwave.service.colanonline.net/exchange/getChart',
                     data : {pair : coinToken},
                     success : function(response){
                         onHistoryCallback(response, {noData: true})
@@ -267,7 +273,6 @@ export class TvChartContainerComponent implements OnInit {
                         return 'F'
                     }
                 })
-              
             },
             subscribeBars(symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) {
                 var configData;
@@ -276,11 +281,11 @@ export class TvChartContainerComponent implements OnInit {
                     jQuery.ajax({
                         method: 'POST',
                         async : true,
-                        url : 'http://192.168.2.143:3000/exchange/getLastSecData',
+                        url : 'http://coinwave.service.colanonline.net/exchange/getLastSecData',
                         data : {pair : coinToken},
                         success : function(response){
                             console.log(response[0]);
-                            debugger
+                            
                             onRealtimeCallback(parseJSONorNot(response[0]));
                         },
                         error: function(res){
@@ -302,7 +307,7 @@ export class TvChartContainerComponent implements OnInit {
             jQuery.ajax({
                 method: 'POST',
                 async : true,
-                url : 'http://182.72.201.145:5687/exchange/getChart',
+                url : 'http://coinwave.service.colanonline.net/exchange/getChart',
                 data : {pair : coinToken},
                 success : function(response){
                    
@@ -361,7 +366,7 @@ export class TvChartContainerComponent implements OnInit {
             this.router.navigate(['coinpage/' ,id]);
         }
         getCoinList(){
-            this.http.post('http://182.72.201.145:5687/exchange/getusd',{}).map(
+            this.http.post('http://coinwave.service.colanonline.net/exchange/getusd',{}).map(
                 response => response.json()).subscribe(
                     data => {
                         this.getallCoins = data;
@@ -419,5 +424,9 @@ export class TvChartContainerComponent implements OnInit {
             //     }
                 
             // }
+        }
+        searchVal(k){debugger
+        console.log(k)
+           this.searchText = k;
         }
 }

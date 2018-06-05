@@ -122,7 +122,7 @@ public coinList
 
   
   getCoinList(){
-    this.http.post('http://182.72.201.145:5687/exchange/getusd',{}).map(
+    this.http.post('http://coinwave.service.colanonline.net/exchange/getusd',{}).map(
         response => response.json()).subscribe(
             data => {
                 this.coinList = data;

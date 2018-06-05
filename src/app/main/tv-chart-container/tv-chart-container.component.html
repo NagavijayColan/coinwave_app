@@ -2,10 +2,9 @@
 <div class="table-responsive">
 <table id="coin_list_table" class="table table-condensed table-bordered data-table ">
     <thead>
-     
       <th class="hideInResponsive">#</th>
       <th (click)="sort('name');">COIN <span class="fa sort-icon" *ngIf="key =='name'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span></th>
-      <th (click)="sort('price')" style="width:100px;">PRICE  <span class="fa sort-icon" *ngIf="key =='price'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span></th>
+      <th (click)="sort('price')" style="width:100px;">PRICE<span class="fa sort-icon" *ngIf="key =='price'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span></th>
       <th >GRAPH</th>
       <th >STAR</th>
       <th (click)="sort('HRchange')" style="width:100px;" >24 HR (%)<span class="fa sort-icon" *ngIf="key =='HRchange'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span></th>
@@ -45,7 +44,7 @@
           </td>
         </tr>
    </tbody> -->
-    <tbody *ngFor="let coins of coinList | orderBy: key : reverse ; let i = index " >
+    <tbody *ngFor="let coins of coinList | filter: searchText | orderBy: key : reverse ; let i = index " >
          <tr style="cursor:pointer">
            <td class="hideInResponsive">{{i+1}}</td>
            <td (click)="coinDetails(coins.pair)"> {{coins.name }}</td>

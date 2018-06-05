@@ -114,7 +114,7 @@ ngOnInit() {
   this.aroute.params.subscribe(params => {
     this.coinKey = params['id']; 
  });
-  this.http.get("http://182.72.201.145:5687/exchange/getusd/"+this.coinKey).map(
+  this.http.get("http://coinwave.service.colanonline.net/exchange/getusd/"+this.coinKey).map(
     response => response.json()).subscribe(
       data => {  
             this.coinData= [
@@ -195,7 +195,7 @@ generateGraph(coinToken){
             jQuery.ajax({
                 method: 'POST',
                 async : true,
-                url : 'http://182.72.201.145:5687/exchange/getChart',
+                url : 'http://coinwave.service.colanonline.net/exchange/getChart',
                 data : {pair : coinToken},
                 success : function(response){
                     
@@ -214,7 +214,7 @@ generateGraph(coinToken){
                 jQuery.ajax({
                     method: 'POST',
                     async : true,
-                    url : 'http://192.168.2.143:3000/exchange/getLastSecData',
+                    url : 'http://coinwave.service.colanonline.net/exchange/getLastSecData',
                     data : {pair : coinToken},
                     success : function(response){
                         console.log(response[0]);

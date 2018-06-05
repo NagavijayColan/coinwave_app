@@ -27,6 +27,7 @@ import { AmChartsModule } from "@amcharts/amcharts3-angular";
 import { LineGraphComponent } from './main/graph-section/line-graph/line-graph.component';
 import {AccordionModule} from "ng2-accordion";
 import { OrderModule } from 'ngx-order-pipe';
+import { Ng2SearchPipeModule } from 'ng2-search-filter'; 
 import { TvChartContainerComponent } from './main/tv-chart-container/tv-chart-container.component';
 
 @NgModule({
@@ -54,6 +55,7 @@ import { TvChartContainerComponent } from './main/tv-chart-container/tv-chart-co
   imports: [
     NouisliderModule,
     AmChartsModule,
+    Ng2SearchPipeModule,
     BrowserModule,
     AppRoutingModule,
     OrderModule,
