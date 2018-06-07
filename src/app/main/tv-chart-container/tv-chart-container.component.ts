@@ -406,8 +406,18 @@ export class TvChartContainerComponent implements OnInit {
 
                 for(let k = 0; k < allCoins.length; k++){
                      if(this.coinList[k].pair == allCoins[i].pair){
+                         
                         this.coinList[k].price = allCoins[i].price;
-                        this.coinList[k].change = allCoins[i].change;
+                        this.coinList[k].priceStatus = allCoins[i].priceStatus;
+
+                        this.coinList[k].dayPricePercent = allCoins[i].dayPricePercent;
+                        this.coinList[k].dayPrice = allCoins[i].dayPrice;
+                        this.coinList[k].dayPriceStatus = allCoins[i].dayPriceStatus;
+
+                        this.coinList[k].weeklyChangeStatus = allCoins[i].weeklyChangeStatus;
+                        this.coinList[k].weeklyChange = allCoins[i].weeklyChange;
+                        this.coinList[k].weeklyChangePercent = allCoins[i].weeklyChangePercent;
+
                         this.coinList[k].dayVolume = allCoins[i].dayVolume;
                         this.coinList[k].highestPrice = allCoins[i].highestPrice;
                         this.coinList[k].lowestPrice = allCoins[i].lowestPrice;
