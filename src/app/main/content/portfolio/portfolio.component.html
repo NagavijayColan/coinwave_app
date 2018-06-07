@@ -18,16 +18,16 @@
      <!--grid_view-->
       <div class="grid_view" *ngIf="gridSelected">
         <div class="grid_view_details">
-         <div  class=" col-xs-12 col-sm-12 col-md-4 col-lg-4" *ngFor="let person of portfoliogrid">
+         <div  class=" col-xs-12 col-sm-12 col-md-4 col-lg-4" *ngFor="let coins of portfoliogrid">
                <div class="bitsoin">
-                <h2> {{person.title}}</h2>
+                <h2> {{coins.name | uppercase}}</h2>
                 <ul>
-                <li><p><label>{{ person.name }}  </label>  <span class="price_head">{{ person.price }}</span> </p></li> 
-                <li><p><label>{{ person.name1 }} </label>  <span>{{ person.price1 }}</span> </p></li> 
-                <li><p><label>{{ person.name2 }} </label>  <span>{{ person.price2 }}</span> </p></li>   
-                <li><p><label>{{ person.name3 }} </label>  <span>{{ person.price3 }}</span> </p></li> 
-                <li><p><label>{{ person.name4 }} </label>  <span>{{ person.price4 }}</span> </p></li> 
-                <li><p><label>{{ person.name5 }} </label>  <span>{{ person.price5 }}</span> </p></li>  
+                <li><p><label>PRICE </label>  <span class="price_head">{{ coins.price }}</span> </p></li> 
+                <li><p><label>24 HR Change </label>  <span>{{coins.dayPrice}}</span> </p></li> 
+                <li><p><label>7 Day Chnage </label>  <span>{{coins.weeklyChange}} ({{coins.weeklyChangePercent}}%)</span> </p></li>   
+                <li><p><label>24 HR Volume</label>  <span>{{coins.dayVolume}}</span> </p></li> 
+                <li><p><label>Market Cap</label>  <span>{{coins.marketCapValue}}</span> </p></li> 
+                 
                 </ul>
               </div> 
               </div> 
@@ -47,8 +47,7 @@
                 <th>7 Day change</th>
                 <th>24 Hr Volume</th>
                 <th>Market Cap</th>
-                <th>24 Hr High</th>
-                <th>24 Hr Low</th>
+                <th>24 Hr High/Low</th>
               </tr>
           </thead>
 
@@ -57,12 +56,11 @@
               <td>{{i+1}}</td>
               <td>{{coins.name}}</td>
               <td class="ls_price">${{coins.price}}</td>
-              <td  >{{258 * i+1 * 5}}</td>
-              <td >${{234 * i*1 * 2}}</td>
-              <td >${{431 * i+1 * 3}}</td>
-              <td  >${{113 * i+1 * 4}}</td>
-              <td  >${{143 * i+1 * 2}}</td>
-              <td  >${{452 * 1+1 * 3}}</td>
+              <td  class="" [ngClass]="{'colorGreen': coins.dayPriceStatus === 'true','colorRed': coins.dayPriceStatus === 'false'}">${{coins.dayPrice}} ({{coins.dayPricePercent}}) <span class="fa upDownSymbol"  [ngClass]="{'arrow-up': coins.dayPriceStatus === 'true','arrow-down': coins.dayPriceStatus === 'false'}"></span></td>
+              <td  class=" hideInResponsive" [ngClass]="{'colorGreen': coins.weeklyChangeStatus === 'true','colorRed': coins.weeklyChangeStatus === 'false'}">${{coins.weeklyChange}} ({{coins.weeklyChangePercent}}) <span class="fa upDownSymbol"  [ngClass]="{'arrow-up': coins.weeklyChangeStatus === 'true','arrow-down': coins.weeklyChangeStatus === 'false'}"></span></td>
+              <td (click)="coinDetails(coins.pair)" class="hideInResponsive">${{coins.dayVolume}}</td>
+              <td (click)="coinDetails(coins.pair)" class="hideInResponsive">${{coins.marketCapValue}}</td>
+              <td (click)="coinDetails(coins.pair)" class="hideInResponsive">${{coins.highestPrice}} / {{coins.lowestPrice}}</td>
             </tr>  
           </tbody>
       </table>

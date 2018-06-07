@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Http} from '@angular/http'
+
 @Component({
   selector: 'app-portfolio',
   templateUrl: './portfolio.component.html',
@@ -29,8 +30,6 @@ public coinList
     }
     
  }
-
-
   ngOnInit() {
   this.portfoliogrid=   [ {"title":"Bitcoin" , "name": "Price", "price": "$10222.00↓" ,
                               "name1": "24 HR Change","price1": "11.20%" ,
@@ -117,7 +116,11 @@ public coinList
         Hrvolume:'$16,288,423,566', marketCap:'$16,288,423,566', hrhigh:'$16,784',  hrlow:'$16,784', },
 
   ];
-  this. getCoinList()
+  this. getCoinList();
+  setInterval(() => {
+    this. getCoinList()
+  },3000)
+  
   }
 
   
@@ -126,9 +129,7 @@ public coinList
         response => response.json()).subscribe(
             data => {
                 this.coinList = data;
-              
+                this.portfoliogrid = data;
             })
 } 
-
-
 }
