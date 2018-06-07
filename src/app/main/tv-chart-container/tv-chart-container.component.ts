@@ -43,7 +43,9 @@ export class TvChartContainerComponent implements OnInit {
     public runningInterval;
     public sample;
     variable:any;
+    public toolsBg;
     public searchText;
+    public column = {};
     @Input()
     set symbol(symbol: ChartingLibraryWidgetOptions['symbol']) {
         this._symbol = symbol || this._symbol;
@@ -101,15 +103,29 @@ export class TvChartContainerComponent implements OnInit {
     @Input() graphId: string;
     
    constructor(private http : Http,private router : Router,private changeGraphTheme : CompDataSharingService){
-    this.changeGraphTheme.listen().subscribe((m:any) => {
+    this.changeGraphTheme.refreshRateListen().subscribe((m:any) => {
         this.refreshRateIntervalChange(m);
     })
-    this.changeGraphTheme.listen1().subscribe((searchT:any) => {
+    this.changeGraphTheme.searchCoinExchange().subscribe((searchT:any) => {
         console.log(searchT)
         this.searchText =searchT;
     })
+    this.changeGraphTheme.customizeColumnListner().subscribe((data:any) => {
+        console.log(data);
+        // debugger
+        // this.column = {
+        //     "graph" : data[0].ischecked,
+        //     "day" : data[0].ischecked,
+        //     "week" : data[0].ischecked,
+        //     "highlow" : data[0].ischecked,
+        //     "star" : data[0].ischecked,
+        //     "price" : data[0].ischecked
+        // }
+    })
    }
+   
     ngOnInit() {
+        
         this.volume_white = {
             // "volume.volume.color.0": "#000",
             // "volume.volume.color.1": "#fff",
@@ -123,7 +139,6 @@ export class TvChartContainerComponent implements OnInit {
         }
         this.coinList=[];
         this.changeGraphTheme.currentMessage.subscribe(message => this.graphThemeColor = message);
-        
         this.setIntervalTime = parseInt(this.graphThemeColor.refreshrate + '000');
         
         this.getCoinList();
@@ -324,8 +339,9 @@ export class TvChartContainerComponent implements OnInit {
 
             return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' ')) as LanguageCode;
         }
-        this.overrides_obj = this.graphThemeColor;
-
+        this.overrides_obj = this.graphThemeColor.theme;
+        this.toolsBg = this.graphThemeColor.toolsBg;
+        debugger
         const widgetOptions: ChartingLibraryWidgetOptions = {
             symbol: this._symbol,
             loading_screen: { backgroundColor: '#000' },
@@ -350,9 +366,9 @@ export class TvChartContainerComponent implements OnInit {
             charts_storage_api_version: this._chartsStorageApiVersion,
             client_id: this._clientId,
             user_id: this._userId,
-            toolbar_bg: '#000',
+            toolbar_bg: this.toolsBg,
             // debug: true,
-            studies_overrides : this.volume_white,
+            studies_overrides : this.graphThemeColor.volumeTheme,
             fullscreen: this._fullscreen,
             autosize: this._autosize,
             overrides :  this.overrides_obj    
@@ -370,7 +386,7 @@ export class TvChartContainerComponent implements OnInit {
                 response => response.json()).subscribe(
                     data => {
                         this.getallCoins = data;
-                        
+                        console.log(this.getallCoins)
                         if(this.coinList.length > 0 && this.getallCoins.length === this.coinList.length){
                             this.updateCoindData(this.getallCoins)
                         }
@@ -400,10 +416,11 @@ export class TvChartContainerComponent implements OnInit {
             }
         }
         refreshRateIntervalChange(m){
-            
+            console.log("refresh" , m)
             clearInterval(this.runningInterval)
             this.setIntervalTime = m+'000';
             setInterval(() => {
+                debugger
                 this.getCoinList()
             } , this.setIntervalTime);
         }
@@ -425,8 +442,8 @@ export class TvChartContainerComponent implements OnInit {
                 
             // }
         }
-        searchVal(k){debugger
-        console.log(k)
-           this.searchText = k;
-        }
+            searchVal(k){debugger
+            console.log(k)
+            this.searchText = k;
+            }
 }

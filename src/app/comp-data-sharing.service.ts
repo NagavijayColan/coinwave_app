@@ -4,31 +4,35 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 @Injectable()
 export class CompDataSharingService {
-  private _listners = new Subject<any>();
-  private _listners1 = new Subject<any>();
+  private refresh = new Subject<any>();
+  private searchData = new Subject<any>();
+  private costomizeColumn = new Subject<any>();
 
-  listen(): Observable<any> {
-     return this._listners.asObservable();
+/* Refresh Rate  */
+  refreshRateListen(): Observable<any> {
+     return this.refresh.asObservable();
   }
-  listen1(): Observable<any> {
-    return this._listners1.asObservable();
- }
-  filter1(filterBy: string,) {
-     this._listners1.next(filterBy);
+  refreshRateFilter(filterBy: string,) {
+    this.refresh.next(filterBy);
   }
-  filter(filterBy: string,) {
-    this._listners.next(filterBy);
- }
-  
+ /* Global Search */
+  searchCoinExchange(): Observable<any> {
+    return this.searchData.asObservable();
+  }
+  searchDataFilter(text: string,) {
+     this.searchData.next(text);
+  }
+  /* Column Customization  */
+  customizeColumnListner(): Observable<any> {
+    return this.costomizeColumn.asObservable();
+  }
+  customizeFilter(data: any){
+    this.costomizeColumn.next(data);
+  }
   private changeGraphTheme = new BehaviorSubject<string>("default message");
-  private searchText = new BehaviorSubject<string>("default message");
   currentMessage = this.changeGraphTheme.asObservable();
-  searchTextObs = this.searchText.asObservable();
   constructor() { }
   changeMessage(message: string) {
     this.changeGraphTheme.next(message)
-  }
-  searchTextExchange(message: string){
-    this.searchText.next(message)
   }
 }

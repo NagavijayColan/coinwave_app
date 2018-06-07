@@ -2,13 +2,13 @@
 <div class="table-responsive">
 <table id="coin_list_table" class="table table-condensed table-bordered data-table ">
     <thead>
-      <th class="hideInResponsive">#</th>
+      <th *ngIf="column.graph" class="hideInResponsive">#</th>
       <th (click)="sort('name');">COIN <span class="fa sort-icon" *ngIf="key =='name'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span></th>
-      <th (click)="sort('price')" style="width:100px;">PRICE<span class="fa sort-icon" *ngIf="key =='price'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span></th>
+      <th (click)="sort('price')" style="width:100px;">PRICE <span class="fa sort-icon" *ngIf="key =='price'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span></th>
       <th >GRAPH</th>
       <th >STAR</th>
-      <th (click)="sort('HRchange')" style="width:100px;" >24 HR (%)<span class="fa sort-icon" *ngIf="key =='HRchange'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span></th>
-      <th class="hideInResponsive" (click)="sort('dayChange')" style="width:100px;">7 DAY (%)<span class="fa sort-icon" *ngIf="key =='dayChange'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span></th>
+      <th (click)="sort('HRchange')" style="width:100px;" >24 HR (%) <span class="fa sort-icon" *ngIf="key =='HRchange'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span></th>
+      <th class="hideInResponsive" (click)="sort('dayChange')" style="width:100px;">7 DAY (%) <span class="fa sort-icon" *ngIf="key =='dayChange'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span></th>
       <th class="hideInResponsive" style="width:100px;" (click)="sort('dayVolume')"> VOLUME (24H)  <span class="fa sort-icon" *ngIf="key =='dayVolume'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span></th>
       <th class="hideInResponsive" (click)="sort('marketCap')">MARKET CAP  <span class="fa sort-icon" *ngIf="key =='marketCap'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span></th>
       <th class="hideInResponsive" (click)="sort('highestPrice')">24 HR High / Low  <span class="fa sort-icon" *ngIf="key =='highestPrice'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span></th>

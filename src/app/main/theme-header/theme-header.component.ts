@@ -9,8 +9,6 @@ import { document } from 'angular-bootstrap-md/utils/facade/browser';
   styleUrls: ['./theme-header.component.css']
 })
 export class ThemeHeaderComponent implements OnInit {
-
-  @Output() onFilter: EventEmitter<any> = new EventEmitter();
   order: string = 'info.languagename';
   currencyorder: string = 'info.currencyname';
 
@@ -40,6 +38,7 @@ export class ThemeHeaderComponent implements OnInit {
  public languageImg;
  public changeRefreshRate;
  graphThemeColor:any;
+ customizeCol:any;
  themeBlack : any;
  themeWhite : any;
  desktoplists:Array<any>;
@@ -49,6 +48,7 @@ export class ThemeHeaderComponent implements OnInit {
  public volume_white;
  public volume_black;
  public passData2Comp:any;
+ 
  key: string = ''; 
   reverse: boolean = false;
  constructor(private orderPipe: OrderPipe, private changeGraphTheme : CompDataSharingService) { 
@@ -77,7 +77,6 @@ ngOnInit() {
         mode: 'steps',
         density: 5
       }
-   
   }
     this.themeBlack = {
       'volumePaneSize': "large",
@@ -139,24 +138,24 @@ ngOnInit() {
 
       'symbolWatermarkProperties.color ': "rgba(0, 0, 0, 0.00)",
 
-      'mainSeriesProperties.candleStyle.upColor': "#6ba583",
-      'mainSeriesProperties.candleStyle.downColor': "#d75442",
+      'mainSeriesProperties.candleStyle.upColor': "#ff6939",
+      'mainSeriesProperties.candleStyle.downColor': "#000",
       'mainSeriesProperties.candleStyle.drawWick': true,
       'mainSeriesProperties.candleStyle.drawBorder': true,
       'mainSeriesProperties.candleStyle.borderColor': "#378658",
-      'mainSeriesProperties.candleStyle.borderUpColor': "#225437",
-      'mainSeriesProperties.candleStyle.borderDownColor': "#5b1a13",
+      'mainSeriesProperties.candleStyle.borderUpColor': "green",
+      'mainSeriesProperties.candleStyle.borderDownColor': "green",
       'mainSeriesProperties.candleStyle.wickUpColor': 'rgba( 115, 115, 117, 1)',
       'mainSeriesProperties.candleStyle.wickDownColor': 'rgba( 115, 115, 117, 1)',
       'mainSeriesProperties.candleStyle.barColorsOnPrevClose': false,
 
-      'mainSeriesProperties.hollowCandleStyle.upColor': "#fff",
-      'mainSeriesProperties.hollowCandleStyle.downColor': "#fff",
+      'mainSeriesProperties.hollowCandleStyle.upColor': "green",
+      'mainSeriesProperties.hollowCandleStyle.downColor': "#000",
       'mainSeriesProperties.hollowCandleStyle.drawWick': true,
       'mainSeriesProperties.hollowCandleStyle.drawBorder': true,
       'mainSeriesProperties.hollowCandleStyle.borderColor': "#378658",
-      'mainSeriesProperties.hollowCandleStyle.borderUpColor': "#225437",
-      'mainSeriesProperties.hollowCandleStyle.borderDownColor': "#5b1a13",
+      'mainSeriesProperties.hollowCandleStyle.borderUpColor': "#000",
+      'mainSeriesProperties.hollowCandleStyle.borderDownColor': "green",
       'mainSeriesProperties.hollowCandleStyle.wickColor': "#737375",
       "symbolWatermarkProperties.transparency": 100,
 
@@ -169,8 +168,7 @@ ngOnInit() {
     "mainSeriesProperties.barStyle.downColor": "#d75442",
     "mainSeriesProperties.barStyle.barColorsOnPrevClose": false,
     "mainSeriesProperties.barStyle.dontDrawOpen": false,
-
-  }
+}
 
     this.themeWhite  = {
       'volumePaneSize': "large",
@@ -232,8 +230,8 @@ ngOnInit() {
 
       'symbolWatermarkProperties.color ': "rgba(0, 0, 0, 0.00)",
 
-      'mainSeriesProperties.candleStyle.upColor': "#6ba583",
-      'mainSeriesProperties.candleStyle.downColor': "#d75442",
+      'mainSeriesProperties.candleStyle.upColor': "#53b987",
+      'mainSeriesProperties.candleStyle.downColor': "#eb4d5c",
       'mainSeriesProperties.candleStyle.drawWick': true,
       'mainSeriesProperties.candleStyle.drawBorder': true,
       'mainSeriesProperties.candleStyle.borderColor': "#378658",
@@ -263,8 +261,8 @@ ngOnInit() {
     "mainSeriesProperties.barStyle.dontDrawOpen": false,
   }
   this.volume_white = {
-    "volume.volume.color.0": "#3c78d8",
-    "volume.volume.color.1": "#0000FF",
+    "volume.volume.color.0": "#6bfffe",
+    "volume.volume.color.1": "#00cac8",
     "volume.volume.transparency": 70,
     "volume.volume ma.color": "#FF0000",
     "volume.volume ma.transparency": 30,
@@ -274,17 +272,17 @@ ngOnInit() {
     "bollinger bands.upper.linewidth": 7
 }
 this.volume_black ={
-  "volume.volume.color.0": "#00FFFF",
-  "volume.volume.color.1": "#0000FF",
-  "volume.volume.transparency": 70,
+  "volume.volume.color.0": "#fff",
+  "volume.volume.color.1": "#cccccc",
+  "volume.volume.transparency": 100,
   "volume.volume ma.color": "#FF0000",
-  "volume.volume ma.transparency": 30,
+  "volume.volume ma.transparency": 100,
   "volume.volume ma.linewidth": 5,
   "volume.show ma": true,
   "bollinger bands.median.color": "#33FF88",
   "bollinger bands.upper.linewidth": 7
 }
-    this.changeGraphTheme.currentMessage.subscribe(message => this.graphThemeColor = message)
+    this.changeGraphTheme.currentMessage.subscribe(message => this.graphThemeColor = message);
     this.sortedCollection = this.orderPipe.transform(this.collection, 'info.languagename');
     this.sortedCollection1 = this.orderPipe.transform(this.collection1, 'info.currencyname');
     this.currencyText = 'USD';
@@ -338,7 +336,9 @@ this.volume_black ={
        ];
        
        this.passData2Comp.theme = this.themeBlack
-       this.passData2Comp.refreshrate = '1';
+       this.passData2Comp.refreshrate = '30';
+       this.passData2Comp.volumeTheme = this.volume_black;
+       this.passData2Comp.toolsBg = '#000'
        this.changeGraphTheme.changeMessage(this.passData2Comp);
        setTimeout(()=>{
         let valueArray = ['1 Sec','5 Sec','30 Sec ','1 Min','5 Min'];
@@ -347,21 +347,26 @@ this.volume_black ={
           arrayL[m].textContent = valueArray[m]
          }
        },1000)
+       this.changeGraphTheme.customizeFilter(this.desktoplists )
       }
-
-
-
   siteColor() {
     let body = document.getElementsByTagName('body')[0];
     var currentList = body.classList.contains('black-theme');
     if (currentList)
     {
-      this.changeGraphTheme.changeMessage(this.themeWhite)
+      this.passData2Comp.theme = this.themeWhite
+      this.passData2Comp.volumeTheme = this.volume_white;
+      this.passData2Comp.toolsBg = '#fff'
+      this.changeGraphTheme.changeMessage(this.passData2Comp);
+     
       body.classList.remove('black-theme');
       body.classList.add('white-theme');
     }
     else
     {
+      this.passData2Comp.theme = this.themeBlack
+      this.passData2Comp.volumeTheme = this.volume_black;
+      this.passData2Comp.toolsBg = '#000'
       this.changeGraphTheme.changeMessage(this.themeBlack)
       body.classList.add('black-theme');
       body.classList.remove('white-theme');
@@ -424,14 +429,18 @@ this.volume_black ={
       this.changeRefreshRate = this.changeRefreshRate + ' Sec';
     }
     document.getElementsByClassName('noUi-tooltip')[0].innerHTML = this.changeRefreshRate 
-    this.changeGraphTheme.filter( document.getElementsByClassName('noUi-handle')[0].getAttribute('aria-valuetext'));
+    this.changeGraphTheme.refreshRateFilter( document.getElementsByClassName('noUi-handle')[0].getAttribute('aria-valuetext'));
 
   }
  
   sort(key){
   this.key = key;
   this.reverse = !this.reverse;
-}
+  }
+  coulumnCustomization(k,l){
+    this.changeGraphTheme.customizeFilter(k)
+  }
+  
 }
 
 

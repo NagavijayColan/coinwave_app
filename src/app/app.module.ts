@@ -3,6 +3,7 @@ import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { HttpModule } from '@angular/http';
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NouisliderModule } from 'ng2-nouislider';
 import { IonRangeSliderModule } from "ng2-ion-range-slider";
@@ -53,6 +54,7 @@ import { TvChartContainerComponent } from './main/tv-chart-container/tv-chart-co
 
   ],
   imports: [
+    FormsModule,
     NouisliderModule,
     AmChartsModule,
     Ng2SearchPipeModule,

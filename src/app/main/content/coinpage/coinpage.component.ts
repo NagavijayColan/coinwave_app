@@ -41,6 +41,7 @@ export class CoinpageComponent implements OnInit {
   public coinData;
   public volume_white;
   variable:any;
+  public toolsBg;
   public coinKey;
   @Input()
   set symbol(symbol: ChartingLibraryWidgetOptions['symbol']) {
@@ -130,7 +131,7 @@ ngOnInit() {
           "cp_total_supply": "$16,000,000"
         },
       ]
-      debugger
+      
     },
     );
 
@@ -218,7 +219,6 @@ generateGraph(coinToken){
                     data : {pair : coinToken},
                     success : function(response){
                         console.log(response[0]);
-
                         onRealtimeCallback(parseJSONorNot(response[0]));
                     },
                     error: function(res){
@@ -242,36 +242,40 @@ generateGraph(coinToken){
 
       return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' ')) as LanguageCode;
   }
-  this.overrides_obj = this.graphThemeColor;
-
-  const widgetOptions: ChartingLibraryWidgetOptions = {
-      
-      symbol: this._symbol,
-      loading_screen: { backgroundColor: '#000' },
-      datafeed: this.udf_datafeed,
-      interval: '1',
-      container_id: 'coinDetails_tv',
-      library_path: this._libraryPath,
-      locale: getLanguageFromURL() || 'en',
-      disabled_features: [
-         'header_saveload',
-         'header_indicators',
-         'timeframes_toolbar',
-         'use_localstorage_for_settings',
-         'save_chart_properties_to_local_storage',
-      ],
-    //   studies_overrides : this.volume_white,
-      toolbar_bg: '#000',
-      enabled_features: ['study_templates','header_chart_type','header_settings'],
-      charts_storage_url: this._chartsStorageUrl,
-      charts_storage_api_version: this._chartsStorageApiVersion,
-      client_id: this._clientId,
-      user_id: this._userId,
-      // debug: true,
-      fullscreen: this._fullscreen,
-      autosize: this._autosize,
-      overrides :  this.overrides_obj    
-  };
+  this.overrides_obj = this.graphThemeColor.theme;
+  this.toolsBg = this.graphThemeColor.toolsBg;
+        debugger
+        const widgetOptions: ChartingLibraryWidgetOptions = {
+            symbol: this._symbol,
+            loading_screen: { backgroundColor: '#000' },
+            datafeed: this.udf_datafeed,
+            interval: this._interval,
+            container_id: 'coinDetails_tv',
+            library_path: this._libraryPath,
+            locale: getLanguageFromURL() || 'en',
+            disabled_features: [
+               'header_saveload',
+               'header_indicators',
+               'timeframes_toolbar',
+               'header_settings',
+               'header_symbol_search',
+               'compare_symbol',
+               'header_compare',
+               'use_localstorage_for_settings',
+               'save_chart_properties_to_local_storage',
+            ],
+            enabled_features: ['study_templates','header_chart_type','header_settings'],
+            charts_storage_url: this._chartsStorageUrl,
+            charts_storage_api_version: this._chartsStorageApiVersion,
+            client_id: this._clientId,
+            user_id: this._userId,
+            toolbar_bg: this.toolsBg,
+            // debug: true,
+            studies_overrides : this.graphThemeColor.volumeTheme,
+            fullscreen: this._fullscreen,
+            autosize: this._autosize,
+            overrides :  this.overrides_obj    
+        };
   const tvWidget = new widget(widgetOptions);
       tvWidget.onChartReady(() => {
           tvWidget.chart().setChartType(2);
