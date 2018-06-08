@@ -30,7 +30,24 @@ import {AccordionModule} from "ng2-accordion";
 import { OrderModule } from 'ngx-order-pipe';
 import { Ng2SearchPipeModule } from 'ng2-search-filter'; 
 import { TvChartContainerComponent } from './main/tv-chart-container/tv-chart-container.component';
-
+import { SocialLoginModule,AuthServiceConfig,GoogleLoginProvider,FacebookLoginProvider,LinkedinLoginProvider} from 'ng4-social-login'
+const CONFIG = new AuthServiceConfig([
+  {
+    id: GoogleLoginProvider.PROVIDER_ID,
+    provider: new GoogleLoginProvider('159813331128-dp0r136uk0f866u09g5o4cl95pn999lp.apps.googleusercontent.com')
+  },
+  {
+    id: FacebookLoginProvider.PROVIDER_ID,
+    provider: new FacebookLoginProvider('1993832760933574')
+  },
+  {
+    id: LinkedinLoginProvider.PROVIDER_ID,
+    provider: new LinkedinLoginProvider('81opd6d9b9ba4q')
+  }
+],true);
+export function provideConfig() {
+  return CONFIG;
+}
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,8 +67,6 @@ import { TvChartContainerComponent } from './main/tv-chart-container/tv-chart-co
     FooterNavComponent,
     CandlestickComponent,
     LineGraphComponent,
-    
-
   ],
   imports: [
     FormsModule,
@@ -61,13 +76,18 @@ import { TvChartContainerComponent } from './main/tv-chart-container/tv-chart-co
     BrowserModule,
     AppRoutingModule,
     OrderModule,
+    SocialLoginModule,
     AccordionModule,
     Ng2OrderModule,
     HttpModule,
     IonRangeSliderModule,
     MDBBootstrapModule.forRoot(),
   ],
-  providers: [CompDataSharingService],
+  providers: [CompDataSharingService,
+    {
+      provide: AuthServiceConfig,
+      useFactory: provideConfig
+    }],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA ]
 

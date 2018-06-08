@@ -244,7 +244,6 @@ generateGraph(coinToken){
   }
   this.overrides_obj = this.graphThemeColor.theme;
   this.toolsBg = this.graphThemeColor.toolsBg;
-        debugger
         const widgetOptions: ChartingLibraryWidgetOptions = {
             symbol: this._symbol,
             loading_screen: { backgroundColor: '#000' },

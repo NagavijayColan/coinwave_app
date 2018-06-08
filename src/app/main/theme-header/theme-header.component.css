@@ -75,4 +75,6 @@
   .slider.round:before {
     border-radius: 50%;
   }
-  
+  .nowrap_text{
+    white-space: nowrap;
+  }

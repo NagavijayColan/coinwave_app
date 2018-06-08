@@ -99,7 +99,7 @@ nav .nav-item a {font-size: 14px;}
 .sub_theme ul li a { align-items: center; display: flex; flex-direction: row; padding: 20px;}
 .sub_theme ul li a img { max-width: 45px;}
 .sub_theme ul li a span {font-size: 14px; line-height: 41px;padding: 0 7px; text-transform: uppercase;}
-.sel-term {display: flex; flex-direction: row; padding: 19px; flex:1; align-items: center;}
+.sel-term {display: flex; flex-direction: row; padding: 0px 19px; flex:1; align-items: center;}
 .in_sel-term select { padding: 7px 30px 7px 20px !important;align-items: center;}
 .button_icon ,.button_icon:hover { font-size: 20px;
  font-family: ProximaNova-Bold; padding: 7px 20px !important;border-radius: 5px;
@@ -336,9 +336,9 @@ data-table-sort-expands .data-table-box th {color: #333;}
   background: #cfd1d2 none repeat scroll 0 0;
 }
 
-select {
+/* select {
 background: url("/assets/images/sel_arw.png") right / 13px no-repeat #000 !important;
- }
+ } */
 
   @media only screen and (min-width: 320px) and (max-width: 979px) {
  .sub_theme ul li {border-right: 1px solid #3e3e3e;}
@@ -404,9 +404,9 @@ background: url("/assets/images/sel_arw.png") right / 13px no-repeat #000 !impor
   background: #cfd1d2 none repeat scroll 0 0;
 }
 
-.black-theme select {
+/* .black-theme select {
 background: url("/assets/images/sel_arw.png") 59px / 12px no-repeat #000 !important;
- }
+ } */
 
   @media only screen and (min-width: 320px) and (max-width: 979px) {
     .black-theme .sub_theme ul li {border-right: 1px solid #3e3e3e;}
@@ -476,10 +476,10 @@ filter:grayscale(100%) brightness(1%) sepia(0%) hue-rotate(101deg) saturate(10%)
 .white-theme .modal-content .modal-footer button , .modal-content .modal-body button {
   color: #000 !important; background: #6bfffe !important;border: 1px solid #6bfffe !important;}
 .white-theme .modal-content .modal-body .text-center button i{color: #000 !important;}
-
+/* 
 .white-theme select {
 background: url("/assets/images/white_sel_arw.png") 59px / 12px no-repeat #fff !important;
- }
+ } */
 
   @media only screen and (min-width: 320px) and (max-width: 979px) {
     .white-theme .sub_theme ul li {border-right: 1px solid #dadada;}
@@ -1028,3 +1028,66 @@ input.favorite_coin {
 /* .noUi-value-large{
   display: none;
 } */
+#google_translate_element{
+  position: relative;
+  top: 8px;
+}
+#google_translate_element select{
+  cursor: pointer;
+
+}
+#google_translate_element .skiptranslate {
+  visibility: collapse;
+}
+#google_translate_element .skiptranslate > div {
+  visibility: visible
+}
+#google_translate_element .skiptranslate > span{
+  display: none;
+}
+.goog-te-gadget .goog-te-combo{
+ height: 38px;
+}
+.black-theme .goog-te-gadget .goog-te-combo{
+    background: #000;
+    color: #fff;
+    border: 0;
+    padding: 9px;
+ }
+ .white-theme .goog-te-gadget .goog-te-combo{
+    background: #fff;
+    color: #000;
+    border: 0;
+    padding: 9px;
+  }
+  body > .skiptranslate{
+      display: none !important;
+  }
+  body{
+    top : 0px !important;
+  }
+  .coinWaveText{
+    white-space: nowrap;
+  }
+  .goog-text-highlight{
+   
+      background-color: transparent !important;
+      box-shadow: none !important;
+      box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      position: relative;
+  }
+  .coinLogo{
+    width: 20px;
+    display: inline;
+  }
+  .coinBlock{
+    text-align: left !important;
+  }
+  .coinBlock span {
+    margin-left: 10px;
+  }
+  .coinBlock span img{
+    margin-right: 5px;
+  }

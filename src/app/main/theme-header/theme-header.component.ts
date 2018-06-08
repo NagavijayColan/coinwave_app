@@ -418,7 +418,7 @@ this.volume_black ={
     this.languageImg = image;
     this.hideLanguageSection = !this.hideLanguageSection;
   }
-  mouseTest(){
+  refreshRateChange(){
     
     this.changeRefreshRate = document.getElementsByClassName('noUi-handle')[0].getAttribute('aria-valuetext').toString();
     console.log(this.changeRefreshRate)
@@ -432,7 +432,9 @@ this.volume_black ={
     this.changeGraphTheme.refreshRateFilter( document.getElementsByClassName('noUi-handle')[0].getAttribute('aria-valuetext'));
 
   }
- 
+  noRefresh(){
+    this.changeGraphTheme.refreshRateFilter('false');
+  }
   sort(key){
   this.key = key;
   this.reverse = !this.reverse;

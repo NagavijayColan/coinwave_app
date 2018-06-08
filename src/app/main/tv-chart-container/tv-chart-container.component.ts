@@ -341,7 +341,7 @@ export class TvChartContainerComponent implements OnInit {
         }
         this.overrides_obj = this.graphThemeColor.theme;
         this.toolsBg = this.graphThemeColor.toolsBg;
-        debugger
+        
         const widgetOptions: ChartingLibraryWidgetOptions = {
             symbol: this._symbol,
             loading_screen: { backgroundColor: '#000' },
@@ -386,7 +386,7 @@ export class TvChartContainerComponent implements OnInit {
                 response => response.json()).subscribe(
                     data => {
                         this.getallCoins = data;
-                        console.log(this.getallCoins)
+                        
                         if(this.coinList.length > 0 && this.getallCoins.length === this.coinList.length){
                             this.updateCoindData(this.getallCoins)
                         }
@@ -401,12 +401,17 @@ export class TvChartContainerComponent implements OnInit {
                         }
                     })
         } 
+        advancedTableFilter(data){debugger
+            console.log(data)
+            clearInterval(this.runningInterval)
+            this.coinList =data;
+        }
         updateCoindData(allCoins){
             for(let i=0; i < allCoins.length; i++){
 
                 for(let k = 0; k < allCoins.length; k++){
                      if(this.coinList[k].pair == allCoins[i].pair){
-                         
+
                         this.coinList[k].price = allCoins[i].price;
                         this.coinList[k].priceStatus = allCoins[i].priceStatus;
 
@@ -426,13 +431,17 @@ export class TvChartContainerComponent implements OnInit {
             }
         }
         refreshRateIntervalChange(m){
-            console.log("refresh" , m)
-            clearInterval(this.runningInterval)
-            this.setIntervalTime = m+'000';
-            setInterval(() => {
-                debugger
-                this.getCoinList()
-            } , this.setIntervalTime);
+            if(m != 'false'){
+                console.log("refresh" , m)
+                clearInterval(this.runningInterval)
+                this.setIntervalTime = m+'000';
+                this.runningInterval = setInterval(() => {
+                    this.getCoinList()
+                } , this.setIntervalTime);
+            }
+           else{
+                clearInterval(this.runningInterval)
+           }
         }
         favCoinFunctionality(pair,rr,i){
             
@@ -452,8 +461,8 @@ export class TvChartContainerComponent implements OnInit {
                 
             // }
         }
-            searchVal(k){debugger
-            console.log(k)
-            this.searchText = k;
+            searchVal(k){
+                console.log(k)
+                this.searchText = k;
             }
 }

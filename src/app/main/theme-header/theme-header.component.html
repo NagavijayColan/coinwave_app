@@ -5,13 +5,13 @@
                 <li>
                     <a (click)="refreshrate.show()">
                         <img src="/assets/images/price_interval.png">
-                        <span>Refresh Rate</span>
+                        <span class="nowrap_text">Refresh Rate</span>
                     </a>
                 </li>
                 <li>
                     <a (click)="nightmode()">
                         <img src="/assets/images/black_out_color.png" />
-                        <span>Night Mode</span>
+                        <span class="nowrap_text">Night Mode</span>
                     </a>
                 </li>
                 <li>
@@ -21,11 +21,11 @@
                             <span class="slider round"></span>
                         </label>
                         <!-- <img src="/assets/images/site_color.png"/>-->
-                        <span>Site Color</span>
+                        <span class="nowrap_text">Site Color</span>
                     </a>
                 </li>
                 <li>
-                    <span class="customize_call" (click)="customize.show()" mdbWavesEffect>
+                    <span class="customize_call nowrap_text" (click)="customize.show()" mdbWavesEffect>
                         <i class="fa fa-columns" aria-hidden="true"></i>Customize Columns</span>
                 </li>
             </ul>
@@ -54,7 +54,7 @@
 
                 </div>
                 <div class="in_sel-term1">
-                    <div class="opt_tlt">
+                    <!-- <div class="opt_tlt">
                         <img [src]="languageImg" />
                         <span>{{languageText}}</span>
                         <i class="fa fa-chevron-down" aria-hidden="true"></i>
@@ -74,8 +74,8 @@
 
 
                         </div>
-                    </div>
-
+                    </div> -->
+                    <div id="google_translate_element"></div>
                 </div>
                 <button type="button" class="button_icon" (click)="style.show()">
                     <i class="fa fa-save waves-light " aria-hidden="true"></i>Save</button>
@@ -106,12 +106,12 @@
             <!--Body-->
             <div class="modal-body refresh_rate">
                 <!-- <p class="siteRefreshText">Site will refresh on every {{changeRefreshRate}} </p> -->
-               <div (click)="mouseTest()"> <nouislider [config]="someRange2config"  [tooltips]="[ true]"  [(ngModel)]="someRange2" ></nouislider>
+               <div (click)="refreshRateChange()"> <nouislider [config]="someRange2config"  [tooltips]="[ true]"  [(ngModel)]="someRange2" ></nouislider>
             </div>
             </div>
             <!--Footer-->
             <div class="modal-footer">
-                <button type="button" class="btn btn-outline-info float-left" data-dismiss="modal" (click)="refreshrate.hide()" mdbWavesEffect>No Refresh</button>
+                <button type="button" class="btn btn-outline-info float-left" data-dismiss="modal" (click)="noRefresh()" mdbWavesEffect>No Refresh</button>
                 
             </div>
         </div>

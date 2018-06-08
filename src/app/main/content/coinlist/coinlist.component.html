@@ -46,8 +46,8 @@
             </h1>
             <accordion id="advancedSearchFilter"[closeOthers]="false">
               <accordion-group heading="PRICE" [isOpened]="true">
-                <ion-range-slider #priceVal type="double" [min]="10" max="30" from="0" from_min="0" from_max="30" from_shadow="false"
-                  to="40" to_min="0" to_max="30" to_shadow="true" grid="true" grid_num="4" postfix=" Price" decorate_both="false"
+                <ion-range-slider #priceVal type="double" [min]="0" [max]="maxPrice"  from_shadow="false"
+                   to_shadow="true" grid="true" grid_num="4" postfix=" Price" decorate_both="false"
                   (onUpdate)="myOnUpdate($event)" (onChange)="priceFilter($event)" (onFinish)="myOnFinish($event)"></ion-range-slider>
               </accordion-group>
               <accordion-group heading="24 HR (%)" [isOpened]="false">
