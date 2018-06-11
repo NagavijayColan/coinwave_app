@@ -28,15 +28,16 @@
                  <ul>
                      <li><a (click)="signInWithFB()"><img src="/assets/images/login_facebook.png" alt="Facebook"/></a></li>
                      <li><a (click)="signInWithGoogle()"><img src="/assets/images/login_google.png" alt="Coogle Plus"/></a></li>
-                     <li><a (click)="socialSignIn('twitter')"><img src="/assets/images/login_twitter.png" alt="Twitter"/></a></li>
-                     <li><a (click)="socialSignIn('linkedin')" ><img src="/assets/images/login_linkedin.png" alt="Linkedin"/></a></li>
+                     <li><a (click)="getHomeTimeline()"><img src="/assets/images/login_twitter.png" alt="Twitter"/></a></li>
+                     <li><a (click)="signInWithLinkedIN()" ><img src="/assets/images/login_linkedin.png" alt="Linkedin"/></a></li>
                  </ul>
                 </div>
                 </div>
             </div>
+           
             <div class="col-xs-12 col-sm-12 col-md-7 col-lg-7">
             <div class="sign_login_right">
-                  
+                <div (click)="signOut()">signOut</div>
                     <h2>Free Features:</h2>
                     <ul>
                         <li><p>Add Coins To Your Portfolio</p></li>
@@ -77,18 +78,18 @@
             <div class="modal-body">
                 <div class="md-form form-sm">
                     <i class="fa fa-envelope prefix"></i>
-                    <input  type="text" id="form30" class="form-control">
-                    <label for="form30">Your email</label>
+                    <input  type="text" [(ngModel)]="userLogin.emailId" class="form-control">
+                    <label for="form30" >Enter email</label>
                 </div>
 
                 <div class="md-form form-sm">
                     <i class="fa fa-lock prefix"></i>
-                    <input  type="password" id="form31" class="form-control">
-                    <label for="form31">Your password</label>
+                    <input  type="password" [(ngModel)]="userLogin.password"  class="form-control">
+                    <label for="form31" >Enter password</label>
                 </div>
-
+                
                 <div class="text-center mt-2">
-                    <button class="btn btn-info waves-light" mdbWavesEffect>Log in <i class="fa fa-sign-in ml-1"></i></button>
+                    <button class="btn btn-info waves-light" (click)="loginWithMail(userLogin)"   mdbWavesEffect>Log in <i class="fa fa-sign-in ml-1"></i></button>
                 </div>
             </div>
             <!--Footer-->
@@ -121,26 +122,32 @@
             <!--Body-->
             <div class="modal-body">
                 <div class="md-form form-sm">
+                        <i class="fa fa-envelope prefix"></i>
+                        <input  type="text"  [(ngModel)]="userReg.userName" class="form-control">
+                        <label for="form32">User Name</label>
+                    </div>
+                <div class="md-form form-sm">
                     <i class="fa fa-envelope prefix"></i>
-                    <input  type="text" id="form32" class="form-control">
+                    <input  type="text"  [(ngModel)]="userReg.emailId" class="form-control">
                     <label for="form32">Your email</label>
                 </div>
 
                 <div class="md-form form-sm">
                     <i class="fa fa-lock prefix"></i>
-                    <input  type="password" id="form33" class="form-control">
+                    <input  type="password" [(ngModel)]="userReg.password" (blur)="confirmPassword()" id="form33" class="form-control">
                     <label for="form33">Your password</label>
                 </div>
 
                 <div class="md-form form-sm">
                     <i class="fa fa-lock prefix"></i>
-                    <input  type="password" id="form34" class="form-control">
+                    <input  type="password" [(ngModel)]="userReg.confrmPswrd" (blur)="confirmPassword()" id="form34" class="form-control">
                     <label for="form34">Repeat password</label>
                 </div>
 
                 <div class="text-center mt-2">
-                    <button class="btn btn-info waves-light" mdbWavesEffect>Sign up <i class="fa fa-sign-in ml-1"></i></button>
+                    <button class="btn btn-info waves-light" (click)="signUpWithMail(userReg)" mdbWavesEffect>Sign up <i class="fa fa-sign-in ml-1"></i></button>
                 </div>
+               
 
             </div>
             <!--Footer-->

@@ -3,8 +3,8 @@ import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { HttpModule } from '@angular/http';
+import {HttpClientModule, HttpClient} from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 import { NouisliderModule } from 'ng2-nouislider';
 import { IonRangeSliderModule } from "ng2-ion-range-slider";
 import {CompDataSharingService} from "./comp-data-sharing.service"
@@ -31,22 +31,24 @@ import { OrderModule } from 'ngx-order-pipe';
 import { Ng2SearchPipeModule } from 'ng2-search-filter'; 
 import { TvChartContainerComponent } from './main/tv-chart-container/tv-chart-container.component';
 import { SocialLoginModule,AuthServiceConfig,GoogleLoginProvider,FacebookLoginProvider,LinkedinLoginProvider} from 'ng4-social-login'
-const CONFIG = new AuthServiceConfig([
-  {
-    id: GoogleLoginProvider.PROVIDER_ID,
-    provider: new GoogleLoginProvider('159813331128-dp0r136uk0f866u09g5o4cl95pn999lp.apps.googleusercontent.com')
-  },
-  {
-    id: FacebookLoginProvider.PROVIDER_ID,
-    provider: new FacebookLoginProvider('1993832760933574')
-  },
-  {
-    id: LinkedinLoginProvider.PROVIDER_ID,
-    provider: new LinkedinLoginProvider('81opd6d9b9ba4q')
-  }
-],true);
-export function provideConfig() {
+
+function getAuthServiceConfigs(){
+  const  CONFIG = new AuthServiceConfig([
+    {
+      id: GoogleLoginProvider.PROVIDER_ID,
+      provider: new GoogleLoginProvider('159813331128-dp0r136uk0f866u09g5o4cl95pn999lp.apps.googleusercontent.com')
+    },
+    {
+      id: FacebookLoginProvider.PROVIDER_ID,
+      provider: new FacebookLoginProvider('340367406489469')
+    },
+    {
+      id: LinkedinLoginProvider.PROVIDER_ID,
+      provider: new LinkedinLoginProvider('819hzepp40a7eu')
+    }
+  ],true);
   return CONFIG;
+ 
 }
 @NgModule({
   declarations: [
@@ -80,14 +82,15 @@ export function provideConfig() {
     AccordionModule,
     Ng2OrderModule,
     HttpModule,
+    HttpClientModule,
     IonRangeSliderModule,
     MDBBootstrapModule.forRoot(),
   ],
-  providers: [CompDataSharingService,
-    {
-      provide: AuthServiceConfig,
-      useFactory: provideConfig
-    }],
+  providers: [CompDataSharingService,{
+    provide: AuthServiceConfig,
+    useFactory: getAuthServiceConfigs
+  }
+   ],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA ]
 

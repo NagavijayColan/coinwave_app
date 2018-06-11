@@ -17,14 +17,12 @@ export class CoinlistComponent implements OnInit {
   constructor(private http : Http) {   }
 
 // special params:
-
-
   ngOnInit() {
       this.http.get('http://coinwave.service.colanonline.net/exchange/getMax').map(
         response => response.json()
       ).subscribe(data => {
         console.log(data)
-        debugger
+        
         this.maxPrice = data[0].maxPrice + 100;
         console.log(this.maxPrice)
       })

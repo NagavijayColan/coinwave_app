@@ -6,7 +6,7 @@
       <th (click)="sort('name');">Coins <span class="fa sort-icon" *ngIf="key =='name'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span></th>
       <th (click)="sort('price')" style="width:130px;">Price <span class="fa sort-icon" *ngIf="key =='price'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span></th>
       <th >Graph</th>
-      <th >Favorites</th>
+      <th >Star</th>
       <th (click)="sort('HRchange')" style="width:130px;" >24 HR (%) <span class="fa sort-icon" *ngIf="key =='HRchange'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span></th>
       <th class="hideInResponsive" (click)="sort('dayChange')" style="width:130px;">7 Days (%) <span class="fa sort-icon" *ngIf="key =='dayChange'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span></th>
       <th class="hideInResponsive" style="width:100px;" (click)="sort('dayVolume')"> Volume (24H)  <span class="fa sort-icon" *ngIf="key =='dayVolume'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span></th>

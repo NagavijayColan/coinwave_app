@@ -16,9 +16,9 @@ export class HeaderComponent implements OnInit {
     document.getElementById(remove1).classList.remove('active')
     document.getElementById(remove2).classList.remove('active')
   }
-  loginPage(){
-      this.router.navigate(['/login'])  
-  }
+  // loginPage(){
+  //     this.router.navigate(['/login'])
+  // }
   globalSearch(text){
     console.log(text);
     this.changeGraphTheme.searchDataFilter(text);
