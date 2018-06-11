@@ -41,18 +41,18 @@
           <thead>
             <tr>
                 <th>#</th>
-                <th>Coin</th>
-                <th>price</th>
-                <th>24 Hr Change</th>
-                <th class=" hideInResponsive">7 Day change</th>
-                <th class=" hideInResponsive">24 Hr Volume</th>
-                <th class=" hideInResponsive">Market Cap</th>
-                <th class=" hideInResponsive">24 Hr High/Low</th>
+                <th (click)="sort('name')">Coin <span class="fa sort-icon" *ngIf="key =='name'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"> </span></th>
+                <th (click)="sort('price')">price <span class="fa sort-icon" *ngIf="key =='price'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span> </th>
+                <th (click)="sort('dayPrice')">24 Hr Change<span class="fa sort-icon" *ngIf="key =='dayPrice'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span> </th>
+                <th (click)="sort('weeklyChange')" class=" hideInResponsive">7 Day change<span class="fa sort-icon" *ngIf="key =='weeklyChange'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span> </th>
+                <th (click)="sort('dayVolume')" class=" hideInResponsive">24 Hr Volume<span class="fa sort-icon" *ngIf="key =='dayVolume'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span> </th>
+                <th (click)="sort('marketCapValue')" class=" hideInResponsive">Market Cap<span class="fa sort-icon" *ngIf="key =='marketCapValue'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span> </th>
+                <th (click)="sort('highestPrice')" class=" hideInResponsive">24 Hr High/Low<span class="fa sort-icon" *ngIf="key =='highestPrice'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span> </th>
               </tr>
           </thead>
 
           <tbody>
-             <tr *ngFor="let coins of coinList;let i = index">
+             <tr *ngFor="let coins of coinList | filter: searchText | orderBy: key : reverse ; let i = index">
               <td>{{i+1}}</td>
               <td>{{coins.name}}</td>
               <td class="ls_price">${{coins.price}}</td>

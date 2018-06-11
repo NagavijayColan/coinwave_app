@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Http} from '@angular/http'
-
+import { CompDataSharingService } from "../../../comp-data-sharing.service";
 @Component({
   selector: 'app-portfolio',
   templateUrl: './portfolio.component.html',
@@ -10,11 +10,16 @@ export class PortfolioComponent implements OnInit {
 gridSelected: boolean;
 listSelected: boolean;
 public addclass;
- 
+ public searchText;
 public portfoliogrid;
 public listData;
 public coinList
-  constructor(private http : Http) { this.gridSelected = false; this.listSelected = true;}
+  constructor(private http : Http,private changeGraphTheme : CompDataSharingService) { this.gridSelected = false; this.listSelected = true;
+    this.changeGraphTheme.searchCoinExchange().subscribe((searchT:any) => {
+      console.log(searchT)
+      this.searchText =searchT;
+  })
+  }
   changeGridView(ev) {
     if(ev == 'list_view'){
       this.gridSelected = false;
@@ -30,6 +35,12 @@ public coinList
     }
     
  }
+ key: string = 'name'; 
+ reverse: boolean = false;
+ sort(key){
+ this.key = key;
+ this.reverse = !this.reverse;
+ } 
   ngOnInit() {
   this.portfoliogrid=   [ {"title":"Bitcoin" , "name": "Price", "price": "$10222.00↓" ,
                               "name1": "24 HR Change","price1": "11.20%" ,
