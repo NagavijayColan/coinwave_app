@@ -40,7 +40,7 @@ function getAuthServiceConfigs(){
     },
     {
       id: FacebookLoginProvider.PROVIDER_ID,
-      provider: new FacebookLoginProvider('340367406489469')
+      provider: new FacebookLoginProvider('312447839230283')
     },
     {
       id: LinkedinLoginProvider.PROVIDER_ID,
