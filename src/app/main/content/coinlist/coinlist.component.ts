@@ -54,7 +54,7 @@ export class CoinlistComponent implements OnInit {
       this.advFilter.push(getfilterdData)
     }
     
-   
+    //this.advancedSearchFilter()
   }
   dayfilter(event){
     let getfilterdData = {
@@ -74,7 +74,7 @@ export class CoinlistComponent implements OnInit {
     if(!this.isThere){
       this.advFilter.push(getfilterdData)
     }
-    
+    //this.advancedSearchFilter()
   }
   weeklyFilter(event){
     let getfilterdData = {
@@ -94,6 +94,7 @@ export class CoinlistComponent implements OnInit {
     if(!this.isThere){
       this.advFilter.push(getfilterdData);
     }
+    //this.advancedSearchFilter()
   }
   dayVolumeFilter(event){
     

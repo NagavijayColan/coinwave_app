@@ -94,7 +94,6 @@ export class LoginComponent implements OnInit {
       
       this.router.navigate(['/coinlist'])
     })
-
   }
   loginWithMail(userLogin){
     this.http.post('http://coinwave.service.colanonline.net/user/login',userLogin).map(response => response.json()).subscribe(data =>{
