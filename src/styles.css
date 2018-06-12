@@ -1091,3 +1091,130 @@ input.favorite_coin {
   .coinBlock span img{
     margin-right: 5px;
   }
+
+
+
+  /**12-06-2018**/
+
+  #advancedSearchFilter .panel-body {padding: 11px 4% 0 7%;width: 95%;}
+  #advancedSearchFilter .panel-heading h4 { padding: 10px;}
+  
+  @media only screen and (min-width:320px) and (max-width:437px)
+  {
+  .sub_theme ul li a{padding:0 1px !important;}
+  .sub_theme ul li { margin-right: 1px;}
+  .sub_theme ul li a img { max-width: 18px ;}
+  .sub_theme ul li a span{font-size:10px !important;}
+  .switch{width:41px !important; height:14px !important; margin-top:5px;}
+  .slider[_ngcontent-c3]::before{width:14px !important; height:14px !important; right:27px !important;}
+  .fixed_footer[_ngcontent-c5] ul[_ngcontent-c5] li[_ngcontent-c5]{padding:10px !important;}
+  .fixed_footer span { font-size: 12px;}
+  input[_ngcontent-c3]:checked + .slider[_ngcontent-c3]::before {transform: translateX(28px) !important;}
+  
+  }
+  
+  
+  @media only screen and (min-width:320px) and (max-width:979px)
+  {
+  .white-theme .sub_theme ul{border-top:1px solid #eeeeee;}
+  }
+  
+  @media only screen and (min-width:320px) and (max-width:518px)
+  {
+  .header .logo img { max-width: 46px !important;height: 46px !important;}
+  }
+
+
+  @media only screen and (min-width:320px) and (max-width:979px)
+  {
+  .black-theme .in_sel-term1 .opt_tlt{border-right:0px !important;}
+  }
+
+  @media only screen and (min-width:980px) and (max-width:1080px)
+  {
+  .sub_theme ul li a span{padding:0px 7px !important; font-size:12px !important;}
+  .sub_theme ul li a img {max-width: 23px !important;}
+  .sub_theme ul li a{padding:20px 6px !important;}
+  .customize_call{font-size:12px !important; padding:29px 10px !important;}
+  .sel-term{padding:0px 8px !important;}
+  .in_sel-term1 .opt_tlt img{padding-right:5px !important;}
+  .button_icon, .button_icon:hover{margin-left:7px !important; padding:7px 8px !important; font-size:15px !important;} 
+  }
+
+  @media only screen and (min-width:1081px) and (max-width:1250px)
+  {
+  .sub_theme ul li a span{padding:0px 7px !important; font-size:13px !important;}
+  .sub_theme ul li a img {max-width: 28px !important;}
+  .sub_theme ul li a{padding:20px 6px !important;}
+  .customize_call{font-size:13px !important; padding:29px 10px !important;}
+  }
+
+  @media only screen and (min-width:768px) and (max-width:1083px)
+  {
+    .price_data{width:40% !important;}
+    .grid_list_tab{width:40% !important;}
+  }
+
+  @media only screen and (min-width:320px) and (max-width:767px)
+  {
+  .grid_view_head{display:block !important; width:100% !important;}
+  .grid_view_head h6{width:100% !important; text-align:center;}
+  .price_data{width:100% !important;}
+  .grid_list_tab{width:100% !important; justify-content: center; margin:8px 0px !important;}
+
+  }
+
+  @media only screen and (min-width:320px) and (max-width:639px)
+  {
+    
+  .advertisment_add ul li img {
+    display: inline-block;
+    float: none;
+    max-width: 300px;
+    width: 100%;
+}
+
+.advertisment_add ul li {
+    text-align: center;
+    width: 100%;
+}
+
+.advertisment_add{width:100%;}
+  }
+
+  @media only screen and (min-width:640px) and (max-width:979px)
+  {
+
+    .advertisment_add{width:100%;}
+    .advertisment_add ul li {
+      display: inline-block;
+      padding: 10px;
+      text-align: center;
+      width: auto !important; 
+  }
+  .advertisment_add ul {
+    float: left;
+    text-align: center;
+    width: 100%;
+}
+.advertisment_add ul li img {
+  display: inline-block;
+  float: none;
+  margin-bottom: 20px;
+  width: 100%;
+}
+  }
+
+  @media only screen and (min-width:980px) and (max-width:1209px)
+  {
+    .dollar label{font-size:26px !important;}
+  }
+
+  @media only screen and (min-width:768px) and (max-width:979px)
+  {
+  .black-theme .dollar{max-width: 100% !important;}
+  .white-theme .dollar{max-width: 100% !important;}
+  }
+
+.search_icon {display: none !important;}
+ /**12-06-2018**/
