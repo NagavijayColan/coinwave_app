@@ -16,7 +16,6 @@ public listData;
 public coinList
   constructor(private http : Http,private changeGraphTheme : CompDataSharingService) { this.gridSelected = false; this.listSelected = true;
     this.changeGraphTheme.searchCoinExchange().subscribe((searchT:any) => {
-      console.log(searchT)
       this.searchText =searchT;
   })
   }

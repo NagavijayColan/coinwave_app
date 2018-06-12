@@ -421,7 +421,7 @@ this.volume_black ={
   refreshRateChange(){
     
     this.changeRefreshRate = document.getElementsByClassName('noUi-handle')[0].getAttribute('aria-valuetext').toString();
-    console.log(this.changeRefreshRate)
+    
     if(this.changeRefreshRate > 59 ){
       this.changeRefreshRate = (this.changeRefreshRate / 60) + ' Min';
     }

@@ -44,7 +44,7 @@ function getAuthServiceConfigs(){
     },
     {
       id: LinkedinLoginProvider.PROVIDER_ID,
-      provider: new LinkedinLoginProvider('819hzepp40a7eu')
+      provider: new LinkedinLoginProvider('81cfwlcwom5acc')
     }
   ],true);
   return CONFIG;
@@ -89,7 +89,8 @@ function getAuthServiceConfigs(){
   providers: [CompDataSharingService,{
     provide: AuthServiceConfig,
     useFactory: getAuthServiceConfigs
-  }
+  },
+  { provide: '819hzepp40a7eu', useValue: 'ovW2PXxWQGw8Q4kb' }
    ],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA ]

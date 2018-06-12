@@ -4,7 +4,9 @@
   <meta charset="utf-8">
   <title class="notranslate">Coin Wave App</title>
   <base href="/">
-
+  <script type="text/javascript" src="//platform.linkedin.com/in.js">
+    api_key:81cfwlcwom5acc
+    </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicons.icon">
   <!-- <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
@@ -22,8 +24,26 @@ function googleTranslateElementInit() {
   new google.translate.TranslateElement({pageLanguage: 'fr'}, 'google_translate_element');
 }
  </script>
- <script type="text/javascript" src="//platform.linkedin.com/in.js">
-  api_key:'819hzepp40a7eu'
+ 
+  <script>
+  function onLinkedInLoad() {
+        IN.Event.on(IN, "auth", getProfileData);
+    }
+
+    // Handle the successful return from the API call
+    function onSuccess(data) {
+        console.log(data);
+    }
+
+    // Handle an error response from the API call
+    function onError(error) {
+        console.log(error);
+    }
+
+    // Use the API call wrapper to request the member's basic profile data
+    function getProfileData() {
+        IN.API.Raw("/people/~").result(onSuccess).error(onError);
+    }
   </script>
 </head>
 <body class="black-theme">

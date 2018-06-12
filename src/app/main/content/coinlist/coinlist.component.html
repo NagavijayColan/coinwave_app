@@ -51,13 +51,13 @@
                    (onChange)="priceFilter($event)" ></ion-range-slider>
               </accordion-group>
               <accordion-group heading="24 HR (%)" [isOpened]="false">
-                <ion-range-slider #dayChange type="double" [min]="10" max="30" from="0" from_min="0" from_max="30" from_shadow="false"
+                <ion-range-slider #dayChange type="double" [min]="0" max="100" from="0" from_min="0" from_max="30" from_shadow="false"
                   to="40" to_min="0" to_max="30" to_shadow="true" grid="true" grid_num="4" postfix=" 24 HOUR CHANGE" decorate_both="false"
                    (onChange)="dayfilter($event)" ></ion-range-slider>
 
               </accordion-group>
               <accordion-group heading="7 DAY (%)" [isOpened]="false">
-                <ion-range-slider #weeklyChange type="double" [min]="10" max="30" from="0" from_min="0" from_max="30" from_shadow="false"
+                <ion-range-slider #weeklyChange type="double" [min]="0" max="100" from="0" from_min="0" from_max="30" from_shadow="false"
                   to="40" to_min="0" to_max="30" to_shadow="true" grid="true" grid_num="4" postfix=" 7 DAY CHANGE" decorate_both="false"
                    (onChange)="weeklyFilter($event)" ></ion-range-slider>
 
@@ -73,11 +73,10 @@
                 <ion-range-slider #marketCap type="double" [min]="10" max="30" from="0" from_min="0" from_max="30" from_shadow="false"
                   to="40" to_min="0" to_max="30" to_shadow="true" grid="true" grid_num="4" postfix=" MARKET CAP" decorate_both="false"
                    (onChange)="marketCapFilter($event)" ></ion-range-slider>
-
               </accordion-group>
             </accordion>
           </div>
-
+          <button class="pull-right" (click)="advancedSearchFilter()">Search</button>
           <app-advertisement></app-advertisement>
 
 

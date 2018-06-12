@@ -210,7 +210,6 @@ generateGraph(coinToken){
         },
         subscribeBars(symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) {
             var configData;
-            console.log('subscribe ' + symbolInfo);
             setInterval(()=>{
                 jQuery.ajax({
                     method: 'POST',
@@ -218,7 +217,7 @@ generateGraph(coinToken){
                     url : 'http://coinwave.service.colanonline.net/exchange/getLastSecData',
                     data : {pair : coinToken},
                     success : function(response){
-                        console.log(response[0]);
+                       
                         onRealtimeCallback(parseJSONorNot(response[0]));
                     },
                     error: function(res){

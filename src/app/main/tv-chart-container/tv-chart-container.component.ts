@@ -107,11 +107,11 @@ export class TvChartContainerComponent implements OnInit {
         this.refreshRateIntervalChange(m);
     })
     this.changeGraphTheme.searchCoinExchange().subscribe((searchT:any) => {
-        console.log(searchT)
+        
         this.searchText =searchT;
     })
     this.changeGraphTheme.customizeColumnListner().subscribe((data:any) => {
-        console.log(data);
+        
         // debugger
         // this.column = {
         //     "graph" : data[0].ischecked,
@@ -299,7 +299,7 @@ export class TvChartContainerComponent implements OnInit {
                         url : 'http://coinwave.service.colanonline.net/exchange/getLastSecData',
                         data : {pair : coinToken},
                         success : function(response){
-                            console.log(response[0]);
+                           
                             
                             onRealtimeCallback(parseJSONorNot(response[0]));
                         },
@@ -402,7 +402,7 @@ export class TvChartContainerComponent implements OnInit {
                     })
         } 
         advancedTableFilter(data){debugger
-            console.log(data)
+            
             clearInterval(this.runningInterval)
             this.coinList =data;
         }
@@ -432,7 +432,6 @@ export class TvChartContainerComponent implements OnInit {
         }
         refreshRateIntervalChange(m){
             if(m != 'false'){
-                console.log("refresh" , m)
                 clearInterval(this.runningInterval)
                 this.setIntervalTime = m+'000';
                 this.runningInterval = setInterval(() => {
@@ -462,7 +461,6 @@ export class TvChartContainerComponent implements OnInit {
             // }
         }
             searchVal(k){
-                console.log(k)
                 this.searchText = k;
             }
 }

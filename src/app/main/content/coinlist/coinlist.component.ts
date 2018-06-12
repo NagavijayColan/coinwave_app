@@ -8,6 +8,8 @@ import {Http} from '@angular/http';
 })
 export class CoinlistComponent implements OnInit {
   public maxPrice;
+  public advFilter:Array<any>;
+  public isThere;
   @ViewChild("component1") component1;
   @ViewChild('priceVal') priceVal: IonRangeSliderComponent;
   @ViewChild('dayChange') dayChange: IonRangeSliderComponent;
@@ -18,13 +20,14 @@ export class CoinlistComponent implements OnInit {
 
 // special params:
   ngOnInit() {
+    this.advFilter  =[];
       this.http.get('http://coinwave.service.colanonline.net/exchange/getMax').map(
         response => response.json()
       ).subscribe(data => {
-        console.log(data)
+        
         
         this.maxPrice = data[0].maxPrice + 100;
-        console.log(this.maxPrice)
+        
       })
  
   }
@@ -38,25 +41,70 @@ export class CoinlistComponent implements OnInit {
         "to" : event.to
       }
     }
+   
+    this.isThere = false;
+    for(let i =0;i < this.advFilter.length; i++){
+      if(this.advFilter[i].price){
+        this.isThere = true;
+        this.advFilter.splice(i,1);
+        this.advFilter.push(getfilterdData)
+      }
+    }
+    if(!this.isThere){
+      this.advFilter.push(getfilterdData)
+    }
     
-    this.http.post('http://coinwave.service.colanonline.net/exchange/getusd',{filter:getfilterdData}).map(response => response.json()).subscribe(data => {
-      this.component1.advancedTableFilter(data);
-      console.log("App Data",data)
-    })
+   
   }
   dayfilter(event){
-    console.log(event);
+    let getfilterdData = {
+      "dayPricePercent" : {
+        "from" : event.from,
+        "to" : event.to
+      }
+    }
+    this.isThere = false;
+    for(let i =0;i < this.advFilter.length; i++){
+      if(this.advFilter[i].dayPricePercent){
+        this.isThere = true;
+        this.advFilter.splice(i,1);
+        this.advFilter.push(getfilterdData)
+      }
+    }
+    if(!this.isThere){
+      this.advFilter.push(getfilterdData)
+    }
+    
   }
   weeklyFilter(event){
-    console.log(event);
+    let getfilterdData = {
+      "weeklyChangePercent" : {
+        "from" : event.from,
+        "to" : event.to
+      }
+    }
+    this.isThere = false;
+    for(let i =0;i < this.advFilter.length; i++){
+      if(this.advFilter[i].weeklyChangePercent){
+        this.isThere = true;
+        this.advFilter.splice(i,1);
+        this.advFilter.push(getfilterdData)
+      }
+    }
+    if(!this.isThere){
+      this.advFilter.push(getfilterdData);
+    }
   }
   dayVolumeFilter(event){
-    console.log(event);
-  }
-  coinSupplyFilter(event){
-    console.log(event);
+    
   }
   marketCapFilter(event){
-    console.log(event);
+    
+  }
+  advancedSearchFilter(){debugger
+    this.http.post('http://coinwave.service.colanonline.net/exchange/getusd',{filter:this.advFilter}).map(response => response.json()).subscribe(data => {
+      this.component1.advancedTableFilter(data);
+      
+    })
   }
 }

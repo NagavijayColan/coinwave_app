@@ -11,7 +11,10 @@
     "typeRoots": [
       "node_modules/@types"
     ],
-    
+    "types": [
+      "jasmine",
+      "firebase"
+   ],
     "lib": [
       "es2017",
       "dom"
