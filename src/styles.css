@@ -1178,10 +1178,14 @@ input.favorite_coin {
     text-align: center;
     width: 100%;
 }
+
+.advertisment_add{width:100%;}
   }
 
   @media only screen and (min-width:640px) and (max-width:979px)
   {
+
+    .advertisment_add{width:100%;}
     .advertisment_add ul li {
       display: inline-block;
       padding: 10px;
@@ -1201,7 +1205,16 @@ input.favorite_coin {
 }
   }
 
-  .search_icon {
-    display: none !important;
-}
+  @media only screen and (min-width:980px) and (max-width:1209px)
+  {
+    .dollar label{font-size:26px !important;}
+  }
+
+  @media only screen and (min-width:768px) and (max-width:979px)
+  {
+  .black-theme .dollar{max-width: 100% !important;}
+  .white-theme .dollar{max-width: 100% !important;}
+  }
+
+.search_icon {display: none !important;}
  /**12-06-2018**/
