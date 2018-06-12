@@ -48,35 +48,31 @@
               <accordion-group heading="PRICE" [isOpened]="true">
                 <ion-range-slider #priceVal type="double" [min]="0" [max]="maxPrice"  from_shadow="false"
                    to_shadow="true" grid="true" grid_num="4" postfix=" Price" decorate_both="false"
-                  (onUpdate)="myOnUpdate($event)" (onChange)="priceFilter($event)" (onFinish)="myOnFinish($event)"></ion-range-slider>
+                   (onChange)="priceFilter($event)" ></ion-range-slider>
               </accordion-group>
               <accordion-group heading="24 HR (%)" [isOpened]="false">
                 <ion-range-slider #dayChange type="double" [min]="10" max="30" from="0" from_min="0" from_max="30" from_shadow="false"
                   to="40" to_min="0" to_max="30" to_shadow="true" grid="true" grid_num="4" postfix=" 24 HOUR CHANGE" decorate_both="false"
-                  (onUpdate)="myOnUpdate($event)" (onChange)="dayfilter($event)" (onFinish)="myOnFinish($event)"></ion-range-slider>
+                   (onChange)="dayfilter($event)" ></ion-range-slider>
 
               </accordion-group>
               <accordion-group heading="7 DAY (%)" [isOpened]="false">
                 <ion-range-slider #weeklyChange type="double" [min]="10" max="30" from="0" from_min="0" from_max="30" from_shadow="false"
                   to="40" to_min="0" to_max="30" to_shadow="true" grid="true" grid_num="4" postfix=" 7 DAY CHANGE" decorate_both="false"
-                  (onUpdate)="myOnUpdate($event)" (onChange)="weeklyFilter($event)" (onFinish)="myOnFinish($event)"></ion-range-slider>
+                   (onChange)="weeklyFilter($event)" ></ion-range-slider>
 
               </accordion-group>
               <accordion-group heading="VOLUME (24H)" [isOpened]="false">
                 <ion-range-slider #volume24H type="double" [min]="10" max="30" from="0" from_min="0" from_max="30" from_shadow="false"
                   to="40" to_min="0" to_max="30" to_shadow="true" grid="true" grid_num="4" postfix=" 24 HOUR VOLUME" decorate_both="false"
-                  (onUpdate)="myOnUpdate($event)" (onChange)="dayVolumeFilter($event)" (onFinish)="myOnFinish($event)"></ion-range-slider>
+                   (onChange)="dayVolumeFilter($event)" ></ion-range-slider>
 
               </accordion-group>
-              <accordion-group heading="COIN SUPPLY" [isOpened]="false">
-                <ion-range-slider #sliderElement type="single" grid_snap="true" step=[10,20,30,40,50] [min]="10" max="30" from="0" from_min="0" from_max="30" from_shadow="false"
-                  to="40" to_min="0" to_max="30" to_shadow="true" grid="true" postfix=" COIN SUPPLY" decorate_both="false"
-                  (onUpdate)="myOnUpdate($event)" (onChange)="coinSupplyFilter($event)" (onFinish)="myOnFinish($event)"></ion-range-slider>
-              </accordion-group>
+             
               <accordion-group heading="MARKET CAP" [isOpened]="false">
                 <ion-range-slider #marketCap type="double" [min]="10" max="30" from="0" from_min="0" from_max="30" from_shadow="false"
                   to="40" to_min="0" to_max="30" to_shadow="true" grid="true" grid_num="4" postfix=" MARKET CAP" decorate_both="false"
-                  (onUpdate)="myOnUpdate($event)" (onChange)="marketCapFilter($event)" (onFinish)="myOnFinish($event)"></ion-range-slider>
+                   (onChange)="marketCapFilter($event)" ></ion-range-slider>
 
               </accordion-group>
             </accordion>
