@@ -14,7 +14,7 @@
       <th class="hideInResponsive" (click)="sort('highestPrice')">24 HR High / Low  <span class="fa sort-icon" *ngIf="key =='highestPrice'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span></th>
       <!-- <th class="hideInResponsive" (click)="sort('lowestPrice')">24 LOW HIGH  <span class="fa sort-icon" *ngIf="key =='lowestPrice'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span></th> -->
     </thead>
-    <tbody *ngFor="let coins of sample | orderBy: key : reverse  ; let i = index" class="favourite_coins">
+    <!-- <tbody *ngFor="let coins of sample | orderBy: key : reverse  ; let i = index" class="favourite_coins">
         <tr style="cursor:pointer">
         
           <td class="hideInResponsive">{{i+1}}</td>
@@ -43,7 +43,7 @@
              </div>
           </td>
         </tr>
-   </tbody>
+   </tbody> -->
     <tbody *ngFor="let coins of coinList | filter: searchText | orderBy: key : reverse ; let i = index " >
          <tr style="cursor:pointer">
            <td class="hideInResponsive" >{{sample.length+i+1}}</td>
