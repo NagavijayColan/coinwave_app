@@ -34,10 +34,15 @@
           <li  mdbRippleRadius>
             <input type="search" #searchText (keyup)="globalSearch(searchText.value)" placeholder="Coin or Exchange"/>
           </li>
-          <li class="" mdbRippleRadius>
-                     <div class="login_register">
-                      <a routerLink="/login">Login</a> <span>or</span> <a>Register</a>
-                    </div>
+          <li class="" mdbRippleRadius *ngIf="!isLoggedIn">
+            <div class="login_register">
+                <a (click)="goToLogin()">Login</a> <span>or</span> <a>Register</a>
+            </div>
+          </li>
+          <li class="" mdbRippleRadius *ngIf="isLoggedIn" style="margin-top:25px;">
+                <div class="">
+                <a>Welcome</a><span> {{userName}} |</span><a (click)="logOut()">  Log Out</a>
+            </div>
           </li>
           <li>
               <div class="follw_us">

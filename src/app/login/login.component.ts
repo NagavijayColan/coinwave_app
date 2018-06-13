@@ -5,6 +5,7 @@ import { Http } from '@angular/http';
 import "rxjs/add/operator/map";
 import {SocialUser, AuthService,FacebookLoginProvider,GoogleLoginProvider,LinkedinLoginProvider} from 'ng4-social-login';
 import { debug } from 'util';
+import { CompDataSharingService } from "../comp-data-sharing.service";
 declare var IN: any;
 @Component({
   selector: 'app-login',
@@ -22,56 +23,58 @@ export class LoginComponent implements OnInit {
   private loggedIn: boolean;
   public apiKey;
   public isUserAuthenticated;
-  constructor(private authService: AuthService,private http : Http,private router : Router) {}
+  constructor(private authService: AuthService,private http : Http,private router : Router,private changeGraphTheme : CompDataSharingService) {}
   
-  signInWithGoogle(): void {
+  signInWithGoogle(): void {debugger
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(
       (userData) => {
         this.userReg.loginId = userData.id;
         this.userReg.loginType = userData.provider;
         this.userReg.userName = userData.name;
         this.http.post('http://coinwave.service.colanonline.net/user/socialLogin',this.userReg).map(response => response.json()).subscribe(data =>{
-        this.router.navigate(['/coinlist']);
+          sessionStorage.setItem('userToken',data.access_token);
+          sessionStorage.setItem('userName',data.userName);
+          this.router.navigate(['coinlist/',data]);
+          this.changeGraphTheme.isLoggedIn_filter(data);
       })
       }
     )
   }
   
   signInWithFB(): void {
+    
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then(
       (userData) => {
         this.userReg.loginId = userData.id;
         this.userReg.loginType = userData.provider;
         this.userReg.userName = userData.name;
         this.http.post('http://coinwave.service.colanonline.net/user/socialLogin',this.userReg).map(response => response.json()).subscribe(data =>{
-        this.router.navigate(['/coinlist']);
+          sessionStorage.setItem('userToken',data.access_token);
+          sessionStorage.setItem('userName',data.userName);
+          this.router.navigate(['coinlist/',data]);
+          this.changeGraphTheme.isLoggedIn_filter(data);
       })
       }
     );
   }
  
   signInWithLinkedIN(): void {debugger
+    
+    
     this.authService.signIn(LinkedinLoginProvider.PROVIDER_ID).then(
       (userData) => {
         this.userReg.loginId = userData.id;
         this.userReg.loginType = userData.provider;
         this.userReg.userName = userData.name;
         this.http.post('http://coinwave.service.colanonline.net/user/socialLogin',this.userReg).map(response => response.json()).subscribe(data =>{
-        this.router.navigate(['/coinlist']);
+          sessionStorage.setItem('userToken',data.access_token);
+          sessionStorage.setItem('userName',data.userName);
+          this.router.navigate(['coinlist/',data]);
+          this.changeGraphTheme.isLoggedIn_filter(data);
       })
       }
     );
   }
-  // signInWithLinkedIN(){debugger
-  //   this._linkedInService.login().subscribe({
-  //     next: (state) => {
-  //       console.log(state) 
-  //     },
-  //     complete: () => {
-  //       // Completed
-  //     }
-  //   });
-  // }
   signOut(): void {
     this.authService.signOut();
   }
@@ -83,11 +86,7 @@ export class LoginComponent implements OnInit {
      
     });
   }
-  confirmPassword(){
-    // if(this.userReg.confirmPassword === this.userReg.password){
-    //     alert(this.userReg.confirmPassword === this.userReg.password)
-    // }
-  }
+  confirmPassword(){}
   signUpWithMail(userReg){debugger
     userReg.loginType = 'Manual'
     this.http.post('http://coinwave.service.colanonline.net/user/register',userReg).map(response => response.json()).subscribe(data =>{
@@ -96,6 +95,7 @@ export class LoginComponent implements OnInit {
     })
   }
   loginWithMail(userLogin){
+
     this.http.post('http://coinwave.service.colanonline.net/user/login',userLogin).map(response => response.json()).subscribe(data =>{
       
       this.router.navigate(['/coinlist'])

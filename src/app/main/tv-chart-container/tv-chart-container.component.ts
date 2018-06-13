@@ -300,7 +300,7 @@ export class TvChartContainerComponent implements OnInit {
                         data : {pair : coinToken},
                         success : function(response){
                            
-                            
+                            console.log(response[0])
                             onRealtimeCallback(parseJSONorNot(response[0]));
                         },
                         error: function(res){
@@ -393,7 +393,7 @@ export class TvChartContainerComponent implements OnInit {
                         else{
                             this.coinList =this.getallCoins;
                             if(parseInt(this.setIntervalTime) >= 1000){
-                           this.runningInterval = setInterval(() => {
+                            this.runningInterval = setInterval(() => {
                                   this.getCoinList() 
                             }, parseInt(this.setIntervalTime));
                         }
@@ -443,22 +443,20 @@ export class TvChartContainerComponent implements OnInit {
            }
         }
         favCoinFunctionality(pair,rr,i){
-            
-            // this.http.post('',{}).map(response => response.json()).subscribe(data => {
-            //    return;
-            // })
-            // for(let k = 0; k < this.sample.length; k++){
-            //    if(this.sample[k].pair == pair){
-            //         if(rr){
-            //             debugger
-            //             this.coinList.push(this.sample[k]);
-                        
-            //             delete this.sample[k];
-            //         }
+            this.http.post('',{}).map(response => response.json()).subscribe(data => {
+               return;
+            })
+            for(let k = 0; k < this.sample.length; k++){
+               if(this.sample[k].pair == pair){
+                    if(rr){
+                        debugger
+                        this.coinList.push(this.sample[k]);
+                        delete this.sample[k];
+                    }
 
-            //     }
+                }
                 
-            // }
+            }
         }
             searchVal(k){
                 this.searchText = k;

@@ -1,4 +1,4 @@
-import { Component, OnInit ,Output,EventEmitter} from '@angular/core';
+import { Component, OnInit ,Output,EventEmitter,ViewChild} from '@angular/core';
 import { OrderPipe } from 'ngx-order-pipe';
 import { CompDataSharingService } from "../../comp-data-sharing.service";
 import { document } from 'angular-bootstrap-md/utils/facade/browser';
@@ -9,6 +9,7 @@ import { document } from 'angular-bootstrap-md/utils/facade/browser';
   styleUrls: ['./theme-header.component.css']
 })
 export class ThemeHeaderComponent implements OnInit {
+  @ViewChild('loginform') public loginModal;
   order: string = 'info.languagename';
   currencyorder: string = 'info.currencyname';
 
@@ -48,7 +49,9 @@ export class ThemeHeaderComponent implements OnInit {
  public volume_white;
  public volume_black;
  public passData2Comp:any;
- 
+ public themeSettings:Array<any> = [];
+ userLogin:any = {};
+ userReg:any = {};
  key: string = ''; 
   reverse: boolean = false;
  constructor(private orderPipe: OrderPipe, private changeGraphTheme : CompDataSharingService) { 
@@ -56,6 +59,11 @@ export class ThemeHeaderComponent implements OnInit {
  }
 
 ngOnInit() {
+ setTimeout(() => {
+   let langDropDown =  document.getElementsByClassName("goog-te-combo")[0];
+ debugger
+ langDropDown.addEventListener("select", this.changeSiteLanguage());
+ },2000);
   this.changeRefreshRate = '1 Sec';
   this.passData2Comp ={
     theme : '',
@@ -350,6 +358,7 @@ this.volume_black ={
        this.changeGraphTheme.customizeFilter(this.desktoplists )
       }
   siteColor() {
+    let siteColor ;
     let body = document.getElementsByTagName('body')[0];
     var currentList = body.classList.contains('black-theme');
     if (currentList)
@@ -358,9 +367,10 @@ this.volume_black ={
       this.passData2Comp.volumeTheme = this.volume_white;
       this.passData2Comp.toolsBg = '#fff'
       this.changeGraphTheme.changeMessage(this.passData2Comp);
-     
+      
       body.classList.remove('black-theme');
       body.classList.add('white-theme');
+      siteColor = 'white_theme'
     }
     else
     {
@@ -370,7 +380,20 @@ this.volume_black ={
       this.changeGraphTheme.changeMessage(this.themeBlack)
       body.classList.add('black-theme');
       body.classList.remove('white-theme');
+      siteColor = 'black_theme';
     }
+    debugger
+    let night_mode_in  = true;
+    for(let r = 0; r < this.themeSettings.length; r++){
+      if(this.themeSettings[r].siteColor){
+        night_mode_in = false;
+        this.themeSettings[r].siteColor  = siteColor ;
+      }
+    }
+    if(night_mode_in){
+      this.themeSettings.push({siteColor : siteColor})
+    }
+    console.log(this.themeSettings)
   }
 
   themeSectionHide()
@@ -394,21 +417,45 @@ this.volume_black ={
   nightmode()
   {
     let body = document.getElementsByTagName('body')[0];
-    
+    let night_mode ;
     if ( !(body.classList.contains('night_mode')))
     {
       body.classList.add('night_mode');
+      night_mode = true;
     }
     else
     {
       body.classList.remove('night_mode');
+      night_mode = false
     }
+    let night_mode_in  = true;
+    for(let r = 0; r < this.themeSettings.length; r++){
+      if(this.themeSettings[r].night_mode){
+        night_mode_in = false;
+        this.themeSettings[r].night_mode  = night_mode ;
+      }
+    }
+    if(night_mode_in){
+      this.themeSettings.push({night_mode : night_mode})
+    }
+    console.log(this.themeSettings)
   }
   selectCurrency(text,image){
     this.currencyText = text;
-    //this.currencyIcon = icon;
     this.currencyImg = image;
     this.hideOptionsection = !this.hideOptionsection;
+
+    let currency_in  = true;
+    for(let r = 0; r < this.themeSettings.length; r++){
+      if(this.themeSettings[r].currencyType){
+        currency_in = false;
+        this.themeSettings[r].currencyType  = text ;
+      }
+    }
+    if(currency_in){
+      this.themeSettings.push({currencyType : text})
+    }
+    console.log(this.themeSettings)
   }
 
 
@@ -428,7 +475,18 @@ this.volume_black ={
     else{
       this.changeRefreshRate = this.changeRefreshRate + ' Sec';
     }
-    document.getElementsByClassName('noUi-tooltip')[0].innerHTML = this.changeRefreshRate 
+    document.getElementsByClassName('noUi-tooltip')[0].innerHTML = this.changeRefreshRate ;
+    let refreshIn  = true;
+    for(let r = 0; r < this.themeSettings.length; r++){
+      if(this.themeSettings[r].refreshRate){
+        refreshIn = false;
+        this.themeSettings[r].refreshRate  = this.changeRefreshRate ;
+      }
+    }
+    if(refreshIn){
+      this.themeSettings.push({refreshRate :this.changeRefreshRate})
+    }
+    console.log(this.themeSettings)
     this.changeGraphTheme.refreshRateFilter( document.getElementsByClassName('noUi-handle')[0].getAttribute('aria-valuetext'));
 
   }
@@ -439,10 +497,49 @@ this.volume_black ={
   this.key = key;
   this.reverse = !this.reverse;
   }
-  coulumnCustomization(k,l){
-    this.changeGraphTheme.customizeFilter(k)
+  coulumnCustomization(colList,type){debugger
+    let custCol  = true;
+    for(let r = 0; r < this.themeSettings.length; r++){
+      if(this.themeSettings[r].customizeColumns){
+        custCol = false;
+        if(this.themeSettings[r].customizeColumns[type]){
+          this.themeSettings[r].customizeColumns[type] = colList[type]
+        }
+        else{
+          custCol = false;
+          this.themeSettings[r].customizeColumns[type] = colList[type]
+        }
+      }
+    }
+    if(custCol){
+     let obj = {customizeColumns : colList}
+      this.themeSettings.push(obj);
+    }
+    console.log(this.themeSettings)
+    this.changeGraphTheme.customizeFilter(colList)
   }
-  
+  saveThemeStructure(){
+    if(sessionStorage.getItem('userToken')){
+
+    }
+    else{
+      this.loginModal.show();
+    }
+  }
+  changeSiteLanguage(){debugger
+        let siteLang = document.getElementsByClassName("goog-te-combo")[0].value;
+        let site_language  = true;
+        for(let r = 0; r < this.themeSettings.length; r++){
+          if(this.themeSettings[r].siteLanguage){
+            site_language = false;
+            this.themeSettings[r].siteLanguage  = siteLang ;
+          }
+        }
+        if(site_language){
+          this.themeSettings.push({siteLanguage :siteLang})
+        }
+        console.log(this.themeSettings)
+  }
 }
 
 

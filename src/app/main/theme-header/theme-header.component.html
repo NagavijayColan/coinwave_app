@@ -77,7 +77,7 @@
                     </div> -->
                     <div id="google_translate_element"></div>
                 </div>
-                <button type="button" class="button_icon" (click)="style.show()">
+                <button type="button" class="button_icon" (click)="saveThemeStructure()">
                     <i class="fa fa-save waves-light " aria-hidden="true"></i>Save</button>
                 <input type="search" placeholder="" class="search_icon" />
                 <span class="close_icon">
@@ -151,21 +151,21 @@
                         <div class="desktop_options col-md-4 col-lg-4 col-sm-12 col-xs-12">
                             <span class="lst_tlt">Desktop</span>
                             <div class="form-check" *ngFor="let desklist of desktoplists">
-                                <input class="form-check-input" [(ngModel)]="desklist.ischecked"  (change)="coulumnCustomization(desktoplists)" type="checkbox" name="listsgroup">
+                                <input class="form-check-input" [(ngModel)]="desklist.ischecked"  (change)="coulumnCustomization({desktop : desktoplists},'desktop')" type="checkbox" name="listsgroup">
                                 <label class="form-check-label">{{desklist.label}}</label>
                             </div>
                         </div>
                         <div class="mobile_options col-md-4 col-lg-4 col-sm-12 col-xs-12">
                             <span class="lst_tlt">Mobile</span>
                             <div class="form-check" *ngFor="let moblist of mobilelists">
-                                <input class="form-check-input" [(ngModel)]="moblist.ischecked"  (change)="coulumnCustomization(mobilelists)"  type="checkbox" name="listsgroup">
+                                <input class="form-check-input" [(ngModel)]="moblist.ischecked"  (change)="coulumnCustomization({mobile:mobilelists},'mobile')"  type="checkbox" name="listsgroup">
                                 <label class="form-check-label">{{moblist.label}}</label>
                             </div>
                         </div>
                         <div class="app_options col-md-4 col-lg-4 col-sm-12 col-xs-12">
                                 <span class="lst_tlt">App</span>
                                 <div class="form-check" *ngFor="let moblist of mobilelists">
-                                    <input class="form-check-input" [(ngModel)]="moblist.ischecked"  (change)="coulumnCustomization(mobilelists)"  type="checkbox" name="listsgroup">
+                                    <input class="form-check-input" [(ngModel)]="moblist.ischecked"  (change)="coulumnCustomization({app : mobilelists},'app')"  type="checkbox" name="listsgroup">
                                     <label class="form-check-label">{{moblist.label}}</label>
                                 </div>
                             </div>
@@ -183,3 +183,106 @@
 </div>
 <!--Modal: Customize column Form-->
 <!-- popup -->
+
+
+<!--Modal: Login Form-->
+<div mdbModal #loginform="mdb-modal" class=" modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog cascading-modal" role="document">
+        <!--Content-->
+        <div class="modal-content">
+
+            <!--Header-->
+            <div class="modal-header light-blue darken-3 white-text">
+                <h4 class="title"><i class="fa fa-user"></i> Log in</h4>
+                <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close" (click)="loginform.hide()">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+                <div class="md-form form-sm">
+                    <i class="fa fa-envelope prefix"></i>
+                    <input  type="text" [(ngModel)]="userLogin.emailId" class="form-control">
+                    <label for="form30" >Enter email</label>
+                </div>
+
+                <div class="md-form form-sm">
+                    <i class="fa fa-lock prefix"></i>
+                    <input  type="password" [(ngModel)]="userLogin.password"  class="form-control">
+                    <label for="form31" >Enter password</label>
+                </div>
+                
+                <div class="text-center mt-2">
+                    <button class="btn btn-info waves-light" (click)="loginWithMail(userLogin)"   mdbWavesEffect>Log in <i class="fa fa-sign-in ml-1"></i></button>
+                </div>
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <div class="options text-center text-md-right mt-1">
+                    <p>Not a member? <a (click)="loginform.hide();registerform.show()" >Sign Up</a></p>
+                    <p>Forgot <a href="#">Password?</a></p>
+                </div>
+                <button type="button" class="btn btn-outline-info ml-auto" data-dismiss="modal" (click)="loginform.hide()" mdbWavesEffect>Close</button>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!--Modal: Login Form-->
+
+<!--Modal: Register Form-->
+<div mdbModal #registerform="mdb-modal" class="modal fade" id="modalRegister" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog cascading-modal" role="document">
+        <!--Content-->
+        <div class="modal-content">
+
+            <!--Header-->
+            <div class="modal-header light-blue darken-3 white-text">
+                <h4 class="title"><i class="fa fa-user-plus"></i> Register</h4>
+                <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close" (click)="registerform.hide()">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+                <div class="md-form form-sm">
+                        <i class="fa fa-envelope prefix"></i>
+                        <input  type="text"  [(ngModel)]="userReg.userName" class="form-control">
+                        <label for="form32">User Name</label>
+                    </div>
+                <div class="md-form form-sm">
+                    <i class="fa fa-envelope prefix"></i>
+                    <input  type="text"  [(ngModel)]="userReg.emailId" class="form-control">
+                    <label for="form32">Your email</label>
+                </div>
+
+                <div class="md-form form-sm">
+                    <i class="fa fa-lock prefix"></i>
+                    <input  type="password" [(ngModel)]="userReg.password" (blur)="confirmPassword()" id="form33" class="form-control">
+                    <label for="form33">Your password</label>
+                </div>
+
+                <div class="md-form form-sm">
+                    <i class="fa fa-lock prefix"></i>
+                    <input  type="password" [(ngModel)]="userReg.confrmPswrd" (blur)="confirmPassword()" id="form34" class="form-control">
+                    <label for="form34">Repeat password</label>
+                </div>
+
+                <div class="text-center mt-2">
+                    <button class="btn btn-info waves-light" (click)="signUpWithMail(userReg)" mdbWavesEffect>Sign up <i class="fa fa-sign-in ml-1"></i></button>
+                </div>
+               
+
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <div class="options text-center text-md-right mt-1">
+                    <p>Already have an account? <a (click)="registerform.hide();loginform.show()">Log In</a></p>
+                </div>
+                <button type="button" class="btn btn-outline-info ml-auto" data-dismiss="modal" (click)="registerform.hide()" mdbWavesEffect>Close</button>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!--Modal: Register Form-->

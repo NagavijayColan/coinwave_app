@@ -14,6 +14,7 @@ const routes: Routes = [
      children:[
       { path:'', redirectTo: 'coinlist', pathMatch: 'full'},  
       {  path: 'coinlist', component: CoinlistComponent},
+      {  path: 'coinlist/:ud', component: CoinlistComponent, data: [{isProd: true}]},
       {  path: 'signup', component: SignupComponent },
       {  path: 'coinpage/:id', component: CoinpageComponent },
       {  path: 'exchange', component: ExchangeComponent },

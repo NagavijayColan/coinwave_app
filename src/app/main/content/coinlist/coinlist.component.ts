@@ -1,6 +1,8 @@
 import { Component,OnInit, ViewChild } from '@angular/core';
 import {IonRangeSliderComponent} from "ng2-ion-range-slider";
 import {Http} from '@angular/http';
+import {Location} from '@angular/common';
+import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-coinlist',
   templateUrl: './coinlist.component.html',
@@ -10,16 +12,23 @@ export class CoinlistComponent implements OnInit {
   public maxPrice;
   public advFilter:Array<any>;
   public isThere;
+  public userDetails;
   @ViewChild("component1") component1;
   @ViewChild('priceVal') priceVal: IonRangeSliderComponent;
   @ViewChild('dayChange') dayChange: IonRangeSliderComponent;
   @ViewChild('weeklyChange') weeklyChange: IonRangeSliderComponent;
   @ViewChild('volume24H') volume24H : IonRangeSliderComponent;
   @ViewChild('marketCap') marketCap: IonRangeSliderComponent;
-  constructor(private http : Http) {   }
+  constructor(private http : Http,private location : Location,private aroute : ActivatedRoute) {   }
 
 // special params:
   ngOnInit() {
+    if(!(sessionStorage.getItem('userToken'))){
+      this.aroute.params.subscribe(params => {
+        this.userDetails = params; 
+     });
+    }
+    this.location.replaceState('/coinlist');
     this.advFilter  =[];
       this.http.get('http://coinwave.service.colanonline.net/exchange/getMax').map(
         response => response.json()
@@ -54,7 +63,7 @@ export class CoinlistComponent implements OnInit {
       this.advFilter.push(getfilterdData)
     }
     
-    //this.advancedSearchFilter()
+   
   }
   dayfilter(event){
     let getfilterdData = {
@@ -74,7 +83,7 @@ export class CoinlistComponent implements OnInit {
     if(!this.isThere){
       this.advFilter.push(getfilterdData)
     }
-    //this.advancedSearchFilter()
+   
   }
   weeklyFilter(event){
     let getfilterdData = {
@@ -94,7 +103,7 @@ export class CoinlistComponent implements OnInit {
     if(!this.isThere){
       this.advFilter.push(getfilterdData);
     }
-    //this.advancedSearchFilter()
+    
   }
   dayVolumeFilter(event){
     

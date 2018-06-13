@@ -14,23 +14,22 @@
       <th class="hideInResponsive" (click)="sort('highestPrice')">24 HR High / Low  <span class="fa sort-icon" *ngIf="key =='highestPrice'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span></th>
       <!-- <th class="hideInResponsive" (click)="sort('lowestPrice')">24 LOW HIGH  <span class="fa sort-icon" *ngIf="key =='lowestPrice'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span></th> -->
     </thead>
-    <!-- <tbody *ngFor="let coins of sample | orderBy: key : reverse  ; let i = index" class="favourite_coins">
+    <tbody *ngFor="let coins of sample | orderBy: key : reverse  ; let i = index" class="favourite_coins">
         <tr style="cursor:pointer">
+        
+          <td class="hideInResponsive">{{i+1}}</td>
+          <td (click)="coinDetails(coins.pair)">{{coins.name }}</td>
+          
+          <td (click)="coinDetails(coins.pair)" class="column-price" [ngClass]="{'colorGreen': coins.change === 'true','colorRed': coins.change === 'false'}"><b>${{coins.price}}</b><span class="fa upDownSymbol"  [ngClass]="{'arrow-up': coins.change === 'true','arrow-down': coins.change === 'false'}"></span></td>
           <td (click)="expandGraph($event,i,coins.pair,coins.name)">
             <i class="fa fa-arrows-alt" ></i>
           </td>
-          <td class="hideInResponsive">{{i+1}}</td>
-          <td (click)="coinDetails(coins.pair)">{{coins.name }}</td>
-          <td><input type="checkbox" (click)="favCoinFunctionality(coins.pair,coins.checked,i)" checked="coins.checked" [(ngModel)]="coins.checked"></td>
-          <td (click)="coinDetails(coins.pair)" class="column-price" [ngClass]="{'colorGreen': coins.change === 'true','colorRed': coins.change === 'false'}"><b>${{coins.price}}</b><span class="fa upDownSymbol"  [ngClass]="{'arrow-up': coins.change === 'true','arrow-down': coins.change === 'false'}"></span></td>
+          <td><input type="checkbox" class="favorite_coin" (click)="favCoinFunctionality(coins.pair)" [(ngModel)]="coins.checked"></td>
           <td (click)="coinDetails(coins.pair)" class="column-HRchange">{{258 * i+1 * 5}}</td>
           <td (click)="coinDetails(coins.pair)" class=" hideInResponsive column-dayChange">${{234 * i*1 * 2}}</td>
           <td (click)="coinDetails(coins.pair)" class="hideInResponsive">${{coins.dayVolume}}</td>
           <td (click)="coinDetails(coins.pair)" class="hideInResponsive">${{113 * i+1 * 4}}</td>
-          <td (click)="coinDetails(coins.pair)" class="hideInResponsive">${{coins.highestPrice}}</td>
-          <td (click)="coinDetails(coins.pair)" class="hideInResponsive">${{coins.lowestPrice}}</td>
-     git config --global user.email "tirumalanagavijay@colanonline.com"
-
+          <td (click)="coinDetails(coins.pair)" class="hideInResponsive">${{coins.highestPrice}} / {{coins.lowestPrice}}</td>
         </tr>
         <tr id="expand{{i}}" class="hidingNow">
           <td colspan="11" height="300px;" width="100%">
@@ -44,24 +43,21 @@
              </div>
           </td>
         </tr>
-   </tbody> -->
+   </tbody>
     <tbody *ngFor="let coins of coinList | filter: searchText | orderBy: key : reverse ; let i = index " >
          <tr style="cursor:pointer">
-           <td class="hideInResponsive" >{{i+1}}</td>
+           <td class="hideInResponsive" >{{sample.length+i+1}}</td>
            <td (click)="coinDetails(coins.pair)" class="coinBlock"><span><img class="coinLogo" src="http://coinwave.service.colanonline.net/upload/{{coins.image}}"> {{coins.name }}</span></td>
            <td (click)="coinDetails(coins.pair)" class="column-price" [ngClass]="{'colorGreen': coins.priceStatus === 'true','colorRed': coins.priceStatus === 'false'}"><b>${{coins.price}}</b><span class="fa upDownSymbol"  [ngClass]="{'arrow-up': coins.priceStatus === 'true','arrow-down': coins.priceStatus === 'false'}"></span></td>
            <td class="graphTabledata" (click)="expandGraph($event,i,coins.pair,coins.name,i)">
               <i class="fa fa-arrows-alt" ></i>
             </td>
             <td><input type="checkbox" class="favorite_coin" (click)="favCoinFunctionality(coins.pair)" [(ngModel)]="coins.checked"></td>
-         
            <td (click)="coinDetails(coins.pair)" class="" [ngClass]="{'colorGreen': coins.dayPriceStatus === 'true','colorRed': coins.dayPriceStatus === 'false'}">${{coins.dayPrice}} ({{coins.dayPricePercent}}) <span class="fa upDownSymbol"  [ngClass]="{'arrow-up': coins.dayPriceStatus === 'true','arrow-down': coins.dayPriceStatus === 'false'}"></span></td>
            <td (click)="coinDetails(coins.pair)" class=" hideInResponsive" [ngClass]="{'colorGreen': coins.weeklyChangeStatus === 'true','colorRed': coins.weeklyChangeStatus === 'false'}">${{coins.weeklyChange}} ({{coins.weeklyChangePercent}}) <span class="fa upDownSymbol"  [ngClass]="{'arrow-up': coins.weeklyChangeStatus === 'true','arrow-down': coins.weeklyChangeStatus === 'false'}"></span></td>
            <td (click)="coinDetails(coins.pair)" class="hideInResponsive">${{coins.dayVolume}}</td>
            <td (click)="coinDetails(coins.pair)" class="hideInResponsive">${{coins.marketCapValue}}</td>
            <td (click)="coinDetails(coins.pair)" class="hideInResponsive">${{coins.highestPrice}} / {{coins.lowestPrice}}</td>
-           
-      
          </tr>
          <tr id="expand{{i}}" class="hidingNow">
            <td colspan="11" height="300px;" width="100%">
@@ -84,3 +80,4 @@
   <td (click)="coinDetails(coins.pair)" class="hideInResponsive">{{coins.marketCap}}</td>
   <td (click)="coinDetails(coins.pair)" class="hideInResponsive">{{coins.hrhigh}}</td>
   <td (click)="coinDetails(coins.pair)" class="hideInResponsive">{{coins.hrlow}}</td> -->
+  

@@ -89,8 +89,7 @@ function getAuthServiceConfigs(){
   providers: [CompDataSharingService,{
     provide: AuthServiceConfig,
     useFactory: getAuthServiceConfigs
-  },
-  { provide: '819hzepp40a7eu', useValue: 'ovW2PXxWQGw8Q4kb' }
+  }
    ],
   bootstrap: [AppComponent],
   schemas: [ NO_ERRORS_SCHEMA ]
