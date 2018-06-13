@@ -61,7 +61,7 @@ export class ThemeHeaderComponent implements OnInit {
 ngOnInit() {
  setTimeout(() => {
    let langDropDown =  document.getElementsByClassName("goog-te-combo")[0];
- debugger
+ 
  langDropDown.addEventListener("select", this.changeSiteLanguage());
  },2000);
   this.changeRefreshRate = '1 Sec';
@@ -382,7 +382,7 @@ this.volume_black ={
       body.classList.remove('white-theme');
       siteColor = 'black_theme';
     }
-    debugger
+    
     let night_mode_in  = true;
     for(let r = 0; r < this.themeSettings.length; r++){
       if(this.themeSettings[r].siteColor){
@@ -497,7 +497,7 @@ this.volume_black ={
   this.key = key;
   this.reverse = !this.reverse;
   }
-  coulumnCustomization(colList,type){debugger
+  coulumnCustomization(colList,type){
     let custCol  = true;
     for(let r = 0; r < this.themeSettings.length; r++){
       if(this.themeSettings[r].customizeColumns){
@@ -526,7 +526,7 @@ this.volume_black ={
       this.loginModal.show();
     }
   }
-  changeSiteLanguage(){debugger
+  changeSiteLanguage(){
         let siteLang = document.getElementsByClassName("goog-te-combo")[0].value;
         let site_language  = true;
         for(let r = 0; r < this.themeSettings.length; r++){

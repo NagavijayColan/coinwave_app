@@ -111,7 +111,7 @@ export class CoinlistComponent implements OnInit {
   marketCapFilter(event){
     
   }
-  advancedSearchFilter(){debugger
+  advancedSearchFilter(){
     this.http.post('http://coinwave.service.colanonline.net/exchange/getusd',{filter:this.advFilter}).map(response => response.json()).subscribe(data => {
       this.component1.advancedTableFilter(data);
       

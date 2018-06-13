@@ -112,7 +112,7 @@ ngOnInit() {
         "bollinger bands.median.color": "#33FF88",
         "bollinger bands.upper.linewidth": 7
     }
-  this.aroute.params.subscribe(params => {debugger
+  this.aroute.params.subscribe(params => {
     this.coinKey = params['id']; 
  });
   this.http.get("http://coinwave.service.colanonline.net/exchange/getusd/"+this.coinKey).map(

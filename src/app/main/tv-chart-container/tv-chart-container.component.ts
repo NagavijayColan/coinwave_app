@@ -401,7 +401,7 @@ export class TvChartContainerComponent implements OnInit {
                         }
                     })
         } 
-        advancedTableFilter(data){debugger
+        advancedTableFilter(data){
             
             clearInterval(this.runningInterval)
             this.coinList =data;
@@ -449,7 +449,7 @@ export class TvChartContainerComponent implements OnInit {
             for(let k = 0; k < this.sample.length; k++){
                if(this.sample[k].pair == pair){
                     if(rr){
-                        debugger
+                        
                         this.coinList.push(this.sample[k]);
                         delete this.sample[k];
                     }
