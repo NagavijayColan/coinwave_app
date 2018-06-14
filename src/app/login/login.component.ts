@@ -23,17 +23,21 @@ export class LoginComponent implements OnInit {
   private loggedIn: boolean;
   public apiKey;
   public isUserAuthenticated;
-  constructor(private authService: AuthService,private http : Http,private router : Router,private changeGraphTheme : CompDataSharingService) {}
+  constructor(private authService: AuthService,private http : Http,private router : Router,private changeGraphTheme : CompDataSharingService) {
+    this.changeGraphTheme.callLogOut_listener().subscribe(() => {
+     this.signOut();
+    })
+  }
   
-  signInWithGoogle(): void {debugger
+  signInWithGoogle(): void {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(
       (userData) => {
         this.userReg.loginId = userData.id;
         this.userReg.loginType = userData.provider;
         this.userReg.userName = userData.name;
         this.http.post('http://coinwave.service.colanonline.net/user/socialLogin',this.userReg).map(response => response.json()).subscribe(data =>{
-          sessionStorage.setItem('userToken',data.access_token);
-          sessionStorage.setItem('userName',data.userName);
+          localStorage.setItem('userToken',data.access_token);
+          localStorage.setItem('userName',data.userName);
           this.router.navigate(['coinlist/',data]);
           this.changeGraphTheme.isLoggedIn_filter(data);
       })
@@ -49,8 +53,8 @@ export class LoginComponent implements OnInit {
         this.userReg.loginType = userData.provider;
         this.userReg.userName = userData.name;
         this.http.post('http://coinwave.service.colanonline.net/user/socialLogin',this.userReg).map(response => response.json()).subscribe(data =>{
-          sessionStorage.setItem('userToken',data.access_token);
-          sessionStorage.setItem('userName',data.userName);
+          localStorage.setItem('userToken',data.access_token);
+          localStorage.setItem('userName',data.userName);
           this.router.navigate(['coinlist/',data]);
           this.changeGraphTheme.isLoggedIn_filter(data);
       })
@@ -58,7 +62,7 @@ export class LoginComponent implements OnInit {
     );
   }
  
-  signInWithLinkedIN(): void {debugger
+  signInWithLinkedIN(): void {
     
     
     this.authService.signIn(LinkedinLoginProvider.PROVIDER_ID).then(
@@ -67,8 +71,8 @@ export class LoginComponent implements OnInit {
         this.userReg.loginType = userData.provider;
         this.userReg.userName = userData.name;
         this.http.post('http://coinwave.service.colanonline.net/user/socialLogin',this.userReg).map(response => response.json()).subscribe(data =>{
-          sessionStorage.setItem('userToken',data.access_token);
-          sessionStorage.setItem('userName',data.userName);
+          localStorage.setItem('userToken',data.access_token);
+          localStorage.setItem('userName',data.userName);
           this.router.navigate(['coinlist/',data]);
           this.changeGraphTheme.isLoggedIn_filter(data);
       })
@@ -87,7 +91,7 @@ export class LoginComponent implements OnInit {
     });
   }
   confirmPassword(){}
-  signUpWithMail(userReg){debugger
+  signUpWithMail(userReg){
     userReg.loginType = 'Manual'
     this.http.post('http://coinwave.service.colanonline.net/user/register',userReg).map(response => response.json()).subscribe(data =>{
       
@@ -101,22 +105,5 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/coinlist'])
     })
   }
-  onLinkedInLoad() {
-    IN.Event.on(IN, "auth", this.onLinkedInAuth);
-  }
-  public onLinkedInAuth() {
-    IN.API.Profile("me")
-      .fields("firstName", "lastName")
-      .result(this.displayProfiles)
-      .error(this.displayProfilesErrors);
-  }
-  public displayProfiles(profiles) {
-    var linkedinmember = profiles.values[0];
-    console.log(JSON.stringify(linkedinmember));
-    console.log(linkedinmember.firstName + " " + linkedinmember.lastName);
-  }
-  public displayProfilesErrors(error) {
-    console.log(error.message);
-    console.log(error);
-  }
+  
 }

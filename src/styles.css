@@ -1218,3 +1218,25 @@ input.favorite_coin {
 
 .search_icon {display: none !important;}
  /**12-06-2018**/
+
+ .advSearchBtn{
+    background: #ccc;
+    border: 0px;
+    padding: 5px 39px;
+    box-shadow: 1px 0px 2px #ccc;
+ }
+ .buyCoinList{
+    position: absolute;
+    z-index: 99999;
+    background: #cfd1d2;
+    width: auto;
+    padding: 20px;
+    height: 100px;
+    overflow-y: auto;
+    min-width: 139px;
+    
+ }
+ .buyCoinList ul li a{
+  color: #000;
+  font-weight: bold;
+ }

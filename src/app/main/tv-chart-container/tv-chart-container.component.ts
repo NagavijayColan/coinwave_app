@@ -227,9 +227,10 @@ export class TvChartContainerComponent implements OnInit {
           if(elementExp.contains('fa-arrows-alt')){
            elementExp.add('fa-arrows')
            elementExp.remove('fa-arrows-alt')
+           this.generateGraph("tv_chart_container"+i,coinToken,coinName);
           }
         }
-        this.generateGraph("tv_chart_container"+i,coinToken,coinName);
+     
         } 
         key: string = 'name'; 
         reverse: boolean = false;
@@ -299,8 +300,6 @@ export class TvChartContainerComponent implements OnInit {
                         url : 'http://coinwave.service.colanonline.net/exchange/getLastSecData',
                         data : {pair : coinToken},
                         success : function(response){
-                           
-                            console.log(response[0])
                             onRealtimeCallback(parseJSONorNot(response[0]));
                         },
                         error: function(res){
@@ -361,7 +360,7 @@ export class TvChartContainerComponent implements OnInit {
                'use_localstorage_for_settings',
                'save_chart_properties_to_local_storage',
             ],
-            enabled_features: ['study_templates','header_chart_type','header_settings'],
+            enabled_features: ['study_templates','header_chart_type','header_settings','header_indicators'],
             charts_storage_url: this._chartsStorageUrl,
             charts_storage_api_version: this._chartsStorageApiVersion,
             client_id: this._clientId,
@@ -386,7 +385,7 @@ export class TvChartContainerComponent implements OnInit {
                 response => response.json()).subscribe(
                     data => {
                         this.getallCoins = data;
-                        
+                    
                         if(this.coinList.length > 0 && this.getallCoins.length === this.coinList.length){
                             this.updateCoindData(this.getallCoins)
                         }
@@ -402,7 +401,6 @@ export class TvChartContainerComponent implements OnInit {
                     })
         } 
         advancedTableFilter(data){
-            
             clearInterval(this.runningInterval)
             this.coinList =data;
         }
@@ -443,22 +441,20 @@ export class TvChartContainerComponent implements OnInit {
            }
         }
         favCoinFunctionality(pair,rr,i){
-            this.http.post('',{}).map(response => response.json()).subscribe(data => {
-               return;
-            })
-            for(let k = 0; k < this.sample.length; k++){
-               if(this.sample[k].pair == pair){
-                    if(rr){
+            // this.http.post('',{}).map(response => response.json()).subscribe(data => {
+            //    return;
+            // })
+            // for(let k = 0; k < this.sample.length; k++){
+            //    if(this.sample[k].pair == pair){
+            //         if(rr){
                         
-                        this.coinList.push(this.sample[k]);
-                        delete this.sample[k];
-                    }
+            //             this.coinList.push(this.sample[k]);
+            //             delete this.sample[k];
+            //         }
 
-                }
+            //     }
                 
-            }
+            // }
         }
-            searchVal(k){
-                this.searchText = k;
-            }
+    
 }

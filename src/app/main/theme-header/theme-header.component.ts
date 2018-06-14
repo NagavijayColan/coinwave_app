@@ -59,11 +59,7 @@ export class ThemeHeaderComponent implements OnInit {
  }
 
 ngOnInit() {
- setTimeout(() => {
-   let langDropDown =  document.getElementsByClassName("goog-te-combo")[0];
- 
- langDropDown.addEventListener("select", this.changeSiteLanguage());
- },2000);
+
   this.changeRefreshRate = '1 Sec';
   this.passData2Comp ={
     theme : '',
@@ -301,12 +297,12 @@ this.volume_black ={
     // this.hideThemesection = true;
     this.hideOptionsection = false;
     this.hideLanguageSection = false;
-    if(sessionStorage.getItem('hideThemesection')){
-      this.hideThemesection = JSON.parse(sessionStorage.getItem('hideThemesection'));
+    if(localStorage.getItem('hideThemesection')){
+      this.hideThemesection = JSON.parse(localStorage.getItem('hideThemesection'));
     }
     else{
       this.hideThemesection = true;
-      sessionStorage.setItem('hideThemesection','true')
+      localStorage.setItem('hideThemesection','true')
      
     }
     
@@ -355,7 +351,12 @@ this.volume_black ={
           arrayL[m].textContent = valueArray[m]
          }
        },1000)
-       this.changeGraphTheme.customizeFilter(this.desktoplists )
+       this.changeGraphTheme.customizeFilter(this.desktoplists );
+       setTimeout(() => {
+        let langDropDown =  document.getElementsByClassName("goog-te-combo")[0];
+      
+         langDropDown.addEventListener("select", this.changeSiteLanguage());
+      },3000);
       }
   siteColor() {
     let siteColor ;
@@ -398,8 +399,8 @@ this.volume_black ={
 
   themeSectionHide()
   {
-    sessionStorage.setItem('hideThemesection','false');
-    this.hideThemesection = JSON.parse(sessionStorage.getItem('hideThemesection'));
+    localStorage.setItem('hideThemesection','false');
+    this.hideThemesection = JSON.parse(localStorage.getItem('hideThemesection'));
   }
 
 
@@ -440,6 +441,7 @@ this.volume_black ={
     }
     console.log(this.themeSettings)
   }
+
   selectCurrency(text,image){
     this.currencyText = text;
     this.currencyImg = image;
@@ -465,6 +467,7 @@ this.volume_black ={
     this.languageImg = image;
     this.hideLanguageSection = !this.hideLanguageSection;
   }
+
   refreshRateChange(){
     
     this.changeRefreshRate = document.getElementsByClassName('noUi-handle')[0].getAttribute('aria-valuetext').toString();
@@ -490,9 +493,11 @@ this.volume_black ={
     this.changeGraphTheme.refreshRateFilter( document.getElementsByClassName('noUi-handle')[0].getAttribute('aria-valuetext'));
 
   }
+
   noRefresh(){
     this.changeGraphTheme.refreshRateFilter('false');
   }
+  
   sort(key){
   this.key = key;
   this.reverse = !this.reverse;
@@ -519,7 +524,7 @@ this.volume_black ={
     this.changeGraphTheme.customizeFilter(colList)
   }
   saveThemeStructure(){
-    if(sessionStorage.getItem('userToken')){
+    if(localStorage.getItem('userToken')){
 
     }
     else{
@@ -538,7 +543,6 @@ this.volume_black ={
         if(site_language){
           this.themeSettings.push({siteLanguage :siteLang})
         }
-        console.log(this.themeSettings)
   }
 }
 

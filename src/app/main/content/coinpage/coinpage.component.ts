@@ -43,6 +43,7 @@ export class CoinpageComponent implements OnInit {
   variable:any;
   public toolsBg;
   public coinKey;
+  public isOpened;
   @Input()
   set symbol(symbol: ChartingLibraryWidgetOptions['symbol']) {
       this._symbol = symbol || this._symbol;
@@ -101,6 +102,7 @@ export class CoinpageComponent implements OnInit {
   
 constructor(private http : Http,private aroute: ActivatedRoute,private changeGraphTheme : CompDataSharingService) {}
 ngOnInit() {
+    this.isOpened = false;
     this.volume_white = {
         "volume.volume.color.0": "#000",
         "volume.volume.color.1": "#fff",
@@ -253,7 +255,6 @@ generateGraph(coinToken){
             locale: getLanguageFromURL() || 'en',
             disabled_features: [
                'header_saveload',
-               'header_indicators',
                'timeframes_toolbar',
                'header_settings',
                'header_symbol_search',
@@ -262,7 +263,7 @@ generateGraph(coinToken){
                'use_localstorage_for_settings',
                'save_chart_properties_to_local_storage',
             ],
-            enabled_features: ['study_templates','header_chart_type','header_settings'],
+            enabled_features: ['study_templates','header_chart_type','header_settings','header_indicators'],
             charts_storage_url: this._chartsStorageUrl,
             charts_storage_api_version: this._chartsStorageApiVersion,
             client_id: this._clientId,
@@ -279,7 +280,11 @@ generateGraph(coinToken){
           tvWidget.chart().setChartType(2);
       });
   }
-
-
+  addToPortfolio(){
+    //   this.http.post('',{portfolio : this.coinKey})
+  }
+//   buyCoin(){
+//       this.isOpened = !this.isOpened
+//   }
 
 }

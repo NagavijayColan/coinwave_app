@@ -23,7 +23,7 @@ export class CoinlistComponent implements OnInit {
 
 // special params:
   ngOnInit() {
-    if(!(sessionStorage.getItem('userToken'))){
+    if(!(localStorage.getItem('userToken'))){
       this.aroute.params.subscribe(params => {
         this.userDetails = params; 
      });
@@ -72,6 +72,7 @@ export class CoinlistComponent implements OnInit {
         "to" : event.to
       }
     }
+
     this.isThere = false;
     for(let i =0;i < this.advFilter.length; i++){
       if(this.advFilter[i].dayPricePercent){
@@ -111,10 +112,14 @@ export class CoinlistComponent implements OnInit {
   marketCapFilter(event){
     
   }
+  resetAdvFilter(){debugger
+    this.priceVal.update({from: 0, to:this.maxPrice});
+    this.dayChange.update({from: 0, to:100});
+    this.weeklyChange.update({from: 0, to:100});
+  }
   advancedSearchFilter(){
     this.http.post('http://coinwave.service.colanonline.net/exchange/getusd',{filter:this.advFilter}).map(response => response.json()).subscribe(data => {
       this.component1.advancedTableFilter(data);
-      
     })
   }
 }

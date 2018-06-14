@@ -8,6 +8,7 @@ export class CompDataSharingService {
   private searchData = new Subject<any>();
   private costomizeColumn = new Subject<any>();
   private isLoggedInSub = new Subject<any>();
+  private makeLogOut = new Subject<any>();
 
 /* Refresh Rate  */
   refreshRateListen(): Observable<any> {
@@ -38,7 +39,13 @@ export class CompDataSharingService {
   isLoggedIn_filter(data: any){
     this.isLoggedInSub.next(data);
   }
-
+  /*Social Log out */
+  callLogOut_listener(){
+    return this.makeLogOut.asObservable();
+  }
+  callLogOut_filter(){
+    this.makeLogOut.next();
+  }
   private changeGraphTheme = new BehaviorSubject<string>("default message");
   currentMessage = this.changeGraphTheme.asObservable();
   constructor() { }
