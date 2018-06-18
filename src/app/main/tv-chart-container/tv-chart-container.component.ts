@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import {FormsModule} from '@angular/forms';
 import { CompDataSharingService } from "../../comp-data-sharing.service";
 import {Http} from '@angular/http';
+
 import {
     widget,
     onready,

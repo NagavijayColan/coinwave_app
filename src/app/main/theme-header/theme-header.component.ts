@@ -340,7 +340,7 @@ this.volume_black ={
        ];
        
        this.passData2Comp.theme = this.themeBlack
-       this.passData2Comp.refreshrate = '1';
+       this.passData2Comp.refreshrate = '3';
        this.passData2Comp.volumeTheme = this.volume_black;
        this.passData2Comp.toolsBg = '#000'
        this.changeGraphTheme.changeMessage(this.passData2Comp);
