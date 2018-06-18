@@ -406,7 +406,7 @@ export class TvChartContainerComponent implements OnInit {
         }
         updateCoindData(allCoins){
             for(let i=0; i < allCoins.length; i++){
-
+                
                 for(let k = 0; k < allCoins.length; k++){
                      if(this.coinList[k].pair == allCoins[i].pair){
 

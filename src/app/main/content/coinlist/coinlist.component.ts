@@ -112,14 +112,16 @@ export class CoinlistComponent implements OnInit {
   marketCapFilter(event){
     
   }
-  resetAdvFilter(){debugger
+  resetAdvFilter(){
     this.priceVal.update({from: 0, to:this.maxPrice});
     this.dayChange.update({from: 0, to:100});
     this.weeklyChange.update({from: 0, to:100});
   }
   advancedSearchFilter(){
+    if(this.advFilter.length > 0){
     this.http.post('http://coinwave.service.colanonline.net/exchange/getusd',{filter:this.advFilter}).map(response => response.json()).subscribe(data => {
       this.component1.advancedTableFilter(data);
     })
+  }
   }
 }

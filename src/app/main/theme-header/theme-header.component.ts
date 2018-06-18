@@ -297,12 +297,12 @@ this.volume_black ={
     // this.hideThemesection = true;
     this.hideOptionsection = false;
     this.hideLanguageSection = false;
-    if(localStorage.getItem('hideThemesection')){
-      this.hideThemesection = JSON.parse(localStorage.getItem('hideThemesection'));
+    if(sessionStorage.getItem('hideThemesection')){
+      this.hideThemesection = JSON.parse(sessionStorage.getItem('hideThemesection'));
     }
     else{
       this.hideThemesection = true;
-      localStorage.setItem('hideThemesection','true')
+      sessionStorage.setItem('hideThemesection','true')
      
     }
     
@@ -394,13 +394,13 @@ this.volume_black ={
     if(night_mode_in){
       this.themeSettings.push({siteColor : siteColor})
     }
-    console.log(this.themeSettings)
+    
   }
 
   themeSectionHide()
   {
-    localStorage.setItem('hideThemesection','false');
-    this.hideThemesection = JSON.parse(localStorage.getItem('hideThemesection'));
+    sessionStorage.setItem('hideThemesection','false');
+    this.hideThemesection = JSON.parse(sessionStorage.getItem('hideThemesection'));
   }
 
 
@@ -439,7 +439,7 @@ this.volume_black ={
     if(night_mode_in){
       this.themeSettings.push({night_mode : night_mode})
     }
-    console.log(this.themeSettings)
+    
   }
 
   selectCurrency(text,image){
@@ -457,7 +457,7 @@ this.volume_black ={
     if(currency_in){
       this.themeSettings.push({currencyType : text})
     }
-    console.log(this.themeSettings)
+    
   }
 
 
@@ -489,7 +489,7 @@ this.volume_black ={
     if(refreshIn){
       this.themeSettings.push({refreshRate :this.changeRefreshRate})
     }
-    console.log(this.themeSettings)
+    
     this.changeGraphTheme.refreshRateFilter( document.getElementsByClassName('noUi-handle')[0].getAttribute('aria-valuetext'));
 
   }
@@ -520,7 +520,7 @@ this.volume_black ={
      let obj = {customizeColumns : colList}
       this.themeSettings.push(obj);
     }
-    console.log(this.themeSettings)
+    
     this.changeGraphTheme.customizeFilter(colList)
   }
   saveThemeStructure(){

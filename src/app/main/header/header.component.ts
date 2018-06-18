@@ -35,7 +35,7 @@ export class HeaderComponent implements OnInit {
   //     this.router.navigate(['/login'])
   // }
   globalSearch(text){
-    console.log(text);
+    
     this.dataShare.searchDataFilter(text);
   }
   goToLogin(){
