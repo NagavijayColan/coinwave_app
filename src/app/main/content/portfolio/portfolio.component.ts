@@ -127,19 +127,23 @@ public coinList
 
   ];
   this. getCoinList();
-  setInterval(() => {
-    this. getCoinList()
-  },3000)
+  // setInterval(() => {
+  //   this. getCoinList()
+  // },3000)
   
   }
 
   
   getCoinList(){
-    this.http.post('http://coinwave.service.colanonline.net/exchange/getusd',{}).map(
+    if(localStorage.getItem('userToken')){
+      let tokenV = localStorage.getItem('userToken');
+      this.http.get('http://coinwave.service.colanonline.net/api/exchange/getPortfolio',tokenV).map(
         response => response.json()).subscribe(
             data => {
                 this.coinList = data;
                 this.portfoliogrid = data;
             })
+    }
+   
 } 
 }

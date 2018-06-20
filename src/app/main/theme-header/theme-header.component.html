@@ -35,20 +35,19 @@
                 <div class="in_sel-term1">
 
                     <div class="opt_tlt">
-                        <img [src]="currencyImg" />
                         <span>{{currencyText}}</span>
                         <i class="fa fa-chevron-down" aria-hidden="true"></i>
                     </div>
                     <div class="opt_lst">
 
-                        <span class="opt_arw" [class.active]="currencyorder === 'currencyname'" (click)="sort('currencyname')">
+                        <span class="opt_arw" [class.active]="currencyorder === 'id'" (click)="sort('id')">
                             <label>Sort </label>
                             <span [hidden]="reverse">▼</span>
                             <span [hidden]="!reverse">▲</span>
                         </span>
-                        <div *ngFor="let row of collection1 | orderBy: key : reverse ;">
-                            <div class="opt_tlt" (click)="selectCurrency(row.currencyname,row.currencyimage)">
-                                <img src={{row.currencyimage}}> {{ row.currencyname }}</div>
+                        <div *ngFor="let ctL of currencyTypeList | orderBy: key : reverse ;">
+                            <div class="opt_tlt" (click)="selectCurrency(ctL.id)">
+                                 {{ ctL.id }}</div>
                         </div>
                     </div>
 
@@ -106,7 +105,7 @@
             <!--Body-->
             <div class="modal-body refresh_rate">
                 <!-- <p class="siteRefreshText">Site will refresh on every {{changeRefreshRate}} </p> -->
-               <div (click)="refreshRateChange()"> <nouislider [config]="someRange2config"  [tooltips]="[ true]"  [(ngModel)]="someRange2" ></nouislider>
+               <div (click)="refreshRateChange()"> <nouislider [config]="someRange2config"  [tooltips]="[ true]"  [(ngModel)]="someRange" ></nouislider>
             </div>
             </div>
             <!--Footer-->
@@ -151,22 +150,22 @@
                         <div class="desktop_options col-md-4 col-lg-4 col-sm-12 col-xs-12">
                             <span class="lst_tlt">Desktop</span>
                             <div class="form-check" *ngFor="let desklist of desktoplists">
-                                <input class="form-check-input" [(ngModel)]="desklist.ischecked"  (change)="coulumnCustomization({desktop : desktoplists},'desktop')" type="checkbox" name="listsgroup">
+                                <input class="form-check-input" [(ngModel)]="desklist.ischecked"  (change)="coulumnCustomization({desktop : desktoplists,mobile:mobilelists,app : mobilelists},desktoplists)" type="checkbox" name="listsgroup">
                                 <label class="form-check-label">{{desklist.label}}</label>
                             </div>
                         </div>
                         <div class="mobile_options col-md-4 col-lg-4 col-sm-12 col-xs-12">
                             <span class="lst_tlt">Mobile</span>
                             <div class="form-check" *ngFor="let moblist of mobilelists">
-                                <input class="form-check-input" [(ngModel)]="moblist.ischecked"  (change)="coulumnCustomization({mobile:mobilelists},'mobile')"  type="checkbox" name="listsgroup">
+                                <input class="form-check-input" [(ngModel)]="moblist.ischecked"  (change)="coulumnCustomization({desktop : desktoplists,mobile:mobilelists,app : mobilelists},mobilelists)"  type="checkbox" name="listsgroup">
                                 <label class="form-check-label">{{moblist.label}}</label>
-                            </div>
+                        </div>
                         </div>
                         <div class="app_options col-md-4 col-lg-4 col-sm-12 col-xs-12">
                                 <span class="lst_tlt">App</span>
-                                <div class="form-check" *ngFor="let moblist of mobilelists">
-                                    <input class="form-check-input" [(ngModel)]="moblist.ischecked"  (change)="coulumnCustomization({app : mobilelists},'app')"  type="checkbox" name="listsgroup">
-                                    <label class="form-check-label">{{moblist.label}}</label>
+                                <div class="form-check" *ngFor="let app of appList">
+                                    <input class="form-check-input" [(ngModel)]="app.ischecked"  (change)="coulumnCustomization({desktop : desktoplists,mobile:mobilelists,app : appList},appList)"  type="checkbox" name="listsgroup">
+                                    <label class="form-check-label">{{app.label}}</label>
                                 </div>
                             </div>
 

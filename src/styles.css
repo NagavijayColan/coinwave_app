@@ -684,7 +684,7 @@ td.column-dayChange::after {
 
 
 .in_sel-term1 .opt_lst {display: none;}
-.in_sel-term1:hover .opt_lst {display: block;}
+.in_sel-term1:hover .opt_lst {display: block;height:200px;overflow-y: scroll;}
 .bitcoin_logo {  max-width: 290px; width: 100%;}
 .coin-page-lft table { margin-bottom: 24px;}
 .coin-page-lft .table-responsive{display: table;}

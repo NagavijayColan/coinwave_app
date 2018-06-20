@@ -2,19 +2,22 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
+import { debug } from 'util';
 @Injectable()
 export class CompDataSharingService {
   private refresh = new Subject<any>();
   private searchData = new Subject<any>();
-  private costomizeColumn = new Subject<any>();
+  private customizeCol = new Subject<any>();
   private isLoggedInSub = new Subject<any>();
   private makeLogOut = new Subject<any>();
+  private currencyVal = new Subject<any>();
+  private makeDefaultTheme = new Subject<any>();
 
 /* Refresh Rate  */
   refreshRateListen(): Observable<any> {
      return this.refresh.asObservable();
   }
-  refreshRateFilter(filterBy: string,) {
+  refreshRateFilter(filterBy: string) {
     this.refresh.next(filterBy);
   }
  /* Global Search */
@@ -25,12 +28,13 @@ export class CompDataSharingService {
      this.searchData.next(text);
   }
   /* Column Customization  */
-  customizeColumnListner(): Observable<any> {
-    return this.costomizeColumn.asObservable();
+  customizeColumns_listener(): Observable<any> {
+    return this.customizeCol.asObservable();
   }
-  customizeFilter(data: any){
-    this.costomizeColumn.next(data);
+  customizeColumns_filter(text: Object) {
+     this.customizeCol.next(text);
   }
+  
 
   /*Is logged In */
   isLoggedIn_listener(): Observable<any> {
@@ -45,6 +49,20 @@ export class CompDataSharingService {
   }
   callLogOut_filter(){
     this.makeLogOut.next();
+  }
+  /*Currency Converter*/
+  currencyConverter_listener(){
+    return this.currencyVal.asObservable();
+  }
+  currencyConverter_filter(currencyRate: number){
+    this.currencyVal.next(currencyRate);
+  }
+  /*Make Default Theme */
+  changeTo_default_theme_listener(){
+    return this.makeDefaultTheme.asObservable();
+  }
+  changeTo_default_theme_filter(){
+    this.makeDefaultTheme.next();
   }
   private changeGraphTheme = new BehaviorSubject<string>("default message");
   currentMessage = this.changeGraphTheme.asObservable();

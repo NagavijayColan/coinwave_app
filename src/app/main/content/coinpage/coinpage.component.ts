@@ -281,10 +281,19 @@ generateGraph(coinToken){
       });
   }
   addToPortfolio(){
-    //   this.http.post('',{portfolio : this.coinKey})
+      if(localStorage.getItem('userToken')){
+          let tokenV = localStorage.getItem('userToken');
+        this.http.put('http://coinwave.service.colanonline.net/api/userSetting/update',{portfolio : this.coinKey,token:tokenV}).map(
+        response => response.json()).subscribe(
+          data => {
+                alert(data)
+            }
+        )
+      }
+      
   }
-//   buyCoin(){
-//       this.isOpened = !this.isOpened
-//   }
+  buyCoin(){
+      this.isOpened = !this.isOpened
+  }
 
 }

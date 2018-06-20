@@ -43,7 +43,9 @@ export class HeaderComponent implements OnInit {
   }
   logOut(){
     localStorage.removeItem('userToken');
+    localStorage.removeItem('userName');
     this.dataShare.callLogOut_filter();
+    this.dataShare.changeTo_default_theme_filter();
     this.isLoggedIn = false;
   }
 }
