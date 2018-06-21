@@ -12,7 +12,7 @@ export class CompDataSharingService {
   private makeLogOut = new Subject<any>();
   private currencyVal = new Subject<any>();
   private makeDefaultTheme = new Subject<any>();
-
+  private getAllCoinsLogOut = new Subject<any>();
 /* Refresh Rate  */
   refreshRateListen(): Observable<any> {
      return this.refresh.asObservable();
@@ -64,6 +64,14 @@ export class CompDataSharingService {
   changeTo_default_theme_filter(){
     this.makeDefaultTheme.next();
   }
+  /*Get Default Data*/
+  get_all_coins_listener(){
+    return this.getAllCoinsLogOut.asObservable();
+  }
+  get_all_coins_filter(){
+    this.getAllCoinsLogOut.next();
+  }
+
   private changeGraphTheme = new BehaviorSubject<string>("default message");
   currentMessage = this.changeGraphTheme.asObservable();
   constructor() { }

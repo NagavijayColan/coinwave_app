@@ -19,31 +19,13 @@
   <!-- <script src="https://apis.google.com/js/platform.js?onload=onLoadGoogleCallback" async defer></script> -->
   <script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>  
   <script>
-
-function googleTranslateElementInit() {
-  new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
-}
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+    }
  </script>
  
   <script>
-  function onLinkedInLoad() {
-        IN.Event.on(IN, "auth", getProfileData);
-    }
-
-    // Handle the successful return from the API call
-    function onSuccess(data) {
-        console.log(data);
-    }
-
-    // Handle an error response from the API call
-    function onError(error) {
-        console.log(error);
-    }
-
-    // Use the API call wrapper to request the member's basic profile data
-    function getProfileData() {
-        IN.API.Raw("/people/~").result(onSuccess).error(onError);
-    }
+  
   </script>
 </head>
 <body class="black-theme">

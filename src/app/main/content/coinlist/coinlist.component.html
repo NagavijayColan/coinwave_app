@@ -1,4 +1,3 @@
-
 <div class="sort_content_section">
   <div class="container">
 
@@ -8,18 +7,18 @@
         <div class="row">
           <div class="sort_by">
             <h1 class="sort_by_head">Sort By
-              <i class="fa fa-chevron-down sort_by_icon"  aria-hidden="true"></i>
+              <i class="fa fa-chevron-down sort_by_icon" aria-hidden="true"></i>
               <!--<img src="/assets/images/sort_arw.png" class="sort_by_icon"/>-->
             </h1>
             <ul>
-                <li (click)="sortTable('name')">
-                    <a>Coins</a>
-                 </li>
+              <li (click)="sortTable('name')">
+                <a>Coins</a>
+              </li>
               <li (click)="sortTable('price')">
                 <a>Price</a>
               </li>
               <li (click)="sortTable('HRchange')">
-                <a>24 Hr (%)  </a>
+                <a>24 Hr (%) </a>
               </li>
               <li (click)="sortTable('dayChange')">
                 <a>7 Day (%) </a>
@@ -27,7 +26,7 @@
               <li (click)="sortTable('dayVolume')">
                 <a>Volume (24H) </a>
               </li>
-             
+
               <li (click)="sortTable('marketCap')">
                 <a>Market Cap </a>
               </li>
@@ -44,37 +43,35 @@
               <span>Search Filters</span>
               <i class="fa fa-undo float-right" (click)="resetAdvFilter()" style="margin-top: -11px;cursor:pointer;"></i>
             </h1>
-            <accordion id="advancedSearchFilter"[closeOthers]="false">
+            <accordion id="advancedSearchFilter" [closeOthers]="false">
               <accordion-group heading="PRICE" [isOpened]="true">
                 <ion-range-slider #priceVal type="double" [min]="0" [max]="maxPrice" from_min="0" [from_max]="maxPrice" from_shadow="false"
-                [to]="maxPrice" to_min="0" [to_max]="maxPrice"
-                   to_shadow="true" grid="true"  postfix=" Price" decorate_both="false"
-                   (onChange)="priceFilter($event)" ></ion-range-slider>
+                  [to]="maxPrice" to_min="0" [to_max]="maxPrice" to_shadow="true" grid="true" postfix=" Price" decorate_both="false"
+                  (onChange)="priceFilter($event)"></ion-range-slider>
               </accordion-group>
               <accordion-group heading="24 HR (%)" [isOpened]="false">
-                <ion-range-slider #dayChange type="double" [min]="0" max="100"  from_shadow="false"
-                   to_shadow="true" grid="true" grid_num="4" postfix=" 24 HOUR CHANGE" decorate_both="false"
-                   (onChange)="dayfilter($event)" ></ion-range-slider>
+                <ion-range-slider #dayChange type="double" [min]="0" max="100" from_shadow="false" to_shadow="true" grid="true" grid_num="4"
+                  postfix=" 24 HOUR CHANGE" decorate_both="false" (onChange)="dayfilter($event)"></ion-range-slider>
               </accordion-group>
               <accordion-group heading="7 DAY (%)" [isOpened]="false">
-                <ion-range-slider #weeklyChange type="double" [min]="0" max="100" to_shadow="true" grid="true" grid_num="4" postfix=" 7 DAY CHANGE" decorate_both="false"
-                   (onChange)="weeklyFilter($event)" ></ion-range-slider>
+                <ion-range-slider #weeklyChange type="double" [min]="0" max="100" to_shadow="true" grid="true" grid_num="4" postfix=" 7 DAY CHANGE"
+                  decorate_both="false" (onChange)="weeklyFilter($event)"></ion-range-slider>
 
               </accordion-group>
               <accordion-group heading="VOLUME (24H)" [isOpened]="false">
                 <ion-range-slider #volume24H type="double" [min]="10" max="300" from="0" from_min="0" from_max="300" from_shadow="false"
                   to="300" to_min="0" to_max="180" to_shadow="true" grid="true" grid_num="4" postfix=" 24 HOUR VOLUME" decorate_both="false"
-                   (onChange)="dayVolumeFilter($event)" ></ion-range-slider>
+                  (onChange)="dayVolumeFilter($event)"></ion-range-slider>
               </accordion-group>
               <accordion-group heading="MARKET CAP" [isOpened]="false">
-                <ion-range-slider #marketCap type="double" [min]="10" max="30" from="0" from_min="0" from_max="30" from_shadow="false"
-                  to="40" to_min="0" to_max="30" to_shadow="true" grid="true" grid_num="4" postfix=" MARKET CAP" decorate_both="false"
-                   (onChange)="marketCapFilter($event)" ></ion-range-slider>
+                <ion-range-slider #marketCap type="double" [min]="10" max="30" from="0" from_min="0" from_max="30" from_shadow="false" to="40"
+                  to_min="0" to_max="30" to_shadow="true" grid="true" grid_num="4" postfix=" MARKET CAP" decorate_both="false"
+                  (onChange)="marketCapFilter($event)"></ion-range-slider>
               </accordion-group>
             </accordion>
           </div>
           <div class="w-100">
-          <button class="pull-right advSearchBtn" (click)="advancedSearchFilter()">Search</button>
+            <button class="pull-right advSearchBtn" (click)="advancedSearchFilter()">Search</button>
           </div>
           <app-advertisement></app-advertisement>
 
@@ -86,7 +83,7 @@
         <!-- <data-table-sort-expands></data-table-sort-expands> -->
         <!-- <app-graph-section #component1></app-graph-section> -->
         <app-tv-chart-container #component1></app-tv-chart-container>
-        
+
       </div>
     </div>
   </div>

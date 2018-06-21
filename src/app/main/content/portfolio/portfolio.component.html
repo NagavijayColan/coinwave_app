@@ -1,77 +1,126 @@
-
-
 <div class="portfolio_main">
   <div class="container">
 
     <div class="grid_view_head">
-       <h6>User Name/Info</h6>
-       <div class="price_data"><h2>$2,000.00<i class="fa fa-arrows-v" aria-hidden="true"></i></h2></div>
-       <div class="grid_list_tab">
-         <ul>
-           <li (click)="changeGridView('list_view')" style="cursor:pointer" class="active" id="list_view"><i class="fa fa-list-ul" aria-hidden="true"></i><span>List View</span></li>
-           <li (click)="changeGridView('grid_view')" style="cursor:pointer" id="grid_view"><i class="fa fa-table" aria-hidden="true"></i><span>Grid View</span></li>
-         </ul>
-       </div>
-    </div>
-    
-
-     <!--grid_view-->
-      <div class="grid_view" *ngIf="gridSelected">
-        <div class="grid_view_details">
-         <div  class=" col-xs-12 col-sm-12 col-md-4 col-lg-4" *ngFor="let coins of portfoliogrid">
-               <div class="bitsoin">
-                <h2> {{coins.name | uppercase}}</h2>
-                <ul>
-                <li><p><label>PRICE </label>  <span class="price_head">{{ coins.price }}</span> </p></li> 
-                <li><p><label>24 HR Change </label>  <span>{{coins.dayPrice}}</span> </p></li> 
-                <li><p><label>7 Day Chnage </label>  <span>{{coins.weeklyChange}} ({{coins.weeklyChangePercent}}%)</span> </p></li>   
-                <li><p><label>24 HR Volume</label>  <span>{{coins.dayVolume}}</span> </p></li> 
-                <li><p><label>Market Cap</label>  <span>{{coins.marketCapValue}}</span> </p></li> 
-                 
-                </ul>
-              </div> 
-              </div> 
-         </div>
+      <h6>User Name/Info</h6>
+      <div class="price_data">
+        <h2>$2,000.00
+          <i class="fa fa-arrows-v" aria-hidden="true"></i>
+        </h2>
       </div>
-      <!--grid_view-->
+      <div class="grid_list_tab">
+        <ul>
+          <li (click)="changeGridView('list_view')" style="cursor:pointer" class="active" id="list_view">
+            <i class="fa fa-list-ul" aria-hidden="true"></i>
+            <span>List View</span>
+          </li>
+          <li (click)="changeGridView('grid_view')" style="cursor:pointer" id="grid_view">
+            <i class="fa fa-table" aria-hidden="true"></i>
+            <span>Grid View</span>
+          </li>
+        </ul>
+      </div>
+    </div>
 
-      <!--list_view-->
-      <div class="table-responsive col-sm-12 col-xs-12 col-md-12 col-lg-12 coin-page-lft list_view_table" *ngIf="listSelected">
-          <table border="0" cellpadding="0" cellspacing="0"  class="table-responsive">
-          <thead>
-            <tr>
-                <th>#</th>
-                <th (click)="sort('name')">Coin <span class="fa sort-icon" *ngIf="key =='name'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"> </span></th>
-                <th (click)="sort('price')">price <span class="fa sort-icon" *ngIf="key =='price'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span> </th>
-                <th (click)="sort('dayPrice')">24 Hr Change<span class="fa sort-icon" *ngIf="key =='dayPrice'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span> </th>
-                <th (click)="sort('weeklyChange')" class=" hideInResponsive">7 Day change<span class="fa sort-icon" *ngIf="key =='weeklyChange'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span> </th>
-                <th (click)="sort('dayVolume')" class=" hideInResponsive">24 Hr Volume<span class="fa sort-icon" *ngIf="key =='dayVolume'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span> </th>
-                <th (click)="sort('marketCapValue')" class=" hideInResponsive">Market Cap<span class="fa sort-icon" *ngIf="key =='marketCapValue'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span> </th>
-                <th (click)="sort('highestPrice')" class=" hideInResponsive">24 Hr High/Low<span class="fa sort-icon" *ngIf="key =='highestPrice'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span> </th>
-              </tr>
-          </thead>
 
-          <tbody>
-             <tr *ngFor="let coins of coinList | filter: searchText | orderBy: key : reverse ; let i = index">
-              <td>{{i+1}}</td>
-              <td>{{coins.name}}</td>
-              <td class="ls_price">${{coins.price}}</td>
-              <td  class="" [ngClass]="{'colorGreen': coins.dayPriceStatus === 'true','colorRed': coins.dayPriceStatus === 'false'}">${{coins.dayPrice}} ({{coins.dayPricePercent}}) <span class="fa upDownSymbol"  [ngClass]="{'arrow-up': coins.dayPriceStatus === 'true','arrow-down': coins.dayPriceStatus === 'false'}"></span></td>
-              <td  class=" hideInResponsive" [ngClass]="{'colorGreen': coins.weeklyChangeStatus === 'true','colorRed': coins.weeklyChangeStatus === 'false'}">${{coins.weeklyChange}} ({{coins.weeklyChangePercent}}) <span class="fa upDownSymbol"  [ngClass]="{'arrow-up': coins.weeklyChangeStatus === 'true','arrow-down': coins.weeklyChangeStatus === 'false'}"></span></td>
-              <td (click)="coinDetails(coins.pair)" class="hideInResponsive">${{coins.dayVolume}}</td>
-              <td (click)="coinDetails(coins.pair)" class="hideInResponsive">${{coins.marketCapValue}}</td>
-              <td (click)="coinDetails(coins.pair)" class="hideInResponsive">${{coins.highestPrice}} / {{coins.lowestPrice}}</td>
-            </tr>  
-          </tbody>
+    <!--grid_view-->
+    <div class="grid_view" *ngIf="gridSelected">
+      <div class="grid_view_details">
+        <div class=" col-xs-12 col-sm-12 col-md-4 col-lg-4" *ngFor="let coins of portfoliogrid | filter: searchText ">
+          <div class="bitsoin">
+            <h2> {{coins.name | uppercase}}</h2>
+            <ul>
+              <li>
+                <p>
+                  <label>PRICE </label>
+                  <span class="price_head">{{ coins.price }}</span>
+                </p>
+              </li>
+              <li>
+                <p>
+                  <label>24 HR Change </label>
+                  <span>{{coins.dayPrice}}</span>
+                </p>
+              </li>
+              <li>
+                <p>
+                  <label>7 Day Chnage </label>
+                  <span>{{coins.weeklyChange}} ({{coins.weeklyChangePercent}}%)</span>
+                </p>
+              </li>
+              <li>
+                <p>
+                  <label>24 HR Volume</label>
+                  <span>{{coins.dayVolume}}</span>
+                </p>
+              </li>
+              <li>
+                <p>
+                  <label>Market Cap</label>
+                  <span>{{coins.marketCapValue}}</span>
+                </p>
+              </li>
+
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--grid_view-->
+
+    <!--list_view-->
+    <div class="table-responsive col-sm-12 col-xs-12 col-md-12 col-lg-12 coin-page-lft list_view_table" *ngIf="listSelected">
+      <table border="0" cellpadding="0" cellspacing="0" class="table-responsive">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th (click)="sort('name')">Coin
+              <span class="fa sort-icon" *ngIf="key =='name'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}">
+              </span>
+            </th>
+            <th (click)="sort('price')">price
+              <span class="fa sort-icon" *ngIf="key =='price'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
+            </th>
+            <th (click)="sort('dayPrice')">24 Hr Change
+              <span class="fa sort-icon" *ngIf="key =='dayPrice'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
+            </th>
+            <th (click)="sort('weeklyChange')" class=" hideInResponsive">7 Day change
+              <span class="fa sort-icon" *ngIf="key =='weeklyChange'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
+            </th>
+            <th (click)="sort('dayVolume')" class=" hideInResponsive">24 Hr Volume
+              <span class="fa sort-icon" *ngIf="key =='dayVolume'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
+            </th>
+            <th (click)="sort('marketCapValue')" class=" hideInResponsive">Market Cap
+              <span class="fa sort-icon" *ngIf="key =='marketCapValue'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
+            </th>
+            <th (click)="sort('highestPrice')" class=" hideInResponsive">24 Hr High/Low
+              <span class="fa sort-icon" *ngIf="key =='highestPrice'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
+            </th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let coins of coinList | filter: searchText | orderBy: key : reverse ; let i = index">
+            <td>{{i+1}}</td>
+            <td>{{coins.name}}</td>
+            <td class="ls_price">${{coins.price}}</td>
+            <td class="" [ngClass]="{'colorGreen': coins.dayPriceStatus === 'true','colorRed': coins.dayPriceStatus === 'false'}">${{coins.dayPrice}} ({{coins.dayPricePercent}})
+              <span class="fa upDownSymbol" [ngClass]="{'arrow-up': coins.dayPriceStatus === 'true','arrow-down': coins.dayPriceStatus === 'false'}"></span>
+            </td>
+            <td class=" hideInResponsive" [ngClass]="{'colorGreen': coins.weeklyChangeStatus === 'true','colorRed': coins.weeklyChangeStatus === 'false'}">${{coins.weeklyChange}} ({{coins.weeklyChangePercent}})
+              <span class="fa upDownSymbol" [ngClass]="{'arrow-up': coins.weeklyChangeStatus === 'true','arrow-down': coins.weeklyChangeStatus === 'false'}"></span>
+            </td>
+            <td (click)="coinDetails(coins.pair)" class="hideInResponsive">${{coins.dayVolume}}</td>
+            <td (click)="coinDetails(coins.pair)" class="hideInResponsive">${{coins.marketCapValue}}</td>
+            <td (click)="coinDetails(coins.pair)" class="hideInResponsive">${{coins.highestPrice}} / {{coins.lowestPrice}}</td>
+          </tr>
+        </tbody>
       </table>
     </div>
-      <!--list_view-->
+    <!--list_view-->
 
 
 
 
   </div>
- </div>
-
-
-                                                       
+</div>

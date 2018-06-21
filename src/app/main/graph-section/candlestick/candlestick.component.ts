@@ -230,40 +230,40 @@ export class CandlestickComponent implements OnInit {
     this.themeType = 'light';
     this.backgroundColor = '#000'
     this.themeDo();
-    this.calcVWAP();
+    // this.calcVWAP();
   }
-  calcVWAP(){
-    for(this.i=0;this.i<this.chartData.length;this.i++){
+  // calcVWAP(){
+  //   for(this.i=0;this.i<this.chartData.length;this.i++){
 
-      this.typical_Price = ( this.chartData[this.i].high +this.chartData[this.i].low +this.chartData[this.i].close )/3;
-      this.vp = (this.chartData[this.i].volume )*( this.typical_Price);
-      if(this.i === 0){
-        this.tvp = this.vp;
-        this.tv  = this.chartData[this.i].volume
-      }
-      else{
+  //     this.typical_Price = ( this.chartData[this.i].high +this.chartData[this.i].low +this.chartData[this.i].close )/3;
+  //     this.vp = (this.chartData[this.i].volume )*( this.typical_Price);
+  //     if(this.i === 0){
+  //       this.tvp = this.vp;
+  //       this.tv  = this.chartData[this.i].volume
+  //     }
+  //     else{
         
-        for(this.j=0; this.j < this.vwaparray.length; this.j++){
-           this.tvpDup +=   this.vwaparray[this.j].vp
-        }
-        this.tvp = this.tvpDup;
-        if(this.vwaparray.length > 0)
-        for(this.l=0; this.l < this.vwaparray.length; this.l++){
+  //       for(this.j=0; this.j < this.vwaparray.length; this.j++){
+  //          this.tvpDup +=   this.vwaparray[this.j].vp
+  //       }
+  //       this.tvp = this.tvpDup;
+  //       if(this.vwaparray.length > 0)
+  //       for(this.l=0; this.l < this.vwaparray.length; this.l++){
           
-         this.tvDup += this.chartData[this.l].volume
-        }
-        this.tv = this.tvDup
-      }
+  //        this.tvDup += this.chartData[this.l].volume
+  //       }
+  //       this.tv = this.tvDup
+  //     }
 
-      this.vwap = (this.tvp/this.tv);
-      this.vwaparray.push({
-        "date":this.chartData[this.i].date,
-         "vwap" : this.vwap,
-         "vp": this.vp
-      })
-    }
+  //     this.vwap = (this.tvp/this.tv);
+  //     this.vwaparray.push({
+  //       "date":this.chartData[this.i].date,
+  //        "vwap" : this.vwap,
+  //        "vp": this.vp
+  //     })
+  //   }
     
-  }
+  // }
   themeDo() {
   //   AmCharts.addMovingAverage(this.chartConfig.dataSets[0], this.chartConfig.panels[0], 'value', {
   //     useDataSetColors: false,

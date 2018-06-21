@@ -51,69 +51,69 @@ export class ThemeHeaderComponent implements OnInit {
   public volume_white;
   public volume_black;
   public passData2Comp: any;
-  public themeSettings={}
+  public themeSettings = {}
   public refreshDefault;
   userLogin: any = {};
   userReg: any = {};
   key: string = '';
   reverse: boolean = false;
   constructor(private http: Http, private orderPipe: OrderPipe, private changeGraphTheme: CompDataSharingService) {
-        this.changeGraphTheme.changeTo_default_theme_listener().subscribe(() => {
-            this.defaultTheme()
-      })
+    this.changeGraphTheme.changeTo_default_theme_listener().subscribe(() => {
+      this.defaultTheme()
+    })
   }
   ngOnInit() {
+    this.passData2Comp = {};
     this.someRange = 1;
+    
     this.http.get('http://coinwave.service.colanonline.net/getCurrencies').map(response => response.json()).subscribe(data => {
       console.log(data)
       this.currencyTypeList = data;
     })
 
-    this.currencyvalue = 1;
-    localStorage.setItem('currencyRate', this.currencyvalue);
+
     if (localStorage.getItem('userToken')) {
       
       let tokenV = localStorage.getItem('userToken');
-        this.http.post('http://coinwave.service.colanonline.net/api/userSetting/getUserData',{token:tokenV}).map(response => response.json()).subscribe(data => {
-          this.changeGraphTheme.customizeColumns_filter(data.customizeColumns); 
-          let body = document.getElementsByTagName('body')[0];
-          body.classList.remove('black-theme');
-          body.classList.add(data.siteColor);
-          body.classList.add(data.nightMode);
-          
-          this.desktoplists = data.customizeColumns.desktop;
-          this.mobilelists = data.customizeColumns.mobile;
-          this.appList = data.customizeColumns.app;
-        })
-        // let data = JSON.parse(localStorage.getItem('customizeColumns'));
-        // console.log(data);
-        // this.changeGraphTheme.customizeColumns_filter(data);
-        
-        // let body = document.getElementsByTagName('body')[0];
-        // if(localStorage.getItem('siteC')){
-        //   body.classList.remove('black-theme');
-        //   body.classList.add(localStorage.getItem('siteC'));
-        // }
-        // else{
-        //   body.classList.add('black-theme');
-        // }
-        
-        
-        // body.classList.add(localStorage.getItem('nightM'));
-        
-        
-        // this.desktoplists = data['desktop'];
-        // this.mobilelists = data['mobilelists'];
-        // this.appList = data['app'];
+      this.http.post('http://coinwave.service.colanonline.net/api/userSetting/getUserData', { token: tokenV }).map(response => response.json()).subscribe(data => {
+        this.changeGraphTheme.customizeColumns_filter(data.customizeColumns);
+        localStorage.setItem('customizeColumns',data.customizeColumns);
+        let body = document.getElementsByTagName('body')[0];
+        body.classList.remove('black-theme');
+        body.classList.add(data.siteColor);
+        body.classList.add(data.nightMode);
+        this.changeRefreshRate = '3';
+        this.someRange = data.refreshRate;
+        this.currencyvalue = 1;
+        localStorage.setItem('currencyRate', this.currencyvalue);
+        this.desktoplists = data.customizeColumns.desktop;
+        this.mobilelists = data.customizeColumns.mobile;
+        this.appList = data.customizeColumns.app;
+      })
+      // let data = JSON.parse(localStorage.getItem('customizeColumns'));
+      // console.log(data);
+      // this.changeGraphTheme.customizeColumns_filter(data);
+
+      // let body = document.getElementsByTagName('body')[0];
+      // if(localStorage.getItem('siteC')){
+      //   body.classList.remove('black-theme');
+      //   body.classList.add(localStorage.getItem('siteC'));
+      // }
+      // else{
+      //   body.classList.add('black-theme');
+      // }
+
+
+      // body.classList.add(localStorage.getItem('nightM'));
+
+
+      // this.desktoplists = data['desktop'];
+      // this.mobilelists = data['mobilelists'];
+      // this.appList = data['app'];
 
     }
     else {
-     this.defaultTheme();
-    }
-    this.changeRefreshRate = '1 Sec';
-    this.passData2Comp = {
-      theme: '',
-      refreshrate: ''
+      this.defaultTheme();
     }
     this.sort('currencyname');
     this.sort('languagename');
@@ -354,13 +354,13 @@ export class ThemeHeaderComponent implements OnInit {
       this.hideThemesection = true;
       sessionStorage.setItem('hideThemesection', 'true');
     }
-    
-    
 
-    this.passData2Comp.theme = this.themeBlack
-    this.passData2Comp.refreshrate = this.refreshDefault;
-    this.passData2Comp.volumeTheme = this.volume_black;
-    this.passData2Comp.toolsBg = '#000'
+
+    
+    this.passData2Comp['theme'] = this.themeBlack
+    this.passData2Comp['refreshrate'] = this.refreshDefault;
+    this.passData2Comp['volumeTheme'] = this.volume_black;
+    this.passData2Comp['toolsBg'] = '#000'
     this.changeGraphTheme.changeMessage(this.passData2Comp);
     setTimeout(() => {
       let valueArray = ['1 Sec', '5 Sec', '30 Sec ', '1 Min', '5 Min'];
@@ -400,7 +400,7 @@ export class ThemeHeaderComponent implements OnInit {
       siteColor = 'black-theme';
     }
     this.themeSettings['siteColor'] = siteColor;
-  
+
   }
 
   themeSectionHide() {
@@ -443,18 +443,18 @@ export class ThemeHeaderComponent implements OnInit {
   }
 
   selectCurrency(text, image) {
-    
+
     this.http.post('http://coinwave.service.colanonline.net/currencyConverter', { converter: text }).map(response => response.json()).subscribe(data => {
       this.currencyvalue = data.rate.toFixed(2);
       localStorage.setItem('currencyRate', this.currencyvalue);
-      
+
       this.changeGraphTheme.currencyConverter_filter(this.currencyvalue)
     })
     this.currencyText = text;
     this.currencyImg = image;
     this.hideOptionsection = !this.hideOptionsection;
     this.themeSettings['currencyType'] = text;
-    
+
     // let currency_in = true;
     // for (let r = 0; r < this.themeSettings.length; r++) {
     //   if (this.themeSettings[r].currencyType) {
@@ -512,8 +512,8 @@ export class ThemeHeaderComponent implements OnInit {
   }
   coulumnCustomization(colList, list) {
     this.changeGraphTheme.customizeColumns_filter(colList);
-    this.themeSettings['customizeColumns'] =colList
-    
+    this.themeSettings['customizeColumns'] = colList
+
     // let custCol = true;
     // for (let r = 0; r < this.themeSettings.length; r++) {
     //   if (this.themeSettings[r].customizeColumns) {
@@ -531,29 +531,28 @@ export class ThemeHeaderComponent implements OnInit {
     //   let obj = { customizeColumns: colList }
     //   this.themeSettings.push(obj);
     // }
-   
+
   }
   saveThemeStructure() {
-   
+    
+
     if (localStorage.getItem('userToken')) {
-      console.log(this.themeSettings);
-      if(this.themeSettings['customizeColumns']){
+      
+      if (this.themeSettings['customizeColumns']) {
         let list = JSON.stringify(this.themeSettings['customizeColumns'])
-      localStorage.setItem('customizeColumns',list);
+        localStorage.setItem('customizeColumns', list);
       }
-      if(this.themeSettings['night_mode']){
+      if (this.themeSettings['night_mode']) {
         let nightM = this.themeSettings['night_mode'];
-        localStorage.setItem('nightM',nightM);
+        localStorage.setItem('nightM', nightM);
       }
-      if(this.themeSettings['siteColor']){
+      if (this.themeSettings['siteColor']) {
         let siteC = this.themeSettings['siteColor'];
-        localStorage.setItem('siteC',siteC);
+        localStorage.setItem('siteC', siteC);
       }
-     
       this.themeSettings['token'] = localStorage.getItem('userToken');
-      this.http.put('http://coinwave.service.colanonline.net/api/userSetting/update',this.themeSettings).map(response => response.json()).subscribe(data => {
-        
-        console.log(data);
+      this.http.put('http://coinwave.service.colanonline.net/api/userSetting/update', this.themeSettings).map(response => response.json()).subscribe(data => {
+
       })
     }
     else {
@@ -573,15 +572,15 @@ export class ThemeHeaderComponent implements OnInit {
     //   this.themeSettings.push({ siteLanguage: siteLang })
     // }
   }
-    defaultTheme(){
-      let body = document.getElementsByTagName('body')[0];
-      var currentList = body.classList.add('black-theme');
-      var currentList = body.classList.remove('night_mode');
-      var currentList = body.classList.remove('white-theme');
-      this.someRange = 1;
-      this.refreshDefault = '3';
+  defaultTheme() {
+    let body = document.getElementsByTagName('body')[0];
+    var currentList = body.classList.add('black-theme');
+    var currentList = body.classList.remove('night_mode');
+    var currentList = body.classList.remove('white-theme');
+    this.someRange = 1;
+    this.refreshDefault = '3';
     //   this.http.get('http://coinwave.service.colanonline.net/defaultCustomizeColumn').map(response => response.json()).subscribe(data => {
-    //     debugger
+    //     
     //   console.log(data);
     //   this.changeGraphTheme.customizeColumns_filter(data);
     //   localStorage.setItem('customizeColumns',JSON.stringify(data))
@@ -589,15 +588,18 @@ export class ThemeHeaderComponent implements OnInit {
     //   this.mobilelists = data.mobilelists;
     //   this.appList = data.app;
     // });
-      let data = {"desktop":[{"label":"Expand","ischecked":true,"key":"expand"},{"label":"Favourite","ischecked":true,"key":"favourite"},{"label":"Coin","ischecked":true,"key":"coin"},{"label":"Price","ischecked":true,"key":"price"},{"label":"24 HR (%)","ischecked":true,"key":"dayChange"},{"label":"7 Day (%)","ischecked":true,"key":"weaklyChange"},{"label":"Volume (24 H)","ischecked":true,"key":"dayVolume"},{"label":"Market Cap","ischecked":true,"key":"marketCap"},{"label":"24 HR High/Low","ischecked":true,"key":"dayHighLow"},{"label":"Circulation Supply ","ischecked":false,"key":"circulationSupply"},{"label":"Total Supply","ischecked":false,"key":"totalSupply"},{"label":"Exchanges ","ischecked":false,"key":"exchanges"}],"mobilelists":[{"label":"Expand","ischecked":true,"key":"expand"},{"label":"Favourite","ischecked":true,"key":"favourite"},{"label":"Coin","ischecked":true,"key":"coin"},{"label":"Price","ischecked":true,"key":"price"},{"label":"24 HR (%)","ischecked":true,"key":"dayChange"},{"label":"7 Day (%)","ischecked":true,"key":"weaklyChange"},{"label":"Volume (24 H)","ischecked":true,"key":"dayVolume"},{"label":"Market Cap","ischecked":true,"key":"marketCap"},{"label":"24 HR High/Low","ischecked":true,"key":"dayHighLow"},{"label":"Circulation Supply ","ischecked":false,"key":"circulationSupply"},{"label":"Total Supply","ischecked":false,"key":"totalSupply"},{"label":"Exchanges ","ischecked":false,"key":"exchanges"}],"app":[{"label":"Expand","ischecked":true,"key":"expand"},{"label":"Favourite","ischecked":true,"key":"favourite"},{"label":"Coin","ischecked":true,"key":"coin"},{"label":"Price","ischecked":true,"key":"price"},{"label":"24 HR (%)","ischecked":true,"key":"dayChange"},{"label":"7 Day (%)","ischecked":true,"key":"weaklyChange"},{"label":"Volume (24 H)","ischecked":true,"key":"dayVolume"},{"label":"Market Cap","ischecked":true,"key":"marketCap"},{"label":"24 HR High/Low","ischecked":true,"key":"dayHighLow"},{"label":"Circulation Supply ","ischecked":false,"key":"circulationSupply"},{"label":"Total Supply","ischecked":false,"key":"totalSupply"},{"label":"Exchanges ","ischecked":false,"key":"exchanges"}]}
-      this.changeGraphTheme.customizeColumns_filter(data);
-      this.desktoplists = data.desktop;
-      this.mobilelists = data.mobilelists;
-      this.appList = data.app;
-      // this.http.get('http://coinwave.service.colanonline.net/defaultCustomizeColumn').map(response => response.json()).subscribe(data => {
-      //   debugger
-      // })
-    }
+    let data = { "desktop": [{ "label": "Expand", "ischecked": true, "key": "expand" }, { "label": "Favourite", "ischecked": true, "key": "favourite" }, { "label": "Coin", "ischecked": true, "key": "coin" }, { "label": "Price", "ischecked": true, "key": "price" }, { "label": "24 HR (%)", "ischecked": true, "key": "dayChange" }, { "label": "7 Day (%)", "ischecked": true, "key": "weaklyChange" }, { "label": "Volume (24 H)", "ischecked": true, "key": "dayVolume" }, { "label": "Market Cap", "ischecked": true, "key": "marketCap" }, { "label": "24 HR High/Low", "ischecked": true, "key": "dayHighLow" }, { "label": "Circulation Supply ", "ischecked": false, "key": "circulationSupply" }, { "label": "Total Supply", "ischecked": false, "key": "totalSupply" }, { "label": "Exchanges ", "ischecked": false, "key": "exchanges" }], "mobilelists": [{ "label": "Expand", "ischecked": true, "key": "expand" }, { "label": "Favourite", "ischecked": true, "key": "favourite" }, { "label": "Coin", "ischecked": true, "key": "coin" }, { "label": "Price", "ischecked": true, "key": "price" }, { "label": "24 HR (%)", "ischecked": true, "key": "dayChange" }, { "label": "7 Day (%)", "ischecked": true, "key": "weaklyChange" }, { "label": "Volume (24 H)", "ischecked": true, "key": "dayVolume" }, { "label": "Market Cap", "ischecked": true, "key": "marketCap" }, { "label": "24 HR High/Low", "ischecked": true, "key": "dayHighLow" }, { "label": "Circulation Supply ", "ischecked": false, "key": "circulationSupply" }, { "label": "Total Supply", "ischecked": false, "key": "totalSupply" }, { "label": "Exchanges ", "ischecked": false, "key": "exchanges" }], "app": [{ "label": "Expand", "ischecked": true, "key": "expand" }, { "label": "Favourite", "ischecked": true, "key": "favourite" }, { "label": "Coin", "ischecked": true, "key": "coin" }, { "label": "Price", "ischecked": true, "key": "price" }, { "label": "24 HR (%)", "ischecked": true, "key": "dayChange" }, { "label": "7 Day (%)", "ischecked": true, "key": "weaklyChange" }, { "label": "Volume (24 H)", "ischecked": true, "key": "dayVolume" }, { "label": "Market Cap", "ischecked": true, "key": "marketCap" }, { "label": "24 HR High/Low", "ischecked": true, "key": "dayHighLow" }, { "label": "Circulation Supply ", "ischecked": false, "key": "circulationSupply" }, { "label": "Total Supply", "ischecked": false, "key": "totalSupply" }, { "label": "Exchanges ", "ischecked": false, "key": "exchanges" }] }
+    let dataS = JSON.stringify(data)
+    localStorage.setItem('customizeColumns',dataS)
+    this.changeGraphTheme.customizeColumns_filter(data);
+    
+    this.desktoplists = data.desktop;
+    this.mobilelists = data.mobilelists;
+    this.appList = data.app;
+    // this.http.get('http://coinwave.service.colanonline.net/defaultCustomizeColumn').map(response => response.json()).subscribe(data => {
+    //   
+    // })
+  }
 }
 
 

@@ -1,66 +1,72 @@
 <div class="header">
-  <div class="container">
-<mdb-navbar SideClass="navbar  navbar-expand-lg navbar-dark scrolling-navbar ie-nav" [containerInside]="false">
-  <logo>
-      <a href="#" class="logo"><img src="/assets/images/logo.png" alt="Coinwave"/><span class="coinWaveText notranslate">Coin <b>wave</b></span></a>
-      <div class="login_register mob_top">
-        <a href="#">Login</a> <span>or</span> <a href="#">Register</a>
-      </div>
-  </logo>
-  <links>
-      <ul class="navbar-nav nav-lft mr-auto">
-          <li class="nav-item active  waves-light" id="coins" (click)="makeActive('coins','portfolio','exchanges')"  mdbRippleRadius>
-              <a routerLink="/coinlist" class="nav-link">COINS</a>
-          </li>
-          <li class="nav-item waves-light" id="portfolio" (click)="makeActive('portfolio','coins','exchanges')" mdbRippleRadius>
-              <a routerLink="/portfolio" class="nav-link">PORTFOLIO</a>
-          </li>
-          <li class="nav-item waves-light" id="exchanges" (click)="makeActive('exchanges','coins','portfolio')" mdbRippleRadius>
-              <a routerLink="/exchange" class="nav-link">EXCHANGES</a>
-          </li>
-          <!-- <li class="nav-item waves-light" mdbRippleRadius>
+    <div class="container">
+        <mdb-navbar SideClass="navbar  navbar-expand-lg navbar-dark scrolling-navbar ie-nav" [containerInside]="false">
+            <logo>
+                <a href="#" class="logo">
+                    <img src="/assets/images/logo.png" alt="Coinwave" />
+                    <span class="coinWaveText notranslate">Coin
+                        <b>wave</b>
+                    </span>
+                </a>
+                <div class="login_register mob_top">
+                    <a href="#">Login</a>
+                    <span>or</span>
+                    <a href="#">Register</a>
+                </div>
+            </logo>
+            <links>
+                <ul class="navbar-nav nav-lft mr-auto">
+                    <li class="nav-item active  waves-light" id="coins" (click)="makeActive('coins','portfolio','exchanges')" mdbRippleRadius>
+                        <a routerLink="/coinlist" class="nav-link">COINS</a>
+                    </li>
+                    <li class="nav-item waves-light" id="portfolio" (click)="makeActive('portfolio','coins','exchanges')" mdbRippleRadius>
+                        <a routerLink="/portfolio" class="nav-link">PORTFOLIO</a>
+                    </li>
+                    <li class="nav-item waves-light" id="exchanges" (click)="makeActive('exchanges','coins','portfolio')" mdbRippleRadius>
+                        <a routerLink="/exchange" class="nav-link">EXCHANGES</a>
+                    </li>
+                    <!-- <li class="nav-item waves-light" mdbRippleRadius>
               <a routerLink="/news" class="nav-link">NEWS</a>
           </li> -->
-          <!-- <li class="nav-item waves-light" mdbRippleRadius>
+                    <!-- <li class="nav-item waves-light" mdbRippleRadius>
               <a class="nav-link">TUTORIALS</a>
           </li>
           <li class="nav-item waves-light" mdbRippleRadius>
               <a class="nav-link">TOOLS</a>
           </li> -->
-      </ul>
-      <ul class="navbar-nav log_reg nav-flex-icons">
-          <li  mdbRippleRadius>
-            <input type="search" #searchText (keyup)="globalSearch(searchText.value)" placeholder="Coin or Exchange"/>
-          </li>
-          <li class="" mdbRippleRadius *ngIf="!isLoggedIn">
-            <div class="login_register">
-                <a (click)="goToLogin()">Login / Register</a>
-            </div>
-          </li>
-          <li class="" mdbRippleRadius *ngIf="isLoggedIn" style="margin-top:25px;">
-                <div class="">
-                <a>Welcome</a><span> {{userName}} |</span><a (click)="logOut()">  Log Out</a>
-            </div>
-          </li>
-          <li>
-              <div class="follw_us">
-                  <p>Follow us</p>
-                  <div class="d-flex flex-row">
-                  <a href="#" class="facebook"><img src="/assets/images/facebook_fol_us.png" alt="Facebook "/></a>
-                  <a href="#" class="youtube"><img src="/assets/images/you_tube.png" alt="youtube"/></a>
-                </div>
-                </div>
-          </li>
-        
-      </ul>
-  </links>
-</mdb-navbar>
+                </ul>
+                <ul class="navbar-nav log_reg nav-flex-icons">
+                    <li mdbRippleRadius>
+                        <input type="search" #searchText (keyup)="globalSearch(searchText.value)" placeholder="Coin or Exchange" />
+                    </li>
+                    <li class="" mdbRippleRadius *ngIf="!isLoggedIn">
+                        <div class="login_register">
+                            <a (click)="goToLogin()">Login / Register</a>
+                        </div>
+                    </li>
+                    <li class="" mdbRippleRadius *ngIf="isLoggedIn" style="margin-top:25px;">
+                        <div class="">
+                            <a>Welcome</a>
+                            <span> {{userName}} |</span>
+                            <a (click)="logOut()"> Log Out</a>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="follw_us">
+                            <p>Follow us</p>
+                            <div class="d-flex flex-row">
+                                <a href="#" class="facebook">
+                                    <img src="/assets/images/facebook_fol_us.png" alt="Facebook " />
+                                </a>
+                                <a href="#" class="youtube">
+                                    <img src="/assets/images/you_tube.png" alt="youtube" />
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+
+                </ul>
+            </links>
+        </mdb-navbar>
+    </div>
 </div>
-</div>
-
-
-
-
-
-
-                

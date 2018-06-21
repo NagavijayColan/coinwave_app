@@ -12,8 +12,8 @@ export class HeaderComponent implements OnInit {
   public searchText;
   public isLoggedIn;
   public userName;
-  constructor(private router : Router, private dataShare : CompDataSharingService) { 
-    this.dataShare.isLoggedIn_listener().subscribe((m:any) => {
+  constructor(private router: Router, private dataShare: CompDataSharingService) {
+    this.dataShare.isLoggedIn_listener().subscribe((m: any) => {
       this.isLoggedIn = true;
       this.userName = m.userName;
     })
@@ -21,12 +21,12 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     this.userName = 'k'
-    if(localStorage.getItem('userToken')){
-       this.isLoggedIn = true;
-       this.userName = localStorage.getItem('userName')
+    if (localStorage.getItem('userToken')) {
+      this.isLoggedIn = true;
+      this.userName = localStorage.getItem('userName')
     }
   }
-  makeActive(add,remove1,remove2){
+  makeActive(add, remove1, remove2) {
     document.getElementById(add).classList.add('active');
     document.getElementById(remove1).classList.remove('active');
     document.getElementById(remove2).classList.remove('active');
@@ -34,18 +34,19 @@ export class HeaderComponent implements OnInit {
   // loginPage(){
   //     this.router.navigate(['/login'])
   // }
-  globalSearch(text){
-    
+  globalSearch(text) {
+
     this.dataShare.searchDataFilter(text);
   }
-  goToLogin(){
-    this.router.navigate(['/login'],{skipLocationChange : false})
+  goToLogin() {
+    this.router.navigate(['/login'], { skipLocationChange: false })
   }
-  logOut(){
+  logOut() {
     localStorage.removeItem('userToken');
     localStorage.removeItem('userName');
     this.dataShare.callLogOut_filter();
     this.dataShare.changeTo_default_theme_filter();
+    this.dataShare.get_all_coins_filter();
     this.isLoggedIn = false;
   }
 }

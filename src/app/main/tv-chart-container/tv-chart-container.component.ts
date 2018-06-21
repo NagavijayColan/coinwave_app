@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CompDataSharingService } from "../../comp-data-sharing.service";
 import { Http } from '@angular/http';
-import { Subscription } from 'rxjs/Rx';
+import { Subscription, Subject } from 'rxjs/Rx';
 import {
     widget,
     onready,
@@ -11,6 +11,7 @@ import {
     LanguageCode,
 } from '../../../assets/charting_library/charting_library.min';
 import { window, document } from 'angular-bootstrap-md/utils/facade/browser';
+// import { setInterval } from 'timers';
 
 @Component({
     selector: 'app-tv-chart-container',
@@ -18,8 +19,8 @@ import { window, document } from 'angular-bootstrap-md/utils/facade/browser';
     styleUrls: ['./tv-chart-container.component.css']
 })
 export class TvChartContainerComponent implements OnInit {
-    private subscription: Subscription;
-
+    protected ngUnsubscribe: Subject<void> = new Subject<void>();
+    
     private _symbol: ChartingLibraryWidgetOptions['symbol'] = 'AAPL';
     private _interval: ChartingLibraryWidgetOptions['interval'] = 'D';
     // BEWARE: no trailing slash is expected in feed URL
@@ -41,7 +42,7 @@ export class TvChartContainerComponent implements OnInit {
     public getallCoins;
     public setIntervalTime;
     public runningInterval;
-    public sample;
+    public favCoinsList;
     variable: any;
     public currencyValue;
     public toolsBg;
@@ -49,7 +50,7 @@ export class TvChartContainerComponent implements OnInit {
     public column = {};
     public resolutionColumn = {};
     public columnsList;
-    public httpSubscription;
+    public subscriptionOfHttp;
     @Input()
     set symbol(symbol: ChartingLibraryWidgetOptions['symbol']) {
         this._symbol = symbol || this._symbol;
@@ -120,121 +121,99 @@ export class TvChartContainerComponent implements OnInit {
         this.changeGraphTheme.customizeColumns_listener().subscribe((value: Object) => {
             this.customizeColUpdate(value);
         })
+        this.changeGraphTheme.get_all_coins_listener().subscribe(() => {
+            this.getCoinList();
+            this.favCoinsList = [];
+        })
     }
 
     ngOnInit() {
+
+        this.coinList = [];
+        this.favCoinsList = [];
+        this.currencyValue = localStorage.getItem('currencyRate');
+        
+        this.changeGraphTheme.currentMessage.subscribe(message => this.graphThemeColor = message);
+        
+        this.setIntervalTime = parseInt(this.graphThemeColor.refreshrate + '000');
+        this.overrides_obj = this.graphThemeColor.theme;
         if (localStorage.getItem('userToken')) {
             let tokenV = localStorage.getItem('userToken');
-            this.http.post('http://coinwave.service.colanonline.net/api/userSetting/getUserData',{token:tokenV}).map(response => response.json()).subscribe(data => {
-              this.changeGraphTheme.customizeColumns_filter(data.customizeColumns); 
-              this.customizeColUpdate(data.customizeColumns);
-              
-        })
-            
+            this.http.post('http://coinwave.service.colanonline.net/api/userSetting/getUserData', { token: tokenV }).map(response => response.json()).subscribe(data => {
+                this.changeGraphTheme.customizeColumns_filter(data.customizeColumns);
+                this.customizeColUpdate(data.customizeColumns);
+            })
+            this.getAlongFavCoins();
+            // if (parseInt(this.setIntervalTime) >= 1000) {
+            //     this.runningInterval = setInterval(() => {
+            //         this.getAlongFavCoins();
+            //     }, this.setIntervalTime);
+            // }
         }
-        this.getCoinList();
-
-        this.currencyValue = localStorage.getItem('currencyRate');
-        this.coinList = [];
-        this.changeGraphTheme.currentMessage.subscribe(message => this.graphThemeColor = message);
-        this.setIntervalTime = parseInt(this.graphThemeColor.refreshrate + '000');
-
-
-        this.overrides_obj = this.graphThemeColor.theme;
-        this.sample = [
-            {
-                "price": 7550.77,
-                "pair": "btcusd",
-                "volume": 976.843981186819,
-                "low": 7414.80000007,
-                "high": 7619.701,
-                "change": "true",
-                "name": "Bitcoin",
-                "checked": true,
-                "dayVolume": "976.84",
-                "lowestPrice": "7519.06",
-                "highestPrice": "7575.35"
-            },
-            {
-                "price": 0.02,
-                "pair": "scusd",
-                "volume": 2583422.7438644404,
-                "low": 0.01505256,
-                "high": 0.01550231,
-                "change": "NC",
-                "checked": true,
-                "name": "SiaCoin",
-                "dayVolume": "2583427.70",
-                "lowestPrice": "0.02",
-                "highestPrice": "0.02"
-            },
-            {
-                "price": 238.03,
-                "pair": "zecusd",
-                "volume": 429.5124123496753,
-                "low": 236.31170276,
-                "high": 247.28299771,
-                "change": "NC",
-                "checked": true,
-                "name": "Zcash",
-                "dayVolume": "429.52",
-                "lowestPrice": "237.10",
-                "highestPrice": "239.00"
-            },
-            {
-                "price": 1003.85,
-                "pair": "bccusd",
-                "volume": 873.5961621627143,
-                "low": 981.27400001,
-                "high": 1018.2196372939624,
-                "change": "NC",
-                "checked": true,
-                "name": "BitConnect",
-                "dayVolume": "873.60",
-                "lowestPrice": "997.18",
-                "highestPrice": "1010.52"
-            },
-            {
-                "price": 15.38,
-                "pair": "etcusd",
-                "volume": 14518.999036773424,
-                "low": 15.096,
-                "high": 15.555308360000001,
-                "change": "NC",
-                "checked": true,
-                "name": "Ethereum Classic",
-                "dayVolume": "14518.99",
-                "lowestPrice": "15.31",
-                "highestPrice": "15.41"
-            }]
+        else {
+            let cols = localStorage.getItem('customizeColumns')
+            this.customizeColUpdate(JSON.parse(cols));
+            this.getCoinList();
+        }
+        
+       
+    }
+    getAlongFavCoins(){
+            let tokenV = localStorage.getItem('userToken');
+            this.subscriptionOfHttp = this.http.post('http://coinwave.service.colanonline.net/api/coins/getFavourites', { token: tokenV }).map(response => response.json()).subscribe(data => {
+               
+                
+                if (this.favCoinsList.length > 0) {
+                    this.updateAllCoinsData(data);
+                }
+                else {
+                    this.favCoinsList = data;
+                    if (parseInt(this.setIntervalTime) >= 1000) {
+                        this.runningInterval = setInterval(() => {
+                            this.getAlongFavCoins();
+                        }, this.setIntervalTime);
+                    }
+                }
+            })
+            this.subscriptionOfHttp =  this.http.post('http://coinwave.service.colanonline.net/api/coins/getCoins', { token: tokenV }).map(response => response.json()).subscribe(data => {
+                
+                if (this.coinList.length > 0) {
+                    this.updateAllCoinsData(data);
+                }
+                else {
+                    this.coinList = data;
+                    if (parseInt(this.setIntervalTime) >= 1000) {
+                        this.runningInterval = setInterval(() => {
+                            this.getAlongFavCoins();
+                        }, this.setIntervalTime);
+                    }
+                }
+            })
+           
+            // this.subscriptionOfHttp.add(getNormalCoinscall)
+            // this.subscriptionOfHttp.add(getFavcall)
     }
     getCoinList() {
-        this.httpSubscription = this.http.post('http://coinwave.service.colanonline.net/exchange/getusd', {}).map(
-            response => response.json()).subscribe(
+        this.subscriptionOfHttp  = this.http.post('http://coinwave.service.colanonline.net/exchange/getusd', {}).map(
+            response => response.json()).takeUntil(this.ngUnsubscribe).subscribe(
             data => {
                 this.getallCoins = data;
-
+                
                 if (this.coinList.length > 0) {
-                    this.updateCoindData(this.getallCoins);
+                    this.updateAllCoinsData(this.getallCoins);
                 }
                 else {
                     this.coinList = this.getallCoins;
                     if (parseInt(this.setIntervalTime) >= 1000) {
                         this.runningInterval = setInterval(() => {
-                            this.getCoinList()
-                        }, parseInt(this.setIntervalTime));
+                            this.getCoinList();
+                        }, this.setIntervalTime);
                     }
                 }
             })
-            if(localStorage.getItem('userToken')){
-                let tokenV = localStorage.getItem('userToken');
-                this.http.post('http://coinwave.service.colanonline.net/api/coins/getFavourites',{token :tokenV}).map(response => response.json()).subscribe(data => {
-                    
-                })
-            }
-           
+            // this.subscriptionOfHttp.add(getUsdCall)
     }
-    updateCoindData(allCoins) {
+    updateAllCoinsData(allCoins) {
         for (let i = 0; i < allCoins.length; i++) {
             let checkIsThere = true;
             let obj = this.coinList.findIndex(coin => allCoins[i].pair === coin.pair);
@@ -257,6 +236,52 @@ export class TvChartContainerComponent implements OnInit {
             }
         }
     }
+    updateFavCoinsData(allCoins){
+        for (let i = 0; i < allCoins.length; i++) {
+            let checkIsThere = true;
+            let obj = this.coinList.findIndex(coin => allCoins[i].pair === coin.pair);
+            if (obj != -1) {
+                this.favCoinsList[obj].price = allCoins[i].price;
+                this.favCoinsList[obj].priceStatus = allCoins[i].priceStatus;
+                this.favCoinsList[obj].dayPricePercent = allCoins[i].dayPricePercent;
+                this.favCoinsList[obj].dayPrice = allCoins[i].dayPrice;
+                this.favCoinsList[obj].dayPriceStatus = allCoins[i].dayPriceStatus;
+                this.favCoinsList[obj].weeklyChangeStatus = allCoins[i].weeklyChangeStatus;
+                this.favCoinsList[obj].weeklyChange = allCoins[i].weeklyChange;
+                this.favCoinsList[obj].weeklyChangePercent = allCoins[i].weeklyChangePercent;
+
+                this.favCoinsList[obj].dayVolume = allCoins[i].dayVolume;
+                this.favCoinsList[obj].highestPrice = allCoins[i].highestPrice;
+                this.favCoinsList[obj].lowestPrice = allCoins[i].lowestPrice;
+            }
+            else {
+                this.favCoinsList.push(allCoins[i]);
+            }
+        }
+    }
+    updateNormalCoinsData(allCoins){
+        for (let i = 0; i < allCoins.length; i++) {
+            let checkIsThere = true;
+            let obj = this.coinList.findIndex(coin => allCoins[i].pair === coin.pair);
+            if (obj != -1) {
+                this.favCoinsList[obj].price = allCoins[i].price;
+                this.favCoinsList[obj].priceStatus = allCoins[i].priceStatus;
+                this.favCoinsList[obj].dayPricePercent = allCoins[i].dayPricePercent;
+                this.favCoinsList[obj].dayPrice = allCoins[i].dayPrice;
+                this.favCoinsList[obj].dayPriceStatus = allCoins[i].dayPriceStatus;
+                this.favCoinsList[obj].weeklyChangeStatus = allCoins[i].weeklyChangeStatus;
+                this.favCoinsList[obj].weeklyChange = allCoins[i].weeklyChange;
+                this.favCoinsList[obj].weeklyChangePercent = allCoins[i].weeklyChangePercent;
+
+                this.favCoinsList[obj].dayVolume = allCoins[i].dayVolume;
+                this.favCoinsList[obj].highestPrice = allCoins[i].highestPrice;
+                this.favCoinsList[obj].lowestPrice = allCoins[i].lowestPrice;
+            }
+            else {
+                this.favCoinsList.push(allCoins[i]);
+            }
+        }
+    }
     customizeColUpdate(value) {
         if (window.screen.width > 990) {
             this.columnsList = value['desktop'];
@@ -269,9 +294,9 @@ export class TvChartContainerComponent implements OnInit {
             this.resolutionColumn[this.columnsList[i].key] = this.columnsList[i].ischecked;
         }
 
-        console.log(this.resolutionColumn)
+        
     }
-    expandGraph(ev, i, coinToken, coinName) {
+    expandGraph(ev, i, coinToken, coinName,chartId) {
         if (document.getElementById('expand' + i).classList.contains('showingNow')) {
             document.getElementById('expand' + i).classList.remove('showingNow');
             document.getElementById('expand' + i).classList.add('hidingNow');
@@ -286,9 +311,9 @@ export class TvChartContainerComponent implements OnInit {
             document.getElementById('expand' + i).classList.remove('hidingNow');
             let elementExp = document.getElementById('expand' + i).parentElement.children[0].children[3].children[0].classList
             if (elementExp.contains('fa-arrows-alt')) {
-                elementExp.add('fa-arrows')
-                elementExp.remove('fa-arrows-alt')
-                this.generateGraph("tv_chart_container" + i, coinToken, coinName);
+                elementExp.add('fa-arrows');
+                elementExp.remove('fa-arrows-alt');
+                this.generateGraph(chartId+i, coinToken, coinName);
             }
         }
 
@@ -350,12 +375,13 @@ export class TvChartContainerComponent implements OnInit {
                         return 'F'
                     }
                 })
+                // this.subscriptionOfHttp.add(getBars)
             },
             subscribeBars(symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) {
                 var configData;
                 console.log('subscribe ' + symbolInfo);
                 setInterval(() => {
-                    jQuery.ajax({
+                     jQuery.ajax({
                         method: 'POST',
                         async: true,
                         url: 'http://coinwave.service.colanonline.net/exchange/getLastSecData',
@@ -444,10 +470,12 @@ export class TvChartContainerComponent implements OnInit {
 
     advancedTableFilter(data) {
         clearInterval(this.runningInterval)
+        
         this.coinList = data;
     }
 
     refreshRateIntervalChange(m) {
+        
         if (m != 'false') {
             clearInterval(this.runningInterval)
             this.setIntervalTime = m + '000';
@@ -462,7 +490,14 @@ export class TvChartContainerComponent implements OnInit {
     favCoinFunctionality(pair, rr, i) {
         let tokenV = localStorage.getItem('userToken')
         this.http.put('http://coinwave.service.colanonline.net/api/userSetting/update', { favourites: pair, token: tokenV }).map(response => response.json()).subscribe(data => {
-            return;
+            let tokenV = localStorage.getItem('userToken');
+            this.subscriptionOfHttp = this.http.post('http://coinwave.service.colanonline.net/api/coins/getFavourites', { token: tokenV }).map(response => response.json()).subscribe(data => {
+                    this.favCoinsList = data;
+            })
+            this.subscriptionOfHttp =  this.http.post('http://coinwave.service.colanonline.net/api/coins/getCoins', { token: tokenV }).map(response => response.json()).subscribe(data => {
+                    this.coinList = data
+            })
+            
         })
         // for(let k = 0; k < this.sample.length; k++){
         //    if(this.sample[k].pair == pair){
@@ -475,7 +510,11 @@ export class TvChartContainerComponent implements OnInit {
 
         // }
     }
-    // ngOnDestroy() {
-    //     this.httpSubscription.unsubscribe();
-    //   }
+    ngOnDestroy() {
+        this.subscriptionOfHttp.unsubscribe();
+        clearInterval(this.runningInterval);
+        this.ngUnsubscribe.next();
+        this.ngUnsubscribe.complete();
+        
+    }
 }
