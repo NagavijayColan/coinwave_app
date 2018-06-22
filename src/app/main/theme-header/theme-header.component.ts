@@ -3,7 +3,7 @@ import { OrderPipe } from 'ngx-order-pipe';
 import { CompDataSharingService } from "../../comp-data-sharing.service";
 import { document } from 'angular-bootstrap-md/utils/facade/browser';
 import { Http } from '@angular/http';
-import {CommonServiceService} from '../../common-service.service'
+import {CommonServiceService} from '../../common-service.service';
 @Component({
   selector: 'app-theme-header',
   templateUrl: './theme-header.component.html',
@@ -81,6 +81,9 @@ export class ThemeHeaderComponent implements OnInit {
       
       let tokenV = localStorage.getItem('userToken');
       this.http.post('http://coinwave.service.colanonline.net/api/userSetting/getUserData', { token: tokenV }).map(response => response.json()).subscribe(data => {
+        this.desktoplists = data.customizeColumns.desktop;
+        this.mobilelists = data.customizeColumns.mobile;
+        this.appList = data.customizeColumns.app;
         this.changeGraphTheme.customizeColumns_filter(data.customizeColumns);
         localStorage.setItem('customizeColumns',data.customizeColumns);
         let body = document.getElementsByTagName('body')[0];
@@ -91,9 +94,7 @@ export class ThemeHeaderComponent implements OnInit {
         this.someRange = data.refreshRate;
         this.currencyvalue = 1;
         localStorage.setItem('currencyRate', this.currencyvalue);
-        this.desktoplists = data.customizeColumns.desktop;
-        this.mobilelists = data.customizeColumns.mobile;
-        this.appList = data.customizeColumns.app;
+       
       })
       // let data = JSON.parse(localStorage.getItem('customizeColumns'));
       // console.log(data);
@@ -540,7 +541,6 @@ export class ThemeHeaderComponent implements OnInit {
 
   }
   saveThemeStructure() {
-    
     if (localStorage.getItem('userToken')) {
       
       if (this.themeSettings['customizeColumns']) {

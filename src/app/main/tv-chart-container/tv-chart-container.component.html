@@ -1,7 +1,7 @@
 <div class="table-responsive">
   <table id="coin_list_table" class="table table-condensed table-bordered data-table " style="white-space:nowrap;">
     <thead>
-      <th class="hideInResponsive">#</th>
+      <th>#</th>
       <th *ngIf="resolutionColumn.coin" (click)="sort('name');">Coins
         <span class="fa sort-icon" *ngIf="key =='name'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
       </th>
@@ -13,25 +13,25 @@
       <th *ngIf="resolutionColumn.dayChange" (click)="sort('HRchange')" style="width:130px;">24 HR (%)
         <span class="fa sort-icon" *ngIf="key =='HRchange'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
       </th>
-      <th *ngIf="resolutionColumn.weaklyChange" class="hideInResponsive" (click)="sort('dayChange')" style="width:130px;">7 Days (%)
+      <th *ngIf="resolutionColumn.weaklyChange" (click)="sort('dayChange')" style="width:130px;">7 Days (%)
         <span class="fa sort-icon" *ngIf="key =='dayChange'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
       </th>
-      <th *ngIf="resolutionColumn.dayVolume" class="hideInResponsive" style="width:100px;" (click)="sort('dayVolume')"> Volume (24H)
+      <th *ngIf="resolutionColumn.dayVolume" style="width:100px;" (click)="sort('dayVolume')"> Volume (24H)
         <span class="fa sort-icon" *ngIf="key =='dayVolume'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
       </th>
-      <th *ngIf="resolutionColumn.marketCap" class="hideInResponsive" (click)="sort('marketCap')">Market CAP
+      <th *ngIf="resolutionColumn.marketCap" (click)="sort('marketCap')">Market CAP
         <span class="fa sort-icon" *ngIf="key =='marketCap'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
       </th>
-      <th *ngIf="resolutionColumn.dayHighLow" class="hideInResponsive" (click)="sort('highestPrice')">24 HR High / Low
+      <th *ngIf="resolutionColumn.dayHighLow" (click)="sort('highestPrice')">24 HR High / Low
         <span class="fa sort-icon" *ngIf="key =='highestPrice'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
       </th>
-      <!-- <th class="hideInResponsive" (click)="sort('lowestPrice')">24 LOW HIGH  <span class="fa sort-icon" *ngIf="key =='lowestPrice'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span></th> -->
+      <!-- <th (click)="sort('lowestPrice')">24 LOW HIGH  <span class="fa sort-icon" *ngIf="key =='lowestPrice'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span></th> -->
     </thead>
 
     
     <tbody *ngFor="let coins of favCoinsList; let i = index" class="favourite_coins">
         <tr style="cursor:pointer">
-            <td class="hideInResponsive">{{i+1}}</td>
+            <td>{{i+1}}</td>
             <td *ngIf="resolutionColumn.coin" (click)="coinDetails(coins.pair)" class="coinBlock">
               <span>
                 <img class="coinLogo" src="http://coinwave.service.colanonline.net/upload/{{coins.image}}">
@@ -50,13 +50,13 @@
             <td *ngIf="resolutionColumn.dayChange" (click)="coinDetails(coins.pair)" class="" [ngClass]="{'colorGreen': coins.dayPriceStatus === 'true','colorRed': coins.dayPriceStatus === 'false'}">{{coins.dayPrice *currencyValue | number:'.0-2'}} ({{coins.dayPricePercent | number:'.0-2'}})
               <span class="fa upDownSymbol" [ngClass]="{'arrow-up': coins.dayPriceStatus === 'true','arrow-down': coins.dayPriceStatus === 'false'}"></span>
             </td>
-            <td *ngIf="resolutionColumn.weaklyChange" (click)="coinDetails(coins.pair)" class=" hideInResponsive" [ngClass]="{'colorGreen': coins.weeklyChangeStatus === 'true','colorRed': coins.weeklyChangeStatus === 'false'}">{{coins.weeklyChange * currencyValue | number:'.0-2'}} ({{coins.weeklyChangePercent | number:'.0-2'}})
+            <td *ngIf="resolutionColumn.weaklyChange" (click)="coinDetails(coins.pair)" class=" " [ngClass]="{'colorGreen': coins.weeklyChangeStatus === 'true','colorRed': coins.weeklyChangeStatus === 'false'}">{{coins.weeklyChange * currencyValue | number:'.0-2'}} ({{coins.weeklyChangePercent | number:'.0-2'}})
               <span class="fa upDownSymbol"
                 [ngClass]="{'arrow-up': coins.weeklyChangeStatus === 'true','arrow-down': coins.weeklyChangeStatus === 'false'}"></span>
             </td>
-            <td *ngIf="resolutionColumn.dayVolume" (click)="coinDetails(coins.pair)" class="hideInResponsive">{{coins.dayVolume * currencyValue | number:'.0-2'}}</td>
-            <td *ngIf="resolutionColumn.marketCap" (click)="coinDetails(coins.pair)" class="hideInResponsive">{{coins.marketCapValue * currencyValue | number:'.0-2'}}</td>
-            <td *ngIf="resolutionColumn.dayHighLow" (click)="coinDetails(coins.pair)" class="hideInResponsive">{{coins.highestPrice * currencyValue | number:'.0-2'}} / {{coins.lowestPrice * currencyValue | number:'.0-2'}}</td>
+            <td *ngIf="resolutionColumn.dayVolume" (click)="coinDetails(coins.pair)">{{coins.dayVolume * currencyValue | number:'.0-2'}}</td>
+            <td *ngIf="resolutionColumn.marketCap" (click)="coinDetails(coins.pair)">{{coins.marketCapValue * currencyValue | number:'.0-2'}}</td>
+            <td *ngIf="resolutionColumn.dayHighLow" (click)="coinDetails(coins.pair)">{{coins.highestPrice * currencyValue | number:'.0-2'}} / {{coins.lowestPrice * currencyValue | number:'.0-2'}}</td>
           </tr>
           <tr id="expandFav{{i}}" class="hidingNow">
             <td colspan="11" height="300px;" width="100%">
@@ -83,7 +83,7 @@
    </tbody>
     <tbody *ngFor="let coins of coinList | filter: searchText | orderBy: key : reverse ; let i = index ">
       <tr style="cursor:pointer">
-        <td class="hideInResponsive">{{favCoinsList.length+i+1}}</td>
+        <td>{{favCoinsList.length+i+1}}</td>
         <td *ngIf="resolutionColumn.coin" (click)="coinDetails(coins.pair)" class="coinBlock">
           <span>
             <img class="coinLogo" src="http://coinwave.service.colanonline.net/upload/{{coins.image}}">
@@ -102,13 +102,13 @@
         <td *ngIf="resolutionColumn.dayChange" (click)="coinDetails(coins.pair)" class="" [ngClass]="{'colorGreen': coins.dayPriceStatus === 'true','colorRed': coins.dayPriceStatus === 'false'}">{{coins.dayPrice *currencyValue | number:'.0-2'}} ({{coins.dayPricePercent | number:'.0-2'}})
           <span class="fa upDownSymbol" [ngClass]="{'arrow-up': coins.dayPriceStatus === 'true','arrow-down': coins.dayPriceStatus === 'false'}"></span>
         </td>
-        <td *ngIf="resolutionColumn.weaklyChange" (click)="coinDetails(coins.pair)" class=" hideInResponsive" [ngClass]="{'colorGreen': coins.weeklyChangeStatus === 'true','colorRed': coins.weeklyChangeStatus === 'false'}">{{coins.weeklyChange * currencyValue | number:'.0-2'}} ({{coins.weeklyChangePercent | number:'.0-2'}})
+        <td *ngIf="resolutionColumn.weaklyChange" (click)="coinDetails(coins.pair)" class=" " [ngClass]="{'colorGreen': coins.weeklyChangeStatus === 'true','colorRed': coins.weeklyChangeStatus === 'false'}">{{coins.weeklyChange * currencyValue | number:'.0-2'}} ({{coins.weeklyChangePercent | number:'.0-2'}})
           <span class="fa upDownSymbol"
             [ngClass]="{'arrow-up': coins.weeklyChangeStatus === 'true','arrow-down': coins.weeklyChangeStatus === 'false'}"></span>
         </td>
-        <td *ngIf="resolutionColumn.dayVolume" (click)="coinDetails(coins.pair)" class="hideInResponsive">{{coins.dayVolume * currencyValue | number:'.0-2'}}</td>
-        <td *ngIf="resolutionColumn.marketCap" (click)="coinDetails(coins.pair)" class="hideInResponsive">{{coins.marketCapValue * currencyValue | number:'.0-2'}}</td>
-        <td *ngIf="resolutionColumn.dayHighLow" (click)="coinDetails(coins.pair)" class="hideInResponsive">{{coins.highestPrice * currencyValue | number:'.0-2'}} / {{coins.lowestPrice * currencyValue | number:'.0-2'}}</td>
+        <td *ngIf="resolutionColumn.dayVolume" (click)="coinDetails(coins.pair)">{{coins.dayVolume * currencyValue | number:'.0-2'}}</td>
+        <td *ngIf="resolutionColumn.marketCap" (click)="coinDetails(coins.pair)">{{coins.marketCapValue * currencyValue | number:'.0-2'}}</td>
+        <td *ngIf="resolutionColumn.dayHighLow" (click)="coinDetails(coins.pair)">{{coins.highestPrice * currencyValue | number:'.0-2'}} / {{coins.lowestPrice * currencyValue | number:'.0-2'}}</td>
       </tr>
       <tr id="expand{{i}}" class="hidingNow">
         <td colspan="11" height="300px;" width="100%">
@@ -136,11 +136,11 @@
   </table>
 </div>
 <!-- <td (click)="coinDetails(coins.pair)" class="column-HRchange">{{coins.HRchange}} 453454</td>
-  <td (click)="coinDetails(coins.pair)" class=" hideInResponsive column-dayChange">{{coins.dayChange}}</td>
-  <td (click)="coinDetails(coins.pair)" class="hideInResponsive">{{coins.Hrvolume}}</td>
-  <td (click)="coinDetails(coins.pair)" class="hideInResponsive">{{coins.marketCap}}</td>
-  <td (click)="coinDetails(coins.pair)" class="hideInResponsive">{{coins.hrhigh}}</td>
-  <td (click)="coinDetails(coins.pair)" class="hideInResponsive">{{coins.hrlow}}</td> -->
+  <td (click)="coinDetails(coins.pair)" class="  column-dayChange">{{coins.dayChange}}</td>
+  <td (click)="coinDetails(coins.pair)">{{coins.Hrvolume}}</td>
+  <td (click)="coinDetails(coins.pair)">{{coins.marketCap}}</td>
+  <td (click)="coinDetails(coins.pair)">{{coins.hrhigh}}</td>
+  <td (click)="coinDetails(coins.pair)">{{coins.hrlow}}</td> -->
 
   
 
@@ -258,7 +258,7 @@
 </div>
 <!--Modal: Register Form-->
 <!-- Success Pop Up-->
-<div mdbModal #successMessage="mdb-modal" class="modal fade right" id="centralModalSm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div mdbModal #successMessage="mdb-modal" class="modal fade right" id="centralModalSm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: false, ignoreBackdropClick: false}">
   <div class="modal-dialog modal-side modal-top-right modal-notify modal-warning" role="document">
       <div class="modal-content">
           <div class="modal-header">

@@ -7,6 +7,7 @@ import { CompDataSharingService } from "../../../comp-data-sharing.service";
   styleUrls: ['./portfolio.component.css']
 })
 export class PortfolioComponent implements OnInit {
+  
   gridSelected: boolean;
   listSelected: boolean;
   public addclass;

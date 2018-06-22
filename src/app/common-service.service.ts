@@ -12,7 +12,7 @@ export class CommonServiceService {
     this.http.post('http://coinwave.service.colanonline.net/user/register', userReg).subscribe(data => {
       localStorage.setItem('userToken', data['access_token']);
       localStorage.setItem('userName', data['userName']);
-      if(this.router.url != '/coinlist'){
+      if(this.router.url == '/login'){
         this.router.navigate(['coinlist/', data]);
       }
       this.shareData.isLoggedIn_filter(data);
@@ -24,7 +24,7 @@ export class CommonServiceService {
     this.http.post('http://coinwave.service.colanonline.net/user/login', userLogin).subscribe(data => {
       localStorage.setItem('userToken', data['access_token']);
       localStorage.setItem('userName', data['userName']);
-      if(this.router.url != '/coinlist'){
+      if(this.router.url == '/login'){
         this.router.navigate(['coinlist/', data]);
       }
       this.shareData.isLoggedIn_filter(data);

@@ -39,25 +39,25 @@
               <li>
                 <p>
                   <label>24 HR Change </label>
-                  <span>{{coins.dayPrice}}</span>
+                  <span>{{coins.dayPrice | number : '.0-2'}}</span>
                 </p>
               </li>
               <li>
                 <p>
                   <label>7 Day Chnage </label>
-                  <span>{{coins.weeklyChange}} ({{coins.weeklyChangePercent}}%)</span>
+                  <span>{{coins.weeklyChange | number : '.0-2'}} ({{coins.weeklyChangePercent | number : '.0-2'}}%)</span>
                 </p>
               </li>
               <li>
                 <p>
                   <label>24 HR Volume</label>
-                  <span>{{coins.dayVolume}}</span>
+                  <span>{{coins.dayVolume | number : '.0-2'}}</span>
                 </p>
               </li>
               <li>
                 <p>
                   <label>Market Cap</label>
-                  <span>{{coins.marketCapValue}}</span>
+                  <span>{{coins.marketCapValue | number : '.0-2'}}</span>
                 </p>
               </li>
 
@@ -103,16 +103,16 @@
           <tr *ngFor="let coins of coinList | filter: searchText | orderBy: key : reverse ; let i = index">
             <td>{{i+1}}</td>
             <td>{{coins.name}}</td>
-            <td class="ls_price">${{coins.price}}</td>
-            <td class="" [ngClass]="{'colorGreen': coins.dayPriceStatus === 'true','colorRed': coins.dayPriceStatus === 'false'}">${{coins.dayPrice}} ({{coins.dayPricePercent}})
+            <td class="ls_price">${{coins.price | number : '.0-2'}}</td>
+            <td class="" [ngClass]="{'colorGreen': coins.dayPriceStatus === 'true','colorRed': coins.dayPriceStatus === 'false'}">${{coins.dayPrice | number : '.0-2'}} ({{coins.dayPricePercent | number : '.0-2'}})
               <span class="fa upDownSymbol" [ngClass]="{'arrow-up': coins.dayPriceStatus === 'true','arrow-down': coins.dayPriceStatus === 'false'}"></span>
             </td>
-            <td class=" hideInResponsive" [ngClass]="{'colorGreen': coins.weeklyChangeStatus === 'true','colorRed': coins.weeklyChangeStatus === 'false'}">${{coins.weeklyChange}} ({{coins.weeklyChangePercent}})
+            <td class=" hideInResponsive" [ngClass]="{'colorGreen': coins.weeklyChangeStatus === 'true','colorRed': coins.weeklyChangeStatus === 'false'}">${{coins.weeklyChange | number : '.0-2'}} ({{coins.weeklyChangePercent | number : '.0-2'}})
               <span class="fa upDownSymbol" [ngClass]="{'arrow-up': coins.weeklyChangeStatus === 'true','arrow-down': coins.weeklyChangeStatus === 'false'}"></span>
             </td>
-            <td (click)="coinDetails(coins.pair)" class="hideInResponsive">${{coins.dayVolume}}</td>
-            <td (click)="coinDetails(coins.pair)" class="hideInResponsive">${{coins.marketCapValue}}</td>
-            <td (click)="coinDetails(coins.pair)" class="hideInResponsive">${{coins.highestPrice}} / {{coins.lowestPrice}}</td>
+            <td (click)="coinDetails(coins.pair)" class="hideInResponsive">${{coins.dayVolume | number : '.0-2'}}</td>
+            <td (click)="coinDetails(coins.pair)" class="hideInResponsive">${{coins.marketCapValue | number : '.0-2'}}</td>
+            <td (click)="coinDetails(coins.pair)" class="hideInResponsive">${{coins.highestPrice | number : '.0-2'}} / {{coins.lowestPrice | number : '.0-2'}}</td>
           </tr>
         </tbody>
       </table>

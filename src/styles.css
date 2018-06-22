@@ -1261,3 +1261,79 @@ input.favorite_coin {
  .modal .modal-side{
    width: 500px !important;
  }
+ .logInWithFacebook{
+  background: #3b5a9a;
+  padding: 17px 42px;
+  display: table-cell;
+  border-radius: 4px;
+  vertical-align: middle;
+  text-align: center;
+  cursor:pointer;
+  font-size: 18px;
+}
+.logInWithFacebook label{
+  cursor:pointer;
+  margin-bottom:0px !important;
+}
+.logInWithFacebook label.fa-facebook{
+  text-align: left;
+  font-size:  16px;
+  margin-right: 10px;
+}
+.googlePlusLogin{
+  background: #e05449;
+  padding: 17px 53px;
+  display: table-cell;
+  border-radius: 4px;
+  vertical-align: middle;
+  text-align: center;
+  cursor:pointer;
+  font-size: 18px;
+}
+.googlePlusLogin label{
+  cursor:pointer;
+  margin-bottom: 0px !important;
+}
+.googlePlusLogin label.fa-google-plus{
+  text-align: left;
+  font-size: 16px;
+  margin-right: 10px;
+}
+.linkedInLogin{
+  background: #117bb8;
+  padding: 17px 56px;
+  display: table-cell;
+  border-radius: 4px;
+  vertical-align: middle;
+  text-align: center;
+  cursor:pointer;
+  font-size: 18px;
+}
+.linkedInLogin label{
+  cursor:pointer;
+  margin-bottom: 0px !important;
+}
+.linkedInLogin label.fa-linkedin{
+  text-align: left;
+  font-size: 16px;
+  margin-right: 10px;
+}
+.loginWithEmail{
+  background: #d0021b;
+  padding: 17px 74px;
+  display: table-cell;
+  border-radius: 4px;
+  vertical-align: middle;
+  text-align: center;
+  cursor:pointer;
+  font-size: 18px;
+}
+.loginWithEmail label{
+  cursor:pointer;
+  margin-bottom: 0px !important;
+}
+.loginWithEmail label.fa-envelope{
+  text-align: left;
+  font-size: 16px;
+  margin-right: 10px;
+}

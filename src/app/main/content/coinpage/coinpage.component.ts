@@ -1,7 +1,8 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input,ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CompDataSharingService } from "../../../comp-data-sharing.service";
 import { document } from 'angular-bootstrap-md/utils/facade/browser';
+import {CommonServiceService} from '../../../common-service.service';
 import {
     widget,
     onready,
@@ -16,6 +17,10 @@ import 'rxjs/add/operator/map';
     styleUrls: ['./coinpage.component.css']
 })
 export class CoinpageComponent implements OnInit {
+    @ViewChild('successMessage') public successModal;
+    @ViewChild('errorMessage') public errorModal;
+    @ViewChild('loginform') public loginModal;
+    @ViewChild('registerform') public signUpModal;
     public themeType;
     public backgroundColor;
     public jsonData;
@@ -46,6 +51,9 @@ export class CoinpageComponent implements OnInit {
     public isOpened;
     public coinName;
     public coinImage;
+    public successMessagePopup;
+    userLogin: any = {};
+    userReg: any = {};
     @Input()
     set symbol(symbol: ChartingLibraryWidgetOptions['symbol']) {
         this._symbol = symbol || this._symbol;
@@ -102,7 +110,7 @@ export class CoinpageComponent implements OnInit {
     }
     @Input() graphId: string;
 
-    constructor(private http: Http, private aroute: ActivatedRoute, private changeGraphTheme: CompDataSharingService) { }
+    constructor(private commonService : CommonServiceService,private http: Http, private aroute: ActivatedRoute, private changeGraphTheme: CompDataSharingService) { }
     ngOnInit() {
         this.isOpened = false;
         this.volume_white = {
@@ -290,13 +298,31 @@ export class CoinpageComponent implements OnInit {
             this.http.put('http://coinwave.service.colanonline.net/api/userSetting/update', { portfolio: this.coinKey, token: tokenV }).map(
                 response => response.json()).subscribe(
                 data => {
-                    alert(data)
+                    this.successMessagePopup = 'Successfully added to Portfolio List'
+                    this.successModal.show();
+                },
+                err =>{
+                    this.errorModal.show();
                 }
                 )
+        }
+        else{
+            this.loginModal.show()
         }
     }
     buyCoin() {
         this.isOpened = !this.isOpened
     }
+    signUpWithMail(userReg) {
 
+        this.commonService.userRegistration(userReg);
+        this.loginModal.hide();
+        this.signUpModal.hide();
+      }
+      loginWithMail(userLogin) {
+        this.commonService.userLogin(userLogin);
+        this.loginModal.hide();
+        this.signUpModal.hide();
+        
+      }
 }

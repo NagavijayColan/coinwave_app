@@ -33,25 +33,24 @@
                             <br/> Your Site Preferences and Coins</h3>
 
                         <a class="email_mg" id="googleSignIn" (click)="loginform.show()">
-                            <img src="/assets/images/login_signinemail.png" alt="Sign Up with email" />
+                            <a class="loginWithEmail"><label class="fa fa-envelope"></label><label>Login with Email</label></a>
                         </a>
                         <span>Or Sign With:</span>
                         <ul>
                             <li>
-                                <a (click)="signInWithFB()">
-                                    <img src="/assets/images/login_facebook.png" alt="Facebook" />
-                                </a>
+                                <a (click)="signInWithFB()" class="logInWithFacebook"><label class="fa fa-facebook"></label><label>Login with Facebook</label></a>
                             </li>
                             <li>
-                                <a (click)="signInWithGoogle()">
-                                    <img src="/assets/images/login_google.png" alt="Google Plus" />
+                                <a (click)="signInWithGoogle()" class="googlePlusLogin">
+                                       <label class="fa fa-google-plus"></label><label>Login with Gmail</label>
+                                   
                                 </a>
                             </li>
                             <!-- <li><a (click)="getHomeTimeline()"><img src="/assets/images/login_twitter.png" alt="Twitter"/></a></li> -->
                             <li>
-                                <a (click)="signInWithLinkedIN()">
-                                    <img src="/assets/images/login_linkedin.png" alt="Linkedin" />
-                                </a>
+                               <a (click)="signInWithLinkedIN()" class="linkedInLogin"><label  class="fa fa-linkedin"></label><label>Login with Gmail</label></a>
+                                    
+                               
                             </li>
                         </ul>
                     </div>
@@ -116,14 +115,13 @@
             <div class="modal-body">
                 <div class="md-form form-sm">
                     <i class="fa fa-envelope prefix"></i>
-                    <input type="text" [(ngModel)]="userLogin.emailId" class="form-control">
-                    <label for="form30">Enter email</label>
+                    <input type="text" [(ngModel)]="userLogin.emailId" class="form-control" placeholder="Enter Email">
+                    
                 </div>
 
                 <div class="md-form form-sm">
                     <i class="fa fa-lock prefix"></i>
-                    <input type="password" [(ngModel)]="userLogin.password" class="form-control">
-                    <label for="form31">Enter password</label>
+                    <input type="password" [(ngModel)]="userLogin.password" class="form-control" placeholder="Enter password">
                 </div>
 
                 <div class="text-center mt-2">
@@ -209,3 +207,5 @@
     </div>
 </div>
 <!--Modal: Register Form-->
+
+
