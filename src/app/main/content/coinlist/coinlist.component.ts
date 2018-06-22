@@ -25,7 +25,7 @@ export class CoinlistComponent implements OnInit {
   @ViewChild('marketCap') marketCap: IonRangeSliderComponent;
   constructor(private commonService : CommonServiceService,private changeGraphTheme: CompDataSharingService, private http: Http, private location: Location, private aroute: ActivatedRoute) {
     this.changeGraphTheme.currencyConverter_listener().subscribe((value: any) => {
-      this.currencyValue = value;
+      this.currencyValue = parseFloat(value);
       this.maxPrice = (this.maxPrice * this.currencyValue).toFixed(2) + 100;
     })
   }
