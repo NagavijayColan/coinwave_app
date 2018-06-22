@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy,ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CompDataSharingService } from "../../comp-data-sharing.service";
@@ -19,6 +19,7 @@ import { window, document } from 'angular-bootstrap-md/utils/facade/browser';
     styleUrls: ['./tv-chart-container.component.css']
 })
 export class TvChartContainerComponent implements OnInit {
+    @ViewChild('loginform') public loginModal;
     protected ngUnsubscribe: Subject<void> = new Subject<void>();
     
     private _symbol: ChartingLibraryWidgetOptions['symbol'] = 'AAPL';
@@ -51,6 +52,8 @@ export class TvChartContainerComponent implements OnInit {
     public resolutionColumn = {};
     public columnsList;
     public subscriptionOfHttp;
+    userLogin: any = {};
+    userReg: any = {};
     @Input()
     set symbol(symbol: ChartingLibraryWidgetOptions['symbol']) {
         this._symbol = symbol || this._symbol;
@@ -296,7 +299,8 @@ export class TvChartContainerComponent implements OnInit {
 
         
     }
-    expandGraph(ev, i, coinToken, coinName,chartId) {
+    expandGraph(ev, i, coinToken, coinName,chartId) { 
+        
         if (document.getElementById('expand' + i).classList.contains('showingNow')) {
             document.getElementById('expand' + i).classList.remove('showingNow');
             document.getElementById('expand' + i).classList.add('hidingNow');
@@ -488,17 +492,22 @@ export class TvChartContainerComponent implements OnInit {
         }
     }
     favCoinFunctionality(pair, rr, i) {
-        let tokenV = localStorage.getItem('userToken')
-        this.http.put('http://coinwave.service.colanonline.net/api/userSetting/update', { favourites: pair, token: tokenV }).map(response => response.json()).subscribe(data => {
-            let tokenV = localStorage.getItem('userToken');
-            this.subscriptionOfHttp = this.http.post('http://coinwave.service.colanonline.net/api/coins/getFavourites', { token: tokenV }).map(response => response.json()).subscribe(data => {
-                    this.favCoinsList = data;
+        if(localStorage.getItem('userToken')){
+            let tokenV = localStorage.getItem('userToken')
+            this.http.put('http://coinwave.service.colanonline.net/api/userSetting/update', { favourites: pair, token: tokenV }).map(response => response.json()).subscribe(data => {
+                let tokenV = localStorage.getItem('userToken');
+                this.subscriptionOfHttp = this.http.post('http://coinwave.service.colanonline.net/api/coins/getFavourites', { token: tokenV }).map(response => response.json()).subscribe(data => {
+                        this.favCoinsList = data;
+                })
+                this.subscriptionOfHttp =  this.http.post('http://coinwave.service.colanonline.net/api/coins/getCoins', { token: tokenV }).map(response => response.json()).subscribe(data => {
+                        this.coinList = data
+                })
+                
             })
-            this.subscriptionOfHttp =  this.http.post('http://coinwave.service.colanonline.net/api/coins/getCoins', { token: tokenV }).map(response => response.json()).subscribe(data => {
-                    this.coinList = data
-            })
-            
-        })
+        }
+        else{
+            this.loginModal.show();
+        }
         // for(let k = 0; k < this.sample.length; k++){
         //    if(this.sample[k].pair == pair){
         //         if(rr){
@@ -507,7 +516,6 @@ export class TvChartContainerComponent implements OnInit {
         //             delete this.sample[k];
         //         }
         //     }
-
         // }
     }
     ngOnDestroy() {

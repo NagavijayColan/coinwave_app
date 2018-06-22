@@ -168,26 +168,24 @@
             <!--Body-->
             <div class="modal-body">
                 <div class="md-form form-sm">
-                    <i class="fa fa-envelope prefix"></i>
-                    <input type="text" [(ngModel)]="userReg.userName" class="form-control">
-                    <label for="form32">User Name</label>
+                    <i class="fa fa-user prefix"></i>
+                    <input type="text" [(ngModel)]="userReg.userName" class="form-control" placeholder="User Name">
                 </div>
                 <div class="md-form form-sm">
                     <i class="fa fa-envelope prefix"></i>
-                    <input type="text" [(ngModel)]="userReg.emailId" class="form-control">
-                    <label for="form32">Your email</label>
+                    <input type="text" [(ngModel)]="userReg.emailId" class="form-control" placeholder="Enter Email">
                 </div>
 
                 <div class="md-form form-sm">
                     <i class="fa fa-lock prefix"></i>
-                    <input type="password" [(ngModel)]="userReg.password" (blur)="confirmPassword()" id="form33" class="form-control">
-                    <label for="form33">Your password</label>
+                    <input type="password" [(ngModel)]="userReg.password" (blur)="confirmPassword()" id="form33" class="form-control" placeholder="Enter Password">
+                    
                 </div>
 
                 <div class="md-form form-sm">
                     <i class="fa fa-lock prefix"></i>
-                    <input type="password" [(ngModel)]="userReg.confrmPswrd" (blur)="confirmPassword()" id="form34" class="form-control">
-                    <label for="form34">Repeat password</label>
+                    <input type="password" [(ngModel)]="userReg.confrmPswrd" (blur)="confirmPassword()" id="form34" class="form-control" placeholder="Confirm Password">
+                    
                 </div>
 
                 <div class="text-center mt-2">

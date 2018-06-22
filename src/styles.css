@@ -1255,3 +1255,6 @@ input.favorite_coin {
   height: 20px !important;
   display: inline-block !important;
  }
+ .modal-dialog.cascading-modal .modal-footer  a{
+      color: blue !important;
+ }
