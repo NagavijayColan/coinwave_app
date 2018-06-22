@@ -31,7 +31,7 @@ import { OrderModule } from 'ngx-order-pipe';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { TvChartContainerComponent } from './main/tv-chart-container/tv-chart-container.component';
 import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider, LinkedinLoginProvider } from 'ng4-social-login'
-
+import {CommonServiceService} from './common-service.service'
 function getAuthServiceConfigs() {
   const CONFIG = new AuthServiceConfig([
     {
@@ -89,7 +89,8 @@ function getAuthServiceConfigs() {
   providers: [CompDataSharingService, {
     provide: AuthServiceConfig,
     useFactory: getAuthServiceConfigs
-  }
+  },
+  CommonServiceService
   ],
   bootstrap: [AppComponent],
   schemas: [NO_ERRORS_SCHEMA]

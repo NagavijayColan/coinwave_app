@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CompDataSharingService } from "../../comp-data-sharing.service";
 import { Http } from '@angular/http';
 import { Subscription, Subject } from 'rxjs/Rx';
+import {CommonServiceService} from '../../common-service.service'
 import {
     widget,
     onready,
@@ -11,6 +12,7 @@ import {
     LanguageCode,
 } from '../../../assets/charting_library/charting_library.min';
 import { window, document } from 'angular-bootstrap-md/utils/facade/browser';
+import { error } from 'util';
 // import { setInterval } from 'timers';
 
 @Component({
@@ -20,6 +22,11 @@ import { window, document } from 'angular-bootstrap-md/utils/facade/browser';
 })
 export class TvChartContainerComponent implements OnInit {
     @ViewChild('loginform') public loginModal;
+    @ViewChild('registerform') public signUpModal;
+    @ViewChild('successMessage') public successModal;
+    @ViewChild('errorMessage') public errorModal;
+    
+    successMessage
     protected ngUnsubscribe: Subject<void> = new Subject<void>();
     
     private _symbol: ChartingLibraryWidgetOptions['symbol'] = 'AAPL';
@@ -52,6 +59,7 @@ export class TvChartContainerComponent implements OnInit {
     public resolutionColumn = {};
     public columnsList;
     public subscriptionOfHttp;
+    public successMessagePopup;
     userLogin: any = {};
     userReg: any = {};
     @Input()
@@ -110,7 +118,7 @@ export class TvChartContainerComponent implements OnInit {
     }
     @Input() graphId: string;
 
-    constructor(private http: Http, private router: Router, private changeGraphTheme: CompDataSharingService) {
+    constructor(private commonService : CommonServiceService,private http: Http, private router: Router, private changeGraphTheme: CompDataSharingService) {
         this.changeGraphTheme.refreshRateListen().subscribe((m: any) => {
 
             this.refreshRateIntervalChange(m);
@@ -494,7 +502,10 @@ export class TvChartContainerComponent implements OnInit {
     favCoinFunctionality(pair, rr, i) {
         if(localStorage.getItem('userToken')){
             let tokenV = localStorage.getItem('userToken')
-            this.http.put('http://coinwave.service.colanonline.net/api/userSetting/update', { favourites: pair, token: tokenV }).map(response => response.json()).subscribe(data => {
+            this.http.put('http://coinwave.service.colanonline.net/api/userSetting/update', { favourites: pair, token: tokenV }).map(response => response.json()).
+            subscribe(data => {
+                this.successMessagePopup = 'Favourite Coins Updated Successfully';
+                this.successModal.show();
                 let tokenV = localStorage.getItem('userToken');
                 this.subscriptionOfHttp = this.http.post('http://coinwave.service.colanonline.net/api/coins/getFavourites', { token: tokenV }).map(response => response.json()).subscribe(data => {
                         this.favCoinsList = data;
@@ -502,8 +513,13 @@ export class TvChartContainerComponent implements OnInit {
                 this.subscriptionOfHttp =  this.http.post('http://coinwave.service.colanonline.net/api/coins/getCoins', { token: tokenV }).map(response => response.json()).subscribe(data => {
                         this.coinList = data
                 })
-                
-            })
+               
+            }
+        ,
+        error => {
+            this.errorModal.show()
+        }
+    )
         }
         else{
             this.loginModal.show();
@@ -518,6 +534,18 @@ export class TvChartContainerComponent implements OnInit {
         //     }
         // }
     }
+    signUpWithMail(userReg) {
+
+        this.commonService.userRegistration(userReg);
+        this.loginModal.hide();
+        this.signUpModal.hide();
+      }
+      loginWithMail(userLogin) {
+        this.commonService.userLogin(userLogin);
+        this.loginModal.hide();
+        this.signUpModal.hide();
+        
+      }
     ngOnDestroy() {
         this.subscriptionOfHttp.unsubscribe();
         clearInterval(this.runningInterval);

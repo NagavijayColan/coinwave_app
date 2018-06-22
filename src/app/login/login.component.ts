@@ -6,6 +6,7 @@ import "rxjs/add/operator/map";
 import { SocialUser, AuthService, FacebookLoginProvider, GoogleLoginProvider, LinkedinLoginProvider } from 'ng4-social-login';
 import { debug } from 'util';
 import { CompDataSharingService } from "../comp-data-sharing.service";
+import {CommonServiceService} from '../common-service.service'
 declare var IN: any;
 @Component({
   selector: 'app-login',
@@ -22,7 +23,7 @@ export class LoginComponent implements OnInit {
   public isUserAuthenticated;
   userReg: any = {};
   userLogin: any = {};
-  constructor(private authService: AuthService, private http: Http, private router: Router, private changeGraphTheme: CompDataSharingService) {
+  constructor(private commonService : CommonServiceService,private authService: AuthService, private http: Http, private router: Router, private changeGraphTheme: CompDataSharingService) {
     this.changeGraphTheme.callLogOut_listener().subscribe(() => {
       this.signOut();
     })
@@ -31,7 +32,7 @@ export class LoginComponent implements OnInit {
   signInWithGoogle(): void {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(
       (userData) => {
-          this.logInAction(userData)
+        this.commonService.sociallogInAction(userData)
       },
       error => {
           console.log(error)
@@ -42,7 +43,7 @@ export class LoginComponent implements OnInit {
   signInWithFB(): void {
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then(
       (userData) => {
-        this.logInAction(userData)
+        this.commonService.sociallogInAction(userData)
     },
     error => {
         console.log(error)
@@ -54,7 +55,7 @@ export class LoginComponent implements OnInit {
 
     this.authService.signIn(LinkedinLoginProvider.PROVIDER_ID).then(
       (userData) => {
-        this.logInAction(userData)
+        this.commonService.sociallogInAction(userData)
     },
     error => {
         console.log(error)
@@ -73,41 +74,14 @@ export class LoginComponent implements OnInit {
       this.loggedIn = (user != null);
 
     });
-    
+
   }
   confirmPassword() { }
   signUpWithMail(userReg) {
-
-    userReg.loginType = 'Manual'
-    this.http.post('http://coinwave.service.colanonline.net/user/register', userReg).map(response => response.json()).subscribe(data => {
-      localStorage.setItem('userToken', data.access_token);
-      localStorage.setItem('userName', data.userName);
-      this.router.navigate(['coinlist/', data]);
-      this.changeGraphTheme.isLoggedIn_filter(data);
-    })
-
+    this.commonService.userRegistration(userReg);
   }
   loginWithMail(userLogin) {
-
-    this.http.post('http://coinwave.service.colanonline.net/user/login', userLogin).map(response => response.json()).subscribe(data => {
-      localStorage.setItem('userToken', data.access_token);
-      localStorage.setItem('userName', data.userName);
-      this.router.navigate(['coinlist/', data]);
-      this.changeGraphTheme.isLoggedIn_filter(data);
-    })
-
+    this.commonService.userLogin(userLogin);
   }
-  logInAction(userData){
-
-    this.userReg.loginId = userData.id;
-    this.userReg.loginType = userData.provider;
-    this.userReg.userName = userData.name;
-    this.http.post('http://coinwave.service.colanonline.net/user/socialLogin', this.userReg).map(response => response.json()).subscribe(data => {
-      localStorage.setItem('userToken', data.access_token);
-      localStorage.setItem('userName', data.userName);
-      this.router.navigate(['coinlist/', data]);
-      this.changeGraphTheme.isLoggedIn_filter(data);
-    })
-
-  }
+  
 }

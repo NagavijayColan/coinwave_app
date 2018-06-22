@@ -2,7 +2,8 @@ import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/cor
 import { OrderPipe } from 'ngx-order-pipe';
 import { CompDataSharingService } from "../../comp-data-sharing.service";
 import { document } from 'angular-bootstrap-md/utils/facade/browser';
-import { Http } from '@angular/http'
+import { Http } from '@angular/http';
+import {CommonServiceService} from '../../common-service.service'
 @Component({
   selector: 'app-theme-header',
   templateUrl: './theme-header.component.html',
@@ -10,6 +11,9 @@ import { Http } from '@angular/http'
 })
 export class ThemeHeaderComponent implements OnInit {
   @ViewChild('loginform') public loginModal;
+  @ViewChild('registerform') public signUpModal;
+  @ViewChild('successMessage') public successMessageModal;
+  // @ViewChild('registerform') public signUpModal;
   order: string = 'info.languagename';
   currencyorder: string = 'info.currencyname';
 
@@ -53,13 +57,14 @@ export class ThemeHeaderComponent implements OnInit {
   public passData2Comp: any;
   public themeSettings = {}
   public refreshDefault;
+  public successMessagePopup;
   userLogin: any = {};
   userReg: any = {};
   key: string = '';
   reverse: boolean = false;
-  constructor(private http: Http, private orderPipe: OrderPipe, private changeGraphTheme: CompDataSharingService) {
+  constructor(private commonService : CommonServiceService,private http: Http, private orderPipe: OrderPipe, private changeGraphTheme: CompDataSharingService) {
     this.changeGraphTheme.changeTo_default_theme_listener().subscribe(() => {
-      this.defaultTheme()
+      this.defaultTheme();
     })
   }
   ngOnInit() {
@@ -536,7 +541,6 @@ export class ThemeHeaderComponent implements OnInit {
   }
   saveThemeStructure() {
     
-
     if (localStorage.getItem('userToken')) {
       
       if (this.themeSettings['customizeColumns']) {
@@ -553,7 +557,8 @@ export class ThemeHeaderComponent implements OnInit {
       }
       this.themeSettings['token'] = localStorage.getItem('userToken');
       this.http.put('http://coinwave.service.colanonline.net/api/userSetting/update', this.themeSettings).map(response => response.json()).subscribe(data => {
-
+        this.successMessagePopup = 'Your Theme Updated Successfully !'
+          this.successMessageModal.show()
       })
     }
     else {
@@ -572,6 +577,18 @@ export class ThemeHeaderComponent implements OnInit {
     // if (site_language) {
     //   this.themeSettings.push({ siteLanguage: siteLang })
     // }
+  }
+  signUpWithMail(userReg) {
+
+    this.commonService.userRegistration(userReg);
+    this.loginModal.hide();
+    this.signUpModal.hide();
+  }
+  loginWithMail(userLogin) {
+    this.commonService.userLogin(userLogin);
+    this.loginModal.hide();
+    this.signUpModal.hide();
+    
   }
   defaultTheme() {
     let body = document.getElementsByTagName('body')[0];
@@ -603,6 +620,7 @@ export class ThemeHeaderComponent implements OnInit {
     //   
     // })
   }
+  
 }
 
 

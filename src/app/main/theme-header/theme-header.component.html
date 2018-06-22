@@ -207,14 +207,12 @@
             <div class="modal-body">
                 <div class="md-form form-sm">
                     <i class="fa fa-envelope prefix"></i>
-                    <input type="text" [(ngModel)]="userLogin.emailId" class="form-control">
-                    <label for="form30">Enter email</label>
+                    <input type="text" [(ngModel)]="userLogin.emailId" class="form-control" placeholder="Enter Email">
                 </div>
 
                 <div class="md-form form-sm">
                     <i class="fa fa-lock prefix"></i>
-                    <input type="password" [(ngModel)]="userLogin.password" class="form-control">
-                    <label for="form31">Enter password</label>
+                    <input type="password" [(ngModel)]="userLogin.password" class="form-control" placeholder="Enter Password">
                 </div>
 
                 <div class="text-center mt-2">
@@ -260,25 +258,25 @@
             <div class="modal-body">
                 <div class="md-form form-sm">
                     <i class="fa fa-envelope prefix"></i>
-                    <input type="text" [(ngModel)]="userReg.userName" class="form-control">
-                    <label for="form32">User Name</label>
+                    <input type="text" [(ngModel)]="userReg.userName" class="form-control" placeholder="User Name">
+                    
                 </div>
                 <div class="md-form form-sm">
                     <i class="fa fa-envelope prefix"></i>
-                    <input type="text" [(ngModel)]="userReg.emailId" class="form-control">
-                    <label for="form32">Your email</label>
+                    <input type="text" [(ngModel)]="userReg.emailId" class="form-control" placeholder="Enter Email">
+                    
                 </div>
 
                 <div class="md-form form-sm">
                     <i class="fa fa-lock prefix"></i>
-                    <input type="password" [(ngModel)]="userReg.password" (blur)="confirmPassword()" id="form33" class="form-control">
-                    <label for="form33">Your password</label>
+                    <input type="password" [(ngModel)]="userReg.password" (blur)="confirmPassword()" class="form-control" placeholder="Enter Password">
+                    
                 </div>
 
                 <div class="md-form form-sm">
                     <i class="fa fa-lock prefix"></i>
-                    <input type="password" [(ngModel)]="userReg.confrmPswrd" (blur)="confirmPassword()" id="form34" class="form-control">
-                    <label for="form34">Repeat password</label>
+                    <input type="password" [(ngModel)]="userReg.confrmPswrd" (blur)="confirmPassword()" class="form-control" placeholder="Confirm Password">
+                    
                 </div>
 
                 <div class="text-center mt-2">
@@ -303,3 +301,17 @@
     </div>
 </div>
 <!--Modal: Register Form-->
+
+<!-- Success Pop Up-->
+<div mdbModal #successMessage="mdb-modal" class="modal fade right" id="centralModalSm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: false, ignoreBackdropClick: true}">
+    <div class="modal-dialog modal-side modal-top-right modal-notify modal-warning" role="document" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title w-auto" id="myModalLabel">{{successMessagePopup}}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="successMessage.hide()">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+        </div>
+    </div>
+  </div>

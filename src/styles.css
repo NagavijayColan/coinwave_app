@@ -1258,3 +1258,6 @@ input.favorite_coin {
  .modal-dialog.cascading-modal .modal-footer  a{
       color: blue !important;
  }
+ .modal .modal-side{
+   width: 500px !important;
+ }

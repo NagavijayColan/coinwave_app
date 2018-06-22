@@ -5,6 +5,7 @@ import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { CompDataSharingService } from "../../../comp-data-sharing.service";
 import { debug } from 'util';
+import {CommonServiceService} from '../../../common-service.service'
 @Component({
   selector: 'app-coinlist',
   templateUrl: './coinlist.component.html',
@@ -22,11 +23,10 @@ export class CoinlistComponent implements OnInit {
   @ViewChild('weeklyChange') weeklyChange: IonRangeSliderComponent;
   @ViewChild('volume24H') volume24H: IonRangeSliderComponent;
   @ViewChild('marketCap') marketCap: IonRangeSliderComponent;
-  constructor(private changeGraphTheme: CompDataSharingService, private http: Http, private location: Location, private aroute: ActivatedRoute) {
+  constructor(private commonService : CommonServiceService,private changeGraphTheme: CompDataSharingService, private http: Http, private location: Location, private aroute: ActivatedRoute) {
     this.changeGraphTheme.currencyConverter_listener().subscribe((value: any) => {
       this.currencyValue = value;
       this.maxPrice = (this.maxPrice * this.currencyValue).toFixed(2) + 100;
-
     })
   }
 
@@ -40,15 +40,7 @@ export class CoinlistComponent implements OnInit {
     }
     this.location.replaceState('/coinlist');
     this.advFilter = [];
-    this.http.get('http://coinwave.service.colanonline.net/exchange/getMax').map(
-      response => response.json()
-    ).subscribe(data => {
-
-
-      this.maxPrice = (data[0].maxPrice * this.currencyValue).toFixed(2) + 100;
-
-    })
-
+    this.maxPrice = this.commonService.getMaxPrice(this.currencyValue);
   }
   sortTable(key) {
     this.component1.sort(key);
@@ -136,9 +128,7 @@ export class CoinlistComponent implements OnInit {
       data => {
         this.component1.advancedTableFilter(data);
       },
-      err => {
-          
-      }
+      err => {}
     )
     }
   }
