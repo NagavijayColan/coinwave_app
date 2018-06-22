@@ -93,7 +93,7 @@
           <b>{{coins.price * currencyValue | number:'.0-2'}}</b>
           <span class="fa upDownSymbol" [ngClass]="{'arrow-up': coins.priceStatus === 'true','arrow-down': coins.priceStatus === 'false'}"></span>
         </td>
-        <td *ngIf="resolutionColumn.expand" class="graphTabledata" (click)="expandGraph(event,i,coins.pair,coins.name,tv_chart_container)">
+        <td *ngIf="resolutionColumn.expand" class="graphTabledata" (click)="expandGraph(event,i,coins.pair,coins.name,'tv_chart_container')">
           <i class="fa fa-arrows-alt"></i>
         </td>
         <td *ngIf="resolutionColumn.favourite">
