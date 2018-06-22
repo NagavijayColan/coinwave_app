@@ -347,6 +347,7 @@ export class ThemeHeaderComponent implements OnInit {
     // this.hideThemesection = true;
     this.hideOptionsection = false;
     this.hideLanguageSection = false;
+    
     if (sessionStorage.getItem('hideThemesection')) {
       this.hideThemesection = JSON.parse(sessionStorage.getItem('hideThemesection'));
     }
@@ -578,6 +579,8 @@ export class ThemeHeaderComponent implements OnInit {
     var currentList = body.classList.remove('night_mode');
     var currentList = body.classList.remove('white-theme');
     this.someRange = 1;
+    this.currencyvalue = 1;
+    localStorage.setItem('currencyRate', this.currencyvalue);
     this.refreshDefault = '3';
     //   this.http.get('http://coinwave.service.colanonline.net/defaultCustomizeColumn').map(response => response.json()).subscribe(data => {
     //     
