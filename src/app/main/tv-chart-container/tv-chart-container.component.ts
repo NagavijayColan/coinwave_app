@@ -139,7 +139,6 @@ export class TvChartContainerComponent implements OnInit {
     }
 
     ngOnInit() {
-
         this.coinList = [];
         this.favCoinsList = [];
         this.currencyValue = localStorage.getItem('currencyRate');
@@ -307,21 +306,21 @@ export class TvChartContainerComponent implements OnInit {
 
         
     }
-    expandGraph(ev, i, coinToken, coinName,chartId) { 
+    expandGraph(ev, i, coinToken, coinName,chartId,rowId) {
         
-        if (document.getElementById('expand' + i).classList.contains('showingNow')) {
-            document.getElementById('expand' + i).classList.remove('showingNow');
-            document.getElementById('expand' + i).classList.add('hidingNow');
-            let elementExp = document.getElementById('expand' + i).parentElement.children[0].children[3].children[0].classList
+        if (document.getElementById(rowId+i).classList.contains('showingNow')) {
+            document.getElementById(rowId+i).classList.remove('showingNow');
+            document.getElementById(rowId+i).classList.add('hidingNow');
+            let elementExp = document.getElementById(rowId+i).parentElement.children[0].children[3].children[0].classList
             if (elementExp.contains('fa-arrows')) {
                 elementExp.add('fa-arrows-alt')
                 elementExp.remove('fa-arrows')
             }
         }
         else {
-            document.getElementById('expand' + i).classList.add('showingNow');
-            document.getElementById('expand' + i).classList.remove('hidingNow');
-            let elementExp = document.getElementById('expand' + i).parentElement.children[0].children[3].children[0].classList
+            document.getElementById(rowId+i).classList.add('showingNow');
+            document.getElementById(rowId+i).classList.remove('hidingNow');
+            let elementExp = document.getElementById(rowId+i).parentElement.children[0].children[3].children[0].classList
             if (elementExp.contains('fa-arrows-alt')) {
                 elementExp.add('fa-arrows');
                 elementExp.remove('fa-arrows-alt');

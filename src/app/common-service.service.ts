@@ -7,7 +7,7 @@ export class CommonServiceService {
   
   constructor(private http : HttpClient, private router : Router,private shareData : CompDataSharingService) { }
   userRegistration(userReg) {
-debugger
+
     userReg.loginType = 'Manual'
     this.http.post('http://coinwave.service.colanonline.net/user/register', userReg).subscribe(data => {
       localStorage.setItem('userToken', data['access_token']);
@@ -31,7 +31,7 @@ debugger
     })
 
   }
-  sociallogInAction(userData){debugger
+  sociallogInAction(userData){
     let userReg ={};
     userReg['loginId'] = userData.id;
     userReg['loginType'] = userData.provider;
