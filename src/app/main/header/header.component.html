@@ -16,14 +16,14 @@
             </logo>
             <links>
                 <ul class="navbar-nav nav-lft mr-auto">
-                    <li class="nav-item active  waves-light" id="coins" (click)="makeActive('coins','portfolio','exchanges')" mdbRippleRadius>
-                        <a routerLink="/coinlist" class="nav-link">COINS</a>
+                    <li class="nav-item active  waves-light" routerLink="/coinlist" id="coins" (click)="makeActive('coins','portfolio','exchanges')" mdbRippleRadius>
+                        <a  class="nav-link">COINS</a>
                     </li>
-                    <li class="nav-item waves-light" id="portfolio" (click)="makeActive('portfolio','coins','exchanges')" mdbRippleRadius>
-                        <a routerLink="/portfolio" class="nav-link">PORTFOLIO</a>
+                    <li class="nav-item waves-light" routerLink="/portfolio" id="portfolio" (click)="makeActive('portfolio','coins','exchanges')" mdbRippleRadius>
+                        <a  class="nav-link">PORTFOLIO</a>
                     </li>
-                    <li class="nav-item waves-light" id="exchanges" (click)="makeActive('exchanges','coins','portfolio')" mdbRippleRadius>
-                        <a routerLink="/exchange" class="nav-link">EXCHANGES</a>
+                    <li class="nav-item waves-light" routerLink="/exchange" id="exchanges" (click)="makeActive('exchanges','coins','portfolio')" mdbRippleRadius>
+                        <a  class="nav-link">EXCHANGES</a>
                     </li>
                     <!-- <li class="nav-item waves-light" mdbRippleRadius>
               <a routerLink="/news" class="nav-link">NEWS</a>

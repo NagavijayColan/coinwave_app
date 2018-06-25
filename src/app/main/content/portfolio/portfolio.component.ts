@@ -15,6 +15,7 @@ export class PortfolioComponent implements OnInit {
   public portfoliogrid;
   public listData;
   public coinList
+  public showLoadSpinner:Boolean;
   constructor(private http: Http, private changeGraphTheme: CompDataSharingService) {
   this.gridSelected = false; this.listSelected = true;
     this.changeGraphTheme.searchCoinExchange().subscribe((searchT: any) => {
@@ -43,7 +44,7 @@ export class PortfolioComponent implements OnInit {
     this.reverse = !this.reverse;
   }
   ngOnInit() {
-    
+    this.showLoadSpinner = true;
     this.listData = [
       {
         Sno: '1', coin: 'Bitcoin(BTC)', price: '$10222.00↓', HRchange: '11.20%', dayChange: '2.20%',
@@ -101,6 +102,7 @@ export class PortfolioComponent implements OnInit {
       this.http.post('http://coinwave.service.colanonline.net/api/coins/getPortfolio', { token: tokenV }).map(
         response => response.json()).subscribe(
         data => {
+          this.showLoadSpinner = false;
           this.coinList = data;
           this.portfoliogrid = data;
         })

@@ -62,6 +62,7 @@ export class ThemeHeaderComponent implements OnInit {
   userReg: any = {};
   key: string = '';
   reverse: boolean = false;
+  public colorOfSite;
   constructor(private commonService : CommonServiceService,private http: Http, private orderPipe: OrderPipe, private changeGraphTheme: CompDataSharingService) {
     this.changeGraphTheme.changeTo_default_theme_listener().subscribe(() => {
       this.defaultTheme();
@@ -90,9 +91,10 @@ export class ThemeHeaderComponent implements OnInit {
         body.classList.remove('black-theme');
         body.classList.add(data.siteColor);
         body.classList.add(data.nightMode);
-        this.changeRefreshRate = '3';
+        this.colorOfSite = data.siteColor;
+        this.changeRefreshRate = data.refreshRate;
         this.someRange = data.refreshRate;
-        this.currencyvalue = 1;
+        this.currencyvalue =data.currency;
         localStorage.setItem('currencyRate', this.currencyvalue);
        
       })
@@ -362,13 +364,22 @@ export class ThemeHeaderComponent implements OnInit {
       sessionStorage.setItem('hideThemesection', 'true');
     }
 
-
+debugger
+    if(this.colorOfSite == 'black-theme'){
+      this.passData2Comp['theme'] = this.themeBlack
+      this.passData2Comp['refreshrate'] = this.refreshDefault;
+      this.passData2Comp['volumeTheme'] = this.volume_black;
+      this.passData2Comp['toolsBg'] = '#000'
+      this.changeGraphTheme.changeMessage(this.passData2Comp);
+    }
+    else{
+      this.passData2Comp['theme'] = this.themeWhite
+      this.passData2Comp['refreshrate'] = this.refreshDefault;
+      this.passData2Comp['volumeTheme'] = this.volume_white;
+      this.passData2Comp['toolsBg'] = '#fff'
+      this.changeGraphTheme.changeMessage(this.passData2Comp);
+    }
     
-    this.passData2Comp['theme'] = this.themeBlack
-    this.passData2Comp['refreshrate'] = this.refreshDefault;
-    this.passData2Comp['volumeTheme'] = this.volume_black;
-    this.passData2Comp['toolsBg'] = '#000'
-    this.changeGraphTheme.changeMessage(this.passData2Comp);
     setTimeout(() => {
       let valueArray = ['1 Sec', '5 Sec', '30 Sec ', '1 Min', '5 Min'];
       let arrayL = document.getElementsByClassName('noUi-value');
@@ -392,7 +403,6 @@ export class ThemeHeaderComponent implements OnInit {
       this.passData2Comp.volumeTheme = this.volume_white;
       this.passData2Comp.toolsBg = '#fff'
       this.changeGraphTheme.changeMessage(this.passData2Comp);
-
       body.classList.remove('black-theme');
       body.classList.add('white-theme');
       siteColor = 'white-theme'
@@ -401,7 +411,7 @@ export class ThemeHeaderComponent implements OnInit {
       this.passData2Comp.theme = this.themeBlack
       this.passData2Comp.volumeTheme = this.volume_black;
       this.passData2Comp.toolsBg = '#000'
-      this.changeGraphTheme.changeMessage(this.themeBlack)
+      this.changeGraphTheme.changeMessage(this.passData2Comp)
       body.classList.add('black-theme');
       body.classList.remove('white-theme');
       siteColor = 'black-theme';
@@ -429,13 +439,13 @@ export class ThemeHeaderComponent implements OnInit {
     let night_mode;
     if (!(body.classList.contains('night_mode'))) {
       body.classList.add('night_mode');
-      night_mode = true;
+      night_mode = 'night_mode';
     }
     else {
       body.classList.remove('night_mode');
-      night_mode = false
+      night_mode = 'day_mode'
     }
-    this.themeSettings['night_mode'] = night_mode;
+    this.themeSettings['nightMode'] = night_mode;
     // let night_mode_in = true;
     // for (let r = 0; r < this.themeSettings.length; r++) {
     //   if (this.themeSettings[r].night_mode) {
@@ -596,6 +606,7 @@ export class ThemeHeaderComponent implements OnInit {
     var currentList = body.classList.remove('night_mode');
     var currentList = body.classList.remove('white-theme');
     this.someRange = 1;
+    this.colorOfSite = 'black-theme';
     this.currencyvalue = 1;
     localStorage.setItem('currencyRate', this.currencyvalue);
     this.refreshDefault = '3';
@@ -616,6 +627,11 @@ export class ThemeHeaderComponent implements OnInit {
     this.desktoplists = data.desktop;
     this.mobilelists = data.mobilelists;
     this.appList = data.app;
+    this.passData2Comp['theme'] = this.themeBlack
+    this.passData2Comp['refreshrate'] = this.refreshDefault;
+    this.passData2Comp['volumeTheme'] = this.volume_black;
+    this.passData2Comp['toolsBg'] = '#000'
+    this.changeGraphTheme.changeMessage(this.passData2Comp);
     // this.http.get('http://coinwave.service.colanonline.net/defaultCustomizeColumn').map(response => response.json()).subscribe(data => {
     //   
     // })

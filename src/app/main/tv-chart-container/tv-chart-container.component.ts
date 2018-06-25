@@ -13,6 +13,7 @@ import {
 } from '../../../assets/charting_library/charting_library.min';
 import { window, document } from 'angular-bootstrap-md/utils/facade/browser';
 import { error } from 'util';
+import { element } from 'protractor';
 // import { setInterval } from 'timers';
 
 @Component({
@@ -25,10 +26,7 @@ export class TvChartContainerComponent implements OnInit {
     @ViewChild('registerform') public signUpModal;
     @ViewChild('successMessage') public successModal;
     @ViewChild('errorMessage') public errorModal;
-    
-    successMessage
     protected ngUnsubscribe: Subject<void> = new Subject<void>();
-    
     private _symbol: ChartingLibraryWidgetOptions['symbol'] = 'AAPL';
     private _interval: ChartingLibraryWidgetOptions['interval'] = 'D';
     // BEWARE: no trailing slash is expected in feed URL
@@ -60,6 +58,7 @@ export class TvChartContainerComponent implements OnInit {
     public columnsList;
     public subscriptionOfHttp;
     public successMessagePopup;
+    public showLoadSpinner:boolean;
     userLogin: any = {};
     userReg: any = {};
     @Input()
@@ -139,14 +138,15 @@ export class TvChartContainerComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.showLoadSpinner = true;
         this.coinList = [];
         this.favCoinsList = [];
         this.currencyValue = localStorage.getItem('currencyRate');
         
         this.changeGraphTheme.currentMessage.subscribe(message => this.graphThemeColor = message);
-        
         this.setIntervalTime = parseInt(this.graphThemeColor.refreshrate + '000');
         this.overrides_obj = this.graphThemeColor.theme;
+        this.toolsBg = this.graphThemeColor.toolsBg;
         if (localStorage.getItem('userToken')) {
             let tokenV = localStorage.getItem('userToken');
             this.http.post('http://coinwave.service.colanonline.net/api/userSetting/getUserData', { token: tokenV }).map(response => response.json()).subscribe(data => {
@@ -171,12 +171,13 @@ export class TvChartContainerComponent implements OnInit {
     getAlongFavCoins(){
             let tokenV = localStorage.getItem('userToken');
             this.subscriptionOfHttp = this.http.post('http://coinwave.service.colanonline.net/api/coins/getFavourites', { token: tokenV }).map(response => response.json()).subscribe(data => {
+
                
-                
                 if (this.favCoinsList.length > 0) {
                     this.updateAllCoinsData(data);
                 }
                 else {
+                    this.showLoadSpinner = false;
                     this.favCoinsList = data;
                     if (parseInt(this.setIntervalTime) >= 1000) {
                         this.runningInterval = setInterval(() => {
@@ -213,6 +214,7 @@ export class TvChartContainerComponent implements OnInit {
                     this.updateAllCoinsData(this.getallCoins);
                 }
                 else {
+                    this.showLoadSpinner = false;
                     this.coinList = this.getallCoins;
                     if (parseInt(this.setIntervalTime) >= 1000) {
                         this.runningInterval = setInterval(() => {
@@ -311,7 +313,12 @@ export class TvChartContainerComponent implements OnInit {
         if (document.getElementById(rowId+i).classList.contains('showingNow')) {
             document.getElementById(rowId+i).classList.remove('showingNow');
             document.getElementById(rowId+i).classList.add('hidingNow');
-            let elementExp = document.getElementById(rowId+i).parentElement.children[0].children[3].children[0].classList
+            let parentElementPath  = document.getElementById(rowId+i).parentElement.children[0]
+            let elementPath =  parentElementPath.getElementsByTagName('td');
+            let HtmlColl = Array.prototype.slice.call(elementPath);
+            let eleInd = HtmlColl.indexOf(document.getElementsByClassName('graphTabledata')[i]);
+            
+            let elementExp =parentElementPath.children[eleInd].children[0].classList
             if (elementExp.contains('fa-arrows')) {
                 elementExp.add('fa-arrows-alt')
                 elementExp.remove('fa-arrows')
@@ -320,7 +327,12 @@ export class TvChartContainerComponent implements OnInit {
         else {
             document.getElementById(rowId+i).classList.add('showingNow');
             document.getElementById(rowId+i).classList.remove('hidingNow');
-            let elementExp = document.getElementById(rowId+i).parentElement.children[0].children[3].children[0].classList
+            let parentElementPath  = document.getElementById(rowId+i).parentElement.children[0]
+            let elementPath =  parentElementPath.getElementsByTagName('td');
+            let HtmlColl = Array.prototype.slice.call(elementPath);
+            let eleInd = HtmlColl.indexOf(document.getElementsByClassName('graphTabledata')[i]);
+            let elementExp =parentElementPath.children[eleInd].children[0].classList;
+            
             if (elementExp.contains('fa-arrows-alt')) {
                 elementExp.add('fa-arrows');
                 elementExp.remove('fa-arrows-alt');
@@ -441,7 +453,7 @@ export class TvChartContainerComponent implements OnInit {
 
         const widgetOptions: ChartingLibraryWidgetOptions = {
             symbol: this._symbol,
-            loading_screen: { backgroundColor: '#000' },
+            loading_screen: { backgroundColor: this.toolsBg },
             datafeed: this.udf_datafeed,
             interval: this._interval,
             container_id: id,

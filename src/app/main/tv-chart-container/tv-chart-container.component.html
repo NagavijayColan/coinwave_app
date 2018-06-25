@@ -1,3 +1,4 @@
+<div class="load_spinner" *ngIf="showLoadSpinner"><span class="fa fa-spinner fa-spin fa-2x"></span></div>
 <div class="table-responsive">
   <table id="coin_list_table" class="table table-condensed table-bordered data-table " style="white-space:nowrap;">
     <thead>
@@ -93,7 +94,7 @@
           <b>{{coins.price * currencyValue | number:'.0-2'}}</b>
           <span class="fa upDownSymbol" [ngClass]="{'arrow-up': coins.priceStatus === 'true','arrow-down': coins.priceStatus === 'false'}"></span>
         </td>
-        <td *ngIf="resolutionColumn.expand" class="graphTabledata" (click)="expandGraph(event,i,coins.pair,coins.name,'tv_chart_container','expand')">
+        <td *ngIf="resolutionColumn.expand" class="graphTabledata" (click)="expandGraph(event,favCoinsList.length+i,coins.pair,coins.name,'tv_chart_container','expand')">
           <i class="fa fa-arrows-alt"></i>
         </td>
         <td *ngIf="resolutionColumn.favourite">
@@ -110,9 +111,9 @@
         <td *ngIf="resolutionColumn.marketCap" (click)="coinDetails(coins.pair)">{{coins.marketCapValue * currencyValue | number:'.0-2'}}</td>
         <td *ngIf="resolutionColumn.dayHighLow" (click)="coinDetails(coins.pair)">{{coins.highestPrice * currencyValue | number:'.0-2'}} / {{coins.lowestPrice * currencyValue | number:'.0-2'}}</td>
       </tr>
-      <tr id="expand{{i}}" class="hidingNow">
+      <tr id="expand{{favCoinsList.length+i}}" class="hidingNow">
         <td colspan="11" height="300px;" width="100%">
-          <div class="app-tv-chart-container app-tv-chart-container_multi" id="tv_chart_container{{i}}"></div>
+          <div class="app-tv-chart-container app-tv-chart-container_multi" id="tv_chart_container{{favCoinsList.length+i}}"></div>
           <!-- <div class="app-tv-chart-container" id="tv_chart_container2{{i}}"></div> -->
           <div class="col-md-2 float-right chart_rgt_cont">
             <ul>

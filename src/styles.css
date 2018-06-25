@@ -151,7 +151,7 @@ span.close_icon{margin-top:0px !important;}
 .column-sortable-icon { display: flex; flex-direction: column;}
 .column-sortable-icon i { display: flex; height: 2px;}
 th.select-column-header { width: 73px !important}
-.nav-lft li { padding: 7px 10px;}
+.nav-lft li { padding: 7px 10px;outline: none;}
 
 /*Responsive*/
 @media only screen and (min-width: 320px) and (max-width: 979px) {
@@ -314,7 +314,7 @@ nav .nav-item.active a , nav .nav-item a:hover{border-bottom: 2px solid #6bfffe;
 .sub_theme ul li a{color: #ffffff;}
 .button_icon{background: #6bfffe;}
 .button_icon ,.button_icon:hover {background: #6bfffe; color: #000;}
-.in_sel-term select{background: #000; border: 1px solid #000; color: #6bfffe;}
+.in_sel-term select{ border: 1px solid #000; color: #6bfffe;}
 .in_sel-term { border-right: 6px solid #212121;}
 span.close_icon i{ color: #000000;}
 .new-sort tr:nth-child(2n+1) { background: #212121 none repeat scroll 0 0;}
@@ -1301,7 +1301,7 @@ input.favorite_coin {
 }
 .linkedInLogin{
   background: #117bb8;
-  padding: 17px 56px;
+  padding: 17px 45px;
   display: table-cell;
   border-radius: 4px;
   vertical-align: middle;
@@ -1336,4 +1336,9 @@ input.favorite_coin {
   text-align: left;
   font-size: 16px;
   margin-right: 10px;
+}
+.load_spinner{
+  position: absolute;
+  top: 20%;
+  left: 45%;
 }
