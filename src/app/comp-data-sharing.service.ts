@@ -98,7 +98,7 @@ export class CompDataSharingService {
   trigger_signUpwithSocial_listener(){
     return this.trigger_social_login.asObservable();
   }
-  trigger_signUpwithSocial_filter(type : any){debugger
+  trigger_signUpwithSocial_filter(type : any){
     this.trigger_social_login.next(type);
   }
   private changeGraphTheme = new BehaviorSubject<string>("default message");

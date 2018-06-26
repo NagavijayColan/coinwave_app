@@ -300,7 +300,7 @@ export class CoinpageComponent implements OnInit {
             this.http.put('http://coinwave.service.colanonline.net/api/userSetting/update', { portfolio: this.coinKey, token: tokenV }).map(
                 response => response.json()).subscribe(
                 data => {
-                    debugger
+                    
                     this.successMessagePopup = 
                     this.changeGraphTheme.trigger_successMessagePopUp_filter('Successfully added to Portfolio List')
                 },

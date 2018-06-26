@@ -139,7 +139,7 @@ export class TvChartContainerComponent implements OnInit {
     }
 
     ngOnInit() {
-        
+       
         this.showLoadSpinner = true;
         this.coinList = [];
         this.favCoinsList = [];
@@ -167,7 +167,7 @@ export class TvChartContainerComponent implements OnInit {
             this.customizeColUpdate(JSON.parse(cols));
             this.getCoinList();
         }
-        // this.generateGraph('','','');
+        this.generateGraph('','','');
        
     }
     getAlongFavCoins(){
@@ -516,19 +516,24 @@ export class TvChartContainerComponent implements OnInit {
         }
     }
     favCoinFunctionality(pair, rr, i) {
-        
+        debugger
         if(localStorage.getItem('userToken')){
             let tokenV = localStorage.getItem('userToken')
             this.http.put('http://coinwave.service.colanonline.net/api/userSetting/update', { favourites: pair, token: tokenV }).map(response => response.json()).
             subscribe(data => {
-               
                 this.changeGraphTheme.trigger_successMessagePopUp_filter('Favourite Coins Updated Successfully');
                 let tokenV = localStorage.getItem('userToken');
                 this.subscriptionOfHttp = this.http.post('http://coinwave.service.colanonline.net/api/coins/getFavourites', { token: tokenV }).map(response => response.json()).subscribe(data => {
                         this.favCoinsList = data;
+                },
+                err => {
+                    this.favCoinsList = [];
                 })
                 this.subscriptionOfHttp =  this.http.post('http://coinwave.service.colanonline.net/api/coins/getCoins', { token: tokenV }).map(response => response.json()).subscribe(data => {
                         this.coinList = data
+                },
+                err => {
+                    this.coinList = [];
                 })
                
             },

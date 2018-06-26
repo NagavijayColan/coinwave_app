@@ -557,7 +557,7 @@ export class ThemeHeaderComponent implements OnInit {
     // }
 
   }
-  saveThemeStructure() {debugger
+  saveThemeStructure() {
     if (localStorage.getItem('userToken')) {
       
       if (this.themeSettings['customizeColumns']) {
@@ -585,7 +585,7 @@ export class ThemeHeaderComponent implements OnInit {
       this.changeGraphTheme.trigger_loginPopUp_filter();
     }
   }
-  changeSiteLanguage() {debugger
+  changeSiteLanguage() {
     let siteLang = document.getElementsByClassName("goog-te-combo")[0].value;
     this.themeSettings['siteLanguage'] = siteLang;
     // let site_language = true;

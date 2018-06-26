@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
     this.changeGraphTheme.callLogOut_listener().subscribe(() => {
       this.signOut();
     })
-    this.changeGraphTheme.trigger_signUpwithSocial_listener().subscribe((message : any) => {debugger
+    this.changeGraphTheme.trigger_signUpwithSocial_listener().subscribe((message : any) => {
       if(message == 'facebook'){
           this.signInWithFB()
       }

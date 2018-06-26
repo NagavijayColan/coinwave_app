@@ -23,17 +23,14 @@ export class CommonServiceService {
     })
     return false;
     }
-   
-
   }
   userLogin(userLogin) {
     if(Object.keys(userLogin).length < 2){
-      debugger
+
         return true;
         
     }
     else{
-      debugger
       this.http.post('http://coinwave.service.colanonline.net/user/login', userLogin).subscribe(data => {
       localStorage.setItem('userToken', data['access_token']);
       localStorage.setItem('userName', data['userName']);
@@ -46,13 +43,13 @@ export class CommonServiceService {
      
       this.shareData.isLoggedIn_filter(data);
     })
+    location.reload();
     return false;
     }
     
 
   }
   sociallogInAction(userData){
-    debugger
     let userReg ={};
     userReg['loginId'] = userData.id;
     userReg['loginType'] = userData.provider;

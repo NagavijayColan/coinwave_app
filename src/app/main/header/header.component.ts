@@ -84,13 +84,33 @@ export class HeaderComponent implements OnInit {
     this.isLoggedIn = false;
   }
   signUpWithMail(userReg) {
-    let error = this.commonService.userLogin(userReg);
+    
+    let error = this.commonService.userRegistration(userReg);
     this.errormessageSignUp = error ?  true : false;
+    if(!error){
+      this.loginModal.hide();
+      this.signUpModal.hide();
+      this.successMessagePopup = 'You have logged in successfully!';
+      this.successModal.show();
+    }
+    else{
+      this.errorModal.show();
+    }
   }
   loginWithMail(userLogin) {
     let error = this.commonService.userLogin(userLogin);
     this.errormessageLogin = error ?  true : false;
-    
+    if(error){
+      this.loginModal.hide();
+      this.signUpModal.hide();
+      this.successMessagePopup = 'You have logged in successfully!';
+      this.successModal.show();
+    }
+    else{
+      this.loginModal.hide();
+      this.signUpModal.hide();
+      this.errorModal.show();
+    }
   }
 
   signInWithGoogle(): void {
