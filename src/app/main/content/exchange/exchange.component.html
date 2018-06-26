@@ -1,3 +1,4 @@
+<div class="load_spinner" *ngIf="showLoadSpinner"><span class="fa fa-spinner fa-spin fa-2x"></span></div>
 
 <div class="exchanges_page">
   <div class="container">
@@ -15,7 +16,7 @@
   </thead>
 
   <tbody>
-     <tr *ngFor="let exchanges of exchangeData | orderBy: key : reverse;let i = index">
+     <tr *ngFor="let exchanges of exchangeData | filter: searchText | orderBy: key : reverse;let i = index">
       <td>{{i +1}}</td>
       <td class="exchange_clr">{{exchanges.name}}</td>
       <td>{{exchanges.NoOfCoins}}</td>
@@ -25,6 +26,7 @@
     </tr>
   </tbody>
 </table>
+<div *ngIf="noData" class="noDataFound">No Data found!</div>
 </div>
 </div>
 </div>

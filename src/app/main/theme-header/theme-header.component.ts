@@ -4,6 +4,7 @@ import { CompDataSharingService } from "../../comp-data-sharing.service";
 import { document } from 'angular-bootstrap-md/utils/facade/browser';
 import { Http } from '@angular/http';
 import {CommonServiceService} from '../../common-service.service';
+import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-theme-header',
   templateUrl: './theme-header.component.html',
@@ -63,12 +64,14 @@ export class ThemeHeaderComponent implements OnInit {
   key: string = '';
   reverse: boolean = false;
   public colorOfSite;
-  constructor(private commonService : CommonServiceService,private http: Http, private orderPipe: OrderPipe, private changeGraphTheme: CompDataSharingService) {
+  public enableRefreshBtn;
+  constructor(private cookieService: CookieService,private commonService : CommonServiceService,private http: Http, private orderPipe: OrderPipe, private changeGraphTheme: CompDataSharingService) {
     this.changeGraphTheme.changeTo_default_theme_listener().subscribe(() => {
       this.defaultTheme();
     })
   }
   ngOnInit() {
+    this.enableRefreshBtn = false;
     this.passData2Comp = {};
     this.someRange = 1;
     
@@ -91,10 +94,13 @@ export class ThemeHeaderComponent implements OnInit {
         body.classList.remove('black-theme');
         body.classList.add(data.siteColor);
         body.classList.add(data.nightMode);
+        let userSiteLang = "/en/"+data['siteLangugae'];
+        this.cookieService.set('googtrans', userSiteLang )
         this.colorOfSite = data.siteColor;
         this.changeRefreshRate = data.refreshRate;
         this.someRange = data.refreshRate;
         this.currencyvalue =data.currency;
+        
         localStorage.setItem('currencyRate', this.currencyvalue);
        
       })
@@ -363,8 +369,6 @@ export class ThemeHeaderComponent implements OnInit {
       this.hideThemesection = true;
       sessionStorage.setItem('hideThemesection', 'true');
     }
-
-debugger
     if(this.colorOfSite == 'black-theme'){
       this.passData2Comp['theme'] = this.themeBlack
       this.passData2Comp['refreshrate'] = this.refreshDefault;
@@ -393,6 +397,7 @@ debugger
 
       langDropDown.addEventListener("select", this.changeSiteLanguage());
     }, 3000);
+     
   }
   siteColor() {
     let siteColor;
@@ -494,7 +499,7 @@ debugger
   }
 
   refreshRateChange() {
-
+    this.enableRefreshBtn = false;
     this.changeRefreshRate = document.getElementsByClassName('noUi-handle')[0].getAttribute('aria-valuetext').toString();
     this.themeSettings['refreshRate'] = this.changeRefreshRate;
     if (this.changeRefreshRate > 59) {
@@ -514,15 +519,17 @@ debugger
     // if (refreshIn) {
     //   this.themeSettings.push({ refreshRate: this.changeRefreshRate })
     // }
-
     this.changeGraphTheme.refreshRateFilter(document.getElementsByClassName('noUi-handle')[0].getAttribute('aria-valuetext'));
-
   }
 
   noRefresh() {
     this.changeGraphTheme.refreshRateFilter('false');
+    this.enableRefreshBtn = true;
   }
-
+  doRefresh(){
+    this.enableRefreshBtn = false;
+    this.changeGraphTheme.refreshRateFilter(this.changeRefreshRate);
+  }
   sort(key) {
     this.key = key;
     this.reverse = !this.reverse;
@@ -550,7 +557,7 @@ debugger
     // }
 
   }
-  saveThemeStructure() {
+  saveThemeStructure() {debugger
     if (localStorage.getItem('userToken')) {
       
       if (this.themeSettings['customizeColumns']) {
@@ -567,16 +574,20 @@ debugger
       }
       this.themeSettings['token'] = localStorage.getItem('userToken');
       this.http.put('http://coinwave.service.colanonline.net/api/userSetting/update', this.themeSettings).map(response => response.json()).subscribe(data => {
-        this.successMessagePopup = 'Your Theme Updated Successfully !'
-          this.successMessageModal.show()
-      })
+          this.changeGraphTheme.trigger_successMessagePopUp_filter('Your Theme Updated Successfully !')
+      },
+      error => {
+        this.changeGraphTheme.trigger_errorMessagePopUp_filter()
+      }
+    )
     }
     else {
-      this.loginModal.show();
+      this.changeGraphTheme.trigger_loginPopUp_filter();
     }
   }
-  changeSiteLanguage() {
+  changeSiteLanguage() {debugger
     let siteLang = document.getElementsByClassName("goog-te-combo")[0].value;
+    this.themeSettings['siteLanguage'] = siteLang;
     // let site_language = true;
     // for (let r = 0; r < this.themeSettings.length; r++) {
     //   if (this.themeSettings[r].siteLanguage) {
@@ -601,6 +612,7 @@ debugger
     
   }
   defaultTheme() {
+    this.cookieService.set('googtrans', "/en/en" )
     let body = document.getElementsByTagName('body')[0];
     var currentList = body.classList.add('black-theme');
     var currentList = body.classList.remove('night_mode');
@@ -636,7 +648,6 @@ debugger
     //   
     // })
   }
-  
 }
 
 

@@ -13,6 +13,12 @@ export class CompDataSharingService {
   private currencyVal = new Subject<any>();
   private makeDefaultTheme = new Subject<any>();
   private getAllCoinsLogOut = new Subject<any>();
+  private trigger_login = new Subject<any>();
+  private trigger_successMes = new Subject<any>();
+  private trigger_errorMes = new Subject<any>();
+  private trigger_social_login = new Subject<any>();
+  
+  
 /* Refresh Rate  */
   refreshRateListen(): Observable<any> {
      return this.refresh.asObservable();
@@ -71,7 +77,30 @@ export class CompDataSharingService {
   get_all_coins_filter(){
     this.getAllCoinsLogOut.next();
   }
-
+  trigger_loginPopUp_listener(){
+    return this.trigger_login.asObservable();
+  }
+  trigger_loginPopUp_filter(){
+    this.trigger_login.next();
+  }
+  trigger_successMessagePopUp_listener(){
+    return this.trigger_successMes.asObservable();
+  }
+  trigger_successMessagePopUp_filter(msg : any){
+    this.trigger_successMes.next(msg);
+  }
+  trigger_errorMessagePopUp_listener(){
+    return this.trigger_errorMes.asObservable();
+  }
+  trigger_errorMessagePopUp_filter(){
+    this.trigger_errorMes.next();
+  }
+  trigger_signUpwithSocial_listener(){
+    return this.trigger_social_login.asObservable();
+  }
+  trigger_signUpwithSocial_filter(type : any){debugger
+    this.trigger_social_login.next(type);
+  }
   private changeGraphTheme = new BehaviorSubject<string>("default message");
   currentMessage = this.changeGraphTheme.asObservable();
   constructor() { }

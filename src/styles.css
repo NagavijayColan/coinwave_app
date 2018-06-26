@@ -1071,7 +1071,7 @@ input.favorite_coin {
     white-space: nowrap;
   }
   .goog-text-highlight{
-   
+
       background-color: transparent !important;
       box-shadow: none !important;
       box-sizing: border-box;
@@ -1341,4 +1341,37 @@ input.favorite_coin {
   position: absolute;
   top: 20%;
   left: 45%;
+}
+.socialAccount_popup span.fa-facebook{
+  background: #3b5a9a;
+  padding: 10px;
+  color:#fff;
+  cursor: pointer;
+}
+.socialAccount_popup span.fa-linkedin{
+  background: #117bb8;
+  padding: 10px;
+  color:#fff;
+  cursor: pointer;
+  
+}
+.socialAccount_popup span.fa-google-plus{
+  background: #e05449;
+  padding: 10px;
+  color:#fff;
+  cursor: pointer;
+  
+}
+.noDataFound{
+  width: 100%;
+  min-height: 30px;
+  background: #ccc;
+  font-size: 30px;
+  color: #333;
+  text-align: center;
+}
+@supports (-ms-ime-align: auto) {
+  .ie-nav .navbar-nav.nav-flex-icons {
+       top: 10% !important;
+  }
 }

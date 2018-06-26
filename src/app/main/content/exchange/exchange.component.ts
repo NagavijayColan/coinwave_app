@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Http } from '@angular/http';
+import { CompDataSharingService } from "../../../comp-data-sharing.service";
 @Component({
   selector: 'app-exchange',
   templateUrl: './exchange.component.html',
@@ -7,14 +8,27 @@ import { Http } from '@angular/http';
 })
 export class ExchangeComponent implements OnInit {
   public exchangeData;
-  constructor(private http : Http) { }
+  public showLoadSpinner;
+  public searchText;
+  public noData;
+  constructor(private http : Http,private changeGraphTheme: CompDataSharingService) { 
+    this.changeGraphTheme.searchCoinExchange().subscribe((searchT: any) => {
+      this.searchText = searchT;
+    })
+  }
 
   ngOnInit() {
-   
+    this.noData = true;
+    this.showLoadSpinner = true; 
     this.http.get("http://coinwave.service.colanonline.net/exchange/exchangeSummary").map(
     response => response.json()).subscribe(
-      data => {   this.exchangeData = data;
-    },
+      data => {
+        if(data.length > 0 ){
+          this.noData = false;
+        }
+        this.exchangeData = data;
+        this.showLoadSpinner = false;
+      },
     );
 //     this.exchangeData = [
 //       {Sno:'1',  exchange: 'Binance',  nocoins: '293',  volume: '$2,077,982,435',  volumeper: '$16,784',

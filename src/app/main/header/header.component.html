@@ -2,27 +2,38 @@
     <div class="container">
         <mdb-navbar SideClass="navbar  navbar-expand-lg navbar-dark scrolling-navbar ie-nav" [containerInside]="false">
             <logo>
-                <a href="#" class="logo">
+                <a routerLink="/coinlist" class="logo">
                     <img src="/assets/images/logo.png" alt="Coinwave" />
                     <span class="coinWaveText notranslate">Coin
                         <b>wave</b>
                     </span>
                 </a>
                 <div class="login_register mob_top">
-                    <a href="#">Login</a>
-                    <span>or</span>
-                    <a href="#">Register</a>
+                <ul>
+                    <li class="" mdbRippleRadius *ngIf="!isLoggedIn">
+                        <div class="login_register">
+                            <a (click)="goToLogin()">Login / Register</a>
+                        </div>
+                    </li>
+                    <li class="" mdbRippleRadius *ngIf="isLoggedIn" style="margin-top:25px;">
+                        <div class="">
+                            <a>Welcome</a>
+                            <span> {{userName}} |</span>
+                            <a (click)="logOut()"> Log Out</a>
+                        </div>
+                    </li>
+                </ul>
                 </div>
             </logo>
             <links>
                 <ul class="navbar-nav nav-lft mr-auto">
-                    <li class="nav-item active  waves-light" routerLink="/coinlist" id="coins" (click)="makeActive('coins','portfolio','exchanges')" mdbRippleRadius>
+                    <li class="nav-item waves-light" [ngClass]="{'active': activeClass == '/coinlist'}" routerLink="/coinlist" id="coins" (click)="makeActive('coins','portfolio','exchanges')" mdbRippleRadius>
                         <a  class="nav-link">COINS</a>
                     </li>
-                    <li class="nav-item waves-light" routerLink="/portfolio" id="portfolio" (click)="makeActive('portfolio','coins','exchanges')" mdbRippleRadius>
+                    <li class="nav-item waves-light" [ngClass]="{'active': activeClass == '/portfolio'}" routerLink="/portfolio" id="portfolio" (click)="makeActive('portfolio','coins','exchanges')" mdbRippleRadius>
                         <a  class="nav-link">PORTFOLIO</a>
                     </li>
-                    <li class="nav-item waves-light" routerLink="/exchange" id="exchanges" (click)="makeActive('exchanges','coins','portfolio')" mdbRippleRadius>
+                    <li class="nav-item waves-light" [ngClass]="{'active': activeClass == '/exchange'}" routerLink="/exchange" id="exchanges" (click)="makeActive('exchanges','coins','portfolio')" mdbRippleRadius>
                         <a  class="nav-link">EXCHANGES</a>
                     </li>
                     <!-- <li class="nav-item waves-light" mdbRippleRadius>
@@ -37,7 +48,7 @@
                 </ul>
                 <ul class="navbar-nav log_reg nav-flex-icons">
                     <li mdbRippleRadius>
-                        <input type="search" #searchText (keyup)="globalSearch(searchText.value)" placeholder="Coin or Exchange" />
+                        <input type="search" #searchText (keyup)="globalSearch(searchText.value)" (keydown)="onlyAplhaBets($event)" placeholder="Coin or Exchange" />
                     </li>
                     <li class="" mdbRippleRadius *ngIf="!isLoggedIn">
                         <div class="login_register">
@@ -69,4 +80,151 @@
             </links>
         </mdb-navbar>
     </div>
+</div>
+
+
+<!--Modal: Login Form-->
+<div mdbModal #loginform="mdb-modal" class=" modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog cascading-modal" role="document">
+        <!--Content-->
+        <div class="modal-content">
+
+            <!--Header-->
+            <div class="modal-header light-blue darken-3 white-text">
+                <h4 class="title">
+                    <i class="fa fa-user"></i> Log in</h4>
+                <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close" (click)="loginform.hide()">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+                    <label style="color:red;" *ngIf="errormessageLogin">Fields should not be empty</label>
+                <div class="md-form form-sm">
+                    <i class="fa fa-envelope prefix"></i>
+                    <input type="text" [(ngModel)]="userLogin.emailId" class="form-control" placeholder="Enter Email">
+                    
+                </div>
+
+                <div class="md-form form-sm">
+                    <i class="fa fa-lock prefix"></i>
+                    <input type="password" [(ngModel)]="userLogin.password" class="form-control" placeholder="Enter Password">
+                    
+                </div>
+
+                <div class="text-center mt-2">
+                    <button class="btn btn-info waves-light" (click)="loginWithMail(userLogin)" mdbWavesEffect>Log in
+                        <i class="fa fa-sign-in ml-1"></i>
+                    </button>
+                </div>
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <div class="options text-center text-md-right mt-1">
+                    <p>Not a member?
+                        <a (click)="loginform.hide();registerform.show()">Sign Up</a>
+                    </p>
+                    <p class="socialAccount_popup">Login with - 
+                            <span (click)="signInWithFB()" class="fa fa-facebook"></span>
+                            <span (click)="signInWithLinkedIN()" class="fa fa-linkedin"></span>
+                            <span (click)="signInWithGoogle()" class="fa fa-google-plus"></span>
+                    </p>
+                </div>
+               
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!--Modal: Login Form-->
+
+<!--Modal: Register Form-->
+<div mdbModal #registerform="mdb-modal" class="modal fade" id="modalRegister" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog cascading-modal" role="document">
+        <!--Content-->
+        <div class="modal-content">
+
+            <!--Header-->
+            <div class="modal-header light-blue darken-3 white-text">
+                <h4 class="title">
+                    <i class="fa fa-user-plus"></i> Register</h4>
+                <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close" (click)="registerform.hide()">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <!--Body-->
+            <div class="modal-body">
+                    <label style="color:red;" *ngIf="errormessageSignUp">Fields should not be empty</label>
+                <div class="md-form form-sm">
+                    <i class="fa fa-user prefix"></i>
+                    <input type="text" [(ngModel)]="userReg.userName" class="form-control" placeholder="User Name">
+                </div>
+                <div class="md-form form-sm">
+                    <i class="fa fa-envelope prefix"></i>
+                    <input type="text" [(ngModel)]="userReg.emailId" class="form-control" placeholder="Enter Email">
+                </div>
+
+                <div class="md-form form-sm">
+                    <i class="fa fa-lock prefix"></i>
+                    <input type="password" [(ngModel)]="userReg.password" (blur)="confirmPassword()"class="form-control" placeholder="Enter Password">
+                    
+                </div>
+
+                <div class="md-form form-sm">
+                    <i class="fa fa-lock prefix"></i>
+                    <input type="password" [(ngModel)]="userReg.confrmPswrd" (blur)="confirmPassword()"  class="form-control" placeholder="Confirm Password">
+                    
+                </div>
+
+                <div class="text-center mt-2">
+                    <button class="btn btn-info waves-light" (click)="signUpWithMail(userReg)" mdbWavesEffect>Sign up
+                        <i class="fa fa-sign-in ml-1"></i>
+                    </button>
+                </div>
+            
+            </div>
+            <!--Footer-->
+            <div class="modal-footer">
+                <div class="options text-center text-md-right mt-1">
+                    <p>Already have an account?
+                        <a (click)="registerform.hide();loginform.show()">Log In</a>
+                    </p>
+                    <p class="socialAccount_popup">Already have an account?
+                            <span (click)="signInWithFB()" class="fa fa-facebook"></span>
+                            <span (click)="signInWithLinkedIN()" class="fa fa-linkedin"></span>
+                            <span (click)="signInWithGoogle()" class="fa fa-google-plus"></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!--/.Content-->
+    </div>
+</div>
+<!--Modal: Register Form-->
+<div mdbModal #successMessage="mdb-modal" class="modal fade right" id="centralModalSm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: false, ignoreBackdropClick: false}">
+  <div class="modal-dialog modal-side modal-top-right modal-notify modal-warning" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title w-auto" id="myModalLabel">{{successMessagePopup}}</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="successMessage.hide()">
+                  <span aria-hidden="true">×</span>
+              </button>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- Error  Pop Up-->
+<div mdbModal #errorMessage="mdb-modal" class="modal fade right" id="centralModalSm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-side modal-top-right" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h4 class="modal-title w-auto" id="myModalLabel">Oops! Something went wrong, Please try agian later.</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="errorMessage.hide()">
+                  <span aria-hidden="true">×</span>
+              </button>
+          </div>
+      </div>
+  </div>
 </div>

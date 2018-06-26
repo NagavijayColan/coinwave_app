@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { Router } from '@angular/router'
 import { CompDataSharingService } from "../../comp-data-sharing.service";
-
+import {CommonServiceService} from '../../common-service.service';
+import { SocialUser, AuthService, FacebookLoginProvider, GoogleLoginProvider, LinkedinLoginProvider } from 'ng4-social-login';
 
 @Component({
   selector: 'app-header',
@@ -12,14 +13,38 @@ export class HeaderComponent implements OnInit {
   public searchText;
   public isLoggedIn;
   public userName;
-  constructor(private router: Router, private dataShare: CompDataSharingService) {
+  public successMessagePopup;
+  userLogin: any = {};
+  userReg: any = {};
+  public errormessageSignUp;
+  public errormessageLogin;
+  public activeClass;
+  @ViewChild('loginform') public loginModal;
+  @ViewChild('registerform') public signUpModal;
+  @ViewChild('successMessage') public successModal;
+  @ViewChild('errorMessage') public errorModal;
+  constructor(private authService: AuthService,private commonService : CommonServiceService,private router: Router, private dataShare: CompDataSharingService) {
     this.dataShare.isLoggedIn_listener().subscribe((m: any) => {
       this.isLoggedIn = true;
       this.userName = m.userName;
     })
+    this.dataShare.trigger_loginPopUp_listener().subscribe((m: any) => {
+        this.loginModal.show();
+    })
+    this.dataShare.trigger_successMessagePopUp_listener().subscribe((m: any) => {
+      this.successMessagePopup = m;
+      this.successModal.show();
+    })
+    this.dataShare.trigger_errorMessagePopUp_listener().subscribe(() => {
+      this.errorModal.show();
+    })
+   
+   
   }
 
   ngOnInit() {
+    this.activeClass = this.router.url;
+     
     this.userName = 'k'
     if (localStorage.getItem('userToken')) {
       this.isLoggedIn = true;
@@ -35,8 +60,17 @@ export class HeaderComponent implements OnInit {
   //     this.router.navigate(['/login'])
   // }
   globalSearch(text) {
-
+    
     this.dataShare.searchDataFilter(text);
+  }
+  onlyAplhaBets(event){
+    var key = event.keyCode;
+  if((key >= 65 && key <= 90) || key == 8 || key == 32 || key == 9){
+     return true
+  }
+  else{
+    return false
+  }
   }
   goToLogin() {
     this.router.navigate(['/login'], { skipLocationChange: false })
@@ -48,5 +82,60 @@ export class HeaderComponent implements OnInit {
     this.dataShare.changeTo_default_theme_filter();
     this.dataShare.get_all_coins_filter();
     this.isLoggedIn = false;
+  }
+  signUpWithMail(userReg) {
+    let error = this.commonService.userLogin(userReg);
+    this.errormessageSignUp = error ?  true : false;
+  }
+  loginWithMail(userLogin) {
+    let error = this.commonService.userLogin(userLogin);
+    this.errormessageLogin = error ?  true : false;
+    
+  }
+
+  signInWithGoogle(): void {
+    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(
+      (userData) => {
+        this.commonService.sociallogInAction(userData);
+        this.loginModal.hide();
+        this.signUpModal.hide();
+        this.successMessagePopup = 'You have logged in successfully!';
+        this.successModal.show();
+    },
+    error => {
+       this.errorModal.show();
+    }
+    )
+  }
+
+  signInWithFB(): void {
+    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then(
+      (userData) => {
+        this.commonService.sociallogInAction(userData);
+        this.loginModal.hide();
+        this.signUpModal.hide();
+        this.successMessagePopup = 'You have logged in successfully!';
+        this.successModal.show();
+    },
+    error => {
+       this.errorModal.show();
+    }
+    );
+  }
+
+  signInWithLinkedIN(): void {
+
+    this.authService.signIn(LinkedinLoginProvider.PROVIDER_ID).then(
+      (userData) => {
+        this.commonService.sociallogInAction(userData);
+        this.loginModal.hide();
+        this.signUpModal.hide();
+        this.successMessagePopup = 'You have logged in successfully!';
+        this.successModal.show();
+    },
+    error => {
+       this.errorModal.show();
+    }
+    );
   }
 }

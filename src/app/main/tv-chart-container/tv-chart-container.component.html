@@ -135,6 +135,7 @@
       </tr>
     </tbody>
   </table>
+  <div *ngIf="noData" class="noDataFound">No Data found!</div>
 </div>
 <!-- <td (click)="coinDetails(coins.pair)" class="column-HRchange">{{coins.HRchange}} 453454</td>
   <td (click)="coinDetails(coins.pair)" class="  column-dayChange">{{coins.dayChange}}</td>
@@ -142,122 +143,6 @@
   <td (click)="coinDetails(coins.pair)">{{coins.marketCap}}</td>
   <td (click)="coinDetails(coins.pair)">{{coins.hrhigh}}</td>
   <td (click)="coinDetails(coins.pair)">{{coins.hrlow}}</td> -->
-
-  
-
-<!--Modal: Login Form-->
-<div mdbModal #loginform="mdb-modal" class=" modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog cascading-modal" role="document">
-        <!--Content-->
-        <div class="modal-content">
-
-            <!--Header-->
-            <div class="modal-header light-blue darken-3 white-text">
-                <h4 class="title">
-                    <i class="fa fa-user"></i> Log in</h4>
-                <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close" (click)="loginform.hide()">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <!--Body-->
-            <div class="modal-body">
-                <div class="md-form form-sm">
-                    <i class="fa fa-envelope prefix"></i>
-                    <input type="text" [(ngModel)]="userLogin.emailId" class="form-control" placeholder="Enter Email">
-                </div>
-
-                <div class="md-form form-sm">
-                    <i class="fa fa-lock prefix"></i>
-                    <input type="password" [(ngModel)]="userLogin.password" class="form-control" placeholder="Enter Password">
-                </div>
-
-                <div class="text-center mt-2">
-                    <button class="btn btn-info waves-light" (click)="loginWithMail(userLogin)" mdbWavesEffect>Log in
-                        <i class="fa fa-sign-in ml-1"></i>
-                    </button>
-                </div>
-            </div>
-            <!--Footer-->
-            <div class="modal-footer">
-                <div class="options text-center text-md-right mt-1">
-                    <p>Not a member?
-                        <a (click)="loginform.hide();registerform.show()">Sign Up</a>
-                    </p>
-                    <p>Forgot
-                        <a href="#">Password?</a>
-                    </p>
-                </div>
-                <button type="button" class="btn btn-outline-info ml-auto" data-dismiss="modal" (click)="loginform.hide()" mdbWavesEffect>Close</button>
-            </div>
-        </div>
-        <!--/.Content-->
-    </div>
-</div>
-<!--Modal: Login Form-->
-
-<!--Modal: Register Form-->
-<div mdbModal #registerform="mdb-modal" class="modal fade" id="modalRegister" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog cascading-modal" role="document">
-        <!--Content-->
-        <div class="modal-content">
-
-            <!--Header-->
-            <div class="modal-header light-blue darken-3 white-text">
-                <h4 class="title">
-                    <i class="fa fa-user-plus"></i> Register</h4>
-                <button type="button" class="close waves-effect waves-light" data-dismiss="modal" aria-label="Close" (click)="registerform.hide()">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <!--Body-->
-            <div class="modal-body">
-                <div class="md-form form-sm">
-                    <i class="fa fa-envelope prefix"></i>
-                    <input type="text" [(ngModel)]="userReg.userName" class="form-control" placeholder="User Name">
-                    
-                </div>
-                <div class="md-form form-sm">
-                    <i class="fa fa-envelope prefix"></i>
-                    <input type="text" [(ngModel)]="userReg.emailId" class="form-control" placeholder="Enter Email">
-                    
-                </div>
-
-                <div class="md-form form-sm">
-                    <i class="fa fa-lock prefix"></i>
-                    <input type="password" [(ngModel)]="userReg.password" (blur)="confirmPassword()" class="form-control" placeholder="Enter Password">
-                    
-                </div>
-
-                <div class="md-form form-sm">
-                    <i class="fa fa-lock prefix"></i>
-                    <input type="password" [(ngModel)]="userReg.confrmPswrd" (blur)="confirmPassword()" id="form34" class="form-control" placeholder="Confirm Password">
-                    
-                </div>
-
-                <div class="text-center mt-2">
-                    <button class="btn btn-info waves-light" (click)="signUpWithMail(userReg)" mdbWavesEffect>Sign up
-                        <i class="fa fa-sign-in ml-1"></i>
-                    </button>
-                </div>
-
-
-            </div>
-            <!--Footer-->
-            <div class="modal-footer">
-                <div class="options text-center text-md-right mt-1">
-                    <p>Already have an account?
-                        <a (click)="registerform.hide();loginform.show()">Log In</a>
-                    </p>
-                </div>
-                <button type="button" class="btn btn-outline-info ml-auto" data-dismiss="modal" (click)="registerform.hide()" mdbWavesEffect>Close</button>
-            </div>
-        </div>
-        <!--/.Content-->
-    </div>
-</div>
-<!--Modal: Register Form-->
 <!-- Success Pop Up-->
 <div mdbModal #successMessage="mdb-modal" class="modal fade right" id="centralModalSm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: false, ignoreBackdropClick: false}">
   <div class="modal-dialog modal-side modal-top-right modal-notify modal-warning" role="document">

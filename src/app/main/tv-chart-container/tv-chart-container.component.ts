@@ -11,7 +11,7 @@ import {
     ChartingLibraryWidgetOptions,
     LanguageCode,
 } from '../../../assets/charting_library/charting_library.min';
-import { window, document } from 'angular-bootstrap-md/utils/facade/browser';
+import { window, document, location } from 'angular-bootstrap-md/utils/facade/browser';
 import { error } from 'util';
 import { element } from 'protractor';
 // import { setInterval } from 'timers';
@@ -59,6 +59,7 @@ export class TvChartContainerComponent implements OnInit {
     public subscriptionOfHttp;
     public successMessagePopup;
     public showLoadSpinner:boolean;
+    public noData;
     userLogin: any = {};
     userReg: any = {};
     @Input()
@@ -138,6 +139,7 @@ export class TvChartContainerComponent implements OnInit {
     }
 
     ngOnInit() {
+        
         this.showLoadSpinner = true;
         this.coinList = [];
         this.favCoinsList = [];
@@ -165,7 +167,7 @@ export class TvChartContainerComponent implements OnInit {
             this.customizeColUpdate(JSON.parse(cols));
             this.getCoinList();
         }
-        
+        // this.generateGraph('','','');
        
     }
     getAlongFavCoins(){
@@ -192,6 +194,7 @@ export class TvChartContainerComponent implements OnInit {
                     this.updateAllCoinsData(data);
                 }
                 else {
+                    this.showLoadSpinner = false;
                     this.coinList = data;
                     if (parseInt(this.setIntervalTime) >= 1000) {
                         this.runningInterval = setInterval(() => {
@@ -209,7 +212,9 @@ export class TvChartContainerComponent implements OnInit {
             response => response.json()).takeUntil(this.ngUnsubscribe).subscribe(
             data => {
                 this.getallCoins = data;
-                
+                if(data.length == 0){
+                    this.noData = true
+                }
                 if (this.coinList.length > 0) {
                     this.updateAllCoinsData(this.getallCoins);
                 }
@@ -511,12 +516,13 @@ export class TvChartContainerComponent implements OnInit {
         }
     }
     favCoinFunctionality(pair, rr, i) {
+        
         if(localStorage.getItem('userToken')){
             let tokenV = localStorage.getItem('userToken')
             this.http.put('http://coinwave.service.colanonline.net/api/userSetting/update', { favourites: pair, token: tokenV }).map(response => response.json()).
             subscribe(data => {
-                this.successMessagePopup = 'Favourite Coins Updated Successfully';
-                this.successModal.show();
+               
+                this.changeGraphTheme.trigger_successMessagePopUp_filter('Favourite Coins Updated Successfully');
                 let tokenV = localStorage.getItem('userToken');
                 this.subscriptionOfHttp = this.http.post('http://coinwave.service.colanonline.net/api/coins/getFavourites', { token: tokenV }).map(response => response.json()).subscribe(data => {
                         this.favCoinsList = data;
@@ -525,15 +531,15 @@ export class TvChartContainerComponent implements OnInit {
                         this.coinList = data
                 })
                
-            }
-        ,
+            },
         error => {
-            this.errorModal.show()
+            this.changeGraphTheme.trigger_errorMessagePopUp_filter();
         }
     )
         }
         else{
-            this.loginModal.show();
+            
+            this.changeGraphTheme.trigger_loginPopUp_filter();
         }
         // for(let k = 0; k < this.sample.length; k++){
         //    if(this.sample[k].pair == pair){

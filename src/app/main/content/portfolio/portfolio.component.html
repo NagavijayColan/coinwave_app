@@ -120,8 +120,7 @@
     </div>
     <!--list_view-->
 
-
-
-
+    <div *ngIf="noData" class="noDataFound">No data found!</div>
+    <div *ngIf="getLoggedIn" class="noDataFound">Please Log in To Get Portfolio List</div>
   </div>
 </div>

@@ -54,6 +54,8 @@ export class CoinpageComponent implements OnInit {
     public successMessagePopup;
     userLogin: any = {};
     userReg: any = {};
+    public errormessageSignUp;
+    public errormessageLogin;
     @Input()
     set symbol(symbol: ChartingLibraryWidgetOptions['symbol']) {
         this._symbol = symbol || this._symbol;
@@ -298,31 +300,21 @@ export class CoinpageComponent implements OnInit {
             this.http.put('http://coinwave.service.colanonline.net/api/userSetting/update', { portfolio: this.coinKey, token: tokenV }).map(
                 response => response.json()).subscribe(
                 data => {
-                    this.successMessagePopup = 'Successfully added to Portfolio List'
-                    this.successModal.show();
+                    debugger
+                    this.successMessagePopup = 
+                    this.changeGraphTheme.trigger_successMessagePopUp_filter('Successfully added to Portfolio List')
                 },
-                err =>{
-                    this.errorModal.show();
+                error => {
+                  this.changeGraphTheme.trigger_errorMessagePopUp_filter()
                 }
-                )
-        }
-        else{
-            this.loginModal.show()
-        }
+              )
+              }
+              else {
+                this.changeGraphTheme.trigger_loginPopUp_filter();
+              }
     }
     buyCoin() {
         this.isOpened = !this.isOpened
     }
-    signUpWithMail(userReg) {
-
-        this.commonService.userRegistration(userReg);
-        this.loginModal.hide();
-        this.signUpModal.hide();
-      }
-      loginWithMail(userLogin) {
-        this.commonService.userLogin(userLogin);
-        this.loginModal.hide();
-        this.signUpModal.hide();
-        
-      }
+   
 }

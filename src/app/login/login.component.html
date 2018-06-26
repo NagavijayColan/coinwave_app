@@ -112,7 +112,9 @@
                 </button>
             </div>
             <!--Body-->
+            
             <div class="modal-body">
+                    <label style="color:red;" *ngIf="errormessageLogin">Fields should not be empty</label>
                 <div class="md-form form-sm">
                     <i class="fa fa-envelope prefix"></i>
                     <input type="text" [(ngModel)]="userLogin.emailId" class="form-control" placeholder="Enter Email">
@@ -125,6 +127,7 @@
                 </div>
 
                 <div class="text-center mt-2">
+                    
                     <button class="btn btn-info waves-light" (click)="loginWithMail(userLogin)" mdbWavesEffect>Log in
                         <i class="fa fa-sign-in ml-1"></i>
                     </button>
@@ -135,9 +138,6 @@
                 <div class="options text-center text-md-right mt-1">
                     <p>Not a member?
                         <a (click)="loginform.hide();registerform.show()">Sign Up</a>
-                    </p>
-                    <p>Forgot
-                        <a href="#">Password?</a>
                     </p>
                 </div>
                
@@ -165,6 +165,7 @@
             </div>
             <!--Body-->
             <div class="modal-body">
+                    <label style="color:red;" *ngIf="errormessageSignUp">Fields should not be empty</label>
                 <div class="md-form form-sm">
                     <i class="fa fa-user prefix"></i>
                     <input type="text" [(ngModel)]="userReg.userName" class="form-control" placeholder="User Name">
@@ -191,8 +192,6 @@
                         <i class="fa fa-sign-in ml-1"></i>
                     </button>
                 </div>
-
-
             </div>
             <!--Footer-->
             <div class="modal-footer">

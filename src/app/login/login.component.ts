@@ -21,11 +21,25 @@ export class LoginComponent implements OnInit {
   private loggedIn: boolean;
   public apiKey;
   public isUserAuthenticated;
+  public errormessageLogin;
+  public errormessageSignUp;
   userReg: any = {};
   userLogin: any = {};
   constructor(private commonService : CommonServiceService,private authService: AuthService, private http: Http, private router: Router, private changeGraphTheme: CompDataSharingService) {
     this.changeGraphTheme.callLogOut_listener().subscribe(() => {
       this.signOut();
+    })
+    this.changeGraphTheme.trigger_signUpwithSocial_listener().subscribe((message : any) => {debugger
+      if(message == 'facebook'){
+          this.signInWithFB()
+      }
+      else if(message == 'linkedin'){
+        this.signInWithLinkedIN()
+      }
+      else if(message == 'google'){
+        this. signInWithGoogle()
+      }
+      
     })
   }
 
@@ -78,10 +92,12 @@ export class LoginComponent implements OnInit {
   }
   confirmPassword() { }
   signUpWithMail(userReg) {
-    this.commonService.userRegistration(userReg);
+    let error = this.commonService.userLogin(userReg);
+    this.errormessageSignUp = error ?  true : false;
   }
   loginWithMail(userLogin) {
-    this.commonService.userLogin(userLogin);
+    let error = this.commonService.userLogin(userLogin);
+    this.errormessageLogin = error ?  true : false;
   }
   
 }
