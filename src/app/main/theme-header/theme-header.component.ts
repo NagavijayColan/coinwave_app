@@ -70,6 +70,7 @@ export class ThemeHeaderComponent implements OnInit {
       this.defaultTheme();
     })
     this.changeGraphTheme.userProfile_listener().subscribe(() => {
+      
       this.userTheme();
     })
   }
@@ -263,8 +264,8 @@ export class ThemeHeaderComponent implements OnInit {
       'mainSeriesProperties.candleStyle.downColor': "#eb4d5c",
       'mainSeriesProperties.candleStyle.drawWick': true,
       'mainSeriesProperties.candleStyle.drawBorder': true,
-      'mainSeriesProperties.candleStyle.borderColor': "#378658",
-      'mainSeriesProperties.candleStyle.borderUpColor': "#225437",
+      'mainSeriesProperties.candleStyle.borderColor': "#53b987",
+      'mainSeriesProperties.candleStyle.borderUpColor': "#eb4d5c",
       'mainSeriesProperties.candleStyle.borderDownColor': "#5b1a13",
       'mainSeriesProperties.candleStyle.wickUpColor': 'rgba( 115, 115, 117, 1)',
       'mainSeriesProperties.candleStyle.wickDownColor': 'rgba( 115, 115, 117, 1)',
