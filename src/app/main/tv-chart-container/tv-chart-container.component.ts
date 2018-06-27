@@ -1,10 +1,10 @@
-import { Component, Input, OnInit, OnDestroy,ViewChild } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CompDataSharingService } from "../../comp-data-sharing.service";
 import { Http } from '@angular/http';
 import { Subscription, Subject } from 'rxjs/Rx';
-import {CommonServiceService} from '../../common-service.service'
+import { CommonServiceService } from '../../common-service.service'
 import {
     widget,
     onready,
@@ -57,9 +57,9 @@ export class TvChartContainerComponent implements OnInit {
     public column = {};
     public resolutionColumn = {};
     public columnsList;
-    public subscriptionOfHttp;
+    public subscriptionOfHttp: Subscription;
     public successMessagePopup;
-    public showLoadSpinner:boolean;
+    public showLoadSpinner: boolean;
     public noData;
     userLogin: any = {};
     userReg: any = {};
@@ -119,7 +119,7 @@ export class TvChartContainerComponent implements OnInit {
     }
     @Input() graphId: string;
 
-    constructor(private commonService : CommonServiceService,private http: Http, private router: Router, private changeGraphTheme: CompDataSharingService) {
+    constructor(private commonService: CommonServiceService, private http: Http, private router: Router, private changeGraphTheme: CompDataSharingService) {
         this.changeGraphTheme.refreshRateListen().subscribe((m: any) => {
 
             this.refreshRateIntervalChange(m);
@@ -144,7 +144,7 @@ export class TvChartContainerComponent implements OnInit {
         this.coinList = [];
         this.favCoinsList = [];
         this.currencyValue = localStorage.getItem('currencyRate');
-        
+
         this.changeGraphTheme.currentMessage.subscribe(message => this.graphThemeColor = message);
         this.setIntervalTime = parseInt(this.graphThemeColor.refreshrate + '000');
         this.overrides_obj = this.graphThemeColor.theme;
@@ -167,52 +167,52 @@ export class TvChartContainerComponent implements OnInit {
             this.customizeColUpdate(JSON.parse(cols));
             this.getCoinList();
         }
-        this.generateGraph('sampleChart','btcusd','');
-       
-    }
-    getAlongFavCoins(){
-            let tokenV = localStorage.getItem('userToken');
-            this.subscriptionOfHttp = this.http.post('http://18.191.202.171:5687/api/coins/getFavourites', { token: tokenV }).map(response => response.json()).subscribe(data => {
+        this.generateGraph('sampleChart', 'btcusd', '');
 
-               
-                if (this.favCoinsList.length > 0) {
-                    this.updateAllCoinsData(data);
+    }
+    getAlongFavCoins() {
+        let tokenV = localStorage.getItem('userToken');
+        this.subscriptionOfHttp = this.http.post('http://18.191.202.171:5687/api/coins/getFavourites', { token: tokenV }).map(response => response.json()).subscribe(data => {
+
+
+            if (this.favCoinsList.length > 0) {
+                this.updateAllCoinsData(data);
+            }
+            else {
+                this.showLoadSpinner = false;
+                this.favCoinsList = data;
+                if (parseInt(this.setIntervalTime) >= 1000) {
+                    this.runningInterval = setInterval(() => {
+                        this.getAlongFavCoins();
+                    }, this.setIntervalTime);
                 }
-                else {
-                    this.showLoadSpinner = false;
-                    this.favCoinsList = data;
-                    if (parseInt(this.setIntervalTime) >= 1000) {
-                        this.runningInterval = setInterval(() => {
-                            this.getAlongFavCoins();
-                        }, this.setIntervalTime);
-                    }
+            }
+        })
+        this.subscriptionOfHttp = this.http.post('http://18.191.202.171:5687/api/coins/getCoins', { token: tokenV }).map(response => response.json()).subscribe(data => {
+
+            if (this.coinList.length > 0) {
+                this.updateAllCoinsData(data);
+            }
+            else {
+                this.showLoadSpinner = false;
+                this.coinList = data;
+                if (parseInt(this.setIntervalTime) >= 1000) {
+                    this.runningInterval = setInterval(() => {
+                        this.getAlongFavCoins();
+                    }, this.setIntervalTime);
                 }
-            })
-            this.subscriptionOfHttp =  this.http.post('http://18.191.202.171:5687/api/coins/getCoins', { token: tokenV }).map(response => response.json()).subscribe(data => {
-                
-                if (this.coinList.length > 0) {
-                    this.updateAllCoinsData(data);
-                }
-                else {
-                    this.showLoadSpinner = false;
-                    this.coinList = data;
-                    if (parseInt(this.setIntervalTime) >= 1000) {
-                        this.runningInterval = setInterval(() => {
-                            this.getAlongFavCoins();
-                        }, this.setIntervalTime);
-                    }
-                }
-            })
-           
-            // this.subscriptionOfHttp.add(getNormalCoinscall)
-            // this.subscriptionOfHttp.add(getFavcall)
+            }
+        })
+
+        // this.subscriptionOfHttp.add(getNormalCoinscall)
+        // this.subscriptionOfHttp.add(getFavcall)
     }
     getCoinList() {
-        const getUsdCall = this.http.post('http://18.191.202.171:5687/exchange/getusd', {}).map(
+        this.subscriptionOfHttp = this.http.post('http://18.191.202.171:5687/exchange/getusd', {}).map(
             response => response.json()).takeUntil(this.ngUnsubscribe).subscribe(
             data => {
                 this.getallCoins = data;
-                if(data.length == 0){
+                if (data.length == 0) {
                     this.noData = true
                 }
                 if (this.coinList.length > 0) {
@@ -228,7 +228,7 @@ export class TvChartContainerComponent implements OnInit {
                     }
                 }
             })
-            //  this.subscriptionOfHttp.add(getUsdCall)
+        //  this.subscriptionOfHttp.add(getUsdCall)
     }
     updateAllCoinsData(allCoins) {
         for (let i = 0; i < allCoins.length; i++) {
@@ -253,7 +253,7 @@ export class TvChartContainerComponent implements OnInit {
             }
         }
     }
-    updateFavCoinsData(allCoins){
+    updateFavCoinsData(allCoins) {
         for (let i = 0; i < allCoins.length; i++) {
             let checkIsThere = true;
             let obj = this.coinList.findIndex(coin => allCoins[i].pair === coin.pair);
@@ -276,7 +276,7 @@ export class TvChartContainerComponent implements OnInit {
             }
         }
     }
-    updateNormalCoinsData(allCoins){
+    updateNormalCoinsData(allCoins) {
         for (let i = 0; i < allCoins.length; i++) {
             let checkIsThere = true;
             let obj = this.coinList.findIndex(coin => allCoins[i].pair === coin.pair);
@@ -311,37 +311,37 @@ export class TvChartContainerComponent implements OnInit {
             this.resolutionColumn[this.columnsList[i].key] = this.columnsList[i].ischecked;
         }
 
-        
+
     }
-    expandGraph(ev, i, coinToken, coinName,chartId,rowId) {
-        
-        if (document.getElementById(rowId+i).classList.contains('showingNow')) {
-            document.getElementById(rowId+i).classList.remove('showingNow');
-            document.getElementById(rowId+i).classList.add('hidingNow');
-            let parentElementPath  = document.getElementById(rowId+i).parentElement.children[0]
-            let elementPath =  parentElementPath.getElementsByTagName('td');
+    expandGraph(ev, i, coinToken, coinName, chartId, rowId) {
+
+        if (document.getElementById(rowId + i).classList.contains('showingNow')) {
+            document.getElementById(rowId + i).classList.remove('showingNow');
+            document.getElementById(rowId + i).classList.add('hidingNow');
+            let parentElementPath = document.getElementById(rowId + i).parentElement.children[0]
+            let elementPath = parentElementPath.getElementsByTagName('td');
             let HtmlColl = Array.prototype.slice.call(elementPath);
             let eleInd = HtmlColl.indexOf(document.getElementsByClassName('graphTabledata')[i]);
-            
-            let elementExp =parentElementPath.children[eleInd].children[0].classList
+
+            let elementExp = parentElementPath.children[eleInd].children[0].classList
             if (elementExp.contains('fa-arrows')) {
                 elementExp.add('fa-arrows-alt')
                 elementExp.remove('fa-arrows')
             }
         }
         else {
-            document.getElementById(rowId+i).classList.add('showingNow');
-            document.getElementById(rowId+i).classList.remove('hidingNow');
-            let parentElementPath  = document.getElementById(rowId+i).parentElement.children[0]
-            let elementPath =  parentElementPath.getElementsByTagName('td');
+            document.getElementById(rowId + i).classList.add('showingNow');
+            document.getElementById(rowId + i).classList.remove('hidingNow');
+            let parentElementPath = document.getElementById(rowId + i).parentElement.children[0]
+            let elementPath = parentElementPath.getElementsByTagName('td');
             let HtmlColl = Array.prototype.slice.call(elementPath);
             let eleInd = HtmlColl.indexOf(document.getElementsByClassName('graphTabledata')[i]);
-            let elementExp =parentElementPath.children[eleInd].children[0].classList;
-            
+            let elementExp = parentElementPath.children[eleInd].children[0].classList;
+
             if (elementExp.contains('fa-arrows-alt')) {
                 elementExp.add('fa-arrows');
                 elementExp.remove('fa-arrows-alt');
-                this.generateGraph(chartId+i, coinToken, coinName);
+                this.generateGraph(chartId + i, coinToken, coinName);
             }
         }
 
@@ -409,7 +409,7 @@ export class TvChartContainerComponent implements OnInit {
                 var configData;
                 console.log('subscribe ' + symbolInfo);
                 setInterval(() => {
-                     jQuery.ajax({
+                    jQuery.ajax({
                         method: 'POST',
                         async: true,
                         url: 'http://18.191.202.171:5687/exchange/getLastSecData',
@@ -498,12 +498,12 @@ export class TvChartContainerComponent implements OnInit {
 
     advancedTableFilter(data) {
         clearInterval(this.runningInterval)
-        
+
         this.coinList = data;
     }
 
     refreshRateIntervalChange(m) {
-        
+
         if (m != 'false') {
             clearInterval(this.runningInterval)
             this.setIntervalTime = m + '000';
@@ -516,43 +516,43 @@ export class TvChartContainerComponent implements OnInit {
         }
     }
     favCoinFunctionality(pair, type) {
-        if(localStorage.getItem('userToken')){
+        if (localStorage.getItem('userToken')) {
             let tokenV = localStorage.getItem('userToken');
             this.http.put('http://18.191.202.171:5687/api/userSetting/update', { favourites: pair, token: tokenV }).map(response => response.json()).
-            subscribe(data => {
-                let message;
-                if(type == 'normal'){
-                     message = 'Added to Favourites list Successfully';
-                }
-                else if(type == 'fav'){
-                     message = 'Removed from Favourites list Successfully';
-                }
-                this.changeGraphTheme.trigger_successMessagePopUp_filter(message);
-                let tokenV = localStorage.getItem('userToken');
-               
-                      this.subscriptionOfHttp = this.http.post('http://18.191.202.171:5687/api/coins/getFavourites', { token: tokenV }).map(response => response.json()).subscribe(data => {
+                subscribe(data => {
+                    let message;
+                    if (type == 'normal') {
+                        message = 'Added to Favourites list Successfully';
+                    }
+                    else if (type == 'fav') {
+                        message = 'Removed from Favourites list Successfully';
+                    }
+                    this.changeGraphTheme.trigger_successMessagePopUp_filter(message);
+                    let tokenV = localStorage.getItem('userToken');
+
+                    this.subscriptionOfHttp = this.http.post('http://18.191.202.171:5687/api/coins/getFavourites', { token: tokenV }).map(response => response.json()).subscribe(data => {
                         this.favCoinsList = data;
-                },
-                err => {
-                    this.favCoinsList = [];
-                })
-                this.subscriptionOfHttp =  this.http.post('http://18.191.202.171:5687/api/coins/getCoins', { token: tokenV }).map(response => response.json()).subscribe(data => {
+                    },
+                        err => {
+                            this.favCoinsList = [];
+                        })
+                    this.subscriptionOfHttp = this.http.post('http://18.191.202.171:5687/api/coins/getCoins', { token: tokenV }).map(response => response.json()).subscribe(data => {
                         this.coinList = data
+                    },
+                        err => {
+                            this.coinList = [];
+                        })
+
+
+
                 },
-                err => {
-                    this.coinList = [];
-                })
-               
-              
-               
-            },
-            error => {
-            this.changeGraphTheme.trigger_errorMessagePopUp_filter(error.error);
+                error => {
+                    this.changeGraphTheme.trigger_errorMessagePopUp_filter(error.error);
+                }
+                )
         }
-    )
-        }
-        else{
-            
+        else {
+
             this.changeGraphTheme.trigger_loginPopUp_filter();
         }
         // for(let k = 0; k < this.sample.length; k++){
@@ -571,19 +571,19 @@ export class TvChartContainerComponent implements OnInit {
         this.loginModal.hide();
         this.signUpModal.hide();
 
-      }
-      loginWithMail(userLogin) {
-          
+    }
+    loginWithMail(userLogin) {
+
         this.commonService.userLogin(userLogin);
         this.loginModal.hide();
         this.signUpModal.hide();
-        
-      }
+
+    }
     ngOnDestroy() {
-        // this.subscriptionOfHttp.unsubscribe();
+        this.subscriptionOfHttp.unsubscribe();
         clearInterval(this.runningInterval);
         this.ngUnsubscribe.next();
         this.ngUnsubscribe.complete();
-        
+
     }
 }

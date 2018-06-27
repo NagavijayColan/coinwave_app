@@ -3,7 +3,7 @@ import { OrderPipe } from 'ngx-order-pipe';
 import { CompDataSharingService } from "../../comp-data-sharing.service";
 import { document } from 'angular-bootstrap-md/utils/facade/browser';
 import { Http } from '@angular/http';
-import {CommonServiceService} from '../../common-service.service';
+import { CommonServiceService } from '../../common-service.service';
 import { CookieService } from 'ngx-cookie-service';
 @Component({
   selector: 'app-theme-header',
@@ -65,7 +65,7 @@ export class ThemeHeaderComponent implements OnInit {
   reverse: boolean = false;
   public colorOfSite;
   public enableRefreshBtn;
-  constructor(private cookieService: CookieService,private commonService : CommonServiceService,private http: Http, private orderPipe: OrderPipe, private changeGraphTheme: CompDataSharingService) {
+  constructor(private cookieService: CookieService, private commonService: CommonServiceService, private http: Http, private orderPipe: OrderPipe, private changeGraphTheme: CompDataSharingService) {
     this.changeGraphTheme.changeTo_default_theme_listener().subscribe(() => {
       this.defaultTheme();
     })
@@ -77,7 +77,7 @@ export class ThemeHeaderComponent implements OnInit {
     this.enableRefreshBtn = false;
     this.passData2Comp = {};
     this.someRange = 1;
-    
+
     this.http.get('http://18.191.202.171:5687/getCurrencies').map(response => response.json()).subscribe(data => {
       console.log(data)
       this.currencyTypeList = data;
@@ -322,7 +322,7 @@ export class ThemeHeaderComponent implements OnInit {
     // this.hideThemesection = true;
     this.hideOptionsection = false;
     this.hideLanguageSection = false;
-    
+
     if (sessionStorage.getItem('hideThemesection')) {
       this.hideThemesection = JSON.parse(sessionStorage.getItem('hideThemesection'));
     }
@@ -330,21 +330,21 @@ export class ThemeHeaderComponent implements OnInit {
       this.hideThemesection = true;
       sessionStorage.setItem('hideThemesection', 'true');
     }
-    if(document.getElementsByTagName('body')[0].classList.contains('black-theme')){
+    if (document.getElementsByTagName('body')[0].classList.contains('black-theme')) {
       this.passData2Comp['theme'] = this.themeBlack
       this.passData2Comp['refreshrate'] = this.refreshDefault;
       this.passData2Comp['volumeTheme'] = this.volume_black;
       this.passData2Comp['toolsBg'] = '#000'
       this.changeGraphTheme.changeMessage(this.passData2Comp);
     }
-    else{
+    else {
       this.passData2Comp['theme'] = this.themeWhite
       this.passData2Comp['refreshrate'] = this.refreshDefault;
       this.passData2Comp['volumeTheme'] = this.volume_white;
       this.passData2Comp['toolsBg'] = '#fff'
       this.changeGraphTheme.changeMessage(this.passData2Comp);
     }
-    
+
     setTimeout(() => {
       let valueArray = ['1 Sec', '5 Sec', '30 Sec ', '1 Min', '5 Min'];
       let arrayL = document.getElementsByClassName('noUi-value');
@@ -358,7 +358,7 @@ export class ThemeHeaderComponent implements OnInit {
 
       langDropDown.addEventListener("select", this.changeSiteLanguage());
     }, 3000);
-     
+
   }
   siteColor() {
     let siteColor;
@@ -487,7 +487,7 @@ export class ThemeHeaderComponent implements OnInit {
     this.changeGraphTheme.refreshRateFilter('false');
     this.enableRefreshBtn = true;
   }
-  doRefresh(){
+  doRefresh() {
     this.enableRefreshBtn = false;
     this.changeGraphTheme.refreshRateFilter(this.changeRefreshRate);
   }
@@ -520,7 +520,7 @@ export class ThemeHeaderComponent implements OnInit {
   }
   saveThemeStructure() {
     if (localStorage.getItem('userToken')) {
-      
+
       if (this.themeSettings['customizeColumns']) {
         let list = JSON.stringify(this.themeSettings['customizeColumns'])
         localStorage.setItem('customizeColumns', list);
@@ -535,12 +535,12 @@ export class ThemeHeaderComponent implements OnInit {
       }
       this.themeSettings['token'] = localStorage.getItem('userToken');
       this.http.put('http://18.191.202.171:5687/api/userSetting/update', this.themeSettings).map(response => response.json()).subscribe(data => {
-          this.changeGraphTheme.trigger_successMessagePopUp_filter('Your Theme Updated Successfully !')
+        this.changeGraphTheme.trigger_successMessagePopUp_filter('Your Theme Updated Successfully !')
       },
-      error => {
-        this.changeGraphTheme.trigger_errorMessagePopUp_filter(error.error)
-      }
-    )
+        error => {
+          this.changeGraphTheme.trigger_errorMessagePopUp_filter(error.error)
+        }
+      )
     }
     else {
       this.changeGraphTheme.trigger_loginPopUp_filter();
@@ -570,33 +570,32 @@ export class ThemeHeaderComponent implements OnInit {
     this.commonService.userLogin(userLogin);
     this.loginModal.hide();
     this.signUpModal.hide();
-    
+
   }
-  userTheme(){
+  userTheme() {
     let tokenV = localStorage.getItem('userToken');
     this.http.post('http://18.191.202.171:5687/api/userSetting/getUserData', { token: tokenV }).map(response => response.json()).subscribe(data => {
       this.desktoplists = data.customizeColumns.desktop;
       this.mobilelists = data.customizeColumns.mobile;
       this.appList = data.customizeColumns.app;
       this.changeGraphTheme.customizeColumns_filter(data.customizeColumns);
-      localStorage.setItem('customizeColumns',data.customizeColumns);
+      localStorage.setItem('customizeColumns', data.customizeColumns);
       let body = document.getElementsByTagName('body')[0];
       body.classList.remove('black-theme');
       body.classList.add(data.siteColor);
       body.classList.add(data.nightMode);
-      let userSiteLang = "/en/"+data['siteLangugae'];
-      this.cookieService.set('googtrans', userSiteLang )
+      let userSiteLang = "/en/" + data['siteLangugae'];
+      this.cookieService.set('googtrans', userSiteLang)
       this.colorOfSite = data.siteColor;
       this.changeRefreshRate = data.refreshRate;
       this.someRange = data.refreshRate;
-      this.currencyvalue =data.currency;
-      
+      this.currencyvalue = data.currency;
       localStorage.setItem('currencyRate', this.currencyvalue);
-     
+
     })
   }
   defaultTheme() {
-    this.cookieService.set('googtrans', "/en/en" )
+    this.cookieService.set('googtrans', "/en/en")
     let body = document.getElementsByTagName('body')[0];
     var currentList = body.classList.add('black-theme');
     var currentList = body.classList.remove('night_mode');
@@ -617,9 +616,9 @@ export class ThemeHeaderComponent implements OnInit {
     // });
     let data = { "desktop": [{ "label": "Expand", "ischecked": true, "key": "expand" }, { "label": "Favourite", "ischecked": true, "key": "favourite" }, { "label": "Coin", "ischecked": true, "key": "coin" }, { "label": "Price", "ischecked": true, "key": "price" }, { "label": "24 HR (%)", "ischecked": true, "key": "dayChange" }, { "label": "7 Day (%)", "ischecked": true, "key": "weaklyChange" }, { "label": "Volume (24 H)", "ischecked": true, "key": "dayVolume" }, { "label": "Market Cap", "ischecked": true, "key": "marketCap" }, { "label": "24 HR High/Low", "ischecked": true, "key": "dayHighLow" }, { "label": "Circulation Supply ", "ischecked": false, "key": "circulationSupply" }, { "label": "Total Supply", "ischecked": false, "key": "totalSupply" }, { "label": "Exchanges ", "ischecked": false, "key": "exchanges" }], "mobile": [{ "label": "Expand", "ischecked": true, "key": "expand" }, { "label": "Favourite", "ischecked": true, "key": "favourite" }, { "label": "Coin", "ischecked": true, "key": "coin" }, { "label": "Price", "ischecked": true, "key": "price" }, { "label": "24 HR (%)", "ischecked": true, "key": "dayChange" }, { "label": "7 Day (%)", "ischecked": true, "key": "weaklyChange" }, { "label": "Volume (24 H)", "ischecked": true, "key": "dayVolume" }, { "label": "Market Cap", "ischecked": true, "key": "marketCap" }, { "label": "24 HR High/Low", "ischecked": true, "key": "dayHighLow" }, { "label": "Circulation Supply ", "ischecked": false, "key": "circulationSupply" }, { "label": "Total Supply", "ischecked": false, "key": "totalSupply" }, { "label": "Exchanges ", "ischecked": false, "key": "exchanges" }], "app": [{ "label": "Expand", "ischecked": true, "key": "expand" }, { "label": "Favourite", "ischecked": true, "key": "favourite" }, { "label": "Coin", "ischecked": true, "key": "coin" }, { "label": "Price", "ischecked": true, "key": "price" }, { "label": "24 HR (%)", "ischecked": true, "key": "dayChange" }, { "label": "7 Day (%)", "ischecked": true, "key": "weaklyChange" }, { "label": "Volume (24 H)", "ischecked": true, "key": "dayVolume" }, { "label": "Market Cap", "ischecked": true, "key": "marketCap" }, { "label": "24 HR High/Low", "ischecked": true, "key": "dayHighLow" }, { "label": "Circulation Supply ", "ischecked": false, "key": "circulationSupply" }, { "label": "Total Supply", "ischecked": false, "key": "totalSupply" }, { "label": "Exchanges ", "ischecked": false, "key": "exchanges" }] }
     let dataS = JSON.stringify(data)
-    localStorage.setItem('customizeColumns',dataS)
+    localStorage.setItem('customizeColumns', dataS)
     this.changeGraphTheme.customizeColumns_filter(data);
-    
+
     this.desktoplists = data.desktop;
     this.mobilelists = data.mobile;
     this.appList = data.app;
