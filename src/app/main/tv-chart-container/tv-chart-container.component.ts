@@ -140,7 +140,6 @@ export class TvChartContainerComponent implements OnInit {
     }
 
     ngOnInit() {
-       
         this.showLoadSpinner = true;
         this.coinList = [];
         this.favCoinsList = [];
@@ -168,7 +167,7 @@ export class TvChartContainerComponent implements OnInit {
             this.customizeColUpdate(JSON.parse(cols));
             this.getCoinList();
         }
-        // this.generateGraph('','','');
+        this.generateGraph('sampleChart','btcusd','');
        
     }
     getAlongFavCoins(){
