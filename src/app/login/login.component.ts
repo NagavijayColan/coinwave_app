@@ -23,6 +23,7 @@ export class LoginComponent implements OnInit {
   public isUserAuthenticated;
   public errormessageLogin;
   public errormessageSignUp;
+  public showLoadSpinner;
   userReg: any = {};
   userLogin: any = {};
   constructor(private commonService : CommonServiceService,private authService: AuthService, private http: Http, private router: Router, private changeGraphTheme: CompDataSharingService) {
@@ -46,7 +47,7 @@ export class LoginComponent implements OnInit {
   signInWithGoogle(): void {
     this.authService.signIn(GoogleLoginProvider.PROVIDER_ID).then(
       (userData) => {
-        this.commonService.sociallogInAction(userData)
+        this.commonService.sociallogInAction(userData);
       },
       error => {
           console.log(error)
@@ -57,7 +58,7 @@ export class LoginComponent implements OnInit {
   signInWithFB(): void {
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then(
       (userData) => {
-        this.commonService.sociallogInAction(userData)
+        this.commonService.sociallogInAction(userData);
     },
     error => {
         console.log(error)
@@ -92,12 +93,24 @@ export class LoginComponent implements OnInit {
   }
   confirmPassword() { }
   signUpWithMail(userReg) {
-    let error = this.commonService.userLogin(userReg);
-    this.errormessageSignUp = error ?  true : false;
+    
+    let status = this.commonService.checkEmpty('signuPCredentials');
+    if(!status){
+      this.commonService.userRegistration(userReg);
+    }
+    else{
+      this.errormessageSignUp = true;
+    }
   }
   loginWithMail(userLogin) {
-    let error = this.commonService.userLogin(userLogin);
-    this.errormessageLogin = error ?  true : false;
+    let status = this.commonService.checkEmpty('loginCredentials');
+    if(!status){
+      this.commonService.userLogin(userLogin);
+    }
+    else{
+      this.errormessageLogin = true;
+    }
+    
   }
   
 }

@@ -54,6 +54,7 @@ export class CoinpageComponent implements OnInit {
     public successMessagePopup;
     userLogin: any = {};
     userReg: any = {};
+    public showLoadSpinner;
     public errormessageSignUp;
     public errormessageLogin;
     @Input()
@@ -129,7 +130,7 @@ export class CoinpageComponent implements OnInit {
         this.aroute.params.subscribe(params => {
             this.coinKey = params['id'];
         });
-        this.http.get("http://coinwave.service.colanonline.net/exchange/getusd/" + this.coinKey).map(
+        this.http.get("http://18.191.202.171:5687/exchange/getusd/" + this.coinKey).map(
             response => response.json()).subscribe(
             data => {
                 this.coinName = data[0].name;
@@ -212,7 +213,7 @@ export class CoinpageComponent implements OnInit {
                 jQuery.ajax({
                     method: 'POST',
                     async: true,
-                    url: 'http://coinwave.service.colanonline.net/exchange/getChart',
+                    url: 'http://18.191.202.171:5687/exchange/getChart',
                     data: { pair: coinToken },
                     success: function (response) {
 
@@ -230,7 +231,7 @@ export class CoinpageComponent implements OnInit {
                     jQuery.ajax({
                         method: 'POST',
                         async: true,
-                        url: 'http://coinwave.service.colanonline.net/exchange/getLastSecData',
+                        url: 'http://18.191.202.171:5687/exchange/getLastSecData',
                         data: { pair: coinToken },
                         success: function (response) {
 
@@ -295,21 +296,24 @@ export class CoinpageComponent implements OnInit {
         });
     }
     addToPortfolio() {
+
         if (localStorage.getItem('userToken')) {
+            this.showLoadSpinner = true;
             let tokenV = localStorage.getItem('userToken');
-            this.http.put('http://coinwave.service.colanonline.net/api/userSetting/update', { portfolio: this.coinKey, token: tokenV }).map(
+            this.http.put('http://18.191.202.171:5687/api/userSetting/update', { portfolio: this.coinKey, token: tokenV }).map(
                 response => response.json()).subscribe(
                 data => {
-                    
-                    this.successMessagePopup = 
+                    this.showLoadSpinner = false
                     this.changeGraphTheme.trigger_successMessagePopUp_filter('Successfully added to Portfolio List')
                 },
                 error => {
-                  this.changeGraphTheme.trigger_errorMessagePopUp_filter()
+                    this.showLoadSpinner = false
+                  this.changeGraphTheme.trigger_errorMessagePopUp_filter(error.error)
                 }
               )
               }
               else {
+                this.showLoadSpinner = false
                 this.changeGraphTheme.trigger_loginPopUp_filter();
               }
     }

@@ -62,7 +62,7 @@ constructor(private http : Http,private router : Router , private AmCharts: AmCh
 
 ngOnInit() {
   this.jsonData1 = [];
-  this.http.get("http://coinwave.service.colanonline.net/getData").map(
+  this.http.get("http://18.191.202.171:5687/getData").map(
     response => response.json()).subscribe(
       data => {   this.jsonData1 = data;
          this.themeDo();

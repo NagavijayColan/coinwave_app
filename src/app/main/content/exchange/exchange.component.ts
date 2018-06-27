@@ -20,7 +20,7 @@ export class ExchangeComponent implements OnInit {
   ngOnInit() {
     this.noData = true;
     this.showLoadSpinner = true; 
-    this.http.get("http://coinwave.service.colanonline.net/exchange/exchangeSummary").map(
+    this.http.get("http://18.191.202.171:5687/exchange/exchangeSummary").map(
     response => response.json()).subscribe(
       data => {
         if(data.length > 0 ){

@@ -18,7 +18,9 @@ export class HeaderComponent implements OnInit {
   userReg: any = {};
   public errormessageSignUp;
   public errormessageLogin;
+  public errorMessagePopup;
   public activeClass;
+  public error;
   @ViewChild('loginform') public loginModal;
   @ViewChild('registerform') public signUpModal;
   @ViewChild('successMessage') public successModal;
@@ -32,20 +34,22 @@ export class HeaderComponent implements OnInit {
         this.loginModal.show();
     })
     this.dataShare.trigger_successMessagePopUp_listener().subscribe((m: any) => {
-      this.successMessagePopup = m;
-      this.successModal.show();
+        this.successMessagePopup = m;
+        this.signUpModal.hide();
+        this.loginModal.hide();
+        this.successModal.show();
     })
-    this.dataShare.trigger_errorMessagePopUp_listener().subscribe(() => {
-      this.errorModal.show();
+    this.dataShare.trigger_errorMessagePopUp_listener().subscribe((m: any) => {
+        // this.signUpModal.hide();
+        // this.loginModal.hide();
+        this.errorMessagePopup = m;
+        this.errorModal.show();
     })
-   
-   
   }
 
   ngOnInit() {
     this.activeClass = this.router.url;
-     
-    this.userName = 'k'
+    this.userName = 'k';
     if (localStorage.getItem('userToken')) {
       this.isLoggedIn = true;
       this.userName = localStorage.getItem('userName')
@@ -60,7 +64,6 @@ export class HeaderComponent implements OnInit {
   //     this.router.navigate(['/login'])
   // }
   globalSearch(text) {
-    
     this.dataShare.searchDataFilter(text);
   }
   onlyAplhaBets(event){
@@ -83,34 +86,54 @@ export class HeaderComponent implements OnInit {
     this.dataShare.get_all_coins_filter();
     this.isLoggedIn = false;
   }
-  signUpWithMail(userReg) {
+  // signUpWithMail(userReg) {
     
-    let error = this.commonService.userRegistration(userReg);
-    this.errormessageSignUp = error ?  true : false;
-    if(!error){
-      this.loginModal.hide();
-      this.signUpModal.hide();
-      this.successMessagePopup = 'You have logged in successfully!';
-      this.successModal.show();
+  //   let error = this.commonService.userRegistration(userReg);
+  //   this.errormessageSignUp = error ?  true : false;
+  //   if(!error){
+  //     this.loginModal.hide();
+  //     this.signUpModal.hide();
+  //     this.successMessagePopup = 'You have logged in successfully!';
+  //     this.successModal.show();
+  //   }
+  //   else{
+  //     this.errorModal.show();
+  //   }
+  // }
+  // loginWithMail(userLogin) {
+  //   let error = this.commonService.userLogin(userLogin);
+  //   this.errormessageLogin = error ?  true : false;
+  //   if(error){
+  //     this.loginModal.hide();
+  //     this.signUpModal.hide();
+  //     this.successMessagePopup = 'You have logged in successfully!';
+  //     this.successModal.show();
+  //   }
+  //   else{
+  //     this.loginModal.hide();
+  //     this.signUpModal.hide();
+  //     this.errorModal.show();
+  //   }
+  // }
+  signUpWithMail(userReg) {
+    let status = this.commonService.checkEmpty('signuPCredentials');
+    if(!status){
+     this.commonService.userRegistration(userReg)
+       
     }
     else{
-      this.errorModal.show();
+      this.errormessageSignUp = true;
     }
   }
   loginWithMail(userLogin) {
-    let error = this.commonService.userLogin(userLogin);
-    this.errormessageLogin = error ?  true : false;
-    if(error){
-      this.loginModal.hide();
-      this.signUpModal.hide();
-      this.successMessagePopup = 'You have logged in successfully!';
-      this.successModal.show();
+    let status = this.commonService.checkEmpty('loginCredentials');
+    if(!status){
+      this.commonService.userLogin(userLogin);
     }
     else{
-      this.loginModal.hide();
-      this.signUpModal.hide();
-      this.errorModal.show();
+      this.errormessageLogin = true;
     }
+    
   }
 
   signInWithGoogle(): void {
@@ -147,15 +170,7 @@ export class HeaderComponent implements OnInit {
 
     this.authService.signIn(LinkedinLoginProvider.PROVIDER_ID).then(
       (userData) => {
-        this.commonService.sociallogInAction(userData);
-        this.loginModal.hide();
-        this.signUpModal.hide();
-        this.successMessagePopup = 'You have logged in successfully!';
-        this.successModal.show();
-    },
-    error => {
-       this.errorModal.show();
-    }
-    );
+       this.commonService.sociallogInAction(userData);
+    });
   }
 }

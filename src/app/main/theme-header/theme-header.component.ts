@@ -69,13 +69,16 @@ export class ThemeHeaderComponent implements OnInit {
     this.changeGraphTheme.changeTo_default_theme_listener().subscribe(() => {
       this.defaultTheme();
     })
+    this.changeGraphTheme.userProfile_listener().subscribe(() => {
+      this.userTheme();
+    })
   }
   ngOnInit() {
     this.enableRefreshBtn = false;
     this.passData2Comp = {};
     this.someRange = 1;
     
-    this.http.get('http://coinwave.service.colanonline.net/getCurrencies').map(response => response.json()).subscribe(data => {
+    this.http.get('http://18.191.202.171:5687/getCurrencies').map(response => response.json()).subscribe(data => {
       console.log(data)
       this.currencyTypeList = data;
     })
@@ -83,27 +86,8 @@ export class ThemeHeaderComponent implements OnInit {
 
     if (localStorage.getItem('userToken')) {
       
-      let tokenV = localStorage.getItem('userToken');
-      this.http.post('http://coinwave.service.colanonline.net/api/userSetting/getUserData', { token: tokenV }).map(response => response.json()).subscribe(data => {
-        this.desktoplists = data.customizeColumns.desktop;
-        this.mobilelists = data.customizeColumns.mobile;
-        this.appList = data.customizeColumns.app;
-        this.changeGraphTheme.customizeColumns_filter(data.customizeColumns);
-        localStorage.setItem('customizeColumns',data.customizeColumns);
-        let body = document.getElementsByTagName('body')[0];
-        body.classList.remove('black-theme');
-        body.classList.add(data.siteColor);
-        body.classList.add(data.nightMode);
-        let userSiteLang = "/en/"+data['siteLangugae'];
-        this.cookieService.set('googtrans', userSiteLang )
-        this.colorOfSite = data.siteColor;
-        this.changeRefreshRate = data.refreshRate;
-        this.someRange = data.refreshRate;
-        this.currencyvalue =data.currency;
-        
-        localStorage.setItem('currencyRate', this.currencyvalue);
-       
-      })
+      
+                this.userTheme();
       // let data = JSON.parse(localStorage.getItem('customizeColumns'));
       // console.log(data);
       // this.changeGraphTheme.customizeColumns_filter(data);
@@ -466,7 +450,7 @@ export class ThemeHeaderComponent implements OnInit {
 
   selectCurrency(text, image) {
 
-    this.http.post('http://coinwave.service.colanonline.net/currencyConverter', { converter: text }).map(response => response.json()).subscribe(data => {
+    this.http.post('http://18.191.202.171:5687/currencyConverter', { converter: text }).map(response => response.json()).subscribe(data => {
       this.currencyvalue = data.rate.toFixed(2);
       localStorage.setItem('currencyRate', this.currencyvalue);
 
@@ -573,11 +557,11 @@ export class ThemeHeaderComponent implements OnInit {
         localStorage.setItem('siteC', siteC);
       }
       this.themeSettings['token'] = localStorage.getItem('userToken');
-      this.http.put('http://coinwave.service.colanonline.net/api/userSetting/update', this.themeSettings).map(response => response.json()).subscribe(data => {
+      this.http.put('http://18.191.202.171:5687/api/userSetting/update', this.themeSettings).map(response => response.json()).subscribe(data => {
           this.changeGraphTheme.trigger_successMessagePopUp_filter('Your Theme Updated Successfully !')
       },
       error => {
-        this.changeGraphTheme.trigger_errorMessagePopUp_filter()
+        this.changeGraphTheme.trigger_errorMessagePopUp_filter(error.error)
       }
     )
     }
@@ -611,6 +595,29 @@ export class ThemeHeaderComponent implements OnInit {
     this.signUpModal.hide();
     
   }
+  userTheme(){
+    let tokenV = localStorage.getItem('userToken');
+    this.http.post('http://18.191.202.171:5687/api/userSetting/getUserData', { token: tokenV }).map(response => response.json()).subscribe(data => {
+      this.desktoplists = data.customizeColumns.desktop;
+      this.mobilelists = data.customizeColumns.mobile;
+      this.appList = data.customizeColumns.app;
+      this.changeGraphTheme.customizeColumns_filter(data.customizeColumns);
+      localStorage.setItem('customizeColumns',data.customizeColumns);
+      let body = document.getElementsByTagName('body')[0];
+      body.classList.remove('black-theme');
+      body.classList.add(data.siteColor);
+      body.classList.add(data.nightMode);
+      let userSiteLang = "/en/"+data['siteLangugae'];
+      this.cookieService.set('googtrans', userSiteLang )
+      this.colorOfSite = data.siteColor;
+      this.changeRefreshRate = data.refreshRate;
+      this.someRange = data.refreshRate;
+      this.currencyvalue =data.currency;
+      
+      localStorage.setItem('currencyRate', this.currencyvalue);
+     
+    })
+  }
   defaultTheme() {
     this.cookieService.set('googtrans', "/en/en" )
     let body = document.getElementsByTagName('body')[0];
@@ -622,7 +629,7 @@ export class ThemeHeaderComponent implements OnInit {
     this.currencyvalue = 1;
     localStorage.setItem('currencyRate', this.currencyvalue);
     this.refreshDefault = '3';
-    //   this.http.get('http://coinwave.service.colanonline.net/defaultCustomizeColumn').map(response => response.json()).subscribe(data => {
+    //   this.http.get('http://18.191.202.171:5687/defaultCustomizeColumn').map(response => response.json()).subscribe(data => {
     //     
     //   console.log(data);
     //   this.changeGraphTheme.customizeColumns_filter(data);
@@ -631,20 +638,20 @@ export class ThemeHeaderComponent implements OnInit {
     //   this.mobilelists = data.mobilelists;
     //   this.appList = data.app;
     // });
-    let data = { "desktop": [{ "label": "Expand", "ischecked": true, "key": "expand" }, { "label": "Favourite", "ischecked": true, "key": "favourite" }, { "label": "Coin", "ischecked": true, "key": "coin" }, { "label": "Price", "ischecked": true, "key": "price" }, { "label": "24 HR (%)", "ischecked": true, "key": "dayChange" }, { "label": "7 Day (%)", "ischecked": true, "key": "weaklyChange" }, { "label": "Volume (24 H)", "ischecked": true, "key": "dayVolume" }, { "label": "Market Cap", "ischecked": true, "key": "marketCap" }, { "label": "24 HR High/Low", "ischecked": true, "key": "dayHighLow" }, { "label": "Circulation Supply ", "ischecked": false, "key": "circulationSupply" }, { "label": "Total Supply", "ischecked": false, "key": "totalSupply" }, { "label": "Exchanges ", "ischecked": false, "key": "exchanges" }], "mobilelists": [{ "label": "Expand", "ischecked": true, "key": "expand" }, { "label": "Favourite", "ischecked": true, "key": "favourite" }, { "label": "Coin", "ischecked": true, "key": "coin" }, { "label": "Price", "ischecked": true, "key": "price" }, { "label": "24 HR (%)", "ischecked": true, "key": "dayChange" }, { "label": "7 Day (%)", "ischecked": true, "key": "weaklyChange" }, { "label": "Volume (24 H)", "ischecked": true, "key": "dayVolume" }, { "label": "Market Cap", "ischecked": true, "key": "marketCap" }, { "label": "24 HR High/Low", "ischecked": true, "key": "dayHighLow" }, { "label": "Circulation Supply ", "ischecked": false, "key": "circulationSupply" }, { "label": "Total Supply", "ischecked": false, "key": "totalSupply" }, { "label": "Exchanges ", "ischecked": false, "key": "exchanges" }], "app": [{ "label": "Expand", "ischecked": true, "key": "expand" }, { "label": "Favourite", "ischecked": true, "key": "favourite" }, { "label": "Coin", "ischecked": true, "key": "coin" }, { "label": "Price", "ischecked": true, "key": "price" }, { "label": "24 HR (%)", "ischecked": true, "key": "dayChange" }, { "label": "7 Day (%)", "ischecked": true, "key": "weaklyChange" }, { "label": "Volume (24 H)", "ischecked": true, "key": "dayVolume" }, { "label": "Market Cap", "ischecked": true, "key": "marketCap" }, { "label": "24 HR High/Low", "ischecked": true, "key": "dayHighLow" }, { "label": "Circulation Supply ", "ischecked": false, "key": "circulationSupply" }, { "label": "Total Supply", "ischecked": false, "key": "totalSupply" }, { "label": "Exchanges ", "ischecked": false, "key": "exchanges" }] }
+    let data = { "desktop": [{ "label": "Expand", "ischecked": true, "key": "expand" }, { "label": "Favourite", "ischecked": true, "key": "favourite" }, { "label": "Coin", "ischecked": true, "key": "coin" }, { "label": "Price", "ischecked": true, "key": "price" }, { "label": "24 HR (%)", "ischecked": true, "key": "dayChange" }, { "label": "7 Day (%)", "ischecked": true, "key": "weaklyChange" }, { "label": "Volume (24 H)", "ischecked": true, "key": "dayVolume" }, { "label": "Market Cap", "ischecked": true, "key": "marketCap" }, { "label": "24 HR High/Low", "ischecked": true, "key": "dayHighLow" }, { "label": "Circulation Supply ", "ischecked": false, "key": "circulationSupply" }, { "label": "Total Supply", "ischecked": false, "key": "totalSupply" }, { "label": "Exchanges ", "ischecked": false, "key": "exchanges" }], "mobile": [{ "label": "Expand", "ischecked": true, "key": "expand" }, { "label": "Favourite", "ischecked": true, "key": "favourite" }, { "label": "Coin", "ischecked": true, "key": "coin" }, { "label": "Price", "ischecked": true, "key": "price" }, { "label": "24 HR (%)", "ischecked": true, "key": "dayChange" }, { "label": "7 Day (%)", "ischecked": true, "key": "weaklyChange" }, { "label": "Volume (24 H)", "ischecked": true, "key": "dayVolume" }, { "label": "Market Cap", "ischecked": true, "key": "marketCap" }, { "label": "24 HR High/Low", "ischecked": true, "key": "dayHighLow" }, { "label": "Circulation Supply ", "ischecked": false, "key": "circulationSupply" }, { "label": "Total Supply", "ischecked": false, "key": "totalSupply" }, { "label": "Exchanges ", "ischecked": false, "key": "exchanges" }], "app": [{ "label": "Expand", "ischecked": true, "key": "expand" }, { "label": "Favourite", "ischecked": true, "key": "favourite" }, { "label": "Coin", "ischecked": true, "key": "coin" }, { "label": "Price", "ischecked": true, "key": "price" }, { "label": "24 HR (%)", "ischecked": true, "key": "dayChange" }, { "label": "7 Day (%)", "ischecked": true, "key": "weaklyChange" }, { "label": "Volume (24 H)", "ischecked": true, "key": "dayVolume" }, { "label": "Market Cap", "ischecked": true, "key": "marketCap" }, { "label": "24 HR High/Low", "ischecked": true, "key": "dayHighLow" }, { "label": "Circulation Supply ", "ischecked": false, "key": "circulationSupply" }, { "label": "Total Supply", "ischecked": false, "key": "totalSupply" }, { "label": "Exchanges ", "ischecked": false, "key": "exchanges" }] }
     let dataS = JSON.stringify(data)
     localStorage.setItem('customizeColumns',dataS)
     this.changeGraphTheme.customizeColumns_filter(data);
     
     this.desktoplists = data.desktop;
-    this.mobilelists = data.mobilelists;
+    this.mobilelists = data.mobile;
     this.appList = data.app;
     this.passData2Comp['theme'] = this.themeBlack
     this.passData2Comp['refreshrate'] = this.refreshDefault;
     this.passData2Comp['volumeTheme'] = this.volume_black;
     this.passData2Comp['toolsBg'] = '#000'
     this.changeGraphTheme.changeMessage(this.passData2Comp);
-    // this.http.get('http://coinwave.service.colanonline.net/defaultCustomizeColumn').map(response => response.json()).subscribe(data => {
+    // this.http.get('http://18.191.202.171:5687/defaultCustomizeColumn').map(response => response.json()).subscribe(data => {
     //   
     // })
   }

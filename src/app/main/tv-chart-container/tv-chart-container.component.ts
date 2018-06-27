@@ -14,6 +14,7 @@ import {
 import { window, document, location } from 'angular-bootstrap-md/utils/facade/browser';
 import { error } from 'util';
 import { element } from 'protractor';
+import { setTimeout } from 'timers';
 // import { setInterval } from 'timers';
 
 @Component({
@@ -151,7 +152,7 @@ export class TvChartContainerComponent implements OnInit {
         this.toolsBg = this.graphThemeColor.toolsBg;
         if (localStorage.getItem('userToken')) {
             let tokenV = localStorage.getItem('userToken');
-            this.http.post('http://coinwave.service.colanonline.net/api/userSetting/getUserData', { token: tokenV }).map(response => response.json()).subscribe(data => {
+            this.http.post('http://18.191.202.171:5687/api/userSetting/getUserData', { token: tokenV }).map(response => response.json()).subscribe(data => {
                 this.changeGraphTheme.customizeColumns_filter(data.customizeColumns);
                 this.customizeColUpdate(data.customizeColumns);
             })
@@ -167,12 +168,12 @@ export class TvChartContainerComponent implements OnInit {
             this.customizeColUpdate(JSON.parse(cols));
             this.getCoinList();
         }
-        this.generateGraph('','','');
+        // this.generateGraph('','','');
        
     }
     getAlongFavCoins(){
             let tokenV = localStorage.getItem('userToken');
-            this.subscriptionOfHttp = this.http.post('http://coinwave.service.colanonline.net/api/coins/getFavourites', { token: tokenV }).map(response => response.json()).subscribe(data => {
+            this.subscriptionOfHttp = this.http.post('http://18.191.202.171:5687/api/coins/getFavourites', { token: tokenV }).map(response => response.json()).subscribe(data => {
 
                
                 if (this.favCoinsList.length > 0) {
@@ -188,7 +189,7 @@ export class TvChartContainerComponent implements OnInit {
                     }
                 }
             })
-            this.subscriptionOfHttp =  this.http.post('http://coinwave.service.colanonline.net/api/coins/getCoins', { token: tokenV }).map(response => response.json()).subscribe(data => {
+            this.subscriptionOfHttp =  this.http.post('http://18.191.202.171:5687/api/coins/getCoins', { token: tokenV }).map(response => response.json()).subscribe(data => {
                 
                 if (this.coinList.length > 0) {
                     this.updateAllCoinsData(data);
@@ -208,7 +209,7 @@ export class TvChartContainerComponent implements OnInit {
             // this.subscriptionOfHttp.add(getFavcall)
     }
     getCoinList() {
-        this.subscriptionOfHttp  = this.http.post('http://coinwave.service.colanonline.net/exchange/getusd', {}).map(
+        const getUsdCall = this.http.post('http://18.191.202.171:5687/exchange/getusd', {}).map(
             response => response.json()).takeUntil(this.ngUnsubscribe).subscribe(
             data => {
                 this.getallCoins = data;
@@ -228,7 +229,7 @@ export class TvChartContainerComponent implements OnInit {
                     }
                 }
             })
-            // this.subscriptionOfHttp.add(getUsdCall)
+            //  this.subscriptionOfHttp.add(getUsdCall)
     }
     updateAllCoinsData(allCoins) {
         for (let i = 0; i < allCoins.length; i++) {
@@ -394,7 +395,7 @@ export class TvChartContainerComponent implements OnInit {
                 jQuery.ajax({
                     method: 'POST',
                     async: true,
-                    url: 'http://coinwave.service.colanonline.net/exchange/getChart',
+                    url: 'http://18.191.202.171:5687/exchange/getChart',
                     data: { pair: coinToken },
                     success: function (response) {
                         onHistoryCallback(response, { noData: true })
@@ -412,7 +413,7 @@ export class TvChartContainerComponent implements OnInit {
                      jQuery.ajax({
                         method: 'POST',
                         async: true,
-                        url: 'http://coinwave.service.colanonline.net/exchange/getLastSecData',
+                        url: 'http://18.191.202.171:5687/exchange/getLastSecData',
                         data: { pair: coinToken },
                         success: function (response) {
                             onRealtimeCallback(parseJSONorNot(response[0]));
@@ -436,7 +437,7 @@ export class TvChartContainerComponent implements OnInit {
             jQuery.ajax({
                 method: 'POST',
                 async: true,
-                url: 'http://coinwave.service.colanonline.net/exchange/getChart',
+                url: 'http://18.191.202.171:5687/exchange/getChart',
                 data: { pair: coinToken },
                 success: function (response) {
 
@@ -515,30 +516,39 @@ export class TvChartContainerComponent implements OnInit {
             clearInterval(this.runningInterval)
         }
     }
-    favCoinFunctionality(pair, rr, i) {
-        debugger
+    favCoinFunctionality(pair, type) {
         if(localStorage.getItem('userToken')){
-            let tokenV = localStorage.getItem('userToken')
-            this.http.put('http://coinwave.service.colanonline.net/api/userSetting/update', { favourites: pair, token: tokenV }).map(response => response.json()).
+            let tokenV = localStorage.getItem('userToken');
+            this.http.put('http://18.191.202.171:5687/api/userSetting/update', { favourites: pair, token: tokenV }).map(response => response.json()).
             subscribe(data => {
-                this.changeGraphTheme.trigger_successMessagePopUp_filter('Favourite Coins Updated Successfully');
+                let message;
+                if(type == 'normal'){
+                     message = 'Added to Favourites list Successfully';
+                }
+                else if(type == 'fav'){
+                     message = 'Removed from Favourites list Successfully';
+                }
+                this.changeGraphTheme.trigger_successMessagePopUp_filter(message);
                 let tokenV = localStorage.getItem('userToken');
-                this.subscriptionOfHttp = this.http.post('http://coinwave.service.colanonline.net/api/coins/getFavourites', { token: tokenV }).map(response => response.json()).subscribe(data => {
+               
+                      this.subscriptionOfHttp = this.http.post('http://18.191.202.171:5687/api/coins/getFavourites', { token: tokenV }).map(response => response.json()).subscribe(data => {
                         this.favCoinsList = data;
                 },
                 err => {
                     this.favCoinsList = [];
                 })
-                this.subscriptionOfHttp =  this.http.post('http://coinwave.service.colanonline.net/api/coins/getCoins', { token: tokenV }).map(response => response.json()).subscribe(data => {
+                this.subscriptionOfHttp =  this.http.post('http://18.191.202.171:5687/api/coins/getCoins', { token: tokenV }).map(response => response.json()).subscribe(data => {
                         this.coinList = data
                 },
                 err => {
                     this.coinList = [];
                 })
                
+              
+               
             },
-        error => {
-            this.changeGraphTheme.trigger_errorMessagePopUp_filter();
+            error => {
+            this.changeGraphTheme.trigger_errorMessagePopUp_filter(error.error);
         }
     )
         }
@@ -561,15 +571,17 @@ export class TvChartContainerComponent implements OnInit {
         this.commonService.userRegistration(userReg);
         this.loginModal.hide();
         this.signUpModal.hide();
+
       }
       loginWithMail(userLogin) {
+          
         this.commonService.userLogin(userLogin);
         this.loginModal.hide();
         this.signUpModal.hide();
         
       }
     ngOnDestroy() {
-        this.subscriptionOfHttp.unsubscribe();
+        // this.subscriptionOfHttp.unsubscribe();
         clearInterval(this.runningInterval);
         this.ngUnsubscribe.next();
         this.ngUnsubscribe.complete();

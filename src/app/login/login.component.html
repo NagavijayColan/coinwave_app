@@ -1,3 +1,4 @@
+<div class="load_spinner" *ngIf="showLoadSpinner"><span class="fa fa-spinner fa-spin fa-2x"></span></div>
 <div class="login-frm-main">
     <div class="container">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -20,7 +21,7 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 sign_login">
             <div class="col-xs-12 col-sm-12 col-md-5 col-lg-5">
                 <div class="sign_login_left">
-
+                    
                     <ul class="sign_login_tab">
                         <!-- <li class="active"><a href="#">Sign Up</a></li> -->
                         <li>
@@ -115,15 +116,18 @@
             
             <div class="modal-body">
                     <label style="color:red;" *ngIf="errormessageLogin">Fields should not be empty</label>
+                <form id="loginCredentials">
+
+                
                 <div class="md-form form-sm">
                     <i class="fa fa-envelope prefix"></i>
-                    <input type="text" [(ngModel)]="userLogin.emailId" class="form-control" placeholder="Enter Email">
+                    <input type="text" name="emailId" [(ngModel)]="userLogin.emailId" class="required form-control" placeholder="Enter Email *" appEmailvalidation>
                     
                 </div>
 
                 <div class="md-form form-sm">
                     <i class="fa fa-lock prefix"></i>
-                    <input type="password" [(ngModel)]="userLogin.password" class="form-control" placeholder="Enter password">
+                    <input type="password" name="password" [(ngModel)]="userLogin.password" class="required form-control" placeholder="Enter password *" >
                 </div>
 
                 <div class="text-center mt-2">
@@ -132,6 +136,7 @@
                         <i class="fa fa-sign-in ml-1"></i>
                     </button>
                 </div>
+                </form>
             </div>
             <!--Footer-->
             <div class="modal-footer">
@@ -165,25 +170,29 @@
             </div>
             <!--Body-->
             <div class="modal-body">
+               
+
+                
                     <label style="color:red;" *ngIf="errormessageSignUp">Fields should not be empty</label>
-                <div class="md-form form-sm">
+                <form id="signuPCredentials">
+                     <div class="md-form form-sm">
                     <i class="fa fa-user prefix"></i>
-                    <input type="text" [(ngModel)]="userReg.userName" class="form-control" placeholder="User Name">
+                    <input type="text" name="userName" appOnlyalphabets [(ngModel)]="userReg.userName" class="form-control required" placeholder="User Name *">
                 </div>
                 <div class="md-form form-sm">
                     <i class="fa fa-envelope prefix"></i>
-                    <input type="text" [(ngModel)]="userReg.emailId" class="form-control" placeholder="Enter Email">
+                    <input type="text" name="emailId" appEmailvalidation [(ngModel)]="userReg.emailId" class="form-control required" placeholder="Enter Email *">
                 </div>
 
                 <div class="md-form form-sm">
                     <i class="fa fa-lock prefix"></i>
-                    <input type="password" [(ngModel)]="userReg.password" (blur)="confirmPassword()"class="form-control" placeholder="Enter Password">
+                    <input type="password" name="password" [(ngModel)]="userReg.password" (blur)="confirmPassword()"class="form-control required" placeholder="Enter Password *">
                     
                 </div>
 
                 <div class="md-form form-sm">
                     <i class="fa fa-lock prefix"></i>
-                    <input type="password" [(ngModel)]="userReg.confrmPswrd" (blur)="confirmPassword()"  class="form-control" placeholder="Confirm Password">
+                    <input type="password" name="confirmPassword" [(ngModel)]="userReg.confrmPswrd" (blur)="confirmPassword()"  class="form-control required" placeholder="Confirm Password *">
                     
                 </div>
 
@@ -192,6 +201,7 @@
                         <i class="fa fa-sign-in ml-1"></i>
                     </button>
                 </div>
+            </form>
             </div>
             <!--Footer-->
             <div class="modal-footer">

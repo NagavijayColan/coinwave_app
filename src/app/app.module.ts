@@ -33,6 +33,9 @@ import { TvChartContainerComponent } from './main/tv-chart-container/tv-chart-co
 import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider, LinkedinLoginProvider } from 'ng4-social-login'
 import {CommonServiceService} from './common-service.service';
 import { CookieService } from 'ngx-cookie-service';
+import { ReactiveFormsModule } from '@angular/forms';
+import { EmailvalidationDirective } from '../app/directives/emailvalidation.directive'
+import { OnlyalphabetsDirective } from '../app/directives/onlyalphabets.directive';
 function getAuthServiceConfigs() {
   const CONFIG = new AuthServiceConfig([
     {
@@ -70,6 +73,8 @@ function getAuthServiceConfigs() {
     FooterNavComponent,
     CandlestickComponent,
     LineGraphComponent,
+    EmailvalidationDirective,
+    OnlyalphabetsDirective
   ],
   imports: [
     FormsModule,
@@ -85,6 +90,7 @@ function getAuthServiceConfigs() {
     HttpModule,
     HttpClientModule,
     IonRangeSliderModule,
+    ReactiveFormsModule,
     MDBBootstrapModule.forRoot(),
   ],
   providers: [CompDataSharingService, {

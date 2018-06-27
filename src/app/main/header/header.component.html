@@ -101,15 +101,16 @@
             <!--Body-->
             <div class="modal-body">
                     <label style="color:red;" *ngIf="errormessageLogin">Fields should not be empty</label>
+                <form id="loginCredentials">
                 <div class="md-form form-sm">
                     <i class="fa fa-envelope prefix"></i>
-                    <input type="text" [(ngModel)]="userLogin.emailId" class="form-control" placeholder="Enter Email">
+                    <input type="text" name="emailId" [(ngModel)]="userLogin.emailId" class="form-control required" placeholder="Enter Email *">
                     
                 </div>
 
                 <div class="md-form form-sm">
                     <i class="fa fa-lock prefix"></i>
-                    <input type="password" [(ngModel)]="userLogin.password" class="form-control" placeholder="Enter Password">
+                    <input type="password" name="password" [(ngModel)]="userLogin.password" class="form-control required" placeholder="Enter Password *">
                     
                 </div>
 
@@ -118,6 +119,7 @@
                         <i class="fa fa-sign-in ml-1"></i>
                     </button>
                 </div>
+                </form>
             </div>
             <!--Footer-->
             <div class="modal-footer">
@@ -157,24 +159,25 @@
             <!--Body-->
             <div class="modal-body">
                     <label style="color:red;" *ngIf="errormessageSignUp">Fields should not be empty</label>
+                    <form id="signuPCredentials">
                 <div class="md-form form-sm">
                     <i class="fa fa-user prefix"></i>
-                    <input type="text" [(ngModel)]="userReg.userName" class="form-control" placeholder="User Name">
+                    <input type="text" name="userName" appOnlyalphabets [(ngModel)]="userReg.userName" class="form-control required" placeholder="User Name *">
                 </div>
                 <div class="md-form form-sm">
                     <i class="fa fa-envelope prefix"></i>
-                    <input type="text" [(ngModel)]="userReg.emailId" class="form-control" placeholder="Enter Email">
+                    <input type="text" name="emailId" appEmailvalidation [(ngModel)]="userReg.emailId" class="form-control required" placeholder="Enter Email * ">
                 </div>
 
                 <div class="md-form form-sm">
                     <i class="fa fa-lock prefix"></i>
-                    <input type="password" [(ngModel)]="userReg.password" (blur)="confirmPassword()"class="form-control" placeholder="Enter Password">
+                    <input type="password" name="password" [(ngModel)]="userReg.password" (blur)="confirmPassword()"class="form-control required" placeholder="Enter Password *">
                     
                 </div>
 
                 <div class="md-form form-sm">
                     <i class="fa fa-lock prefix"></i>
-                    <input type="password" [(ngModel)]="userReg.confrmPswrd" (blur)="confirmPassword()"  class="form-control" placeholder="Confirm Password">
+                    <input type="password" name="confrmPswrd" [(ngModel)]="userReg.confrmPswrd" (blur)="confirmPassword()"  class="form-control required" placeholder="Confirm Password *">
                     
                 </div>
 
@@ -183,6 +186,7 @@
                         <i class="fa fa-sign-in ml-1"></i>
                     </button>
                 </div>
+                </form>
             
             </div>
             <!--Footer-->
@@ -220,7 +224,7 @@
   <div class="modal-dialog modal-side modal-top-right" role="document">
       <div class="modal-content">
           <div class="modal-header">
-              <h4 class="modal-title w-auto" id="myModalLabel">Oops! Something went wrong, Please try agian later.</h4>
+              <h4 class="modal-title w-auto" id="myModalLabel">{{errorMessagePopup}}</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="errorMessage.hide()">
                   <span aria-hidden="true">×</span>
               </button>

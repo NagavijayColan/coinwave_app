@@ -98,7 +98,7 @@ nav .nav-item a {font-size: 14px;}
 .sub_theme ul li:last-child{border-bottom: 0px;}
 .sub_theme ul li a { align-items: center; display: flex; flex-direction: row; padding: 20px;}
 .sub_theme ul li a img { max-width: 45px;}
-.sub_theme ul li a span {font-size: 14px; line-height: 41px;padding: 0 7px; text-transform: uppercase;}
+.sub_theme ul li a span {font-size: 14px;padding: 0 7px; text-transform: uppercase;}
 .sel-term {display: flex; flex-direction: row; padding: 0px 19px; flex:1; align-items: center;}
 .in_sel-term select { padding: 7px 30px 7px 20px !important;align-items: center;}
 .button_icon ,.button_icon:hover { font-size: 20px;
@@ -186,7 +186,7 @@ th.select-column-header { width: 73px !important}
   @media only screen and (min-width: 320px) and (max-width: 979px) {
     .sub_theme {-ms-flex-direction: column-reverse; flex-direction: column-reverse; padding-bottom: 15px;}
     .sub_theme ul li {margin-right: 5px;}
-    .sub_theme ul li a span {font-size: 12px;line-height: 20px;padding: 0 6px;text-transform: uppercase;}
+    .sub_theme ul li a span {font-size: 12px;padding: 0 6px;text-transform: uppercase;}
     .sub_theme ul li a {padding: 0 6px;}
     .sub_theme ul li:last-child {border: 0px;}
     .sub_theme ul{flex-direction: row;}
@@ -708,7 +708,7 @@ td.cp_24four_change::after , td.cp_7day_change::after , td.cp_30day_change::afte
   border: 2px solid #ffffff;
 }
 .white-theme .coin-page-lft table thead th {
-  background: #212121 none repeat scroll 0 0;
+  background: #656565 none repeat scroll 0 0;
   color: #fff;
 }
 .white-theme .coin-page-lft table tbody td {
@@ -1374,4 +1374,23 @@ input.favorite_coin {
   .ie-nav .navbar-nav.nav-flex-icons {
        top: 10% !important;
   }
+}
+.black-theme .colorYellowStar{
+  color: yellow;
+}
+.white-theme .colorYellowStar{
+  color: green;
+}
+.black-theme .colorWhiteStar{
+  color: white;
+}
+.white-theme .colorWhiteStar{
+  color:#b19f9f;
+}
+.error_mes{
+  color: red;
+  margin-left: 30px;
+}
+.error{
+  border-bottom: 1px solid red !important;
 }

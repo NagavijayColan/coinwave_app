@@ -10,18 +10,18 @@
         <span class="fa sort-icon" *ngIf="key =='price'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
       </th>
       <th *ngIf="resolutionColumn.expand">Graph</th>
-      <th *ngIf="resolutionColumn.favourite" style="width:40px;pointer-events:none;"><input type="checkbox" class="favorite_coin" checked ></th>
-      <th *ngIf="resolutionColumn.dayChange" (click)="sort('HRchange')" style="width:130px;">24 HR (%)
-        <span class="fa sort-icon" *ngIf="key =='HRchange'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
+      <th *ngIf="resolutionColumn.favourite" style="width:40px;pointer-events:none;"><span class="fa fa-star fa-2x colorYellowStar"></span></th>
+      <th *ngIf="resolutionColumn.dayChange" (click)="sort('dayPrice')" style="width:130px;">24 HR (%)
+        <span class="fa sort-icon" *ngIf="key =='dayPrice'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
       </th>
-      <th *ngIf="resolutionColumn.weaklyChange" (click)="sort('dayChange')" style="width:130px;">7 Days (%)
-        <span class="fa sort-icon" *ngIf="key =='dayChange'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
+      <th *ngIf="resolutionColumn.weaklyChange" (click)="sort('weeklyChange')" style="width:130px;">7 Days (%)
+        <span class="fa sort-icon" *ngIf="key =='weeklyChange'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
       </th>
       <th *ngIf="resolutionColumn.dayVolume" style="width:100px;" (click)="sort('dayVolume')"> Volume (24H)
         <span class="fa sort-icon" *ngIf="key =='dayVolume'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
       </th>
-      <th *ngIf="resolutionColumn.marketCap" (click)="sort('marketCap')">Market CAP
-        <span class="fa sort-icon" *ngIf="key =='marketCap'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
+      <th *ngIf="resolutionColumn.marketCap" (click)="sort('marketCapValue')">Market CAP
+        <span class="fa sort-icon" *ngIf="key =='marketCapValue'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
       </th>
       <th *ngIf="resolutionColumn.dayHighLow" (click)="sort('highestPrice')">24 HR High / Low
         <span class="fa sort-icon" *ngIf="key =='highestPrice'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
@@ -35,7 +35,7 @@
             <td>{{i+1}}</td>
             <td *ngIf="resolutionColumn.coin" (click)="coinDetails(coins.pair)" class="coinBlock">
               <span>
-                <img class="coinLogo" src="http://coinwave.service.colanonline.net/upload/{{coins.image}}">
+                <img class="coinLogo" src="http://18.191.202.171:5687/upload/{{coins.image}}">
                 {{coins.name }}</span>
             </td>
             <td *ngIf="resolutionColumn.price" (click)="coinDetails(coins.pair)" class="column-price" [ngClass]="{'colorGreen': coins.priceStatus === 'true','colorRed': coins.priceStatus === 'false'}">
@@ -46,7 +46,8 @@
               <i class="fa fa-arrows-alt"></i>
             </td>
             <td *ngIf="resolutionColumn.favourite">
-              <input type="checkbox" class="favorite_coin" (click)="favCoinFunctionality(coins.pair)" checked >
+              <!-- <input type="checkbox" class="favorite_coin" (click)="favCoinFunctionality(coins.pair,'fav')" checked > -->
+              <span class="fa fa-star fa-2x colorYellowStar"  (click)="favCoinFunctionality(coins.pair,'fav')"></span>
             </td>
             <td *ngIf="resolutionColumn.dayChange" (click)="coinDetails(coins.pair)" class="" [ngClass]="{'colorGreen': coins.dayPriceStatus === 'true','colorRed': coins.dayPriceStatus === 'false'}">{{coins.dayPrice *currencyValue | number:'.0-2'}} ({{coins.dayPricePercent | number:'.0-2'}})
               <span class="fa upDownSymbol" [ngClass]="{'arrow-up': coins.dayPriceStatus === 'true','arrow-down': coins.dayPriceStatus === 'false'}"></span>
@@ -87,7 +88,7 @@
         <td>{{favCoinsList.length+i+1}}</td>
         <td *ngIf="resolutionColumn.coin" (click)="coinDetails(coins.pair)" class="coinBlock">
           <span>
-            <img class="coinLogo" src="http://coinwave.service.colanonline.net/upload/{{coins.image}}">
+            <img class="coinLogo" src="http://18.191.202.171:5687/upload/{{coins.image}}">
             {{coins.name }}</span>
         </td>
         <td *ngIf="resolutionColumn.price" (click)="coinDetails(coins.pair)" class="column-price" [ngClass]="{'colorGreen': coins.priceStatus === 'true','colorRed': coins.priceStatus === 'false'}">
@@ -98,7 +99,8 @@
           <i class="fa fa-arrows-alt"></i>
         </td>
         <td *ngIf="resolutionColumn.favourite">
-          <input type="checkbox" class="favorite_coin" (click)="favCoinFunctionality(coins.pair)" [(ngModel)]="coins.checked">
+          <span class="fa fa-star fa-2x colorWhiteStar" (click)="favCoinFunctionality(coins.pair,'normal')"></span>
+          <!-- <input type="checkbox" class="favorite_coin"  [(ngModel)]="coins.checked"> -->
         </td>
         <td *ngIf="resolutionColumn.dayChange" (click)="coinDetails(coins.pair)" class="" [ngClass]="{'colorGreen': coins.dayPriceStatus === 'true','colorRed': coins.dayPriceStatus === 'false'}">{{coins.dayPrice *currencyValue | number:'.0-2'}} ({{coins.dayPricePercent | number:'.0-2'}})
           <span class="fa upDownSymbol" [ngClass]="{'arrow-up': coins.dayPriceStatus === 'true','arrow-down': coins.dayPriceStatus === 'false'}"></span>

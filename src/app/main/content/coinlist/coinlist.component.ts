@@ -123,7 +123,7 @@ export class CoinlistComponent implements OnInit {
   }
   advancedSearchFilter() {
     if (this.advFilter.length > 0) {
-      this.http.post('http://coinwave.service.colanonline.net/exchange/getusd', { filter: this.advFilter }).map(response => response.json()).
+      this.http.post('http://18.191.202.171:5687/exchange/getusd', { filter: this.advFilter }).map(response => response.json()).
       subscribe(
       data => {
         this.component1.advancedTableFilter(data);

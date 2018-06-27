@@ -92,14 +92,20 @@ export class CompDataSharingService {
   trigger_errorMessagePopUp_listener(){
     return this.trigger_errorMes.asObservable();
   }
-  trigger_errorMessagePopUp_filter(){
-    this.trigger_errorMes.next();
+  trigger_errorMessagePopUp_filter(msg : any){
+    this.trigger_errorMes.next(msg);
   }
   trigger_signUpwithSocial_listener(){
     return this.trigger_social_login.asObservable();
   }
   trigger_signUpwithSocial_filter(type : any){
     this.trigger_social_login.next(type);
+  }
+  userProfile_listener(){
+    return this.trigger_social_login.asObservable();
+  }
+  userProfile_filter(){
+    this.trigger_errorMes.next();
   }
   private changeGraphTheme = new BehaviorSubject<string>("default message");
   currentMessage = this.changeGraphTheme.asObservable();

@@ -103,7 +103,7 @@ export class PortfolioComponent implements OnInit {
   getCoinList() {
     if (localStorage.getItem('userToken')) {
       let tokenV = localStorage.getItem('userToken');
-      this.http.post('http://coinwave.service.colanonline.net/api/coins/getPortfolio', { token: tokenV }).map(
+      this.http.post('http://18.191.202.171:5687/api/coins/getPortfolio', { token: tokenV }).map(
         response => response.json()).subscribe(
         data => {
           if(data.length == 0){
