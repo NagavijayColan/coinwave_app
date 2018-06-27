@@ -85,30 +85,7 @@ export class ThemeHeaderComponent implements OnInit {
 
 
     if (localStorage.getItem('userToken')) {
-      
-      
-                this.userTheme();
-      // let data = JSON.parse(localStorage.getItem('customizeColumns'));
-      // console.log(data);
-      // this.changeGraphTheme.customizeColumns_filter(data);
-
-      // let body = document.getElementsByTagName('body')[0];
-      // if(localStorage.getItem('siteC')){
-      //   body.classList.remove('black-theme');
-      //   body.classList.add(localStorage.getItem('siteC'));
-      // }
-      // else{
-      //   body.classList.add('black-theme');
-      // }
-
-
-      // body.classList.add(localStorage.getItem('nightM'));
-
-
-      // this.desktoplists = data['desktop'];
-      // this.mobilelists = data['mobilelists'];
-      // this.appList = data['app'];
-
+      this.userTheme();
     }
     else {
       this.defaultTheme();
@@ -353,7 +330,7 @@ export class ThemeHeaderComponent implements OnInit {
       this.hideThemesection = true;
       sessionStorage.setItem('hideThemesection', 'true');
     }
-    if(this.colorOfSite == 'black-theme'){
+    if(document.getElementsByTagName('body')[0].classList.contains('black-theme')){
       this.passData2Comp['theme'] = this.themeBlack
       this.passData2Comp['refreshrate'] = this.refreshDefault;
       this.passData2Comp['volumeTheme'] = this.volume_black;

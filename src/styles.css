@@ -715,9 +715,6 @@ td.cp_24four_change::after , td.cp_7day_change::after , td.cp_30day_change::afte
   background: #dadada none repeat scroll 0 0;
 }
 
-
-
-
 /**02-05-2018**/
 .graph-image {width: 100%;}
 .add_lst{display: flex; margin-top:10px;}
