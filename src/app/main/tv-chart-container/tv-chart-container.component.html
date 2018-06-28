@@ -46,7 +46,7 @@
           <span class="fa upDownSymbol" [ngClass]="{'arrow-up': coins.priceStatus === 'true','arrow-down': coins.priceStatus === 'false'}"></span>
         </td>
         <td *ngIf="resolutionColumn.expand" class="graphTabledata">
-          <i class="fa fa-arrows-alt" (click)="expandGraph(event,i,coins.pair,coins.name,'tv_chart_containerFav','expandFav')"></i>
+          <!-- <i class="fa fa-arrows-alt" (click)="expandGraph(event,i,coins.pair,coins.name,'tv_chart_containerFav','expandFav')"></i> -->
         </td>
         <td *ngIf="resolutionColumn.favourite">
           <!-- <input type="checkbox" class="favorite_coin" (click)="favCoinFunctionality(coins.pair,'fav')" checked > -->
@@ -62,28 +62,7 @@
         <td *ngIf="resolutionColumn.marketCap" (click)="coinDetails(coins.pair)">{{coins.marketCapValue * currencyValue | number:'.0-2'}}</td>
         <td *ngIf="resolutionColumn.dayHighLow" (click)="coinDetails(coins.pair)">{{coins.highestPrice * currencyValue | number:'.0-2'}} / {{coins.lowestPrice * currencyValue | number:'.0-2'}}</td>
       </tr>
-      <tr id="expandFav{{i}}" class="hidingNow">
-        <td colspan="11" height="300px;" width="100%">
-          <div class="app-tv-chart-container app-tv-chart-container_multi" id="tv_chart_containerFav{{i}}"></div>
-          <!-- <div class="app-tv-chart-container" id="tv_chart_container2{{i}}"></div> -->
-          <div class="col-md-2 float-right chart_rgt_cont">
-            <ul>
-              <li>
-                <label>Currency</label>
-                <div class="in_sel-term">
-                  <select>
-                    <option>USD</option>
-                  </select>
-                </div>
-              </li>
-              <li>
-                <label>Low/High 24h</label>
-                <span>{{coins.highestPrice * currencyValue | number:'.0-2'}} / {{coins.lowestPrice * currencyValue | number:'.0-2'}}</span>
-              </li>
-            </ul>
-          </div>
-        </td>
-      </tr>
+    
     </tbody>
     <tbody *ngFor="let coins of coinList | filter: searchText | orderBy: key : reverse ; let i = index ">
       <tr style="cursor:pointer">
@@ -97,7 +76,7 @@
           <span class="fa upDownSymbol" [ngClass]="{'arrow-up': coins.priceStatus === 'true','arrow-down': coins.priceStatus === 'false'}"></span>
         </td>
         <td *ngIf="resolutionColumn.expand" class="graphTabledata">
-          <i class="fa fa-arrows-alt" (click)="expandGraph(event,favCoinsList.length+i,coins.pair,coins.name,'tv_chart_container','expand')"></i>
+          <!-- <i class="fa fa-arrows-alt" (click)="expandGraph(event,favCoinsList.length+i,coins.pair,coins.name,'tv_chart_container','expand')"></i> -->
         </td>
         <td *ngIf="resolutionColumn.favourite">
           <span class="fa fa-star fa-2x colorWhiteStar" (click)="favCoinFunctionality(coins.pair,'normal')"></span>
@@ -112,28 +91,6 @@
         <td *ngIf="resolutionColumn.dayVolume" (click)="coinDetails(coins.pair)">{{coins.dayVolume * currencyValue | number:'.0-2'}}</td>
         <td *ngIf="resolutionColumn.marketCap" (click)="coinDetails(coins.pair)">{{coins.marketCapValue * currencyValue | number:'.0-2'}}</td>
         <td *ngIf="resolutionColumn.dayHighLow" (click)="coinDetails(coins.pair)">{{coins.highestPrice * currencyValue | number:'.0-2'}} / {{coins.lowestPrice * currencyValue | number:'.0-2'}}</td>
-      </tr>
-      <tr id="expand{{favCoinsList.length+i}}" class="hidingNow">
-        <td colspan="11" height="300px;" width="100%">
-          <div class="app-tv-chart-container app-tv-chart-container_multi" id="tv_chart_container{{favCoinsList.length+i}}"></div>
-          <!-- <div class="app-tv-chart-container" id="tv_chart_container2{{i}}"></div> -->
-          <div class="col-md-2 float-right chart_rgt_cont">
-            <ul>
-              <li>
-                <label>Currency</label>
-                <div class="in_sel-term">
-                  <select>
-                    <option>USD</option>
-                  </select>
-                </div>
-              </li>
-              <li>
-                <label>Low/High 24h</label>
-                <span>{{coins.highestPrice * currencyValue | number:'.0-2'}} / {{coins.lowestPrice * currencyValue | number:'.0-2'}}</span>
-              </li>
-            </ul>
-          </div>
-        </td>
       </tr>
     </tbody>
   </table>
@@ -173,4 +130,4 @@
     </div>
   </div>
 </div>
-<div class="app-tv-chart-container app-tv-chart-container_multi" id="sampleChart" style="display:none"></div>
+<!-- <div class="app-tv-chart-container app-tv-chart-container_multi" id="sampleChart" style="display:none"></div> -->

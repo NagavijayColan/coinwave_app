@@ -167,7 +167,7 @@ export class TvChartContainerComponent implements OnInit {
             this.customizeColUpdate(JSON.parse(cols));
             this.getCoinList();
         }
-        this.generateGraph('sampleChart', 'btcusd', '');
+        //  this.generateGraph('sampleChart', 'btcusd', '');
 
     }
     getAlongFavCoins() {
@@ -221,11 +221,11 @@ export class TvChartContainerComponent implements OnInit {
                 else {
                     this.showLoadSpinner = false;
                     this.coinList = this.getallCoins;
-                    if (parseInt(this.setIntervalTime) >= 1000) {
-                        this.runningInterval = setInterval(() => {
-                            this.getCoinList();
-                        }, this.setIntervalTime);
-                    }
+                    // if (parseInt(this.setIntervalTime) >= 1000) {
+                    //     this.runningInterval = setInterval(() => {
+                    //         this.getCoinList();
+                    //     }, this.setIntervalTime);
+                    // }
                 }
             })
         //  this.subscriptionOfHttp.add(getUsdCall)
@@ -353,7 +353,9 @@ export class TvChartContainerComponent implements OnInit {
         this.reverse = !this.reverse;
     }
     generateGraph(id, coinToken, coinName) {
+        console.log("Generate Graph")
         this.udf_datafeed = {
+            
             onReady(callback) {
                 var config = {
                     configurationData: {
@@ -391,6 +393,8 @@ export class TvChartContainerComponent implements OnInit {
                 onSymbolResolvedCallback(parseJSONorNot(config2))
             },
             getBars(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest) {
+            // console.log("GET Graph")
+                
                 jQuery.ajax({
                     method: 'POST',
                     async: true,
@@ -406,6 +410,8 @@ export class TvChartContainerComponent implements OnInit {
                 // this.subscriptionOfHttp.add(getBars)
             },
             subscribeBars(symbolInfo, resolution, onRealtimeCallback, subscriberUID, onResetCacheNeededCallback) {
+                console.log("SUB Graph")
+                
                 var configData;
                 console.log('subscribe ' + symbolInfo);
                 setInterval(() => {
@@ -455,7 +461,8 @@ export class TvChartContainerComponent implements OnInit {
         }
         this.overrides_obj = this.graphThemeColor.theme;
         this.toolsBg = this.graphThemeColor.toolsBg;
-
+        console.log("Creating option Graph")
+        
         const widgetOptions: ChartingLibraryWidgetOptions = {
             symbol: this._symbol,
             loading_screen: { backgroundColor: this.toolsBg },
@@ -487,8 +494,12 @@ export class TvChartContainerComponent implements OnInit {
             autosize: this._autosize,
             overrides: this.overrides_obj
         };
+        console.log("Created option Graph")
+        
         const tvWidget = new widget(widgetOptions);
         tvWidget.onChartReady(() => {
+         console.log("Ploting  Graph")
+            
             tvWidget.chart().setChartType(2);
         });
     }
@@ -527,7 +538,7 @@ export class TvChartContainerComponent implements OnInit {
                     else if (type == 'fav') {
                         message = 'Removed from Favourites list Successfully';
                     }
-                    this.changeGraphTheme.trigger_successMessagePopUp_filter(message);
+                    // this.changeGraphTheme.trigger_successMessagePopUp_filter(message);
                     let tokenV = localStorage.getItem('userToken');
 
                     this.subscriptionOfHttp = this.http.post('http://18.191.202.171:5687/api/coins/getFavourites', { token: tokenV }).map(response => response.json()).subscribe(data => {

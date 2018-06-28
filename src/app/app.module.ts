@@ -12,7 +12,6 @@ import { AppComponent } from './app.component';
 import { MainComponent } from './main/main.component';
 import { HeaderComponent } from './main/header/header.component';
 import { ThemeHeaderComponent } from './main/theme-header/theme-header.component';
-import { GraphSectionComponent } from './main/graph-section/graph-section.component';
 import { AdvertisementComponent } from './main/advertisement/advertisement.component';
 import { CoinlistComponent } from './main/content/coinlist/coinlist.component';
 import { PortfolioComponent } from './main/content/portfolio/portfolio.component';
@@ -23,9 +22,7 @@ import { SignupComponent } from './main/signup/signup.component';
 import { ContentComponent } from './main/content/content.component';
 import { AppRoutingModule } from './app-routing.module';
 import { FooterNavComponent } from './main/footer-nav/footer-nav.component';
-import { CandlestickComponent } from './main/graph-section/candlestick/candlestick.component';
 import { AmChartsModule } from "@amcharts/amcharts3-angular";
-import { LineGraphComponent } from './main/graph-section/line-graph/line-graph.component';
 import { AccordionModule } from "ng2-accordion";
 import { OrderModule } from 'ngx-order-pipe';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
@@ -60,7 +57,6 @@ function getAuthServiceConfigs() {
     MainComponent,
     HeaderComponent,
     ThemeHeaderComponent,
-    GraphSectionComponent,
     AdvertisementComponent,
     CoinlistComponent,
     PortfolioComponent,
@@ -71,15 +67,12 @@ function getAuthServiceConfigs() {
     ContentComponent,
     TvChartContainerComponent,
     FooterNavComponent,
-    CandlestickComponent,
-    LineGraphComponent,
     EmailvalidationDirective,
     OnlyalphabetsDirective
   ],
   imports: [
     FormsModule,
     NouisliderModule,
-    AmChartsModule,
     Ng2SearchPipeModule,
     BrowserModule,
     AppRoutingModule,
