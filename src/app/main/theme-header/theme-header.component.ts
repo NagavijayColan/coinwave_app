@@ -5,6 +5,7 @@ import { document } from 'angular-bootstrap-md/utils/facade/browser';
 import { Http } from '@angular/http';
 import { CommonServiceService } from '../../common-service.service';
 import { CookieService } from 'ngx-cookie-service';
+import { clearInterval } from 'timers';
 @Component({
   selector: 'app-theme-header',
   templateUrl: './theme-header.component.html',
@@ -59,6 +60,7 @@ export class ThemeHeaderComponent implements OnInit {
   public themeSettings = {}
   public refreshDefault;
   public successMessagePopup;
+  public popUpEnabled;
   userLogin: any = {};
   userReg: any = {};
   key: string = '';
@@ -70,44 +72,14 @@ export class ThemeHeaderComponent implements OnInit {
       this.defaultTheme();
     })
     this.changeGraphTheme.userProfile_listener().subscribe(() => {
-      
       this.userTheme();
     })
+    
+   
+    
   }
   ngOnInit() {
-    this.enableRefreshBtn = false;
-    this.passData2Comp = {};
-    this.someRange = 1;
-
-    this.http.get('http://18.191.202.171:5687/getCurrencies').map(response => response.json()).subscribe(data => {
-      console.log(data)
-      this.currencyTypeList = data;
-    })
-
-
-    if (localStorage.getItem('userToken')) {
-      this.userTheme();
-    }
-    else {
-      this.defaultTheme();
-    }
-    this.sort('currencyname');
-    this.sort('languagename');
-    this.someRange2config = {
-      snap: true,
-      animate: true,
-      range: {
-        'min': 1,
-        '25%': 5,
-        '50%': 30,
-        '75%': 60,
-        'max': 300
-      },
-      pips: {
-        mode: 'steps',
-        density: 5
-      }
-    }
+    this.popUpEnabled = true;
     this.themeBlack = {
       'volumePaneSize': "large",
       'editorFontsList': ['Verdana', 'Courier New', 'Times New Roman', 'Arial'],
@@ -212,10 +184,8 @@ export class ThemeHeaderComponent implements OnInit {
       'paneProperties.crossHairProperties.color': "#989898",
       'paneProperties.crossHairProperties.width': 1,
       'paneProperties.crossHairProperties.style': 2,
-
       'paneProperties.topMargin': 5,
       'paneProperties.bottomMargin': 5,
-
       'paneProperties.leftAxisProperties.autoScale': true,
       'paneProperties.leftAxisProperties.autoScaleDisabled': false,
       'paneProperties.leftAxisProperties.percentage': false,
@@ -265,8 +235,8 @@ export class ThemeHeaderComponent implements OnInit {
       'mainSeriesProperties.candleStyle.drawWick': true,
       'mainSeriesProperties.candleStyle.drawBorder': true,
       'mainSeriesProperties.candleStyle.borderColor': "#53b987",
-      'mainSeriesProperties.candleStyle.borderUpColor': "#eb4d5c",
-      'mainSeriesProperties.candleStyle.borderDownColor': "#5b1a13",
+      'mainSeriesProperties.candleStyle.borderUpColor': "#53b987",
+      'mainSeriesProperties.candleStyle.borderDownColor': "#eb4d5c",
       'mainSeriesProperties.candleStyle.wickUpColor': 'rgba( 115, 115, 117, 1)',
       'mainSeriesProperties.candleStyle.wickDownColor': 'rgba( 115, 115, 117, 1)',
       'mainSeriesProperties.candleStyle.barColorsOnPrevClose': false,
@@ -291,8 +261,8 @@ export class ThemeHeaderComponent implements OnInit {
       "mainSeriesProperties.barStyle.dontDrawOpen": false,
     }
     this.volume_white = {
-      "volume.volume.color.0": "#6bfffe",
-      "volume.volume.color.1": "#00cac8",
+      "volume.volume.color.0": "#cbeadb",
+      "volume.volume.color.1": "#f9c9ce",
       "volume.volume.transparency": 70,
       "volume.volume ma.color": "#FF0000",
       "volume.volume ma.transparency": 30,
@@ -312,11 +282,39 @@ export class ThemeHeaderComponent implements OnInit {
       "bollinger bands.median.color": "#33FF88",
       "bollinger bands.upper.linewidth": 7
     }
+    this.currencyText = 'USD'
+    this.enableRefreshBtn = false;
+    this.passData2Comp = {};
+    this.someRange = 1;
+    if (localStorage.getItem('userToken')) {
+      this.userTheme();
+    }
+    else {
+      this.defaultTheme();
+    }
+    this.http.get('http://18.191.202.171:5687/getCurrencies').map(response => response.json()).subscribe(data => {
+      console.log(data)
+      this.currencyTypeList = data;
+    })
+    this.sort('currencyname');
+    this.sort('languagename');
+    this.someRange2config = {
+      snap: true,
+      animate: true,
+      range: {
+        'min': 1,
+        '25%': 5,
+        '50%': 30,
+        '75%': 60,
+        'max': 300
+      },
+      pips: {
+        mode: 'steps',
+        density: 5
+      }
+    }
+    
     this.changeGraphTheme.currentMessage.subscribe(message => this.graphThemeColor = message);
-    this.sortedCollection = this.orderPipe.transform(this.collection, 'info.languagename');
-    this.sortedCollection1 = this.orderPipe.transform(this.collection1, 'info.currencyname');
-    this.currencyText = 'USD';
-    //this.currencyIcon = 'fa-font-awesome';
     this.currencyImg = '/assets/images/dollar.png';
     this.languageText = 'ENG';
     this.languageImg = '/assets/images/united-kingdom.png';
@@ -331,21 +329,6 @@ export class ThemeHeaderComponent implements OnInit {
       this.hideThemesection = true;
       sessionStorage.setItem('hideThemesection', 'true');
     }
-    if (document.getElementsByTagName('body')[0].classList.contains('black-theme')) {
-      this.passData2Comp['theme'] = this.themeBlack
-      this.passData2Comp['refreshrate'] = this.refreshDefault;
-      this.passData2Comp['volumeTheme'] = this.volume_black;
-      this.passData2Comp['toolsBg'] = '#000'
-      this.changeGraphTheme.changeMessage(this.passData2Comp);
-    }
-    else {
-      this.passData2Comp['theme'] = this.themeWhite
-      this.passData2Comp['refreshrate'] = this.refreshDefault;
-      this.passData2Comp['volumeTheme'] = this.volume_white;
-      this.passData2Comp['toolsBg'] = '#fff'
-      this.changeGraphTheme.changeMessage(this.passData2Comp);
-    }
-
     setTimeout(() => {
       let valueArray = ['1 Sec', '5 Sec', '30 Sec ', '1 Min', '5 Min'];
       let arrayL = document.getElementsByClassName('noUi-value');
@@ -413,43 +396,23 @@ export class ThemeHeaderComponent implements OnInit {
       night_mode = 'day_mode'
     }
     this.themeSettings['nightMode'] = night_mode;
-    // let night_mode_in = true;
-    // for (let r = 0; r < this.themeSettings.length; r++) {
-    //   if (this.themeSettings[r].night_mode) {
-    //     night_mode_in = false;
-    //     this.themeSettings[r].night_mode = night_mode;
-    //   }
-    // }
-    // if (night_mode_in) {
-    //   this.themeSettings.push({ night_mode: night_mode })
-    // }
-
+    this.forceLogin();
   }
 
   selectCurrency(text, image) {
-
+    
     this.http.post('http://18.191.202.171:5687/currencyConverter', { converter: text }).map(response => response.json()).subscribe(data => {
       this.currencyvalue = data.rate.toFixed(2);
       localStorage.setItem('currencyRate', this.currencyvalue);
 
       this.changeGraphTheme.currencyConverter_filter(this.currencyvalue)
     })
+    this.currencyText = '';
     this.currencyText = text;
     this.currencyImg = image;
     this.hideOptionsection = !this.hideOptionsection;
     this.themeSettings['currencyType'] = text;
-
-    // let currency_in = true;
-    // for (let r = 0; r < this.themeSettings.length; r++) {
-    //   if (this.themeSettings[r].currencyType) {
-    //     currency_in = false;
-    //     this.themeSettings[r].currencyType = text;
-    //   }
-    // }
-    // if (currency_in) {
-    //   this.themeSettings.push({ currencyType: text })
-    // }
-
+    this.forceLogin();
   }
 
 
@@ -464,6 +427,7 @@ export class ThemeHeaderComponent implements OnInit {
     this.enableRefreshBtn = false;
     this.changeRefreshRate = document.getElementsByClassName('noUi-handle')[0].getAttribute('aria-valuetext').toString();
     this.themeSettings['refreshRate'] = this.changeRefreshRate;
+    this.forceLogin();
     if (this.changeRefreshRate > 59) {
       this.changeRefreshRate = (this.changeRefreshRate / 60) + ' Min';
     }
@@ -471,16 +435,6 @@ export class ThemeHeaderComponent implements OnInit {
       this.changeRefreshRate = this.changeRefreshRate + ' Sec';
     }
     document.getElementsByClassName('noUi-tooltip')[0].innerHTML = this.changeRefreshRate;
-    // let refreshIn = true;
-    // for (let r = 0; r < this.themeSettings.length; r++) {
-    //   if (this.themeSettings[r].refreshRate) {
-    //     refreshIn = false;
-    //     this.themeSettings[r].refreshRate = this.changeRefreshRate;
-    //   }
-    // }
-    // if (refreshIn) {
-    //   this.themeSettings.push({ refreshRate: this.changeRefreshRate })
-    // }
     this.changeGraphTheme.refreshRateFilter(document.getElementsByClassName('noUi-handle')[0].getAttribute('aria-valuetext'));
   }
 
@@ -498,30 +452,11 @@ export class ThemeHeaderComponent implements OnInit {
   }
   coulumnCustomization(colList, list) {
     this.changeGraphTheme.customizeColumns_filter(colList);
-    this.themeSettings['customizeColumns'] = colList
-
-    // let custCol = true;
-    // for (let r = 0; r < this.themeSettings.length; r++) {
-    //   if (this.themeSettings[r].customizeColumns) {
-    //     custCol = false;
-    //     if (this.themeSettings[r].customizeColumns[type]) {
-    //       this.themeSettings[r].customizeColumns[type] = colList[type]
-    //     }
-    //     else {
-    //       custCol = false;
-    //       this.themeSettings[r].customizeColumns[type] = colList[type]
-    //     }
-    //   }
-    // }
-    // if (custCol) {
-    //   let obj = { customizeColumns: colList }
-    //   this.themeSettings.push(obj);
-    // }
-
+    this.themeSettings['customizeColumns'] = colList;
+    this.forceLogin();
   }
   saveThemeStructure() {
     if (localStorage.getItem('userToken')) {
-
       if (this.themeSettings['customizeColumns']) {
         let list = JSON.stringify(this.themeSettings['customizeColumns'])
         localStorage.setItem('customizeColumns', list);
@@ -550,16 +485,6 @@ export class ThemeHeaderComponent implements OnInit {
   changeSiteLanguage() {
     let siteLang = document.getElementsByClassName("goog-te-combo")[0].value;
     this.themeSettings['siteLanguage'] = siteLang;
-    // let site_language = true;
-    // for (let r = 0; r < this.themeSettings.length; r++) {
-    //   if (this.themeSettings[r].siteLanguage) {
-    //     site_language = false;
-    //     this.themeSettings[r].siteLanguage = siteLang;
-    //   }
-    // }
-    // if (site_language) {
-    //   this.themeSettings.push({ siteLanguage: siteLang })
-    // }
   }
   signUpWithMail(userReg) {
 
@@ -574,29 +499,56 @@ export class ThemeHeaderComponent implements OnInit {
 
   }
   userTheme() {
+    debugger
+    console.log('User Theme')
     let tokenV = localStorage.getItem('userToken');
     this.http.post('http://18.191.202.171:5687/api/userSetting/getUserData', { token: tokenV }).map(response => response.json()).subscribe(data => {
       this.desktoplists = data.customizeColumns.desktop;
       this.mobilelists = data.customizeColumns.mobile;
       this.appList = data.customizeColumns.app;
-      this.changeGraphTheme.customizeColumns_filter(data.customizeColumns);
+      this.colorOfSite = data.siteColor;
+      this.changeRefreshRate = data.refreshRate;
+      this.someRange = data.refreshRate;
+      this.currencyText = data.currencyType;
+      this.currencyvalue = data.currency;
+      localStorage.setItem('currencyRate' , data.currency);
       localStorage.setItem('customizeColumns', data.customizeColumns);
       let body = document.getElementsByTagName('body')[0];
       body.classList.remove('black-theme');
       body.classList.add(data.siteColor);
-      body.classList.add(data.nightMode);
-      let userSiteLang = "/en/" + data['siteLangugae'];
-      this.cookieService.set('googtrans', userSiteLang)
-      this.colorOfSite = data.siteColor;
-      this.changeRefreshRate = data.refreshRate;
-      this.someRange = data.refreshRate;
-      this.currencyvalue = data.currency;
+      if (data.siteColor == 'white-theme') {
+        
+        this.passData2Comp['theme'] = this.themeWhite
+        this.passData2Comp['refreshrate'] = this.refreshDefault;
+        this.passData2Comp['volumeTheme'] = this.volume_white;
+        this.passData2Comp['toolsBg'] = '#fff';
+        this.changeGraphTheme.user_theme_filter(this.passData2Comp);
+        this.changeGraphTheme.changeMessage(this.passData2Comp);
+      }
+      else {
+        
+        this.passData2Comp['theme'] = this.themeBlack;
+        this.passData2Comp['refreshrate'] = this.refreshDefault;
+        this.passData2Comp['volumeTheme'] = this.volume_black;
+        this.passData2Comp['toolsBg'] = '#000';
+        this.changeGraphTheme.user_theme_filter(this.passData2Comp)
+        this.changeGraphTheme.changeMessage(this.passData2Comp);
+      }
+      this.changeGraphTheme.get_favAndNormal_coins_filter();
+      this.currencyText = data.currencyType;
       localStorage.setItem('currencyRate', this.currencyvalue);
-
+      this.changeGraphTheme.customizeColumns_filter(data.customizeColumns);
+      let userSiteLang = "/en/" + data['siteLangugae'];
+      this.cookieService.set('googtrans', userSiteLang);
+      if(data.nightMode != ''){
+         body.classList.add(data.nightMode);
+      }
+     
     })
   }
   defaultTheme() {
-    this.cookieService.set('googtrans', "/en/en")
+    
+    this.cookieService.set('googtrans', "/en/en");
     let body = document.getElementsByTagName('body')[0];
     var currentList = body.classList.add('black-theme');
     var currentList = body.classList.remove('night_mode');
@@ -604,33 +556,33 @@ export class ThemeHeaderComponent implements OnInit {
     this.someRange = 1;
     this.colorOfSite = 'black-theme';
     this.currencyvalue = 1;
+    this.currencyText = 'USD';
     localStorage.setItem('currencyRate', this.currencyvalue);
-    this.refreshDefault = '3';
-    //   this.http.get('http://18.191.202.171:5687/defaultCustomizeColumn').map(response => response.json()).subscribe(data => {
-    //     
-    //   console.log(data);
-    //   this.changeGraphTheme.customizeColumns_filter(data);
-    //   localStorage.setItem('customizeColumns',JSON.stringify(data))
-    //   this.desktoplists = data.desktop;
-    //   this.mobilelists = data.mobilelists;
-    //   this.appList = data.app;
-    // });
-    let data = { "desktop": [{ "label": "Expand", "ischecked": true, "key": "expand" }, { "label": "Favourite", "ischecked": true, "key": "favourite" }, { "label": "Coin", "ischecked": true, "key": "coin" }, { "label": "Price", "ischecked": true, "key": "price" }, { "label": "24 HR (%)", "ischecked": true, "key": "dayChange" }, { "label": "7 Day (%)", "ischecked": true, "key": "weaklyChange" }, { "label": "Volume (24 H)", "ischecked": true, "key": "dayVolume" }, { "label": "Market Cap", "ischecked": true, "key": "marketCap" }, { "label": "24 HR High/Low", "ischecked": true, "key": "dayHighLow" }, { "label": "Circulation Supply ", "ischecked": false, "key": "circulationSupply" }, { "label": "Total Supply", "ischecked": false, "key": "totalSupply" }, { "label": "Exchanges ", "ischecked": false, "key": "exchanges" }], "mobile": [{ "label": "Expand", "ischecked": true, "key": "expand" }, { "label": "Favourite", "ischecked": true, "key": "favourite" }, { "label": "Coin", "ischecked": true, "key": "coin" }, { "label": "Price", "ischecked": true, "key": "price" }, { "label": "24 HR (%)", "ischecked": true, "key": "dayChange" }, { "label": "7 Day (%)", "ischecked": true, "key": "weaklyChange" }, { "label": "Volume (24 H)", "ischecked": true, "key": "dayVolume" }, { "label": "Market Cap", "ischecked": true, "key": "marketCap" }, { "label": "24 HR High/Low", "ischecked": true, "key": "dayHighLow" }, { "label": "Circulation Supply ", "ischecked": false, "key": "circulationSupply" }, { "label": "Total Supply", "ischecked": false, "key": "totalSupply" }, { "label": "Exchanges ", "ischecked": false, "key": "exchanges" }], "app": [{ "label": "Expand", "ischecked": true, "key": "expand" }, { "label": "Favourite", "ischecked": true, "key": "favourite" }, { "label": "Coin", "ischecked": true, "key": "coin" }, { "label": "Price", "ischecked": true, "key": "price" }, { "label": "24 HR (%)", "ischecked": true, "key": "dayChange" }, { "label": "7 Day (%)", "ischecked": true, "key": "weaklyChange" }, { "label": "Volume (24 H)", "ischecked": true, "key": "dayVolume" }, { "label": "Market Cap", "ischecked": true, "key": "marketCap" }, { "label": "24 HR High/Low", "ischecked": true, "key": "dayHighLow" }, { "label": "Circulation Supply ", "ischecked": false, "key": "circulationSupply" }, { "label": "Total Supply", "ischecked": false, "key": "totalSupply" }, { "label": "Exchanges ", "ischecked": false, "key": "exchanges" }] }
-    let dataS = JSON.stringify(data)
-    localStorage.setItem('customizeColumns', dataS)
+    this.refreshDefault = '1';
+    let data = { "desktop": [{ "label": "Expand", "ischecked": true, "key": "expand" }, { "label": "Favourite", "ischecked": true, "key": "favourite" }, { "label": "Coin", "ischecked": true, "key": "coin" }, { "label": "Price", "ischecked": true, "key": "price" }, { "label": "24 HR (%)", "ischecked": true, "key": "dayChange" }, { "label": "7 Day (%)", "ischecked": true, "key": "weaklyChange" }, { "label": "Volume (24 H)", "ischecked": true, "key": "dayVolume" }, { "label": "Market Cap", "ischecked": true, "key": "marketCap" }, { "label": "24 HR High/Low", "ischecked": true, "key": "dayHighLow" }, { "label": "Circulation Supply ", "ischecked": false, "key": "circulationSupply" }, { "label": "Total Supply", "ischecked": false, "key": "totalSupply" }, { "label": "Exchanges ", "ischecked": false, "key": "exchanges" }], "mobile": [{ "label": "Expand", "ischecked": true, "key": "expand" }, { "label": "Favourite", "ischecked": true, "key": "favourite" }, { "label": "Coin", "ischecked": true, "key": "coin" }, { "label": "Price", "ischecked": true, "key": "price" }, { "label": "24 HR (%)", "ischecked": false, "key": "dayChange" }, { "label": "7 Day (%)", "ischecked": false, "key": "weaklyChange" }, { "label": "Volume (24 H)", "ischecked": false, "key": "dayVolume" }, { "label": "Market Cap", "ischecked": false, "key": "marketCap" }, { "label": "24 HR High/Low", "ischecked": false, "key": "dayHighLow" }, { "label": "Circulation Supply ", "ischecked": false, "key": "circulationSupply" }, { "label": "Total Supply", "ischecked": false, "key": "totalSupply" }, { "label": "Exchanges ", "ischecked": false, "key": "exchanges" }], "app": [{ "label": "Expand", "ischecked": true, "key": "expand" }, { "label": "Favourite", "ischecked": true, "key": "favourite" }, { "label": "Coin", "ischecked": true, "key": "coin" }, { "label": "Price", "ischecked": true, "key": "price" }, { "label": "24 HR (%)", "ischecked": true, "key": "dayChange" }, { "label": "7 Day (%)", "ischecked": true, "key": "weaklyChange" }, { "label": "Volume (24 H)", "ischecked": false, "key": "dayVolume" }, { "label": "Market Cap", "ischecked": false, "key": "marketCap" }, { "label": "24 HR High/Low", "ischecked": false, "key": "dayHighLow" }, { "label": "Circulation Supply ", "ischecked": false, "key": "circulationSupply" }, { "label": "Total Supply", "ischecked": false, "key": "totalSupply" }, { "label": "Exchanges ", "ischecked": false, "key": "exchanges" }] }
+    let dataS = JSON.stringify(data);
+    localStorage.setItem('customizeColumns', dataS);
     this.changeGraphTheme.customizeColumns_filter(data);
-
     this.desktoplists = data.desktop;
     this.mobilelists = data.mobile;
     this.appList = data.app;
-    this.passData2Comp['theme'] = this.themeBlack
+    this.passData2Comp['theme'] = this.themeBlack;
     this.passData2Comp['refreshrate'] = this.refreshDefault;
     this.passData2Comp['volumeTheme'] = this.volume_black;
-    this.passData2Comp['toolsBg'] = '#000'
+    this.passData2Comp['toolsBg'] = '#000';
+    this.changeGraphTheme.user_theme_filter(this.passData2Comp)
     this.changeGraphTheme.changeMessage(this.passData2Comp);
-    // this.http.get('http://18.191.202.171:5687/defaultCustomizeColumn').map(response => response.json()).subscribe(data => {
-    //   
-    // })
+
+  }
+  forceLogin(){
+    if(Object.keys(this.themeSettings).length == 2){
+      if(this.popUpEnabled){
+        this.popUpEnabled = false;
+        setTimeout(()=> {
+          this.changeGraphTheme.trigger_loginPopUp_filter();
+        },30000)
+      }
+    }
   }
 }
 

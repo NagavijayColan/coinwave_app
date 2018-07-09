@@ -26,7 +26,7 @@ export class CoinpageComponent implements OnInit {
     public jsonData;
     public graphThemeColor: any;
     private _symbol: ChartingLibraryWidgetOptions['symbol'] = 'AAPL';
-    private _interval: ChartingLibraryWidgetOptions['interval'] = 'D';
+    private _interval: ChartingLibraryWidgetOptions['interval'] = '60';
     // BEWARE: no trailing slash is expected in feed URL
     private _datafeedUrl = 'https://demo_feed.tradingview.com';
     private _libraryPath: ChartingLibraryWidgetOptions['library_path'] = '/assets/charting_library/';
@@ -57,6 +57,11 @@ export class CoinpageComponent implements OnInit {
     public showLoadSpinner;
     public errormessageSignUp;
     public errormessageLogin;
+    public currencyVal;
+    public graphTheme;
+    public refreshRate;
+    public toolsBgDyn;
+    public volumeTheme;
     @Input()
     set symbol(symbol: ChartingLibraryWidgetOptions['symbol']) {
         this._symbol = symbol || this._symbol;
@@ -113,20 +118,34 @@ export class CoinpageComponent implements OnInit {
     }
     @Input() graphId: string;
 
-    constructor(private commonService : CommonServiceService,private http: Http, private aroute: ActivatedRoute, private changeGraphTheme: CompDataSharingService) { }
+    constructor(private commonService : CommonServiceService,private http: Http, private aroute: ActivatedRoute, private changeGraphTheme: CompDataSharingService) { 
+        this.changeGraphTheme.user_theme_listener().subscribe((theme : any) => {
+            this.graphTheme = theme.theme;
+            this.toolsBgDyn = theme.toolsBg;
+            this.volumeTheme = theme.volumeTheme;
+            this.refreshRate = theme.refreshrate;
+            
+        })
+    }
     ngOnInit() {
+        // this.graphThemeColor = {
+        //     theme: '',
+        //     bgColor: ''
+        // }
+        this.changeGraphTheme.currentMessage.subscribe(message => this.graphThemeColor = message)
+        this.currencyVal = localStorage.getItem('currencyRate');
         this.isOpened = false;
-        this.volume_white = {
-            "volume.volume.color.0": "#000",
-            "volume.volume.color.1": "#fff",
-            "volume.volume.transparency": 70,
-            "volume.volume ma.color": "#FF0000",
-            "volume.volume ma.transparency": 30,
-            "volume.volume ma.linewidth": 5,
-            "volume.show ma": true,
-            "bollinger bands.median.color": "#33FF88",
-            "bollinger bands.upper.linewidth": 7
-        }
+        // this.volume_white = {
+        //     "volume.volume.color.0": "#000",
+        //     "volume.volume.color.1": "#fff",
+        //     "volume.volume.transparency": 70,
+        //     "volume.volume ma.color": "#FF0000",
+        //     "volume.volume ma.transparency": 30,
+        //     "volume.volume ma.linewidth": 5,
+        //     "volume.show ma": true,
+        //     "bollinger bands.median.color": "#33FF88",
+        //     "bollinger bands.upper.linewidth": 7
+        // }
         this.aroute.params.subscribe(params => {
             this.coinKey = params['id'];
         });
@@ -135,36 +154,18 @@ export class CoinpageComponent implements OnInit {
             data => {
                 this.coinName = data[0].name;
                 this.coinImage = data[0].image;
-                this.coinData = [
-                    {
-                        "cp_24four_change": "14.2%",
-                        "cp_7day_change": "5.6%",
-                        "cp_30day_change": "7.6%",
-                        "cp_24hr_volume": "$56,549,987",
-                        "cp_24hr_high": "$9,2765",
-                        "cp_24hr_low": "$7,943.2",
-                        "cp_market_cap": "$99,549,987",
-                        "cp_circulating_supply": "$15,000,000",
-                        "cp_total_supply": "$16,000,000"
-                    },
-                ]
-
+                this.coinData = data;
             },
         );
-
-        this.graphThemeColor = {
-            theme: '',
-            bgColor: ''
-        }
-        this.changeGraphTheme.currentMessage.subscribe(message => this.graphThemeColor = message)
+        
+        console.log(this.graphThemeColor)
         this.themeType = this.graphThemeColor.theme;
         this.backgroundColor = this.graphThemeColor.bgColor;
         this.setIntervalTime = 1000;
         this.overrides_obj = this.graphThemeColor;
-        this.generateGraph(this.coinKey)
-    }
 
-    // Sort 
+        this.generateGraph(this.coinKey);
+    }
     key: string = 'name';
     reverse: boolean = false;
     sort(key) {
@@ -172,7 +173,6 @@ export class CoinpageComponent implements OnInit {
         this.reverse = !this.reverse;
     }
     generateGraph(coinToken) {
-
         this.udf_datafeed = {
             onReady(callback) {
                 var config = {
@@ -270,15 +270,35 @@ export class CoinpageComponent implements OnInit {
             locale: getLanguageFromURL() || 'en',
             disabled_features: [
                 'header_saveload',
-                'timeframes_toolbar',
+                'header_indicators',
                 'header_settings',
+                'header_resolutions',
+                'context_menus',
+                'legend_context_menu',
+                'pane_context_menu',
+                'scales_context_menu',
                 'header_symbol_search',
                 'compare_symbol',
                 'header_compare',
+                'study_buttons_in_legend',
+                'hide_last_na_study_output',
+                'show_interval_dialog_on_key_press',
+                'header_undo_redo',
+                'chart_property_page_style',
+                'header_screenshot',
+                'header_fullscreen_button',
+                'timeframes_toolbar',
+                'header_interval_dialog_button',
                 'use_localstorage_for_settings',
+                'header_chart_type',
+                'edit_buttons_in_legend',
+                'show_hide_button_in_legend',
+                'format_button_in_legend',
+                'delete_button_in_legend', 
+                'symbol_info',
                 'save_chart_properties_to_local_storage',
             ],
-            enabled_features: ['study_templates', 'header_chart_type', 'header_settings', 'header_indicators'],
+            enabled_features: ['disable_resolution_rebuild','disable_resolution_rebuild','dont_show_boolean_study_arguments','hide_last_na_study_output',  'header_indicators'],
             charts_storage_url: this._chartsStorageUrl,
             charts_storage_api_version: this._chartsStorageApiVersion,
             client_id: this._clientId,
@@ -292,7 +312,79 @@ export class CoinpageComponent implements OnInit {
         };
         const tvWidget = new widget(widgetOptions);
         tvWidget.onChartReady(() => {
-            tvWidget.chart().setChartType(2);
+            tvWidget.createButton()
+            .attr('title', "1 Hour")
+            .on('click', function (e) {
+                tvWidget.chart().setResolution("60", function () {
+                    console.log("set resolution callback");
+                });
+            }).append($('<span>1 Hour</span>'));
+            tvWidget.createButton()
+            .attr('title', "6Hours")
+            .on('click', function (e) {
+                tvWidget.chart().setResolution("360", function () {
+                    console.log("set resolution callback");
+                });
+            }).append($('<span>6 Hours</span>'));
+            tvWidget.createButton()
+            .attr('title', "1day")
+            .on('click', function (e) {
+                tvWidget.chart().setResolution("1D", function () {
+                    console.log("set resolution callback");
+                });
+            }).append($('<span>1Day</span>'));
+            tvWidget.createButton()
+            .attr('title', "1week")
+            .on('click', function (e) {
+                tvWidget.chart().setResolution("1W", function () {
+                    console.log("set resolution callback");
+                });
+            }).append($('<span>1Week</span>'));
+            tvWidget.createButton()
+            .attr('title', "1 Month")
+            .on('click', function (e) {
+                tvWidget.chart().setResolution("1M", function () {
+                    console.log("set resolution callback");
+                });
+            }).append($('<span>1Month</span>'));
+            tvWidget.createButton()
+            .attr('title', "1 Year")
+            .on('click', function (e) {
+                tvWidget.chart().setResolution("12M", function () {
+                    console.log("set resolution callback");
+                });
+            }).append($('<span>1Year</span>'));
+            tvWidget.createButton()
+            .attr('title', "1 Year")
+            .on('click', function (e) {
+                tvWidget.chart().setResolution("60M", function () {
+                    console.log("set resolution callback");
+                });
+            }).append($('<span>MAX</span>'));
+            tvWidget.createButton({ align: "right" })
+            .attr('title', "Area")
+            .addClass('customBtnGraph')
+            .on('click', function (e) {
+                tvWidget.chart().setChartType(3);
+            }).append($('<span>Area</span>'));
+            tvWidget.createButton({ align: "right" })
+            .attr('title', "Advanced Chart")
+            .addClass('customBtnGraph')
+            .on('click', function (e) {
+                tvWidget.chart().setChartType(10);
+            }).append($('<span>Advanced Chart</span>'));
+            tvWidget.createButton({ align: "right" })
+            .attr('title', "Candle Stick")
+            .addClass('customBtnGraph')
+            .on('click', function (e) {
+                tvWidget.chart().setChartType(1);
+            }).append($('<span>Candle Stick</span>'));
+            tvWidget.createButton({ align: "right" })
+            .attr('title', "Line")
+            .on('click', function (e) {
+                tvWidget.chart().setChartType(2);
+            }).append($('<span>Line</span>'));
+            tvWidget.chart().setChartType(1);
         });
     }
     addToPortfolio() {

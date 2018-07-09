@@ -16,45 +16,83 @@ export class CommonServiceService {
       this.http.post('http://18.191.202.171:5687/user/register', userReg).subscribe(data => {
         localStorage.setItem('userToken', data['access_token']);
         localStorage.setItem('userName', data['userName']);
+        if(sessionStorage.getItem('favouriteCoins') ){
+          debugger
+          let favcoin = JSON.parse(sessionStorage.getItem('favouriteCoins'));
+          if(favcoin.length > 0){
+            let tokenV = localStorage.getItem('userToken');
+            this.http.put('http://18.191.202.171:5687/api/userSetting/update', { favourites: favcoin, token: tokenV }).
+            subscribe(data => {
+                console.log(data)
+            })
+          }
+        }
         if (this.router.url == '/login') {
           this.router.navigate(['coinlist/', data]);
         }
         else {
           this.shareData.userProfile_filter();
+          this.shareData.portfolio_Data_filter();
           this.shareData.trigger_successMessagePopUp_filter('You have successfully Registered')
         }
         this.shareData.isLoggedIn_filter(data);
-
       },
-        err => {
+      err => {
+        if(typeof err.error == 'string'){
           this.shareData.trigger_errorMessagePopUp_filter(err.error);
-        })
+        }
+        else if(typeof err.error == 'object'){
+          this.shareData.trigger_errorMessagePopUp_filter(err.error.message);
+        }
+        
+      })
       return false;
     }
   }
   userLogin(userLogin) {
+    
     if (Object.keys(userLogin).length < 2) {
       return true;
     }
     else {
+      
       this.http.post('http://18.191.202.171:5687/user/login', userLogin).subscribe(data => {
         localStorage.setItem('userToken', data['access_token']);
         localStorage.setItem('userName', data['userName']);
         let lang = "/en/" + data['siteLanguage'];
         lang = lang.replace(/%/g, "");
-        this.cookieService.set('googtrans', lang)
+        this.cookieService.set('googtrans', lang);
+        if(sessionStorage.getItem('favouriteCoins') ){
+          let favcoin = JSON.parse(sessionStorage.getItem('favouriteCoins'));
+          if(favcoin.length > 0){
+            let tokenV = localStorage.getItem('userToken');
+            this.http.put('http://18.191.202.171:5687/api/userSetting/update', { favourites: favcoin, token: tokenV }).
+            subscribe(data => {
+                console.log(data)
+            })
+          }
+        }
         if (this.router.url == '/login') {
+          
           this.router.navigate(['coinlist/', data]);
         }
         else {
-          this.shareData.trigger_successMessagePopUp_filter('You have successfully Registered');
+          this.shareData.portfolio_Data_filter();
           this.shareData.userProfile_filter();
+          this.shareData.trigger_successMessagePopUp_filter('Welcome ' + data['userName']);
+          
         }
         this.shareData.isLoggedIn_filter(data);
       },
-        err => {
-          this.shareData.trigger_successMessagePopUp_filter(err.error);
-        })
+      err => {
+        if(typeof err.error == 'string'){
+          this.shareData.trigger_errorMessagePopUp_filter(err.error);
+        }
+        else if(typeof err.error == 'object'){
+          this.shareData.trigger_errorMessagePopUp_filter(err.error.message);
+        }
+        
+      })
       return false;
     }
   }
@@ -68,12 +106,24 @@ export class CommonServiceService {
       localStorage.setItem('userName', data['userName']);
       let lang = "/en/" + data['siteLanguage'];
       this.cookieService.set('googtrans', lang);
+      if(sessionStorage.getItem('favouriteCoins') ){
+        let favcoin = JSON.parse(sessionStorage.getItem('favouriteCoins'));
+        if(favcoin.length > 0){
+          let tokenV = localStorage.getItem('userToken');
+          this.http.put('http://18.191.202.171:5687/api/userSetting/update', { favourites: favcoin, token: tokenV }).
+          subscribe(data => {
+              console.log(data)
+          })
+        }
+      }
       if (this.router.url == '/login') {
         this.router.navigate(['coinlist/', data]);
       }
       else {
+        this.shareData.trigger_successMessagePopUp_filter('Welcome ' + data['userName'])
         this.shareData.userProfile_filter();
-        this.shareData.trigger_successMessagePopUp_filter('You have successfully Registered')
+        this.shareData.portfolio_Data_filter();
+        
       }
       this.shareData.isLoggedIn_filter(data);
     },
@@ -81,11 +131,6 @@ export class CommonServiceService {
         this.shareData.trigger_errorMessagePopUp_filter(err.error)
       })
 
-  }
-  getMaxPrice(currencyValue) {
-    this.http.get('http://18.191.202.171:5687/exchange/getMax').subscribe(data => {
-      return (data[0].maxPrice * currencyValue).toFixed(2) + 100;
-    })
   }
   checkEmpty(formIdc) {
     let i;

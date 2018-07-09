@@ -4,8 +4,8 @@
     <div class="sort_with_table">
 
       <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2 coin_list_lft">
-        <div class="row">
-          <div class="sort_by">
+        <div class="row ">
+          <div class="sort_by sort_by_block">
             <h1 class="sort_by_head">Sort By
               <i class="fa fa-chevron-down sort_by_icon" aria-hidden="true"></i>
               <!--<img src="/assets/images/sort_arw.png" class="sort_by_icon"/>-->
@@ -41,9 +41,11 @@
               <i class="fa fa-filter advance_filter float-left" aria-hidden="true"></i>
               Advance
               <span>Search Filters</span>
-              <i class="fa fa-undo float-right" (click)="resetAdvFilter()" style="margin-top: -11px;cursor:pointer;"></i>
+             
+              <i class="fa float-right undosymbol mobileViewAdvFltr" [ngClass]="{'fa-chevron-up' :  hideInMobileView == true , 'fa-chevron-down' : hideInMobileView == false }" (click)="hideInMobileView = !hideInMobileView"></i>
+              <i class="fa fa-undo float-right undosymbol" (click)="resetAdvFilter()"></i>
             </h1>
-            <accordion id="advancedSearchFilter" [closeOthers]="false">
+            <accordion id="advancedSearchFilter" [closeOthers]="false" *ngIf="hideInMobileView">
               <accordion-group heading="PRICE" [isOpened]="true">
                 <ion-range-slider #priceVal type="double" [min]="0" [max]="maxPrice" from_min="0" [from_max]="maxPrice" from_shadow="false"
                   [to]="maxPrice" to_min="0" [to_max]="maxPrice" to_shadow="true" grid="true" postfix=" Price" decorate_both="false"
@@ -59,8 +61,8 @@
 
               </accordion-group>
               <accordion-group heading="VOLUME (24H)" [isOpened]="false">
-                <ion-range-slider #volume24H type="double" [min]="10" max="300" from="0" from_min="0" from_max="300" from_shadow="false"
-                  to="300" to_min="0" to_max="180" to_shadow="true" grid="true" grid_num="4" postfix=" 24 HOUR VOLUME" decorate_both="false"
+                <ion-range-slider #volume24H type="double" [min]="0" [max]="maxVolume" from_min="0" [from_max]="maxVolume" from_shadow="false"
+                [to]="maxVolume" to_min="0" [to_max]="maxVolume" to_shadow="true" grid="true" postfix=" Volume" decorate_both="false"
                   (onChange)="dayVolumeFilter($event)"></ion-range-slider>
               </accordion-group>
               <accordion-group heading="MARKET CAP" [isOpened]="false">
@@ -70,20 +72,17 @@
               </accordion-group>
             </accordion>
           </div>
-          <div class="w-100">
+          <div class="w-100" *ngIf="hideInMobileView">
             <button class="pull-right advSearchBtn" (click)="advancedSearchFilter()">Search</button>
           </div>
-          <app-advertisement></app-advertisement>
-
-
+          <app-advertisement class="sort_by_block"></app-advertisement>
         </div>
       </div>
 
       <div class="col-sm-12 col-xs-12 col-md-10 col-lg-10 rgt-coin-tab">
         <!-- <data-table-sort-expands></data-table-sort-expands> -->
         <!-- <app-graph-section #component1></app-graph-section> -->
-        <app-tv-chart-container #component1></app-tv-chart-container>
-
+        <app-tv-chart-container  #component1></app-tv-chart-container>
       </div>
     </div>
   </div>

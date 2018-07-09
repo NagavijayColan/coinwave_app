@@ -2,10 +2,10 @@
   <span class="fa fa-spinner fa-spin fa-2x"></span>
 </div>
 <div class="table-responsive">
-  <table id="coin_list_table" class="table table-condensed table-bordered data-table " style="white-space:nowrap;">
+  <table  id="coin_list_table" class="table table-condensed table-bordered data-table " style="white-space:nowrap;">
     <thead>
-      <th>#</th>
-      <th *ngIf="resolutionColumn.coin" (click)="sort('name');">Coins
+      <th width="50px">#</th>
+      <th width="100px" *ngIf="resolutionColumn.coin" (click)="sort('name');">Coins
         <span class="fa sort-icon" *ngIf="key =='name'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
       </th>
       <th *ngIf="resolutionColumn.price" (click)="sort('price')" style="width:130px;">Price
@@ -33,7 +33,6 @@
       <!-- <th (click)="sort('lowestPrice')">24 LOW HIGH  <span class="fa sort-icon" *ngIf="key =='lowestPrice'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span></th> -->
     </thead>
 
-
     <tbody *ngFor="let coins of favCoinsList; let i = index" class="favourite_coins">
       <tr style="cursor:pointer">
         <td>{{i+1}}</td>
@@ -45,12 +44,12 @@
           <b>{{coins.price * currencyValue | number:'.0-2'}}</b>
           <span class="fa upDownSymbol" [ngClass]="{'arrow-up': coins.priceStatus === 'true','arrow-down': coins.priceStatus === 'false'}"></span>
         </td>
-        <td *ngIf="resolutionColumn.expand" class="graphTabledata">
-          <!-- <i class="fa fa-arrows-alt" (click)="expandGraph(event,i,coins.pair,coins.name,'tv_chart_containerFav','expandFav')"></i> -->
+        <td *ngIf="resolutionColumn.expand" (click)="expandGraph(event,i,coins.pair,coins.name,'tv_chart_containerFav','expandFav')" class="graphTabledata">
+          <i class="fa fa-arrows-alt" ></i>
         </td>
         <td *ngIf="resolutionColumn.favourite">
           <!-- <input type="checkbox" class="favorite_coin" (click)="favCoinFunctionality(coins.pair,'fav')" checked > -->
-          <span class="fa fa-star fa-2x colorYellowStar" (click)="favCoinFunctionality(coins.pair,'fav')"></span>
+          <span class="fa fa-star fa-2x colorYellowStar" (click)="favCoinFunctionality(coins.pair,'fav',coins)"></span>
         </td>
         <td *ngIf="resolutionColumn.dayChange" (click)="coinDetails(coins.pair)" class="" [ngClass]="{'colorGreen': coins.dayPriceStatus === 'true','colorRed': coins.dayPriceStatus === 'false'}">{{coins.dayPrice *currencyValue | number:'.0-2'}} ({{coins.dayPricePercent | number:'.0-2'}})
           <span class="fa upDownSymbol" [ngClass]="{'arrow-up': coins.dayPriceStatus === 'true','arrow-down': coins.dayPriceStatus === 'false'}"></span>
@@ -62,24 +61,45 @@
         <td *ngIf="resolutionColumn.marketCap" (click)="coinDetails(coins.pair)">{{coins.marketCapValue * currencyValue | number:'.0-2'}}</td>
         <td *ngIf="resolutionColumn.dayHighLow" (click)="coinDetails(coins.pair)">{{coins.highestPrice * currencyValue | number:'.0-2'}} / {{coins.lowestPrice * currencyValue | number:'.0-2'}}</td>
       </tr>
-    
+      <tr id="expandFav{{i}}" class="hidingNow">
+        <td colspan="11" height="300px;" width="100%">
+          <div class="app-tv-chart-container app-tv-chart-container_multi" id="tv_chart_containerFav{{i}}"></div>
+          <!-- <div class="app-tv-chart-container" id="tv_chart_container2{{i}}"></div> -->
+          <div class="col-md-2 float-right chart_rgt_cont">
+            <ul>
+              <li>
+                <label>Currency</label>
+                <div class="in_sel-term">
+                  <select>
+                    <option>USD</option>
+                  </select>
+                </div>
+              </li>
+              <li>
+                <label>Low/High 24h</label>
+                <span>{{coins.highestPrice * currencyValue | number:'.0-2'}} / {{coins.lowestPrice * currencyValue | number:'.0-2'}}</span>
+              </li>
+            </ul>
+          </div>
+        </td>
+      </tr>
     </tbody>
-    <tbody *ngFor="let coins of coinList | filter: searchText | orderBy: key : reverse ; let i = index ">
+    <tbody  *ngFor="let coins of coinList | filter: searchText | orderBy: key : reverse ; let i = index ">
       <tr style="cursor:pointer">
         <td>{{favCoinsList.length+i+1}}</td>
         <td *ngIf="resolutionColumn.coin" (click)="coinDetails(coins.pair)" class="coinBlock">
-          <span>
+          <span title="{{coins.pair}}">
             <img class="coinLogo" src="http://18.191.202.171:5687/upload/{{coins.image}}"> {{coins.name }}</span>
         </td>
         <td *ngIf="resolutionColumn.price" (click)="coinDetails(coins.pair)" class="column-price" [ngClass]="{'colorGreen': coins.priceStatus === 'true','colorRed': coins.priceStatus === 'false'}">
           <b>{{coins.price * currencyValue | number:'.0-2'}}</b>
           <span class="fa upDownSymbol" [ngClass]="{'arrow-up': coins.priceStatus === 'true','arrow-down': coins.priceStatus === 'false'}"></span>
         </td>
-        <td *ngIf="resolutionColumn.expand" class="graphTabledata">
-          <!-- <i class="fa fa-arrows-alt" (click)="expandGraph(event,favCoinsList.length+i,coins.pair,coins.name,'tv_chart_container','expand')"></i> -->
+        <td *ngIf="resolutionColumn.expand" (click)="expandGraph(event,favCoinsList.length+i,coins.pair,coins.name,'tv_chart_container','expand')" class="graphTabledata">
+          <i class="fa fa-arrows-alt" ></i>
         </td>
         <td *ngIf="resolutionColumn.favourite">
-          <span class="fa fa-star fa-2x colorWhiteStar" (click)="favCoinFunctionality(coins.pair,'normal')"></span>
+          <span class="fa fa-star fa-2x colorWhiteStar" (click)="favCoinFunctionality(coins.pair,'normal',coins)"></span>
           <!-- <input type="checkbox" class="favorite_coin"  [(ngModel)]="coins.checked"> -->
         </td>
         <td *ngIf="resolutionColumn.dayChange" (click)="coinDetails(coins.pair)" class="" [ngClass]="{'colorGreen': coins.dayPriceStatus === 'true','colorRed': coins.dayPriceStatus === 'false'}">{{coins.dayPrice *currencyValue | number:'.0-2'}} ({{coins.dayPricePercent | number:'.0-2'}})
@@ -92,42 +112,33 @@
         <td *ngIf="resolutionColumn.marketCap" (click)="coinDetails(coins.pair)">{{coins.marketCapValue * currencyValue | number:'.0-2'}}</td>
         <td *ngIf="resolutionColumn.dayHighLow" (click)="coinDetails(coins.pair)">{{coins.highestPrice * currencyValue | number:'.0-2'}} / {{coins.lowestPrice * currencyValue | number:'.0-2'}}</td>
       </tr>
+      <tr id="expand{{favCoinsList.length+i}}" class="hidingNow">
+        <td colspan="11" height="300px;" width="100%">
+          <div class="app-tv-chart-container app-tv-chart-container_multi" id="tv_chart_container{{favCoinsList.length+i}}"></div>
+          <!-- <div class="app-tv-chart-container" id="tv_chart_container2{{i}}"></div> -->
+          <!-- <div>
+            <button (click)="lineChart()" id="lineChart{{i}}">Line Chart</button>
+            <button (click)="candleStick()" id="candleStick{{i}}">Candlestick Chart</button>
+          </div> -->
+          <div class="col-md-2 float-right chart_rgt_cont">
+            <ul>
+              <li>
+                <label>Currency</label>
+                <div class="in_sel-term">
+                  <select>
+                    <option>USD</option>
+                  </select>
+                </div>
+              </li>
+              <li>
+                <label>Low/High 24h</label>
+                <span>{{coins.highestPrice * currencyValue | number:'.0-2'}} / {{coins.lowestPrice * currencyValue | number:'.0-2'}}</span>
+              </li>
+            </ul>
+          </div>
+        </td>
+      </tr>
     </tbody>
   </table>
   <div *ngIf="noData" class="noDataFound">No Data found!</div>
 </div>
-<!-- <td (click)="coinDetails(coins.pair)" class="column-HRchange">{{coins.HRchange}} 453454</td>
-  <td (click)="coinDetails(coins.pair)" class="  column-dayChange">{{coins.dayChange}}</td>
-  <td (click)="coinDetails(coins.pair)">{{coins.Hrvolume}}</td>
-  <td (click)="coinDetails(coins.pair)">{{coins.marketCap}}</td>
-  <td (click)="coinDetails(coins.pair)">{{coins.hrhigh}}</td>
-  <td (click)="coinDetails(coins.pair)">{{coins.hrlow}}</td> -->
-<!-- Success Pop Up-->
-<div mdbModal #successMessage="mdb-modal" class="modal fade right" id="centralModalSm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true" [config]="{backdrop: false, ignoreBackdropClick: false}">
-  <div class="modal-dialog modal-side modal-top-right modal-notify modal-warning" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title w-auto" id="myModalLabel">{{successMessagePopup}}</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="successMessage.hide()">
-          <span aria-hidden="true">×</span>
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- Error  Pop Up-->
-<div mdbModal #errorMessage="mdb-modal" class="modal fade right" id="centralModalSm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog modal-side modal-top-right" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title w-auto" id="myModalLabel">Oops! Something went wrong, Please try agian later.</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="errorMessage.hide()">
-          <span aria-hidden="true">×</span>
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- <div class="app-tv-chart-container app-tv-chart-container_multi" id="sampleChart" style="display:none"></div> -->

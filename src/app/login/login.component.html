@@ -99,7 +99,7 @@
 
 <!--Modal: Login Form-->
 <div mdbModal #loginform="mdb-modal" class=" modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-    aria-hidden="true">
+    aria-hidden="true" [config]="{backdrop: false, ignoreBackdropClick: false}">
     <div class="modal-dialog cascading-modal" role="document">
         <!--Content-->
         <div class="modal-content">
@@ -115,7 +115,7 @@
             <!--Body-->
             
             <div class="modal-body">
-                    <label style="color:red;" *ngIf="errormessageLogin">Fields should not be empty</label>
+                    <label style="color:red;" *ngIf="errormessageLogin">Please Enter all mandatory fields</label>
                 <form id="loginCredentials">
 
                 
@@ -154,8 +154,8 @@
 <!--Modal: Login Form-->
 
 <!--Modal: Register Form-->
-<div mdbModal #registerform="mdb-modal" class="modal fade" id="modalRegister" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-    aria-hidden="true">
+<div mdbModal #registerform="mdb-modal" class="modal fade" id="modalRegister2" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true" [config]="{backdrop: false, ignoreBackdropClick: false}">
     <div class="modal-dialog cascading-modal" role="document">
         <!--Content-->
         <div class="modal-content">
@@ -173,7 +173,7 @@
                
 
                 
-                    <label style="color:red;" *ngIf="errormessageSignUp">Fields should not be empty</label>
+                    <label style="color:red;" *ngIf="errormessageSignUp">Please Enter all mandatory fields</label>
                 <form id="signuPCredentials">
                      <div class="md-form form-sm">
                     <i class="fa fa-user prefix"></i>

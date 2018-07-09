@@ -76,26 +76,23 @@
             <th>7 Day Change</th>
             <th>30 Day Change</th>
             <th>24 Hour Volume</th>
-            <th>24 Hour High</th>
-            <th>24 Hour Low</th>
+            <th>24 HR High/Low</th>
             <th>Market Cap</th>
             <th>Circulating Supply</th>
             <th>Total Supply</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let coinproduct of coinData">
-            <td class="cp_24four_change column-price">{{coinproduct.cp_24four_change}}</td>
-            <td class="cp_7day_change column-HRchange">{{coinproduct.cp_7day_change}}</td>
-            <td class="cp_30day_change column-dayChange">{{coinproduct.cp_30day_change}}</td>
-            <td>{{coinproduct.cp_24hr_volume}}</td>
-            <td>{{coinproduct.cp_24hr_high}}</td>
-            <td>{{coinproduct.cp_24hr_low}}</td>
-            <td>{{coinproduct.cp_market_cap}}</td>
-            <td>{{coinproduct.cp_circulating_supply}}</td>
-            <td>{{coinproduct.cp_total_supply}}</td>
+          <tr *ngFor="let coinDetails of coinData;let i = index">
+            <td class="cp_24four_change column-price">{{coinDetails.dayPrice * currencyVal | number : '.0-2'}}</td>
+            <td class="cp_7day_change column-HRchange">{{coinDetails.weeklyChange * this.currencyVal | number : '.0-2'}}</td>
+            <td class="cp_30day_change column-dayChange">{{10 * (i+1) * this.currencyVal | number : '.0-2'}}</td>
+            <td>{{30 * (i+1) * this.currencyVal | number : '.0-2'}}</td>
+            <td>{{coinDetails.highestPrice * this.currencyVal | number : '.0-2'}} / {{coinDetails.lowestPrice * this.currencyVal | number : '.0-2'}}</td>
+            <td>{{2 * (i+1) * this.currencyVal | number : '.0-2'}}</td>
+            <td>{{2 * (i+1) * this.currencyVal | number : '.0-2'}}</td>
+            <td>{{100 * (i+1) * this.currencyVal | number : '.0-2'}}</td>
           </tr>
-
         </tbody>
       </table>
     </div>

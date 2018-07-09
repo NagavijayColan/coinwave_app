@@ -3,7 +3,7 @@
   <div class="container">
 
     <div class="grid_view_head">
-      <h6>User Name/Info</h6>
+      <h6><b>{{userName}}</b></h6>
       <div class="price_data">
         <h2>$2,000.00
           <i class="fa fa-arrows-v" aria-hidden="true"></i>
@@ -120,7 +120,7 @@
     </div>
     <!--list_view-->
 
-    <div *ngIf="noData" class="noDataFound">No data found!</div>
+    <div *ngIf="noData" class="noDataFound">You have not yet added any data to portfolio!</div>
     <div *ngIf="getLoggedIn" class="noDataFound">Please Log in To Get Portfolio List</div>
   </div>
 </div>

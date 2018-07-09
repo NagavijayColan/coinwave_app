@@ -3,6 +3,7 @@ import { Router } from '@angular/router'
 import { CompDataSharingService } from "../../comp-data-sharing.service";
 import {CommonServiceService} from '../../common-service.service';
 import { SocialUser, AuthService, FacebookLoginProvider, GoogleLoginProvider, LinkedinLoginProvider } from 'ng4-social-login';
+import { debug } from 'util';
 
 @Component({
   selector: 'app-header',
@@ -38,6 +39,7 @@ export class HeaderComponent implements OnInit {
         this.signUpModal.hide();
         this.loginModal.hide();
         this.successModal.show();
+        this.errorModal.hide();
     })
     this.dataShare.trigger_errorMessagePopUp_listener().subscribe((m: any) => {
         // this.signUpModal.hide();
@@ -48,6 +50,10 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
+        this.signUpModal.hide();
+        this.loginModal.hide();
+        this.successModal.hide();
+        this.errorModal.hide();
     this.activeClass = this.router.url;
     this.userName = 'k';
     if (localStorage.getItem('userToken')) {
@@ -84,6 +90,7 @@ export class HeaderComponent implements OnInit {
     this.dataShare.callLogOut_filter();
     this.dataShare.changeTo_default_theme_filter();
     this.dataShare.get_all_coins_filter();
+    this.dataShare.clear_portfolio_Data_filter();
     this.isLoggedIn = false;
   }
   // signUpWithMail(userReg) {
@@ -151,7 +158,7 @@ export class HeaderComponent implements OnInit {
     )
   }
 
-  signInWithFB(): void {
+  signInWithFB(): void { 
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then(
       (userData) => {
         this.commonService.sociallogInAction(userData);
@@ -167,7 +174,6 @@ export class HeaderComponent implements OnInit {
   }
 
   signInWithLinkedIN(): void {
-
     this.authService.signIn(LinkedinLoginProvider.PROVIDER_ID).then(
       (userData) => {
        this.commonService.sociallogInAction(userData);

@@ -26,6 +26,7 @@ export class ExchangeComponent implements OnInit {
         if(data.length > 0 ){
           this.noData = false;
         }
+        console.log(data)
         this.exchangeData = data;
         this.showLoadSpinner = false;
       },

@@ -20,8 +20,8 @@
       <td>{{i +1}}</td>
       <td class="exchange_clr">{{exchanges.name}}</td>
       <td>{{exchanges.NoOfCoins}}</td>
-      <td>{{exchanges.volume}}</td>
-      <td>{{exchanges.volumePercent}}</td>
+      <td>{{exchanges.volume | number : '.0-2'}}</td>
+      <td>{{exchanges.volumePercent | number : '.0-2'}}</td>
       <td class="trade_btn"><button>Trade </button></td>
     </tr>
   </tbody>

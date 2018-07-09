@@ -19,7 +19,7 @@
                         <div class="">
                             <a>Welcome</a>
                             <span> {{userName}} |</span>
-                            <a (click)="logOut()"> Log Out</a>
+                            <a (click)="logOut()"> Log out</a>
                         </div>
                     </li>
                 </ul>
@@ -59,7 +59,7 @@
                         <div class="">
                             <a>Welcome</a>
                             <span> {{userName}} |</span>
-                            <a (click)="logOut()"> Log Out</a>
+                            <a (click)="logOut()"> Log out</a>
                         </div>
                     </li>
                     <li>
@@ -85,7 +85,7 @@
 
 <!--Modal: Login Form-->
 <div mdbModal #loginform="mdb-modal" class=" modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-    aria-hidden="true">
+    aria-hidden="true" [config]="{backdrop: false, ignoreBackdropClick: false}">
     <div class="modal-dialog cascading-modal" role="document">
         <!--Content-->
         <div class="modal-content">
@@ -100,7 +100,7 @@
             </div>
             <!--Body-->
             <div class="modal-body">
-                    <label style="color:red;" *ngIf="errormessageLogin">Fields should not be empty</label>
+                    <label style="color:red;" *ngIf="errormessageLogin">Please Enter all mandatory fields</label>
                 <form id="loginCredentials">
                 <div class="md-form form-sm">
                     <i class="fa fa-envelope prefix"></i>
@@ -142,8 +142,8 @@
 <!--Modal: Login Form-->
 
 <!--Modal: Register Form-->
-<div mdbModal #registerform="mdb-modal" class="modal fade" id="modalRegister" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-    aria-hidden="true">
+<div mdbModal #registerform="mdb-modal" class="modal fade" id="modalRegister1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+    aria-hidden="true" [config]="{backdrop: false, ignoreBackdropClick: false}">
     <div class="modal-dialog cascading-modal" role="document">
         <!--Content-->
         <div class="modal-content">
@@ -158,7 +158,7 @@
             </div>
             <!--Body-->
             <div class="modal-body">
-                    <label style="color:red;" *ngIf="errormessageSignUp">Fields should not be empty</label>
+                    <label style="color:red;" *ngIf="errormessageSignUp">Please Enter all mandatory fields</label>
                     <form id="signuPCredentials">
                 <div class="md-form form-sm">
                     <i class="fa fa-user prefix"></i>
@@ -213,14 +213,14 @@
           <div class="modal-header">
               <h4 class="modal-title w-auto" id="myModalLabel">{{successMessagePopup}}</h4>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="successMessage.hide()">
-                  <span aria-hidden="true">×</span>
+                  <span aria-hidden="true" style="margin-left:10px;">×</span>
               </button>
           </div>
       </div>
   </div>
 </div>
 <!-- Error  Pop Up-->
-<div mdbModal #errorMessage="mdb-modal" class="modal fade right" id="centralModalSm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div mdbModal #errorMessage="mdb-modal" class="modal fade right" id="centralModalSm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" [config]="{backdrop: false, ignoreBackdropClick: false}">
   <div class="modal-dialog modal-side modal-top-right" role="document">
       <div class="modal-content">
           <div class="modal-header">

@@ -13,11 +13,16 @@ export class CompDataSharingService {
   private currencyVal = new Subject<any>();
   private makeDefaultTheme = new Subject<any>();
   private getAllCoinsLogOut = new Subject<any>();
+  private getAloonFavCoins = new Subject<any>();
   private trigger_login = new Subject<any>();
   private trigger_successMes = new Subject<any>();
   private trigger_errorMes = new Subject<any>();
   private trigger_social_login = new Subject<any>();
-  
+  private userProfile = new Subject<any>();
+  private userTheme = new Subject<any>();
+  private portFolio = new Subject<any>();
+  private portFolio_clear = new Subject<any>();
+  private clear_interval = new Subject<any>();
   
 /* Refresh Rate  */
   refreshRateListen(): Observable<any> {
@@ -77,6 +82,12 @@ export class CompDataSharingService {
   get_all_coins_filter(){
     this.getAllCoinsLogOut.next();
   }
+  get_favAndNormal_coins_listener(){
+    return this.getAloonFavCoins.asObservable();
+  }
+  get_favAndNormal_coins_filter(){
+    this.getAloonFavCoins.next();
+  }
   trigger_loginPopUp_listener(){
     return this.trigger_login.asObservable();
   }
@@ -102,10 +113,34 @@ export class CompDataSharingService {
     this.trigger_social_login.next(type);
   }
   userProfile_listener(){
-    return this.trigger_social_login.asObservable();
+    return this.userProfile.asObservable();
   }
   userProfile_filter(){
-    this.trigger_errorMes.next();
+    this.userProfile.next();
+  }
+  user_theme_listener(){
+    return this.userTheme.asObservable();
+  }
+  user_theme_filter(theme : any){
+    this.userTheme.next(theme);
+  }
+  portfolio_Data_listener(){
+    return this.portFolio.asObservable();
+  }
+  portfolio_Data_filter(){
+    this.portFolio.next();
+  }
+  clear_portfolio_Data_listener(){
+    return this.portFolio_clear.asObservable();
+  }
+  clear_portfolio_Data_filter(){
+    this.portFolio_clear.next();
+  }
+  clear_interval_filter(){
+    this.clear_interval.next();
+  }
+  clear_interval_listener(){
+    return this.clear_interval.asObservable();
   }
   private changeGraphTheme = new BehaviorSubject<string>("default message");
   currentMessage = this.changeGraphTheme.asObservable();

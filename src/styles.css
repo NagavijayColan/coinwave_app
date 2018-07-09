@@ -157,7 +157,7 @@ th.select-column-header { width: 73px !important}
 @media only screen and (min-width: 320px) and (max-width: 979px) {
   .sub_theme {-ms-flex-direction: column;flex-direction: column;}
   .sub_theme ul {-ms-flex-direction: column;flex-direction: column;}
-  .sel-term { flex-wrap: wrap;}
+  
   .button_icon, .button_icon:hover {margin-left:0px;margin-top: 20px;}
   span.close_icon {width: auto;margin-top: 18px; margin-left: 27px;}
   .sub_theme ul li{border: 0px;}
@@ -761,7 +761,7 @@ td.cp_24four_change::after , td.cp_7day_change::after , td.cp_30day_change::afte
     float: left;
     height:400px !important;
   }
-  #modalRegister .modal-content{
+  .modal-content{
     width:100% !important;
   }
 
@@ -769,7 +769,7 @@ td.cp_24four_change::after , td.cp_7day_change::after , td.cp_30day_change::afte
 @media only screen and (min-width: 768px) and (max-width: 979px) {
 .dollar label{font-size: 26px;}
 .coinpage-head {display: flex;margin: 20px 0;}
-#modalRegister .modal-content{
+ .modal-content{
   width:100% !important;
 }
 }
@@ -983,8 +983,8 @@ nouislider{
  color:  rgba(252,0,1,0.4)
 }
 .upDownSymbol{
-  float: right;
-  margin-right: 10px;
+  /* float: right; */
+  margin-left: 10px;
 }
 iframe body .js-rootresizer__contents{
   background: #000;
@@ -992,9 +992,7 @@ iframe body .js-rootresizer__contents{
 .chart-container.active{
   border:0px !important;
 }
-#modalRegister .modal-content{
-  width:600px;
-}
+
 .black-theme .favorite_coin:checked:before {
   color: rgb(255, 255, 0);
 }
@@ -1255,9 +1253,7 @@ input.favorite_coin {
  .modal-dialog.cascading-modal .modal-footer  a{
       color: blue !important;
  }
- .modal .modal-side{
-   width: 500px !important;
- }
+
  .logInWithFacebook{
   background: #3b5a9a;
   padding: 17px 42px;
@@ -1390,4 +1386,52 @@ input.favorite_coin {
 }
 .error{
   border-bottom: 1px solid red !important;
+}
+@media (max-width:990px) and (min-width : 320px){
+  .sort_by_block{
+    display: none;
+  }
+  .mobileViewAdvFltr{
+    display: block !important;
+  }
+  .undosymbol{
+    margin-top: 0px !important;
+  }
+  .modal .modal-side{
+    width: auto !important;
+  }
+}
+@media (min-width : 991px){
+  .modal .modal-side{
+    width:600px !important;
+  }
+}
+.undosymbol{
+  margin-left: 5px;
+  margin-top:-11px;
+  cursor: pointer;
+}
+.modal-backdrop{
+  z-index: -9999 !important;
+  background: transparent !important;
+}
+.modal-backdrop.in{
+  opacity: 0 !important;
+}
+.chart-controls-bar-buttons.chart-series-controls a{
+   display:none !important;
+}
+.black-theme .customBtnGraph,.black-theme .group.space-single{
+  background: #333 !important;
+  color : #fff !important;
+}
+.white-theme .customBtnGraph{
+  background: #fff !important;
+  color : #333 !important;
+}
+.header-chart-panel .space-single{
+  padding: 0px !important;
+}
+.pointer-none{
+  pointer-events: none;
 }

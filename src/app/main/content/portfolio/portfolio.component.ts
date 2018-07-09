@@ -18,10 +18,20 @@ export class PortfolioComponent implements OnInit {
   public noData;
   public getLoggedIn;
   public showLoadSpinner:Boolean;
+  public userName;
   constructor(private http: Http, private changeGraphTheme: CompDataSharingService) {
   this.gridSelected = false; this.listSelected = true;
     this.changeGraphTheme.searchCoinExchange().subscribe((searchT: any) => {
       this.searchText = searchT;
+    })
+    this.changeGraphTheme.portfolio_Data_listener().subscribe(()=>{
+      this.getPortfolioList();
+      this.getLoggedIn = false;
+    })
+    this.changeGraphTheme.clear_portfolio_Data_listener().subscribe(()=>{
+      this.coinList = [];
+      this.portfoliogrid = [];
+      this.getLoggedIn = true;
     })
   }
   changeGridView(ev) {
@@ -48,51 +58,9 @@ export class PortfolioComponent implements OnInit {
   ngOnInit() {
     if(localStorage.getItem('userToken')){
        this.showLoadSpinner = true;
+       this.userName = localStorage.getItem('userName')
     }
-    this.listData = [
-      {
-        Sno: '1', coin: 'Bitcoin(BTC)', price: '$10222.00↓', HRchange: '11.20%', dayChange: '2.20%',
-        Hrvolume: '$16,288,423,566', marketCap: '$16,288,423,566', hrhigh: '$16,784', hrlow: '$16,784',
-      },
-      {
-        Sno: '2', coin: 'Ripple', price: '$10222.00↓', HRchange: '11.20%', dayChange: '2.20%',
-        Hrvolume: '$16,288,423,566', marketCap: '$16,288,423,566', hrhigh: '$16,784', hrlow: '$16,784',
-      },
-      {
-        Sno: '3', coin: 'Bitcoin(BTC)', price: '$10222.00↓', HRchange: '11.20%', dayChange: '2.20%',
-        Hrvolume: '$16,288,423,566', marketCap: '$16,288,423,566', hrhigh: '$16,784', hrlow: '$16,784',
-      },
-      {
-        Sno: '4', coin: 'Ripple', price: '$10222.00↓', HRchange: '11.20%', dayChange: '2.20%',
-        Hrvolume: '$16,288,423,566', marketCap: '$16,288,423,566', hrhigh: '$16,784', hrlow: '$16,784',
-      },
-      {
-        Sno: '5', coin: 'Bitcoin(BTC)', price: '$10222.00↓', HRchange: '11.20%', dayChange: '2.20%',
-        Hrvolume: '$16,288,423,566', marketCap: '$16,288,423,566', hrhigh: '$16,784', hrlow: '$16,784',
-      },
-      {
-        Sno: '6', coin: 'Ripple', price: '$10222.00↓', HRchange: '11.20%', dayChange: '2.20%',
-        Hrvolume: '$16,288,423,566', marketCap: '$16,288,423,566', hrhigh: '$16,784', hrlow: '$16,784',
-      },
-      {
-        Sno: '7', coin: 'Bitcoin(BTC)', price: '$10222.00↓', HRchange: '11.20%', dayChange: '2.20%',
-        Hrvolume: '$16,288,423,566', marketCap: '$16,288,423,566', hrhigh: '$16,784', hrlow: '$16,784',
-      },
-      {
-        Sno: '8', coin: 'Ripple', price: '$10222.00↓', HRchange: '11.20%', dayChange: '2.20%',
-        Hrvolume: '$16,288,423,566', marketCap: '$16,288,423,566', hrhigh: '$16,784', hrlow: '$16,784',
-      },
-      {
-        Sno: '9', coin: 'Bitcoin(BTC)', price: '$10222.00↓', HRchange: '11.20%', dayChange: '2.20%',
-        Hrvolume: '$16,288,423,566', marketCap: '$16,288,423,566', hrhigh: '$16,784', hrlow: '$16,784',
-      },
-      {
-        Sno: '10', coin: 'Ripple', price: '$10222.00↓', HRchange: '11.20%', dayChange: '2.20%',
-        Hrvolume: '$16,288,423,566', marketCap: '$16,288,423,566', hrhigh: '$16,784', hrlow: '$16,784',
-      },
-
-    ];
-    this.getCoinList();
+    this.getPortfolioList();
     // setInterval(() => {
     //   this. getCoinList()
     // },3000)
@@ -100,7 +68,7 @@ export class PortfolioComponent implements OnInit {
   }
 
 
-  getCoinList() {
+  getPortfolioList() {
     if (localStorage.getItem('userToken')) {
       let tokenV = localStorage.getItem('userToken');
       this.http.post('http://18.191.202.171:5687/api/coins/getPortfolio', { token: tokenV }).map(
@@ -112,9 +80,15 @@ export class PortfolioComponent implements OnInit {
           this.showLoadSpinner = false;
           this.coinList = data;
           this.portfoliogrid = data;
-        })
+        },
+        err => {
+          this.showLoadSpinner = false;
+          this.noData = true;
+        }
+      )
     }
     else{
+      this.showLoadSpinner = false;
       this.getLoggedIn = true;
     }
 
