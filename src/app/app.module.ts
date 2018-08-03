@@ -34,6 +34,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EmailvalidationDirective } from '../app/directives/emailvalidation.directive'
 import { OnlyalphabetsDirective } from '../app/directives/onlyalphabets.directive';
+
 function getAuthServiceConfigs() {
   const CONFIG = new AuthServiceConfig([
     {
@@ -83,6 +84,7 @@ function getAuthServiceConfigs() {
     Ng2OrderModule,
     HttpModule,
     HttpClientModule,
+    AmChartsModule,
     IonRangeSliderModule,
     ReactiveFormsModule,
     MDBBootstrapModule.forRoot(),

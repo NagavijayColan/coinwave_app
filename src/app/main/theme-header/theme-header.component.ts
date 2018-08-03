@@ -79,6 +79,7 @@ export class ThemeHeaderComponent implements OnInit {
     
   }
   ngOnInit() {
+    this.loadScript()
     this.popUpEnabled = true;
     this.themeBlack = {
       'volumePaneSize': "large",
@@ -140,13 +141,13 @@ export class ThemeHeaderComponent implements OnInit {
 
       'symbolWatermarkProperties.color ': "rgba(0, 0, 0, 0.00)",
 
-      'mainSeriesProperties.candleStyle.upColor': "#ff6939",
+      'mainSeriesProperties.candleStyle.upColor': "#1abc9c",
       'mainSeriesProperties.candleStyle.downColor': "#000",
       'mainSeriesProperties.candleStyle.drawWick': true,
       'mainSeriesProperties.candleStyle.drawBorder': true,
-      'mainSeriesProperties.candleStyle.borderColor': "#378658",
-      'mainSeriesProperties.candleStyle.borderUpColor': "green",
-      'mainSeriesProperties.candleStyle.borderDownColor': "green",
+      'mainSeriesProperties.candleStyle.borderColor': "#1abc9c",
+      'mainSeriesProperties.candleStyle.borderUpColor': "#9b59b6",
+      'mainSeriesProperties.candleStyle.borderDownColor': "#9b59b6",
       'mainSeriesProperties.candleStyle.wickUpColor': 'rgba( 115, 115, 117, 1)',
       'mainSeriesProperties.candleStyle.wickDownColor': 'rgba( 115, 115, 117, 1)',
       'mainSeriesProperties.candleStyle.barColorsOnPrevClose': false,
@@ -292,7 +293,7 @@ export class ThemeHeaderComponent implements OnInit {
     else {
       this.defaultTheme();
     }
-    this.http.get('http://18.191.202.171:5687/getCurrencies').map(response => response.json()).subscribe(data => {
+    this.http.get('http://54.165.36.80:5687/getCurrencies').map(response => response.json()).subscribe(data => {
       console.log(data)
       this.currencyTypeList = data;
     })
@@ -340,10 +341,27 @@ export class ThemeHeaderComponent implements OnInit {
     setTimeout(() => {
       let langDropDown = document.getElementsByClassName("goog-te-combo")[0];
 
-      langDropDown.addEventListener("select", this.changeSiteLanguage());
+      langDropDown.addEventListener("change", this.changeSiteLanguage());
     }, 3000);
-
   }
+  loadScript() {
+    console.log(document.getElementById('google_translate_element'))
+    if(document.getElementById('google_translate_element')){
+        alert()
+    }
+    else{
+       let body = <HTMLDivElement> document.body;
+    let script = document.createElement('script');
+    script.innerHTML = '';
+    script.src = '//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+    script.async = true;
+    script.defer = true;
+    body.appendChild(script);
+    let scriptLoad = document.createElement('script');
+    scriptLoad.innerHTML =  "function googleTranslateElementInit() {new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');}"
+    body.appendChild(scriptLoad);
+    }
+}
   siteColor() {
     let siteColor;
     let body = document.getElementsByTagName('body')[0];
@@ -353,6 +371,7 @@ export class ThemeHeaderComponent implements OnInit {
       this.passData2Comp.volumeTheme = this.volume_white;
       this.passData2Comp.toolsBg = '#fff'
       this.changeGraphTheme.changeMessage(this.passData2Comp);
+      this.changeGraphTheme.chnageTheme_of_amchart_filter('white');
       body.classList.remove('black-theme');
       body.classList.add('white-theme');
       siteColor = 'white-theme'
@@ -361,13 +380,13 @@ export class ThemeHeaderComponent implements OnInit {
       this.passData2Comp.theme = this.themeBlack
       this.passData2Comp.volumeTheme = this.volume_black;
       this.passData2Comp.toolsBg = '#000'
-      this.changeGraphTheme.changeMessage(this.passData2Comp)
+      this.changeGraphTheme.changeMessage(this.passData2Comp);
+      this.changeGraphTheme.chnageTheme_of_amchart_filter('black');
       body.classList.add('black-theme');
       body.classList.remove('white-theme');
       siteColor = 'black-theme';
     }
     this.themeSettings['siteColor'] = siteColor;
-
   }
 
   themeSectionHide() {
@@ -401,7 +420,7 @@ export class ThemeHeaderComponent implements OnInit {
 
   selectCurrency(text, image) {
     
-    this.http.post('http://18.191.202.171:5687/currencyConverter', { converter: text }).map(response => response.json()).subscribe(data => {
+    this.http.post('http://54.165.36.80:5687/currencyConverter', { converter: text }).map(response => response.json()).subscribe(data => {
       this.currencyvalue = data.rate.toFixed(2);
       localStorage.setItem('currencyRate', this.currencyvalue);
 
@@ -470,7 +489,9 @@ export class ThemeHeaderComponent implements OnInit {
         localStorage.setItem('siteC', siteC);
       }
       this.themeSettings['token'] = localStorage.getItem('userToken');
-      this.http.put('http://18.191.202.171:5687/api/userSetting/update', this.themeSettings).map(response => response.json()).subscribe(data => {
+      let siteLang = document.getElementsByClassName("goog-te-combo")[0].value;
+      this.themeSettings['siteLanguage'] = siteLang;
+      this.http.put('http://54.165.36.80:5687/api/userSetting/update', this.themeSettings).map(response => response.json()).subscribe(data => {
         this.changeGraphTheme.trigger_successMessagePopUp_filter('Your Theme Updated Successfully !')
       },
         error => {
@@ -483,8 +504,7 @@ export class ThemeHeaderComponent implements OnInit {
     }
   }
   changeSiteLanguage() {
-    let siteLang = document.getElementsByClassName("goog-te-combo")[0].value;
-    this.themeSettings['siteLanguage'] = siteLang;
+    
   }
   signUpWithMail(userReg) {
 
@@ -499,10 +519,9 @@ export class ThemeHeaderComponent implements OnInit {
 
   }
   userTheme() {
-    debugger
     console.log('User Theme')
     let tokenV = localStorage.getItem('userToken');
-    this.http.post('http://18.191.202.171:5687/api/userSetting/getUserData', { token: tokenV }).map(response => response.json()).subscribe(data => {
+    this.http.post('http://54.165.36.80:5687/api/userSetting/getUserData', { token: tokenV }).map(response => response.json()).subscribe(data => {
       this.desktoplists = data.customizeColumns.desktop;
       this.mobilelists = data.customizeColumns.mobile;
       this.appList = data.customizeColumns.app;
@@ -515,6 +534,16 @@ export class ThemeHeaderComponent implements OnInit {
       localStorage.setItem('customizeColumns', data.customizeColumns);
       let body = document.getElementsByTagName('body')[0];
       body.classList.remove('black-theme');
+     
+      let a = document.querySelector("#google_translate_element select");
+     console.log(a)
+      let options = a.getElementsByTagName('option');
+        for(let i = 0;i <options.length; i++){
+          if(data.siteLanguage == options[i].value){
+                a.selectedIndex=i;
+                a.dispatchEvent(new Event('change'));
+          }
+        }
       body.classList.add(data.siteColor);
       if (data.siteColor == 'white-theme') {
         
@@ -559,7 +588,7 @@ export class ThemeHeaderComponent implements OnInit {
     this.currencyText = 'USD';
     localStorage.setItem('currencyRate', this.currencyvalue);
     this.refreshDefault = '1';
-    let data = { "desktop": [{ "label": "Expand", "ischecked": true, "key": "expand" }, { "label": "Favourite", "ischecked": true, "key": "favourite" }, { "label": "Coin", "ischecked": true, "key": "coin" }, { "label": "Price", "ischecked": true, "key": "price" }, { "label": "24 HR (%)", "ischecked": true, "key": "dayChange" }, { "label": "7 Day (%)", "ischecked": true, "key": "weaklyChange" }, { "label": "Volume (24 H)", "ischecked": true, "key": "dayVolume" }, { "label": "Market Cap", "ischecked": true, "key": "marketCap" }, { "label": "24 HR High/Low", "ischecked": true, "key": "dayHighLow" }, { "label": "Circulation Supply ", "ischecked": false, "key": "circulationSupply" }, { "label": "Total Supply", "ischecked": false, "key": "totalSupply" }, { "label": "Exchanges ", "ischecked": false, "key": "exchanges" }], "mobile": [{ "label": "Expand", "ischecked": true, "key": "expand" }, { "label": "Favourite", "ischecked": true, "key": "favourite" }, { "label": "Coin", "ischecked": true, "key": "coin" }, { "label": "Price", "ischecked": true, "key": "price" }, { "label": "24 HR (%)", "ischecked": false, "key": "dayChange" }, { "label": "7 Day (%)", "ischecked": false, "key": "weaklyChange" }, { "label": "Volume (24 H)", "ischecked": false, "key": "dayVolume" }, { "label": "Market Cap", "ischecked": false, "key": "marketCap" }, { "label": "24 HR High/Low", "ischecked": false, "key": "dayHighLow" }, { "label": "Circulation Supply ", "ischecked": false, "key": "circulationSupply" }, { "label": "Total Supply", "ischecked": false, "key": "totalSupply" }, { "label": "Exchanges ", "ischecked": false, "key": "exchanges" }], "app": [{ "label": "Expand", "ischecked": true, "key": "expand" }, { "label": "Favourite", "ischecked": true, "key": "favourite" }, { "label": "Coin", "ischecked": true, "key": "coin" }, { "label": "Price", "ischecked": true, "key": "price" }, { "label": "24 HR (%)", "ischecked": true, "key": "dayChange" }, { "label": "7 Day (%)", "ischecked": true, "key": "weaklyChange" }, { "label": "Volume (24 H)", "ischecked": false, "key": "dayVolume" }, { "label": "Market Cap", "ischecked": false, "key": "marketCap" }, { "label": "24 HR High/Low", "ischecked": false, "key": "dayHighLow" }, { "label": "Circulation Supply ", "ischecked": false, "key": "circulationSupply" }, { "label": "Total Supply", "ischecked": false, "key": "totalSupply" }, { "label": "Exchanges ", "ischecked": false, "key": "exchanges" }] }
+    let data = { "desktop": [{ "label": "Graph", "ischecked": true, "key": "expand" }, { "label": "Favourite", "ischecked": true, "key": "favourite" }, { "label": "Coin", "ischecked": true, "key": "coin" }, { "label": "Price", "ischecked": true, "key": "price" }, { "label": "24 HR (%)", "ischecked": true, "key": "dayChange" }, { "label": "7 Day (%)", "ischecked": true, "key": "weaklyChange" }, { "label": "Volume (24 H)", "ischecked": true, "key": "dayVolume" }, { "label": "Market Cap", "ischecked": true, "key": "marketCap" }, { "label": "24 HR High/Low", "ischecked": true, "key": "dayHighLow" }, { "label": "Circulation Supply ", "ischecked": false, "key": "circulationSupply" }, { "label": "Total Supply", "ischecked": false, "key": "totalSupply" }, { "label": "Exchanges ", "ischecked": false, "key": "exchanges" }], "mobile": [{ "label": "Graph", "ischecked": true, "key": "expand" }, { "label": "Favourite", "ischecked": true, "key": "favourite" }, { "label": "Coin", "ischecked": true, "key": "coin" }, { "label": "Price", "ischecked": true, "key": "price" }, { "label": "24 HR (%)", "ischecked": false, "key": "dayChange" }, { "label": "7 Day (%)", "ischecked": false, "key": "weaklyChange" }, { "label": "Volume (24 H)", "ischecked": false, "key": "dayVolume" }, { "label": "Market Cap", "ischecked": false, "key": "marketCap" }, { "label": "24 HR High/Low", "ischecked": false, "key": "dayHighLow" }, { "label": "Circulation Supply ", "ischecked": false, "key": "circulationSupply" }, { "label": "Total Supply", "ischecked": false, "key": "totalSupply" }, { "label": "Exchanges ", "ischecked": false, "key": "exchanges" }], "app": [{ "label": "Graph", "ischecked": true, "key": "expand" }, { "label": "Favourite", "ischecked": true, "key": "favourite" }, { "label": "Coin", "ischecked": true, "key": "coin" }, { "label": "Price", "ischecked": true, "key": "price" }, { "label": "24 HR (%)", "ischecked": true, "key": "dayChange" }, { "label": "7 Day (%)", "ischecked": true, "key": "weaklyChange" }, { "label": "Volume (24 H)", "ischecked": false, "key": "dayVolume" }, { "label": "Market Cap", "ischecked": false, "key": "marketCap" }, { "label": "24 HR High/Low", "ischecked": false, "key": "dayHighLow" }, { "label": "Circulation Supply ", "ischecked": false, "key": "circulationSupply" }, { "label": "Total Supply", "ischecked": false, "key": "totalSupply" }, { "label": "Exchanges ", "ischecked": false, "key": "exchanges" }] }
     let dataS = JSON.stringify(data);
     localStorage.setItem('customizeColumns', dataS);
     this.changeGraphTheme.customizeColumns_filter(data);

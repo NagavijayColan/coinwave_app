@@ -18,7 +18,11 @@ export class CoinlistComponent implements OnInit {
   public userDetails;
   public currencyValue;
   public maxVolume;
+  public marketCapVal;
   public hideInMobileView;
+  public parameterPrice;
+  public parameterVol;
+  public parameterMarkCap;
   @ViewChild("component1") component1;
   @ViewChild('priceVal') priceVal: IonRangeSliderComponent;
   @ViewChild('dayChange') dayChange: IonRangeSliderComponent;
@@ -34,6 +38,7 @@ export class CoinlistComponent implements OnInit {
 
   // special params:
   ngOnInit() {
+    
     if (window.screen.width > 990) {
       this.hideInMobileView = true;
   }
@@ -48,11 +53,14 @@ export class CoinlistComponent implements OnInit {
     }
     this.location.replaceState('/coinlist');
     this.advFilter = [];
-
-    this.http.get('http://18.191.202.171:5687/exchange/getMax').map(response => response.json()).subscribe(data => {
-
-      this.maxPrice = (data[0].maxPrice * this.currencyValue).toFixed(2) + 100;
-      this.maxVolume = (data[0].maxVolume * this.currencyValue).toFixed(2) + 100;
+    this.http.get('http://54.165.36.80:5687/exchange/getMax').map(response => response.json()).subscribe(data => {
+      this.maxPrice = ((data[0].maxPrice +  data[0].maxPrice * 20 / 100) * this.currencyValue).toFixed(2)
+      this.maxPrice = this.makeNumber(this.maxPrice,'price');
+      this.maxVolume = ((data[0].maxVolume +  data[0].maxVolume * 20 / 100) * this.currencyValue).toFixed(2)
+      this.maxVolume = this.makeNumber(this.maxVolume,'volume');
+      this.marketCapVal = ((data[0].marketCapValue +  data[0].marketCapValue * 20 / 100) * this.currencyValue).toFixed(2)
+      alert(this.marketCapVal)
+      this.marketCapVal = this.makeNumber(this.marketCapVal,'marketCap');
     })
   }
   sortTable(key) {
@@ -100,7 +108,6 @@ export class CoinlistComponent implements OnInit {
     if (!this.isThere) {
       this.advFilter.push(getfilterdData)
     }
-
   }
   weeklyFilter(event) {
     let getfilterdData = {
@@ -142,7 +149,23 @@ export class CoinlistComponent implements OnInit {
     }
   }
   marketCapFilter(event) {
-
+    let getfilterdData = {
+      "marketCapValue": {
+        "from": event.from,
+        "to": event.to
+      }
+    }
+    this.isThere = false;
+    for (let i = 0; i < this.advFilter.length; i++) {
+      if (this.advFilter[i].marketCapValue) {
+        this.isThere = true;
+        this.advFilter.splice(i, 1);
+        this.advFilter.push(getfilterdData)
+      }
+    }
+    if (!this.isThere) {
+      this.advFilter.push(getfilterdData);
+    }
   }
   resetAdvFilter() {
     if (this.advFilter.length > 0) {
@@ -152,15 +175,15 @@ export class CoinlistComponent implements OnInit {
         this.component1.userNormalData();
       }
       this.priceVal.update({ from: 0, to: this.maxPrice });
-      this.dayChange.update({ from: 0, to: 100 });
-      this.weeklyChange.update({ from: 0, to: 100 });
+      this.dayChange.update({ from: -100, to: 100 });
+      this.weeklyChange.update({ from: -100, to: 100 });
       this.volume24H.update({ from: 0, to: this.maxVolume });
     }
   }
   advancedSearchFilter() {
     if (this.advFilter.length > 0) {
       this.changeGraphTheme.clear_interval_filter();
-      this.http.post('http://18.191.202.171:5687/exchange/getusd', { filter: this.advFilter }).map(response => response.json()).
+      this.http.post('http://54.165.36.80:5687/exchange/getusd', { filter: this.advFilter ,from : 0,to:1500 }).map(response => response.json()).
         subscribe(
         data => {
           console.log(data)
@@ -173,4 +196,48 @@ export class CoinlistComponent implements OnInit {
         })
     }
   }
+  makeNumber(labelValue,type) {debugger
+    if(Math.abs(Number(labelValue)) >= 1.0e+9){
+          if(type == 'price'){
+              this.parameterPrice = 'M'
+          }
+          else if(type == 'volume'){
+              this.parameterVol = 'M'
+          }
+          else if(type == 'marketCap'){
+              this.parameterMarkCap = 'M'
+          }
+          return Math.abs(Number(labelValue)) / 1.0e+9 
+    }
+    else if(Math.abs(Number(labelValue)) >= 1.0e+6){
+      if(type == 'price'){
+        this.parameterPrice = 'B'
+    }
+    else if(type == 'volume'){
+        this.parameterVol = 'B'
+    }
+    else if(type == 'marketCap'){
+        this.parameterMarkCap = 'B'
+    }
+          return Math.abs(Number(labelValue)) / 1.0e+6 
+    }
+    else if(Math.abs(Number(labelValue)) >= 1.0e+3){
+      if(type == 'price'){
+        this.parameterPrice = 'K'
+    }
+    else if(type == 'volume'){
+        this.parameterVol = 'K'
+    }
+    else if(type == 'marketCap'){
+        this.parameterMarkCap = 'K'
+    }
+          return Math.abs(Number(labelValue)) / 1.0e+3 
+    }
+    else {
+      return Math.abs(Number(labelValue)).toFixed(2);
+    }
+    // Nine Zeroes for Billions
+   
+
+}
 }

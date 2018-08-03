@@ -11,6 +11,8 @@ import {
 } from '../../../../assets/charting_library/charting_library.min';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
+import { AmChartsService, AmChart } from "@amcharts/amcharts3-angular";
+import { setInterval } from 'timers';
 @Component({
     selector: 'app-coinpage',
     templateUrl: './coinpage.component.html',
@@ -62,6 +64,12 @@ export class CoinpageComponent implements OnInit {
     public refreshRate;
     public toolsBgDyn;
     public volumeTheme;
+    public chart;
+    public greenColor;
+    public redColor;
+    public btnActive;
+    public amchartVariable;
+    public chartDataProvider;
     @Input()
     set symbol(symbol: ChartingLibraryWidgetOptions['symbol']) {
         this._symbol = symbol || this._symbol;
@@ -118,7 +126,7 @@ export class CoinpageComponent implements OnInit {
     }
     @Input() graphId: string;
 
-    constructor(private commonService : CommonServiceService,private http: Http, private aroute: ActivatedRoute, private changeGraphTheme: CompDataSharingService) { 
+    constructor(private AmCharts: AmChartsService,private commonService : CommonServiceService,private http: Http, private aroute: ActivatedRoute, private changeGraphTheme: CompDataSharingService) { 
         this.changeGraphTheme.user_theme_listener().subscribe((theme : any) => {
             this.graphTheme = theme.theme;
             this.toolsBgDyn = theme.toolsBg;
@@ -126,12 +134,29 @@ export class CoinpageComponent implements OnInit {
             this.refreshRate = theme.refreshrate;
             
         })
+        this.changeGraphTheme.chnageTheme_of_amchart_listener().subscribe((theme : any) =>{
+            if(theme == 'black'){
+                 this.backgroundColor  = '#000';
+                 this.themeType ='dark';
+                 this.greenColor =  '#00FE2A';
+                 this.redColor = '#DA0202';
+            }
+            else if(theme == 'white'){
+                this.backgroundColor  = '#fff';
+                this.themeType ='light';
+                this.greenColor =  '#00C300';
+                this.redColor = '#E70000';
+            }
+           
+          })
     }
     ngOnInit() {
+       
         // this.graphThemeColor = {
         //     theme: '',
         //     bgColor: ''
         // }
+        this.btnActive = 'candlestick'
         this.changeGraphTheme.currentMessage.subscribe(message => this.graphThemeColor = message)
         this.currencyVal = localStorage.getItem('currencyRate');
         this.isOpened = false;
@@ -149,7 +174,7 @@ export class CoinpageComponent implements OnInit {
         this.aroute.params.subscribe(params => {
             this.coinKey = params['id'];
         });
-        this.http.get("http://18.191.202.171:5687/exchange/getusd/" + this.coinKey).map(
+        this.http.get("http://54.165.36.80:5687/exchange/getusd/" + this.coinKey).map(
             response => response.json()).subscribe(
             data => {
                 this.coinName = data[0].name;
@@ -164,7 +189,12 @@ export class CoinpageComponent implements OnInit {
         this.setIntervalTime = 1000;
         this.overrides_obj = this.graphThemeColor;
 
-        this.generateGraph(this.coinKey);
+        // this.generateGraph(this.coinKey);
+        this.http.post('http://54.165.36.80:5687/exchange/getChart',{ pair: this.coinKey,interval: 30 , range : 100 }).map(response => response.json()).subscribe(data => {
+            this.chartDataProvider = data;
+            this.themeDo('candleStickChart',this.chartDataProvider,'coin');
+        })
+        
     }
     key: string = 'name';
     reverse: boolean = false;
@@ -213,7 +243,7 @@ export class CoinpageComponent implements OnInit {
                 jQuery.ajax({
                     method: 'POST',
                     async: true,
-                    url: 'http://18.191.202.171:5687/exchange/getChart',
+                    url: 'http://54.165.36.80:5687/exchange/getChart',
                     data: { pair: coinToken },
                     success: function (response) {
 
@@ -231,7 +261,7 @@ export class CoinpageComponent implements OnInit {
                     jQuery.ajax({
                         method: 'POST',
                         async: true,
-                        url: 'http://18.191.202.171:5687/exchange/getLastSecData',
+                        url: 'http://54.165.36.80:5687/exchange/getLastSecData',
                         data: { pair: coinToken },
                         success: function (response) {
 
@@ -392,7 +422,7 @@ export class CoinpageComponent implements OnInit {
         if (localStorage.getItem('userToken')) {
             this.showLoadSpinner = true;
             let tokenV = localStorage.getItem('userToken');
-            this.http.put('http://18.191.202.171:5687/api/userSetting/update', { portfolio: this.coinKey, token: tokenV }).map(
+            this.http.put('http://54.165.36.80:5687/api/userSetting/update', { portfolio: this.coinKey, token: tokenV }).map(
                 response => response.json()).subscribe(
                 data => {
                     this.showLoadSpinner = false
@@ -408,9 +438,293 @@ export class CoinpageComponent implements OnInit {
                 this.showLoadSpinner = false
                 this.changeGraphTheme.trigger_loginPopUp_filter();
               }
+
     }
     buyCoin() {
         this.isOpened = !this.isOpened
     }
-   
+    themeDo(chartId, chartData, coinToken) {
+      let isTheme = document.getElementsByTagName('body')[0].classList.contains('black-theme')
+      if (isTheme) {
+          this.greenColor = '#00FE2A';
+          this.redColor = '#DA0202';
+      }
+      else {
+          this.greenColor = '#00C300';
+          this.redColor = '#E70000';
+      }
+      
+      //   AmCharts.addMovingAverage(this.chartConfig.dataSets[0], this.chartConfig.panels[0], 'value', {
+      //     useDataSetColors: false,
+      //     color: "#ccffcc",
+      //     title: "Moving average"
+      // });
+      this.amchartVariable = this.AmCharts.makeChart(chartId, {
+          "type": "stock",
+          "mouseWheelZoomEnabled": true,
+          "theme": 'dark',
+          "glueToTheEnd": true,
+          "categoryAxesSettings": {
+              "minPeriod": "mm",
+              // "groupToPeriods": ["15mm"],
+              "equalSpacing" : true,
+              "parseDates" : false,
+          },
+          "dataSets": [{
+              "fieldMappings": [{
+                  "fromField": "open",
+                  "toField": "open"
+              }, {
+                  "fromField": "close",
+                  "toField": "close"
+              }, {
+                  "fromField": "high",
+                  "toField": "high"
+              }, {
+                  "fromField": "low",
+                  "toField": "low"
+              }, {
+                  "fromField": "volume",
+                  "toField": "volume"
+              }, {
+                  "fromField": "value",
+                  "toField": "value"
+              }],
+              "color": "#7f8da9",
+              "dataProvider": chartData,
+              "title": "West Stock",
+              "categoryField": "date"
+          },
+          // , {
+          //   "fieldMappings": [ {
+          //     "fromField": "vwap",
+          //     "toField": "vwap"
+          //   },
+          //   {
+          //     "fromField": "date",
+          //     "toField": "date"
+          //   } ],
+          //   "color": "#fac314",
+          //   "dataProvider": this.vwaparray,
+          //   "compared": true,
+          //   "title": "East Stock",
+          //   "categoryField": "date"
+          // } 
+          {
+              "showCategoryAxis": true,
+              "title": "VWAP",
+              "fieldMappings": [{
+                  "fromField": "vwap",
+                  "toField": "vwap"
+              }],
+              //   dataProvider: this.vwaparray,
+              "categoryField": "date",
+              "compared": true
+          }
+          ],
+          "zoomControl"  : {
+              "maxZoomLevel":64,
+              "minZoomLevel" : 1,
+              "left":1
+          },
+
+          "panels": [{
+              "title": "Value",
+              "showCategoryAxis": true,
+              "marginRight": 0,
+              "percentHeight": 70,
+              "recalculateToPercents": "never",
+              "valueAxes": [{
+                  "id": "v1",
+                  "dashLength": 5,
+                  "gridThickness": 1,
+                  "position": "right",
+                  "ignoreAxisWidth": true,
+                 
+
+              }],
+              "categoryAxis": {
+                  "minPeriod": 'ss',
+                  "autoWrap": true,
+                  "gridPosition": "start",
+                  "labelRotation": 35,
+                  "dashLength": 1,
+                  "labelFrequency": 6,
+                  "autoGridCount": false,
+                  "gridThickness": 1,
+                  "alwaysGroup": false,
+                  "minHorizontalGap": 40,
+                  "ignoreAxisWidth": true,
+                  "labelsEnabled": true,
+                  "startOnAxis" : false,
+                  "dateFormats": [{period:'fff',format:'JJ:NN:SS'},{period:'ss',format:'JJ:NN:SS'},{period:'mm',format:'MMM DD JJ:NN'},{period:'hh',format:'JJ:NN'},{period:'DD',format:'MMM DD'},{period:'WW',format:'MMM DD'},{period:'MM',format:'MMM'},{period:'YYYY',format:'YYYY'}]
+              },
+                  "stockGraphs": [{
+                  "type": "candlestick",
+                  "id": "g1",
+                  "balloonText": "Open:<b>[[open]]</b><br>Low:<b>[[low]]</b><br>High:<b>[[high]]</b><br>Close:<b>[[close]]</b><br>",
+                  "openField": "open",
+                  "closeField": "close",
+                  "highField": "high",
+                  "lowField": "low",
+                  "valueField": "close",
+                  "lineColor": this.greenColor,
+                  "fillColors": this.greenColor,
+                  "negativeLineColor": this.redColor,
+                  "negativeFillColors": this.redColor,
+                  "lineAlpha": 0.7,
+                  "fillAlphas": 1,
+                  "useDataSetColors": false,
+                  "comparable": true,
+                  "compareField": "value",
+                  "showBalloon": true,
+                  "proCandlesticks": true
+              }],
+
+              "stockLegend": {
+                  "valueTextRegular": undefined,
+                  "periodValueTextComparing": "[[percents.value.close]]%"
+              },
+              "drawingIconsEnabled": true
+          },
+
+              // {
+              //   "title": "Volume",
+              //   "recalculateToPercents": "never",
+              //   "marginTop": 1,
+              //   "showCategoryAxis": true,
+              //   "valueAxes": [ {
+              //     "dashLength": 5,
+              //     "gridThickness":0
+              //   } ],
+
+              //   "categoryAxis": {
+              //     "dashLength": 5,
+              //     "gridThickness":0
+              //   },
+
+              //   "stockGraphs": [ {
+              //     "valueField": "volume",
+              //     "lineThickness":2,
+              //     "showBalloon": false,
+              //   } ],
+
+              //   "stockLegend": {
+              //     "markerType": "none",
+              //     "markerSize": 0,
+              //     "labelText": "",
+              //     "periodValueTextRegular": "[[value.close]]"
+              //   },
+              //   // "drawingIconsEnabled": true
+              // },
+          ],
+
+          "chartScrollbarSettings": {
+              "graph": "g1",
+              "graphType": "line",
+              "usePeriod": "mm",
+              "height": 1,
+          },
+          "chartCursor": {
+              "categoryBalloonDateFormat": "DD MMMM",
+              "cursorPosition": "middle",
+              
+          },
+          "valueAxesSettings": {
+              "inside": false,
+              "showLastLabel" : true
+            },
+            "panelsSettings" : {
+              "marginRight": 50,
+              "marginTop":30,
+              "marginBottom":40
+            },
+          "chartCursorSettings": {
+              "valueLineBalloonEnabled": true,
+              "valueLineEnabled": true,
+              "cursorColor": "#fff",
+              "valueBalloonsEnabled": true,
+              "dateFormats": [{period:'fff',format:'JJ:NN:SS'},{period:'ss',format:'JJ:NN:SS'},{period:'mm',format:'MMM DD JJ:NN'},{period:'hh',format:'JJ:NN'},{period:'DD',format:'MMM DD'},{period:'WW',format:'MMM DD'},{period:'MM',format:'MMM'},{period:'YYYY',format:'YYYY'}]
+
+
+              //   "categoryBalloonDateFormats": [ {
+              //     "period": "mm",
+              //     "format": "NN:SS"
+              //   }, {
+              //     "period": "hh",
+              //     "format": "NN:SS:QQQ"
+              //   } ]
+          },
+          
+          
+          "export": {
+              "enabled": true,
+              "position": "top-left"
+          },
+          "event": "zoomed",
+          "method": '',
+      });
+      // this.amchartVariable.dataProvider = chartData;
+      // setInterval(() => {
+      //     this.AutoUpdateOfChart();
+      // }, 3000)
+  }
+  chartDispal(coinToken,intervalTime,rangeVal,btn){
+      if(this.amchartVariable[coinToken][btn]){
+          this.amchartVariable[coinToken].dataProvider = [];
+          let data = this.amchartVariable[coinToken][btn];
+          this.amchartVariable[coinToken].dataSets[0].dataProvider = data
+          // this.amchartVariable[coinToken].dataProvider = data;
+          this.amchartVariable[coinToken].zoomOut();    
+          this.amchartVariable[coinToken].validateData(); 
+          this.amchartVariable[coinToken].zoomOut();
+      }
+      else{
+           this.http.post('http://54.165.36.80:5687/exchange/getChart', { pair: coinToken, interval: intervalTime , range : rangeVal }).map(response => response.json()).subscribe(data => {
+              this.amchartVariable[coinToken][btn] = data;
+              this.amchartVariable[coinToken].dataProvider = [];
+              this.amchartVariable[coinToken].dataSets[0].dataProvider = data
+              // this.amchartVariable[coinToken].dataProvider = data;
+              this.amchartVariable[coinToken].zoomOut();         
+              this.amchartVariable[coinToken].validateData();
+              this.amchartVariable[coinToken].zoomOut();    
+              
+          })
+      }
+      // this.isBtnClicked = btn
+     
+  }
+  // AutoUpdateOfChart() {
+
+  //     for (let propt in this.amchartVariable) {
+  //         this.http.post('http://54.165.36.80:5687/exchange/getLastSecData', { pair: propt }).map(response => response.json()).subscribe(data => {
+  //             // this.chartDataProvider.push(data);
+  //             let k = this.AmCharts;
+  //             data[0]['date'] = new Date().toISOString();
+  //             if (data.length > 0) {
+  //                 console.log(this.amchartVariable.dataProvider.length)
+  //                 // this.chartDataProvider.push(data[0]);
+  //                 this.amchartVariable.dataSets[0].dataProvider.push(data[0])
+  //                 this.amchartVariable.dataProvider.shift();
+  //                 this.amchartVariable.validateData();
+  //             }
+  //         })
+  //     }
+  // }
+  changeType(type, variable) {
+      if (type) {
+          // this.btnActive= type;
+          this.amchartVariable.panels[0].stockGraphs[0].type = type;
+          if (type == 'line') {
+              this.amchartVariable.panels[0].stockGraphs[0].fillAlphas = 0;
+              this.amchartVariable.validateData();
+
+          }
+          else if (type == 'candlestick') {
+              this.amchartVariable.panels[0].stockGraphs[0].fillAlphas = 1;
+              this.amchartVariable.validateData();
+          }
+      }
+      // this.amchartVariable.validateNow();
+  }
 }

@@ -11,16 +11,35 @@ export class ExchangeComponent implements OnInit {
   public showLoadSpinner;
   public searchText;
   public noData;
+  public runningInterval;
+  public clearInterval;
   constructor(private http : Http,private changeGraphTheme: CompDataSharingService) { 
     this.changeGraphTheme.searchCoinExchange().subscribe((searchT: any) => {
+     
       this.searchText = searchT;
+    })
+    this.changeGraphTheme.exchange_data_listener().subscribe(() => {
+          this.exchangeData=[];
+          this.exchangeDatas();
     })
   }
 
   ngOnInit() {
+    this.clearInterval = true;
     this.noData = true;
     this.showLoadSpinner = true; 
-    this.http.get("http://18.191.202.171:5687/exchange/exchangeSummary").map(
+    this.exchangeDatas();
+
+ }
+  
+ key: string = 'name'; 
+ reverse: boolean = false;
+ sort(key){
+   this.key = key;
+   this.reverse = !this.reverse;
+ }
+ exchangeDatas(){
+  this.http.get("http://54.165.36.80:5687/exchange/exchangeSummary").map(
     response => response.json()).subscribe(
       data => {
         if(data.length > 0 ){
@@ -31,31 +50,5 @@ export class ExchangeComponent implements OnInit {
         this.showLoadSpinner = false;
       },
     );
-//     this.exchangeData = [
-//       {Sno:'1',  exchange: 'Binance',  nocoins: '293',  volume: '$2,077,982,435',  volumeper: '$16,784',
-//       trade:'Sign up', },
-//       {Sno:'2',  exchange: 'Okex',  nocoins: '413',  volume: '$1,077,982,435',  volumeper: '$16,724',
-//       trade:'Sign up', },
-//       {Sno:'3',  exchange: 'Binance',  nocoins: '293',  volume: '$2,077,982,435',  volumeper: '$16,784',
-//       trade:'Sign up', },
-//       {Sno:'4',  exchange: 'Okex',  nocoins: '413',  volume: '$1,077,982,435',  volumeper: '$16,724',
-//       trade:'Sign up', },
-//       {Sno:'5',  exchange: 'Binance',  nocoins: '293',  volume: '$2,077,982,435',  volumeper: '$16,784',
-//       trade:'Sign up', },
-//       {Sno:'6',  exchange: 'Okex',  nocoins: '413',  volume: '$1,077,982,435',  volumeper: '$16,724',
-//       trade:'Sign up', },
-//       {Sno:'7',  exchange: 'Binance',  nocoins: '293',  volume: '$2,077,982,435',  volumeper: '$16,784',
-//       trade:'Sign up', },
-//       {Sno:'8',  exchange: 'Okex',  nocoins: '413',  volume: '$1,077,982,435',  volumeper: '$16,724',
-//       trade:'Sign up', },
-//  ];
  }
-  
- key: string = 'name'; 
- reverse: boolean = false;
- sort(key){
-   this.key = key;
-   this.reverse = !this.reverse;
- }
- 
 }

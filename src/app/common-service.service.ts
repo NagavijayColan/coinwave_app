@@ -13,15 +13,14 @@ export class CommonServiceService {
     }
     else {
       userReg.loginType = 'Manual';
-      this.http.post('http://18.191.202.171:5687/user/register', userReg).subscribe(data => {
+      this.http.post('http://54.165.36.80:5687/user/register', userReg).subscribe(data => {
         localStorage.setItem('userToken', data['access_token']);
         localStorage.setItem('userName', data['userName']);
         if(sessionStorage.getItem('favouriteCoins') ){
-          debugger
           let favcoin = JSON.parse(sessionStorage.getItem('favouriteCoins'));
           if(favcoin.length > 0){
             let tokenV = localStorage.getItem('userToken');
-            this.http.put('http://18.191.202.171:5687/api/userSetting/update', { favourites: favcoin, token: tokenV }).
+            this.http.put('http://54.165.36.80:5687/api/userSetting/update', { favourites: favcoin, token: tokenV }).
             subscribe(data => {
                 console.log(data)
             })
@@ -56,7 +55,7 @@ export class CommonServiceService {
     }
     else {
       
-      this.http.post('http://18.191.202.171:5687/user/login', userLogin).subscribe(data => {
+      this.http.post('http://54.165.36.80:5687/user/login', userLogin).subscribe(data => {
         localStorage.setItem('userToken', data['access_token']);
         localStorage.setItem('userName', data['userName']);
         let lang = "/en/" + data['siteLanguage'];
@@ -66,7 +65,7 @@ export class CommonServiceService {
           let favcoin = JSON.parse(sessionStorage.getItem('favouriteCoins'));
           if(favcoin.length > 0){
             let tokenV = localStorage.getItem('userToken');
-            this.http.put('http://18.191.202.171:5687/api/userSetting/update', { favourites: favcoin, token: tokenV }).
+            this.http.put('http://54.165.36.80:5687/api/userSetting/update', { favourites: favcoin, token: tokenV }).
             subscribe(data => {
                 console.log(data)
             })
@@ -101,7 +100,7 @@ export class CommonServiceService {
     userReg['loginId'] = userData.id;
     userReg['loginType'] = userData.provider;
     userReg['userName'] = userData.name;
-    this.http.post('http://18.191.202.171:5687/user/socialLogin', userReg).subscribe(data => {
+    this.http.post('http://54.165.36.80:5687/user/socialLogin', userReg).subscribe(data => {
       localStorage.setItem('userToken', data['access_token']);
       localStorage.setItem('userName', data['userName']);
       let lang = "/en/" + data['siteLanguage'];
@@ -110,7 +109,7 @@ export class CommonServiceService {
         let favcoin = JSON.parse(sessionStorage.getItem('favouriteCoins'));
         if(favcoin.length > 0){
           let tokenV = localStorage.getItem('userToken');
-          this.http.put('http://18.191.202.171:5687/api/userSetting/update', { favourites: favcoin, token: tokenV }).
+          this.http.put('http://54.165.36.80:5687/api/userSetting/update', { favourites: favcoin, token: tokenV }).
           subscribe(data => {
               console.log(data)
           })

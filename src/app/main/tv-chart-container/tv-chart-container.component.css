@@ -11,3 +11,17 @@
     width:100%;
     text-align: center;
 }
+.buttons_perio_sel0{
+    width: 100%;
+    float: left;
+    margin-top: 20px;
+}
+.buttons_perio_sel0 button{
+    float: left;
+    border: 0px;
+    width: 16.666%;
+    padding: 3px 0px;
+    background: #333;
+    border: 1px solid #fff;
+    color: #fff;
+}

@@ -10,7 +10,7 @@
         <ul class="add_lst">
           <li (click)="buyCoin()">
             <a>
-              <button class="buyCoinsBtn">Buy {{coinName}} <span><img class="coinImage" src="http://18.191.202.171:5687/upload/{{coinImage}}" ></span></button>
+              <button class="buyCoinsBtn">Buy {{coinName}} <span><img class="coinImage" src="http://54.165.36.80:5687/upload/{{coinImage}}" ></span></button>
             </a>
           </li>
           <li (click)="addToPortfolio()">
@@ -83,8 +83,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let coinDetails of coinData;let i = index">
-            <td class="cp_24four_change column-price">{{coinDetails.dayPrice * currencyVal | number : '.0-2'}}</td>
+          <tr *ngFor="let coinDetails of coinData;let i = index" [style.background] = "coinDetails.hexavalues">
+            <td style="back:coinDetails.hexavalues" class="cp_24four_change column-price">{{coinDetails.dayPrice * currencyVal | number : '.0-2'}}</td>
             <td class="cp_7day_change column-HRchange">{{coinDetails.weeklyChange * this.currencyVal | number : '.0-2'}}</td>
             <td class="cp_30day_change column-dayChange">{{10 * (i+1) * this.currencyVal | number : '.0-2'}}</td>
             <td>{{30 * (i+1) * this.currencyVal | number : '.0-2'}}</td>
@@ -103,7 +103,15 @@
 
 
         <div class="graph">
-          <div class="app-tv-chart-container app-tv-chart-container_single" id="coinDetails_tv"></div>
+           <label class="typeChangeBtn "><button  class=" btn" [ngClass]="{'active' : btnActive  == 'candlestick' }" (click)="changeType('candlestick');">Candlestick</button></label>
+          <label class="typeChangeBtn"><button class=" btn" [ngClass]="{'active' : btnActive  == 'ohlc' }" (click)="changeType('ohlc');">OHLC</button></label>
+          <label class="typeChangeBtn"><button class=" btn" [ngClass]="{'active' : btnActive  == 'line' }" (click)="changeType('line');">Line</button></label>
+          <label class="typeChangeBtn"><button class=" btn" [ngClass]="{'active' : btnActive  == 'smoothedLine' }" (click)="changeType('smoothedLine');">Advanced</button></label>
+          <!-- <label><button (click)="changeTheme('');">Area</button></label> -->
+          <!-- <label><button (click)="changeTheme('dark');">Theme</button></label>
+          <label><button [disabled]="disabled" (click)="vwapaaaa();">VWAP</button></label> -->
+          <!-- <div class="app-tv-chart-container app-tv-chart-container_single" id="coinDetails_tv"></div> -->
+          <div id="candleStickChart" [ngStyle]="{'background-color': backgroundColor  }"  [style.height.px]="650" style="width:100%;float:left;margin-right:10px;" ></div>
           <!-- <div id="coinDataChart" [ngStyle]="{'background-color': backgroundColor  }" [style.width.%]="100" [style.height.px]="550" style="float:left;margin-right:10px;" ></div> -->
         </div>
       </div>

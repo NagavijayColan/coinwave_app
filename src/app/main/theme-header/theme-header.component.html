@@ -153,6 +153,7 @@
                     <div class="options_list">
                         <div class="desktop_options col-md-4 col-lg-4 col-sm-12 col-xs-12">
                             <span class="lst_tlt">Desktop</span>
+                            <span class="lst_tlt">Coinlist</span>
                             <div class="form-check" *ngFor="let desklist of desktoplists">
                                 <input class="form-check-input" [(ngModel)]="desklist.ischecked" (change)="coulumnCustomization({desktop : desktoplists,mobile:mobilelists,app : mobilelists},desktoplists)"
                                     type="checkbox" name="listsgroup">

@@ -7,6 +7,7 @@ import { SocialUser, AuthService, FacebookLoginProvider, GoogleLoginProvider, Li
 import { debug } from 'util';
 import { CompDataSharingService } from "../comp-data-sharing.service";
 import {CommonServiceService} from '../common-service.service'
+import { document } from 'angular-bootstrap-md/utils/facade/browser';
 declare var IN: any;
 @Component({
   selector: 'app-login',
@@ -51,10 +52,8 @@ export class LoginComponent implements OnInit {
       },
       error => {
           console.log(error)
-      }
-    )
+      })
   }
-
   signInWithFB(): void {
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID).then(
       (userData) => {
@@ -62,23 +61,18 @@ export class LoginComponent implements OnInit {
     },
     error => {
         console.log(error)
-    }
-    );
+    });
   }
-
   signInWithLinkedIN(): void {
-
     this.authService.signIn(LinkedinLoginProvider.PROVIDER_ID).then(
       (userData) => {
         this.commonService.sociallogInAction(userData)
     },
     error => {
         console.log(error)
-    }
-    );
+    });
   }
   signOut(): void {
-
     this.authService.signOut();
   }
 
@@ -110,7 +104,5 @@ export class LoginComponent implements OnInit {
     else{
       this.errormessageLogin = true;
     }
-    
   }
-  
 }

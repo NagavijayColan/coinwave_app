@@ -23,6 +23,8 @@ export class CompDataSharingService {
   private portFolio = new Subject<any>();
   private portFolio_clear = new Subject<any>();
   private clear_interval = new Subject<any>();
+  private amchart_theme = new Subject<any>();
+  private exchange = new Subject<any>();
   
 /* Refresh Rate  */
   refreshRateListen(): Observable<any> {
@@ -35,7 +37,7 @@ export class CompDataSharingService {
   searchCoinExchange(): Observable<any> {
     return this.searchData.asObservable();
   }
-  searchDataFilter(text: string,) {
+  searchDataFilter(text: any,) {
      this.searchData.next(text);
   }
   /* Column Customization  */
@@ -130,6 +132,13 @@ export class CompDataSharingService {
   portfolio_Data_filter(){
     this.portFolio.next();
   }
+  exchange_data_listener(){
+    return this.exchange.asObservable();
+  }
+  exchange_data_filter(){
+    this.exchange.next();
+  }
+  
   clear_portfolio_Data_listener(){
     return this.portFolio_clear.asObservable();
   }
@@ -141,6 +150,12 @@ export class CompDataSharingService {
   }
   clear_interval_listener(){
     return this.clear_interval.asObservable();
+  }
+  chnageTheme_of_amchart_filter(theme : any){
+    this.amchart_theme.next(theme);
+  }
+  chnageTheme_of_amchart_listener(){
+    return this.amchart_theme.asObservable();
   }
   private changeGraphTheme = new BehaviorSubject<string>("default message");
   currentMessage = this.changeGraphTheme.asObservable();

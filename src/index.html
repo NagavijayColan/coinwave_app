@@ -8,7 +8,12 @@
     api_key:81cfwlcwom5acc
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.icon">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+  <script src="https://www.amcharts.com/lib/3/serial.js"></script>
+  <script src="https://www.amcharts.com/lib/3/amstock.js"></script>
+  <script src="/assets/js/dark_theme.js"></script>
+  <script src="/assets/js/chart_theme.js"></script>
   <script src="/assets/datafeeds/udf/dist/polyfills.js"></script>
   <script src="/assets/datafeeds/udf/dist/bundle.js"></script>
   <!-- <script src="https://apis.google.com/js/platform.js?onload=onLoadGoogleCallback" async defer></script> -->
@@ -16,13 +21,62 @@
   <script> -->
     <script type="text/javascript" src="/assets/js/google_translate.js"></script>  
   <script>
-    function googleTranslateElementInit() {
-      new google.translate.TranslateElement({pageLanguage: 'fr'}, 'google_translate_element');
-    }
- </script>
+ AmCharts.averageGraphs = 0;
+ AmCharts.addMovingAverage = function( dataSet, panel, field, graph ) {
+   // update dataset
+   var avgField = "avg" + AmCharts.averageGraphs;
+   dataSet.fieldMappings.push({
+     "fromField": avgField,
+     "toField": avgField
+   });
+ 
+   // calculate moving average
+   var fc = 0;
+
+   var sum = 0;
+   for ( var i = 0; i < dataSet.dataProvider.length; i++ ) {
+     var dp = dataSet.dataProvider[ i ];
+     if ( dp[ field ] !== undefined ) {
+       sum += dp[ field ];
+       fc++;
+       dp[ avgField ] = Math.round( sum / fc * 10 ) / 10;
+     }
+   }
+ 
+   // create a graph
+   graph.valueField = avgField;
+   panel.stockGraphs.push( graph );
+ 
+   // increment average graph count
+   AmCharts.averageGraphs++;
+ }
+//  function googleTranslateElementInit() {
+//    new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');
+//  }
+ 
+ function onLoadGoogleCallback(){
+     gapi.load('auth2', function() {
+       auth2 = gapi.auth2.init({
+         client_id: '347517327969-njvciggsghu7ppjmjmcs3pbunvmpfmqg.apps.googleusercontent.com',
+         cookiepolicy: 'single_host_origin',
+         scope: 'profile'
+       });
+   
+     auth2.attachClickHandler(element, {},
+       function(googleUser) {
+           console.log('Signed in: ' + googleUser.getBasicProfile().getName());
+         }, function(error) {
+           console.log('Sign-in error', error);
+         }
+       );
+     });
+   
+     element = document.getElementById('googleSignIn');
+   }
+  </script>
 
 </head>
-<body class="black-theme">
+<body class="black-theme" (window:resize)="onResize($event)">
   <app-root></app-root>
 </body>
 </html>
