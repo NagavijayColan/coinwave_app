@@ -7,7 +7,7 @@
 .showingNow{
     display: table-row;
 }
-#coin_list_table{
+.coin_list_table{
     width:100%;
     text-align: center;
 }

@@ -78,3 +78,9 @@
   .nowrap_text{
     white-space: nowrap;
   }
+  .customized-coloum-label{
+    padding: 0;
+    text-align: center;
+    width: 100%;
+    display: inline-block;
+  }

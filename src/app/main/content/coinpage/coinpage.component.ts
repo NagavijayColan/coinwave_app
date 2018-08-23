@@ -198,7 +198,7 @@ export class CoinpageComponent implements OnInit {
     }
     key: string = 'name';
     reverse: boolean = false;
-    sort(key) {
+    sort(key) { 
         this.key = key;
         this.reverse = !this.reverse;
     }

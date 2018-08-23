@@ -66,7 +66,7 @@ export class TvChartContainerComponent implements OnInit {
     public favCoinInterval;
     userLogin: any = {};
     userReg: any = {};
-    public clearInterval;
+    private clearInterval;
     public forceLogin;
     public showScrollTop;
     public themeType;
@@ -81,9 +81,14 @@ export class TvChartContainerComponent implements OnInit {
     public reverseValue;
     public isBtnClicked;
     key: string;
+    public advFilter;
     reverse: number;
+    public isAdvFilter;
+    public coinlist_table;
+    public portfolio_table;
     public subscriptions = new Subscription();
-
+    public portfolioList;
+    public getLoggedIn;
     // public amchartVariable  = new  Array<any>(1000);
     public amchartVariable;
     @Input()
@@ -143,6 +148,19 @@ export class TvChartContainerComponent implements OnInit {
     @Input() graphId: string;
 
     constructor(private AmCharts: AmChartsService, private commonService: CommonServiceService, private http: Http, private router: Router, private changeGraphTheme: CompDataSharingService) {
+        this.changeGraphTheme.clear_portfolio_Data_listener().subscribe(() => {
+            this.getLoggedIn = true;
+            this.portfolioList = [];
+
+        })
+        this.changeGraphTheme.portfolio_Data_listener().subscribe(() => {
+            this.clearInterval = true;
+            this.getLoggedIn = false;
+            this.getLoggedIn = true;
+            this.coinList = [];
+            this.getPortfolioList();
+
+        })
         this.changeGraphTheme.refreshRateListen().subscribe((m: any) => {
             this.refreshRateIntervalChange(m);
         });
@@ -180,6 +198,13 @@ export class TvChartContainerComponent implements OnInit {
             this.clearInterval = false;
             clearInterval(this.runningInterval);
         })
+        this.changeGraphTheme.advancedFilter_listener().subscribe((data: any) => {
+            this.advFilter = data;
+            this.advancedSearchFilter(data);
+        })
+        this.changeGraphTheme.reset_advancedFilter_listener().subscribe(() => {
+            this.advFilter = [];
+        })
         this.changeGraphTheme.chnageTheme_of_amchart_listener().subscribe((theme: any) => {
             if (theme == 'black') {
                 this.backgroundColor = '#000';
@@ -193,103 +218,172 @@ export class TvChartContainerComponent implements OnInit {
                 this.greenColor = '#00C300';
                 this.redColor = '#E70000';
             }
-
         })
+
 
     }
 
     ngOnInit() {
-        this.isBtnClicked  = 'btnActive';
-        this.subscriptionOfHttp1 = [];
-        this.key = 'marketCapValue';
-        this.sortingKey = this.key;
-        this.reverse = -1;
-        this.reverseValue = this.reverse == 1 ? true : false;
-        this.weeklyData = []
         this.amchartVariable = {};
-        this.themeType = 'dark';
-        this.backgroundColor = '#000';
-        //this.chartData1 =[{"date":"2012-10-26T18:30:00.000Z","open":125,"close":134,"high":134,"low":123,"volume":316,"value":113},{"date":"2012-10-27T18:30:00.000Z","open":104,"close":105,"high":105,"low":100,"volume":1049,"value":117},{"date":"2012-10-28T18:30:00.000Z","open":118,"close":124,"high":125,"low":117,"volume":584,"value":118},{"date":"2012-10-29T18:30:00.000Z","open":103,"close":106,"high":107,"low":98,"volume":305,"value":117},{"date":"2012-10-30T18:30:00.000Z","open":113,"close":117,"high":119,"low":108,"volume":496,"value":126},{"date":"2012-10-31T18:30:00.000Z","open":115,"close":123,"high":124,"low":112,"volume":585,"value":125},{"date":"2012-11-01T18:30:00.000Z","open":105,"close":110,"high":111,"low":102,"volume":741,"value":127},{"date":"2012-11-02T18:30:00.000Z","open":116,"close":118,"high":119,"low":113,"volume":796,"value":110},{"date":"2012-11-03T18:30:00.000Z","open":122,"close":124,"high":126,"low":119,"volume":132,"value":118},{"date":"2012-11-04T18:30:00.000Z","open":113,"close":121,"high":121,"low":108,"volume":110,"value":130},{"date":"2012-11-05T18:30:00.000Z","open":110,"close":114,"high":118,"low":109,"volume":238,"value":116},{"date":"2012-11-06T18:30:00.000Z","open":115,"close":118,"high":120,"low":114,"volume":831,"value":108},{"date":"2012-11-07T18:30:00.000Z","open":109,"close":104,"high":113,"low":104,"volume":641,"value":113},{"date":"2012-11-08T18:30:00.000Z","open":118,"close":126,"high":129,"low":118,"volume":287,"value":116},{"date":"2012-11-09T18:30:00.000Z","open":122,"close":127,"high":132,"low":120,"volume":1095,"value":113},{"date":"2012-11-10T18:30:00.000Z","open":104,"close":101,"high":105,"low":99,"volume":435,"value":124},{"date":"2012-11-11T18:30:00.000Z","open":109,"close":123,"high":127,"low":108,"volume":886,"value":103},{"date":"2012-11-12T18:30:00.000Z","open":116,"close":128,"high":128,"low":114,"volume":470,"value":117},{"date":"2012-11-13T18:30:00.000Z","open":109,"close":110,"high":110,"low":108,"volume":267,"value":119},{"date":"2012-11-14T18:30:00.000Z","open":116,"close":125,"high":127,"low":112,"volume":508,"value":129},{"date":"2012-11-15T18:30:00.000Z","open":119,"close":132,"high":135,"low":116,"volume":1025,"value":121},{"date":"2012-11-16T18:30:00.000Z","open":100,"close":100,"high":101,"low":97,"volume":1092,"value":125},{"date":"2012-11-17T18:30:00.000Z","open":113,"close":119,"high":120,"low":112,"volume":303,"value":102},{"date":"2012-11-18T18:30:00.000Z","open":106,"close":109,"high":110,"low":102,"volume":716,"value":112},{"date":"2012-11-19T18:30:00.000Z","open":113,"close":114,"high":119,"low":113,"volume":860,"value":110}];
-        // this.variable  =  [{"date":"2012-11-20T18:30:00.000Z","open":119,"close":125,"high":125,"low":119,"volume":206,"value":111},{"date":"2012-11-21T18:30:00.000Z","open":129,"close":127,"high":134,"low":125,"volume":975,"value":116},{"date":"2012-11-22T18:30:00.000Z","open":117,"close":119,"high":122,"low":114,"volume":184,"value":124},{"date":"2012-11-23T18:30:00.000Z","open":100,"close":108,"high":108,"low":99,"volume":502,"value":127},{"date":"2012-11-24T18:30:00.000Z","open":126,"close":135,"high":135,"low":122,"volume":1104,"value":102},{"date":"2012-11-25T18:30:00.000Z","open":128,"close":128,"high":130,"low":126,"volume":390,"value":122}]
-        this.showScrollTop = false;
-        window.addEventListener('scroll', this.getLimitedCoins())
-        this.forceLogin = true;
-        this.clearInterval = true;
-        this.showLoadSpinner = true;
-        this.coinList = [];
-        this.favCoinsList = [];
-        this.currencyValue = localStorage.getItem('currencyRate');
+        this.subscriptionOfHttp1 = [];
+        if (this.router.url == '/coinlist') {
+            this.coinlist_table = true;
+            this.portfolio_table = false;
+            this.isBtnClicked = 'btnActive';
+            this.subscriptionOfHttp1 = [];
+            this.key = 'marketCapValue';
+            this.sortingKey = this.key;
+            this.reverse = -1;
+            this.reverseValue = this.reverse == 1 ? true : false;
+            this.weeklyData = []
 
-        this.changeGraphTheme.currentMessage.subscribe(message => this.graphThemeColor = message);
-        this.setIntervalTime = parseInt(this.graphThemeColor.refreshrate + '000');
-        this.overrides_obj = this.graphThemeColor.theme;
-        this.toolsBg = this.graphThemeColor.toolsBg;
-        if (localStorage.getItem('userToken')) {
-            let tokenV = localStorage.getItem('userToken');
-            this.http.post('http://54.165.36.80:5687/api/userSetting/getUserData', { token: tokenV }).map(response => response.json()).subscribe(data => {
-                this.changeGraphTheme.customizeColumns_filter(data.customizeColumns);
-                this.customizeColUpdate(data.customizeColumns);
-                this.setIntervalTime = data.refreshRate + '000';
-                this.userWithFavCoins();
-            })
+            this.themeType = 'dark';
+            this.backgroundColor = '#000';
+            //this.chartData1 =[{"date":"2012-10-26T18:30:00.000Z","open":125,"close":134,"high":134,"low":123,"volume":316,"value":113},{"date":"2012-10-27T18:30:00.000Z","open":104,"close":105,"high":105,"low":100,"volume":1049,"value":117},{"date":"2012-10-28T18:30:00.000Z","open":118,"close":124,"high":125,"low":117,"volume":584,"value":118},{"date":"2012-10-29T18:30:00.000Z","open":103,"close":106,"high":107,"low":98,"volume":305,"value":117},{"date":"2012-10-30T18:30:00.000Z","open":113,"close":117,"high":119,"low":108,"volume":496,"value":126},{"date":"2012-10-31T18:30:00.000Z","open":115,"close":123,"high":124,"low":112,"volume":585,"value":125},{"date":"2012-11-01T18:30:00.000Z","open":105,"close":110,"high":111,"low":102,"volume":741,"value":127},{"date":"2012-11-02T18:30:00.000Z","open":116,"close":118,"high":119,"low":113,"volume":796,"value":110},{"date":"2012-11-03T18:30:00.000Z","open":122,"close":124,"high":126,"low":119,"volume":132,"value":118},{"date":"2012-11-04T18:30:00.000Z","open":113,"close":121,"high":121,"low":108,"volume":110,"value":130},{"date":"2012-11-05T18:30:00.000Z","open":110,"close":114,"high":118,"low":109,"volume":238,"value":116},{"date":"2012-11-06T18:30:00.000Z","open":115,"close":118,"high":120,"low":114,"volume":831,"value":108},{"date":"2012-11-07T18:30:00.000Z","open":109,"close":104,"high":113,"low":104,"volume":641,"value":113},{"date":"2012-11-08T18:30:00.000Z","open":118,"close":126,"high":129,"low":118,"volume":287,"value":116},{"date":"2012-11-09T18:30:00.000Z","open":122,"close":127,"high":132,"low":120,"volume":1095,"value":113},{"date":"2012-11-10T18:30:00.000Z","open":104,"close":101,"high":105,"low":99,"volume":435,"value":124},{"date":"2012-11-11T18:30:00.000Z","open":109,"close":123,"high":127,"low":108,"volume":886,"value":103},{"date":"2012-11-12T18:30:00.000Z","open":116,"close":128,"high":128,"low":114,"volume":470,"value":117},{"date":"2012-11-13T18:30:00.000Z","open":109,"close":110,"high":110,"low":108,"volume":267,"value":119},{"date":"2012-11-14T18:30:00.000Z","open":116,"close":125,"high":127,"low":112,"volume":508,"value":129},{"date":"2012-11-15T18:30:00.000Z","open":119,"close":132,"high":135,"low":116,"volume":1025,"value":121},{"date":"2012-11-16T18:30:00.000Z","open":100,"close":100,"high":101,"low":97,"volume":1092,"value":125},{"date":"2012-11-17T18:30:00.000Z","open":113,"close":119,"high":120,"low":112,"volume":303,"value":102},{"date":"2012-11-18T18:30:00.000Z","open":106,"close":109,"high":110,"low":102,"volume":716,"value":112},{"date":"2012-11-19T18:30:00.000Z","open":113,"close":114,"high":119,"low":113,"volume":860,"value":110}];
+            // this.variable  =  [{"date":"2012-11-20T18:30:00.000Z","open":119,"close":125,"high":125,"low":119,"volume":206,"value":111},{"date":"2012-11-21T18:30:00.000Z","open":129,"close":127,"high":134,"low":125,"volume":975,"value":116},{"date":"2012-11-22T18:30:00.000Z","open":117,"close":119,"high":122,"low":114,"volume":184,"value":124},{"date":"2012-11-23T18:30:00.000Z","open":100,"close":108,"high":108,"low":99,"volume":502,"value":127},{"date":"2012-11-24T18:30:00.000Z","open":126,"close":135,"high":135,"low":122,"volume":1104,"value":102},{"date":"2012-11-25T18:30:00.000Z","open":128,"close":128,"high":130,"low":126,"volume":390,"value":122}]
+            this.showScrollTop = false;
+            window.addEventListener('scroll', this.getLimitedCoins())
+            this.forceLogin = true;
+            this.clearInterval = true;
+            this.showLoadSpinner = true;
+            this.coinList = [];
+            this.favCoinsList = [];
+            this.currencyValue = localStorage.getItem('currencyRate');
 
+            this.changeGraphTheme.currentMessage.subscribe(message => this.graphThemeColor = message);
+            this.setIntervalTime = parseInt(this.graphThemeColor.refreshrate + '000');
+            this.overrides_obj = this.graphThemeColor.theme;
+            this.toolsBg = this.graphThemeColor.toolsBg;
+            if (localStorage.getItem('userToken')) {
+                this.coinList = [];
+                this.favCoinsList = [];
+                let tokenV = localStorage.getItem('userToken');
+                this.http.post('http://54.165.36.80:5687/api/userSetting/getUserData', { token: tokenV }).map(response => response.json()).subscribe(data => {
+                    this.changeGraphTheme.customizeColumns_filter(data.customizeColumns);
+                    this.customizeColUpdate(data.customizeColumns);
+                    this.setIntervalTime = data.refreshRate + '000';
+                    this.userWithFavCoins();
+                })
+            }
+            else {
+
+                this.coinList = [];
+                this.favCoinsList = [];
+                let cols = localStorage.getItem('customizeColumns')
+                this.customizeColUpdate(JSON.parse(cols));
+                this.getCoinList();
+            }
         }
-        else {
-            let cols = localStorage.getItem('customizeColumns')
-            this.customizeColUpdate(JSON.parse(cols));
-            this.getCoinList();
-        }
+        else if (this.router.url == '/portfolio') {
+            this.coinlist_table = false;
+            this.portfolio_table = true;
+            this.key = 'name';
+            this.sortingKey = this.key;
+            this.reverse = -1;
+            this.reverseValue = this.reverse == 1 ? true : false;
+            if (localStorage.getItem('userToken')) {
+                this.coinList = [];
+                let tokenV = localStorage.getItem('userToken');
+                this.http.post('http://54.165.36.80:5687/api/userSetting/getUserData', { token: tokenV }).map(response => response.json()).subscribe(data => {
+                    this.changeGraphTheme.customizeColumns_filter(data.customizeColumns);
+                    debugger
+                    this.customizeColUpdate(data.customizeColumns);
+                    this.setIntervalTime = data.refreshRate + '000';
+                    this.favCoinsList = [];
+                    this.portfolioList = [];
+                    this.getPortfolioList();
+                    this.getLoggedIn = false;
+                })
 
+            }
+            else {
+                this.getLoggedIn = true;
+                this.portfolioList = [];
+                this.coinList = [];
+                this.favCoinsList = [];
+                let cols = localStorage.getItem('customizeColumns')
+                this.customizeColUpdate(JSON.parse(cols));
+                this.getCoinList();
+            }
+        }
     }
     getAlongFavCoins() {
         let tokenV = localStorage.getItem('userToken');
         if (tokenV && this.clearInterval) {
-            this.subscriptionOfHttp = this.http.post('http://54.165.36.80:5687/api/coins/getFavourites', { token: tokenV }).map(response => response.json()).subscribe(data => {
-                if (this.clearInterval) {
-                    if (this.favCoinsList.length > 0) {
+
+            let toL = this.favCoinsList.length + this.coinList.length > 0 ? this.favCoinsList.length + this.coinList.length : 20;
+            console.log(this.sortingKey);
+            console.log(toL)
+            this.subscriptionOfHttp = this.http.post('http://54.165.36.80:5687/api/coins/getFavourites', { token: tokenV, from: 0, to: toL, sort: { key: this.sortingKey, value: this.reverse } }).map(response => response.json()).subscribe(data => {
+
+                if (this.clearInterval && data.length <= 2) {
+                    if (this.favCoinsList.length > 0 && this.coinList.length > 0) {
                         this.noData = false;
-                        this.updateFavCoinsData(data);
+
+                        for (let n = 0; n < data.length; n++) {
+                            if (data[n].favourite == true) {
+                                this.updateFavCoinsData(data[n].data);
+                            }
+                            else if (data[n].favourite == false) {
+                                this.updateAllCoinsData(data[n].data);
+                            }
+
+                        }
                     }
                     else {
                         this.noData = false;
                         this.showLoadSpinner = false;
-                        this.favCoinsList = data;
-                        if (parseInt(this.setIntervalTime) >= 1000) {
-                            this.favCoinInterval = setInterval(() => {
-                                this.getAlongFavCoins();
-                            }, this.setIntervalTime);
+                        for (let n = 0; n < data.length; n++) {
+                            if (data[n].favourite == true) {
+                                this.favCoinsList = data[n].data;
+                            }
+                            else if (data[n].favourite == false) {
+                                this.coinList = data[n].data;
+                            }
                         }
+                        // this.favCoinsList = data[0].data;
+                        // this.coinList = data[1].data;
+                        // if (parseInt(this.setIntervalTime) >= 1000) {
+                        //     this.runningInterval = setInterval(() => {
+                        //         this.getAlongFavCoins();
+                        //     }, this.setIntervalTime);
+                        // }
                     }
                 }
-            })
-            let toL = this.coinList.length > 0 ? this.coinList.length : 20;
-            this.subscriptionOfHttp = this.http.post('http://54.165.36.80:5687/api/coins/getCoins', { from: 0, to: toL, token: tokenV }).map(response => response.json()).subscribe(data => {
-                if (this.clearInterval) {
-                    if (this.coinList.length > 0 && this.clearInterval) {
-                        this.noData = false;
-                        this.updateAllCoinsData(data);
-                    }
-                    else {
-                        this.noData = false;
-                        this.showLoadSpinner = false;
-                        this.coinList = data;
-                        if (parseInt(this.setIntervalTime) >= 1000) {
-                            this.favCoinInterval = setInterval(() => {
-                                this.getAlongFavCoins();
-                            }, this.setIntervalTime);
-                        }
-                    }
+                else {
+                    this.coinList = data;
                 }
             })
+            // let toL = this.coinList.length > 0 ? this.coinList.length : 20;
+            // this.subscriptionOfHttp = this.http.post('http://54.165.36.80:5687/api/coins/getCoins', { from: 0, to: toL, token: tokenV }).map(response => response.json()).subscribe(data => {
+            //     if (this.clearInterval) {
+            //         if (this.coinList.length > 0 && this.clearInterval) {
+            //             this.noData = false;
+            //             this.updateAllCoinsData(data);
+            //         }
+            //         else {
+            //             this.noData = false;
+            //             this.showLoadSpinner = false;
+            //             this.coinList = data;
+            //             if (parseInt(this.setIntervalTime) >= 1000) {
+            //                 this.runningInterval = setInterval(() => {
+            //                     this.getAlongFavCoins();
+            //                 }, this.setIntervalTime);
+            //             }
+            //         }
+            //     }
+            // })
         }
     }
     getCoinList() {
         if (!localStorage.getItem('userToken') && this.clearInterval) {
+            let upData;
             let toL = this.coinList.length > 0 ? this.coinList.length : 20;
             console.log(this.sortingKey);
-            let request = this.http.post('http://54.165.36.80:5687/exchange/getusd', { from: 0, to: toL, sort: { key: this.sortingKey, value: this.reverse } }).map(
+            upData = { from: 0, to: toL, sort: { key: this.sortingKey, value: this.reverse } }
+            let request = this.http.post('http://54.165.36.80:5687/exchange/getusd', upData).map(
                 response => response.json()).subscribe(
-                data => {``
+                data => {
                     if (this.clearInterval) {
                         this.getallCoins = data;
                         if (data.length == 0) {
@@ -313,7 +407,8 @@ export class TvChartContainerComponent implements OnInit {
                         }
                     }
                 })
-            this.subscriptions.add(request);
+            // this.subscriptions.add(request);
+            this.subscriptionOfHttp1.push(request)
         }
     }
     updateAllCoinsData(allCoins) {
@@ -387,20 +482,33 @@ export class TvChartContainerComponent implements OnInit {
     //     }
     // }
     customizeColUpdate(value) {
-        if (window.screen.width > 990) {
-            this.columnsList = value['desktop'];
-        }
-        else {
-            this.columnsList = value['mobile'];
+
+        if (this.router.url == '/coinlist') {
+            if (window.screen.width > 990) {
+                this.columnsList = value['desktop']['coinlist'];
+            }
+            else {
+                this.columnsList = value['mobile']['coinlist'];
+            }
+            for (let i = 0; i < this.columnsList.length; i++) {
+                this.resolutionColumn[this.columnsList[i].key] = this.columnsList[i].ischecked;
+            }
         }
 
-        for (let i = 0; i < this.columnsList.length; i++) {
-            this.resolutionColumn[this.columnsList[i].key] = this.columnsList[i].ischecked;
+        if (this.router.url == '/portfolio') {
+            if (window.screen.width > 990) {
+                this.columnsList = value['desktop']['portfolio'];
+            }
+            else {
+                this.columnsList = value['mobile']['portfolio'];
+            }
+            for (let i = 0; i < this.columnsList.length; i++) {
+                this.resolutionColumn[this.columnsList[i].key] = this.columnsList[i].ischecked;
+            }
         }
-
-
     }
     expandGraph(ev, i, coinToken, coinName, chartId, rowId) {
+        debugger
 
         if (document.getElementById(rowId + i).classList.contains('showingNow')) {
             document.getElementById(rowId + i).classList.remove('showingNow');
@@ -433,49 +541,103 @@ export class TvChartContainerComponent implements OnInit {
             if (elementExp.contains('fa-arrows-alt')) {
                 elementExp.add('fa-arrows');
                 elementExp.remove('fa-arrows-alt');
-                this.http.post('http://54.165.36.80:5687/exchange/getChart', { pair: coinToken, interval: 30 , range : 100 }).map(response => response.json()).subscribe(data => {
-                console.log(data)    
-                this.themeDo(i, data, coinToken);
+                this.http.post('http://54.165.36.80:5687/exchange/getChart', { pair: coinToken, interval: 30, range: 300 }).map(response => response.json()).subscribe(data => {
+                    console.log(data)
+                    this.themeDo(i, data, coinToken);
                     this.barsData = data;
                     //this.generateData(30, 1, coinToken);
                 })
                 // this.generateGraph(chartId+i,coinToken,coinName)
             }
         }
-
     }
 
     sort(key) {
+        debugger
+
         this.clearInterval = false;
         clearInterval(this.subscriptionOfHttp);
-        this.subscriptions.unsubscribe();
-        // if (this.subscriptionOfHttp1.length > 0) {
-        //     for (let m = 0; m < this.subscriptionOfHttp1.length; m++) {
-        //         if (!this.subscriptionOfHttp1[m].closed) {
-        //             this.subscriptionOfHttp1[m].unsubscribe();
-        //         }
-        //     }
-        // }
+        // this.subscriptions.unsubscribe();
+
+        if (this.subscriptionOfHttp1.length > 0) {
+            for (let m = 0; m < this.subscriptionOfHttp1.length; m++) {
+                if (!this.subscriptionOfHttp1[m].closed) {
+                    this.subscriptionOfHttp1[m].unsubscribe();
+                }
+            }
+        }
 
         this.sortingKey = key;
         this.key = key;
         this.reverse = this.reverse == -1 ? 1 : -1;
         this.reverseValue = this.reverse == -1 ? false : true;
-        if (localStorage.getItem('userToken')) {
+        if (this.router.url == '/coinlist') {
+            if (localStorage.getItem('userToken')) {
+                let tokenV = localStorage.getItem('userToken')
+                let toL = this.coinList.length > 0 ? this.coinList.length : 20;
+                let request = this.http.post('http://54.165.36.80:5687/api/coins/getFavourites', { token: tokenV, filter: this.advFilter, from: 0, to: toL, sort: { key: this.sortingKey, value: this.reverse } }).map(
+                    response => response.json()).subscribe(
+                    data => {
+                        debugger
+                        if (data.length <= 2) {
 
-        } else {
-            this.coinList = []
+                            this.noData = false;
+                            this.showLoadSpinner = false;
+                            for (let n = 0; n < data.length; n++) {
+                                if (data[n].favourite == true) {
+                                    this.favCoinsList = data[n].data;
+                                }
+                                else if (data[n].favourite == false) {
+                                    this.coinList = data[n].data;
+                                }
+                            }
+                            // this.favCoinsList = data[0].data;
+                            // this.coinList = data[1].data;
+                            if (parseInt(this.setIntervalTime) >= 1000) {
+                                this.runningInterval = setInterval(() => {
+                                    this.getAlongFavCoins();
+                                }, this.setIntervalTime);
+                            }
+                        }
+
+                        else {
+                            this.coinList = data;
+                        }
+                    })
+                this.subscriptionOfHttp1.push(request)
+            } else {
+                this.coinList = []
+                let toL = this.coinList.length > 0 ? this.coinList.length : 20;
+                let request = this.http.post('http://54.165.36.80:5687/exchange/getusd', { filter: this.advFilter, from: 0, to: toL, sort: { key: this.sortingKey, value: this.reverse } }).map(
+                    response => response.json()).subscribe(
+                    data => {
+                        this.portfolioList = [];
+                        this.portfolioList = data;
+                        setInterval(() => {
+                            this.clearInterval = true;
+                            this.getCoinList()
+                        }, this.setIntervalTime)
+                    })
+                this.subscriptionOfHttp1.push(request)
+            }
+        }
+        else if (this.router.url == '/portfolio') {
+            this.portfolioList = [];
             let toL = this.coinList.length > 0 ? this.coinList.length : 20;
-            this.http.post('http://54.165.36.80:5687/exchange/getusd', { from: 0, to: toL, sort: { key: this.sortingKey, value: this.reverse } }).map(
+            let token = localStorage.getItem('userToken')
+            this.http.post('http://54.165.36.80:5687/api/coins/getPortfolio', { token: token, filter: this.advFilter, from: 0, to: toL, sort: { key: this.sortingKey, value: this.reverse } }).map(
+
                 response => response.json()).subscribe(
                 data => {
-                    this.coinList = [];
-                    this.coinList = data;
+                    this.portfolioList = [];
+                    this.portfolioList = data.portfolioList;
                     setInterval(() => {
                         this.clearInterval = true;
-                        this.getCoinList()
+                        this.portfolioList()
                     }, this.setIntervalTime)
                 })
+
+
         }
     }
     generateGraph(id, coinToken, coinName) {
@@ -721,6 +883,7 @@ export class TvChartContainerComponent implements OnInit {
             clearInterval(this.runningInterval);
             this.coinList = [];
             this.noData = true;
+
         }
     }
 
@@ -742,8 +905,6 @@ export class TvChartContainerComponent implements OnInit {
         return date;
     }
     favCoinFunctionality(pair, type, coins) {
-
-
         if (localStorage.getItem('userToken')) {
             let tokenV = localStorage.getItem('userToken');
             this.http.put('http://54.165.36.80:5687/api/userSetting/update', { favourites: [pair], token: tokenV }).map(response => response.json()).
@@ -823,17 +984,22 @@ export class TvChartContainerComponent implements OnInit {
         }
     }
     getUserCoins(tokenV) {
-        this.subscriptionOfHttp = this.http.post('http://54.165.36.80:5687/api/coins/getFavourites', { token: tokenV }).map(response => response.json()).subscribe(data => {
-            this.favCoinsList = data;
+        let toL = this.coinList.length + this.favCoinsList.length > 0 ? this.coinList.length + this.favCoinsList.length : 20;
+        console.log(this.sortingKey);
+        this.subscriptionOfHttp = this.http.post('http://54.165.36.80:5687/api/coins/getFavourites', { token: tokenV, from: 0, to: toL, sort: { key: this.sortingKey, value: this.reverse } }).map(response => response.json()).subscribe(data => {
+            this.noData = false;
+            this.showLoadSpinner = false;
+            for (let n = 0; n < data.length; n++) {
+                if (data[n].favourite == true) {
+                    this.favCoinsList = data[n].data;
+                }
+                else if (data[n].favourite == false) {
+                    this.coinList = data[n].data;
+                }
+            }
         },
             err => {
                 this.favCoinsList = [];
-            })
-        this.subscriptionOfHttp = this.http.post('http://54.165.36.80:5687/api/coins/getCoins', { token: tokenV }).map(response => response.json()).subscribe(data => {
-            this.coinList = data;
-            console.log(JSON.stringify(data))
-        },
-            err => {
                 this.coinList = [];
             })
     }
@@ -851,20 +1017,20 @@ export class TvChartContainerComponent implements OnInit {
 
     }
     userWithFavCoins() {
-
+        this.isAdvFilter = false;
         this.clearInterval = true;
         this.coinList = [];
         this.favCoinsList = [];
         this.getAlongFavCoins();
-        if (parseInt(this.setIntervalTime) >= 1000) {
-            this.runningInterval = setInterval(() => {
-                this.getAlongFavCoins();
-            }, this.setIntervalTime);
-        }
+        // if (parseInt(this.setIntervalTime) >= 1000) {
+        //     this.runningInterval = setInterval(() => {
+        //         this.getAlongFavCoins();
+        //     }, this.setIntervalTime);
+        // }
 
     }
     userNormalData() {
-
+        this.isAdvFilter = false;
         this.coinList = [];
         this.clearInterval = true;
         this.getCoinList();
@@ -876,7 +1042,16 @@ export class TvChartContainerComponent implements OnInit {
 
     }
     ngOnDestroy() {
-        this.subscriptions.unsubscribe();
+
+        if (this.subscriptionOfHttp1) {
+            for (let m = 0; m < this.subscriptionOfHttp1.length; m++) {
+                if (!this.subscriptionOfHttp1[m].closed) {
+                    this.subscriptionOfHttp1[m].unsubscribe();
+                }
+            }
+        }
+        this.clearInterval = false;
+        // this.subscriptions.unsubscribe();
         clearInterval(this.runningInterval);
         this.ngUnsubscribe.next();
         this.ngUnsubscribe.complete();
@@ -885,24 +1060,56 @@ export class TvChartContainerComponent implements OnInit {
     onWindowScroll(event) {
         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
             if (localStorage.getItem('userToken')) {
-                this.url = 'http://54.165.36.80:5687/coins/getCoins';
-                let tokenV = localStorage.getItem('userToken');
+                this.url = 'http://54.165.36.80:5687/api/coins/getFavourites';
+                let tokenv = localStorage.getItem('userToken');
+
+                this.subscriptionOfHttp = this.http.post(this.url, { token: tokenv, from: this.coinList.length + this.favCoinsList.length, to: 20 }).map(
+                    response => response.json()).subscribe(
+                    data => {
+                        if (this.clearInterval && data.length <= 2) {
+                            for (let n = 0; n < data.length; n++) {
+                                if (data[n].favourite == true) {
+                                    data[n].data.forEach(element => {
+                                        this.favCoinsList.push(element)
+                                    });
+                                }
+                                else if (data[n].favourite == false) {
+                                    data[n].data.forEach(element => {
+                                        this.coinList.push(element)
+                                    });
+                                    //this.updateAllCoinsData(data[n].data);
+                                }
+                            }
+                        }
+                        else {
+                            data.forEach(element => {
+                                this.coinList.push(element)
+                            });
+
+                        }
+                        this.showLoadSpinner = false;
+                    },
+                    err => {
+                        console.log(err)
+                    })
             }
             else {
                 this.url = 'http://54.165.36.80:5687/exchange/getusd';
+
+                this.subscriptionOfHttp = this.http.post(this.url, { from: this.coinList.length + 1, to: 21, token: localStorage.getItem('userToken') ? localStorage.getItem('userToken') : '' }).map(
+                    response => response.json()).subscribe(
+                    data => {
+                        data.forEach(element => {
+                            this.coinList.push(element)
+                        });
+                        this.showLoadSpinner = false;
+                    },
+                    err => {
+                        console.log(err)
+                    })
             }
             this.showLoadSpinner = true;
-            this.subscriptionOfHttp = this.http.post(this.url, { from: this.coinList.length + 1, to: this.coinList.length + 21, token: localStorage.getItem('userToken') ? localStorage.getItem('userToken') : '' }).map(
-                response => response.json()).subscribe(
-                data => {
-                    data.forEach(element => {
-                        this.coinList.push(element)
-                    });
-                    this.showLoadSpinner = false;
-                },
-                err => {
-                    console.log(err)
-                })
+
             this.showScrollTop = true;
         }
     }
@@ -910,8 +1117,6 @@ export class TvChartContainerComponent implements OnInit {
 
     /*AmChart Implementation */
     themeDo(chartId, chartData, coinToken) {
-
-
         let isTheme = document.getElementsByTagName('body')[0].classList.contains('black-theme')
         if (isTheme) {
             this.greenColor = '#00FE2A';
@@ -934,8 +1139,8 @@ export class TvChartContainerComponent implements OnInit {
             "categoryAxesSettings": {
                 "minPeriod": "mm",
                 // "groupToPeriods": ["15mm"],
-                "equalSpacing" : true,
-                "parseDates" : false,
+                "equalSpacing": true,
+                "parseDates": false,
             },
             "dataSets": [{
                 "fieldMappings": [{
@@ -989,10 +1194,10 @@ export class TvChartContainerComponent implements OnInit {
                 "compared": true
             }
             ],
-            "zoomControl"  : {
-                "maxZoomLevel":64,
-                "minZoomLevel" : 1,
-                "left":1
+            "zoomControl": {
+                "maxZoomLevel": 64,
+                "minZoomLevel": 1,
+                "left": 1
             },
 
             "panels": [{
@@ -1007,7 +1212,7 @@ export class TvChartContainerComponent implements OnInit {
                     "gridThickness": 1,
                     "position": "right",
                     "ignoreAxisWidth": true,
-                   
+
 
                 }],
                 "categoryAxis": {
@@ -1023,10 +1228,10 @@ export class TvChartContainerComponent implements OnInit {
                     "minHorizontalGap": 40,
                     "ignoreAxisWidth": true,
                     "labelsEnabled": true,
-                    "startOnAxis" : false,
-                    "dateFormats": [{period:'fff',format:'JJ:NN:SS'},{period:'ss',format:'JJ:NN:SS'},{period:'mm',format:'MMM DD JJ:NN'},{period:'hh',format:'JJ:NN'},{period:'DD',format:'MMM DD'},{period:'WW',format:'MMM DD'},{period:'MM',format:'MMM'},{period:'YYYY',format:'YYYY'}]
+                    "startOnAxis": false,
+                    "dateFormats": [{ period: 'fff', format: 'JJ:NN:SS' }, { period: 'ss', format: 'JJ:NN:SS' }, { period: 'mm', format: 'MMM DD JJ:NN' }, { period: 'hh', format: 'JJ:NN' }, { period: 'DD', format: 'MMM DD' }, { period: 'WW', format: 'MMM DD' }, { period: 'MM', format: 'MMM' }, { period: 'YYYY', format: 'YYYY' }]
                 },
-                    "stockGraphs": [{
+                "stockGraphs": [{
                     "type": "candlestick",
                     "id": "g1",
                     "balloonText": "Open:<b>[[open]]</b><br>Low:<b>[[low]]</b><br>High:<b>[[high]]</b><br>Close:<b>[[close]]</b><br>",
@@ -1095,23 +1300,23 @@ export class TvChartContainerComponent implements OnInit {
             "chartCursor": {
                 "categoryBalloonDateFormat": "DD MMMM",
                 "cursorPosition": "middle",
-                
+
             },
             "valueAxesSettings": {
                 "inside": false,
-                "showLastLabel" : true
-              },
-              "panelsSettings" : {
+                "showLastLabel": true
+            },
+            "panelsSettings": {
                 "marginRight": 50,
-                "marginTop":30,
-                "marginBottom":40
-              },
+                "marginTop": 30,
+                "marginBottom": 40
+            },
             "chartCursorSettings": {
                 "valueLineBalloonEnabled": true,
                 "valueLineEnabled": true,
                 "cursorColor": "#fff",
                 "valueBalloonsEnabled": true,
-                "dateFormats": [{period:'fff',format:'JJ:NN:SS'},{period:'ss',format:'JJ:NN:SS'},{period:'mm',format:'MMM DD JJ:NN'},{period:'hh',format:'JJ:NN'},{period:'DD',format:'MMM DD'},{period:'WW',format:'MMM DD'},{period:'MM',format:'MMM'},{period:'YYYY',format:'YYYY'}]
+                "dateFormats": [{ period: 'fff', format: 'JJ:NN:SS' }, { period: 'ss', format: 'JJ:NN:SS' }, { period: 'mm', format: 'MMM DD JJ:NN' }, { period: 'hh', format: 'JJ:NN' }, { period: 'DD', format: 'MMM DD' }, { period: 'WW', format: 'MMM DD' }, { period: 'MM', format: 'MMM' }, { period: 'YYYY', format: 'YYYY' }]
 
 
                 //   "categoryBalloonDateFormats": [ {
@@ -1122,8 +1327,8 @@ export class TvChartContainerComponent implements OnInit {
                 //     "format": "NN:SS:QQQ"
                 //   } ]
             },
-            
-            
+
+
             "export": {
                 "enabled": true,
                 "position": "top-left"
@@ -1132,35 +1337,36 @@ export class TvChartContainerComponent implements OnInit {
             "method": '',
         });
         this.amchartVariable[coinToken].dataProvider = chartData;
-        console.log(this.weeklyData)
+        console.log(this.weeklyData);
         // setInterval(() => {
         //     this.AutoUpdateOfChart();
         // }, 3000)
+
     }
-    chartDispal(coinToken,intervalTime,rangeVal,btn){
-        if(this.amchartVariable[coinToken][btn]){
+    chartDispal(coinToken, intervalTime, rangeVal, btn) {
+        if (this.amchartVariable[coinToken][btn]) {
             this.amchartVariable[coinToken].dataProvider = [];
             let data = this.amchartVariable[coinToken][btn];
             this.amchartVariable[coinToken].dataSets[0].dataProvider = data
             // this.amchartVariable[coinToken].dataProvider = data;
-            this.amchartVariable[coinToken].zoomOut();    
-            this.amchartVariable[coinToken].validateData(); 
+            this.amchartVariable[coinToken].zoomOut();
+            this.amchartVariable[coinToken].validateData();
             this.amchartVariable[coinToken].zoomOut();
         }
-        else{
-             this.http.post('http://54.165.36.80:5687/exchange/getChart', { pair: coinToken, interval: intervalTime , range : rangeVal }).map(response => response.json()).subscribe(data => {
+        else {
+            this.http.post('http://54.165.36.80:5687/exchange/getChart', { pair: coinToken, interval: intervalTime, range: rangeVal }).map(response => response.json()).subscribe(data => {
                 this.amchartVariable[coinToken][btn] = data;
                 this.amchartVariable[coinToken].dataProvider = [];
                 this.amchartVariable[coinToken].dataSets[0].dataProvider = data
                 // this.amchartVariable[coinToken].dataProvider = data;
-                this.amchartVariable[coinToken].zoomOut();         
+                this.amchartVariable[coinToken].zoomOut();
                 this.amchartVariable[coinToken].validateData();
-                this.amchartVariable[coinToken].zoomOut();    
-                
+                this.amchartVariable[coinToken].zoomOut();
+
             })
         }
         this.isBtnClicked = btn
-       
+
     }
     AutoUpdateOfChart() {
 
@@ -1194,6 +1400,73 @@ export class TvChartContainerComponent implements OnInit {
             }
         }
         // this.amchartVariable[variable].validateNow();
+    }
+    advancedSearchFilter(advFilter) {
+        if (advFilter.length > 0) {
+            this.changeGraphTheme.clear_interval_filter();
+            this.http.post('http://54.165.36.80:5687/exchange/getusd', { filter: advFilter, from: 0, to: 1500 }).map(response => response.json()).
+                subscribe(
+                data => {
+                    console.log(data)
+                    this.advancedTableFilter(data);
+                },
+                err => {
+                    console.log(err)
+                    let array = [];
+                    this.advancedTableFilter(array);
+                })
+        }
+    }
+
+
+    getPortfolioList() {
+
+        let token = localStorage.getItem('userToken');
+        this.http.post('http://54.165.36.80:5687/api/coins/getPortfolio', { token: token }).map(
+            response => response.json()).subscribe(
+            data => {
+                this.getLoggedIn = false;
+                debugger
+                if (this.portfolioList.length > 0) {
+                    this.updatePortfolio(data.portfolioList)
+                    this.showLoadSpinner = false
+                }
+                
+                else if (data.portfolioList.length == 0) {
+                    this.showLoadSpinner = false;
+                    this.noData = true;
+                }
+                else {
+
+                    this.portfolioList = data.portfolioList;
+                    console.log(data)
+                    this.showLoadSpinner = false;
+
+                    this.runningInterval = setInterval(() => {
+                        this.getPortfolioList();
+                    }, this.setIntervalTime)
+                }
+            },
+        );
+
+    }
+
+    updatePortfolio(allCoins) {debugger
+        console.log(allCoins)
+        for (let i = 0; i < allCoins.length; i++) {
+            let checkIsThere = true;
+            let obj = this.portfolioList.findIndex(coin => allCoins[i].pair === coin.pair);
+            if (obj != -1) {
+                this.portfolioList[obj].price = allCoins[i].price;
+                console.log(this.portfolioList[obj].price, allCoins[i].price)
+                this.portfolioList[obj].priceStatus = allCoins[i].priceStatus;
+                this.portfolioList[obj].dayPrice = allCoins[i].dayPrice;
+                this.portfolioList[obj].dayPriceStatus = allCoins[i].dayPriceStatus;
+            }
+            else {
+                this.portfolioList.push(allCoins[i]);
+            }
+        }
     }
 }
 

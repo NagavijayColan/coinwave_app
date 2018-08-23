@@ -3,7 +3,6 @@
 </div>
 <div class="portfolio_main">
   <div class="container">
-
     <div class="grid_view_head">
       <h6>
         <b>{{userName}}</b>
@@ -76,49 +75,9 @@
     <!--grid_view-->
 
     <!--list_view-->
+    
     <div class="table-responsive col-sm-12 col-xs-12 col-md-12 col-lg-12 coin-page-lft list_view_table" *ngIf="listSelected">
-      <table border="0" cellpadding="0" cellspacing="0" class="table-responsive">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th (click)="sort('name')">Coins
-              <span class="fa sort-icon" *ngIf="key =='name'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}">
-              </span>
-            </th>
-            <th (click)="sort('total_coins')">Totals
-              <span class="fa sort-icon" *ngIf="key =='total_coins'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
-            </th>
-            <th (click)="sort('price_paid')">Price Paid
-              <span class="fa sort-icon" *ngIf="key =='price_paid'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
-            </th>
-            <th (click)="sort('price')">Current Price
-                <span class="fa sort-icon" *ngIf="key =='price'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
-              </th>
-            <th (click)="sort('dayPrice')">Total Gain/Loss
-              <span class="fa sort-icon" *ngIf="key =='dayPrice'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
-            </th>
-            <th>Trade</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr *ngFor="let coins of coinList ; let i = index">
-            <td>{{i+1}}</td>
-            <td>{{coins.name}}</td>
-            <td class="ls_price">{{coins.total_coins | number : '.0-2'}}</td>
-            <td class="ls_price">{{coins.price_paid | number : '.0-2'}}</td>
-            <td class="ls_price" [ngClass]="{'colorGreen': coins.dayPriceStatus === 'true','colorRed': coins.dayPriceStatus === 'false'}">{{coins.price | number : '.0-2'}} 
-                <span class="fa upDownSymbol" [ngClass]="{'arrow-up': coins.dayPriceStatus === 'true','arrow-down': coins.dayPriceStatus === 'false'}"></span>
-              </td>
-            <td class="" [ngClass]="{'colorGreen': coins.price_paid < coins.price,'colorRed': coins.price_paid > coins.price}">{{ coins.price - coins.price_paid}}
-              <span class="fa upDownSymbol" [ngClass]="{'arrow-up': coins.dayPriceStatus === 'true','arrow-down': coins.dayPriceStatus === 'false'}"></span>
-            </td>
-            <td class="trade_btn">
-              <button>Trade </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <app-tv-chart-container  #component1></app-tv-chart-container>
     </div>
     <!--list_view-->
     <div *ngIf="noData" class="noDataFound">You have not yet added any data to portfolio!</div>
@@ -147,8 +106,8 @@
         <label style="color:red;" *ngIf="errormessageSignUp">Please Enter all mandatory fields</label>
         <form id="signuPCredentials">
           <div class="md-form form-sm">
-            <select class="select_dropdown" (change)="getCurrencyDetails($event.target.value)">
-              <option disabled>Name of Coin</option>
+            <select class="select_dropdown" id="selectDropDown"  (change)="getCurrencyDetails($event.target.value)">
+              <option disabled value="name">Name of Coin</option>
               <option *ngFor="let currency of currencyList;let i = index;" value="{{currency.symbol}}">{{currency.name}}</option>
             </select>
           </div>
@@ -161,12 +120,13 @@
             <!-- <i class="fa fa-envelope prefix"></i> -->
             <input type="text" name="price_paid" [(ngModel)]="addCoinModel.price_paid" class="form-control required placeholder_color" placeholder="Price Paid">
           </div>
-          <div class="placeholder_color">
+          <!-- <div class="placeholder_color">
             <input type="checkbox" > Calculate Average Price.
-          </div>
+          </div> -->
           <div class="md-form form-sm">
             <!-- <i class="fa fa-envelope prefix"></i> -->
             <input type="date" name="trade_date" [(ngModel)]="addCoinModel.trade_date" class="form-control required placeholder_color" placeholder="Date of Purchase">
+            
           </div>
           <div class="text-center mt-2">
             <button class="btn btn-info waves-light" (click)="AddCoinIntoPortfolio(addCoinModel)" mdbWavesEffect>Add Coin

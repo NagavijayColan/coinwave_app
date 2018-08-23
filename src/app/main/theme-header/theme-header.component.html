@@ -1,4 +1,3 @@
-
 <div class="theme_color_section" *ngIf="hideThemesection">
     <div class="container">
         <div class="sub_theme">
@@ -6,13 +5,13 @@
                 <li>
                     <a (click)="refreshrate.show()">
                         <img src="/assets/images/price_interval.png">
-                        <span >Refresh Rate</span>
+                        <span>Refresh Rate</span>
                     </a>
                 </li>
                 <li>
                     <a (click)="nightmode()">
                         <img src="/assets/images/black_out_color.png" />
-                        <span >Night Mode</span>
+                        <span>Night Mode</span>
                     </a>
                 </li>
                 <li>
@@ -22,7 +21,7 @@
                             <span class="slider round"></span>
                         </label>
                         <!-- <img src="/assets/images/site_color.png"/>-->
-                        <span >Site Color</span>
+                        <span>Site Color</span>
                     </a>
                 </li>
                 <li>
@@ -76,7 +75,7 @@
                         </div>
                     </div> -->
                     <div id="google_translate_element"></div>
-                   
+
                 </div>
                 <button type="button" class="button_icon" (click)="saveThemeStructure()">
                     <i class="fa fa-save waves-light " aria-hidden="true"></i>Save</button>
@@ -96,7 +95,6 @@
     <div class="modal-dialog cascading-modal" role="document">
         <!--Content-->
         <div class="modal-content">
-
             <!--Header-->
             <div class="modal-header light-blue darken-3 white-text">
                 <h4 class="title"> Refresh Rate</h4>
@@ -108,14 +106,16 @@
             <div class="modal-body refresh_rate">
                 <!-- <p class="siteRefreshText">Site will refresh on every {{changeRefreshRate}} </p> -->
                 <div (click)="refreshRateChange()">
-                    <nouislider [config]="someRange2config" [tooltips]="[ true]" [(ngModel)]="someRange"></nouislider>
+                    <nouislider [config]="someRange2config" [tooltips]="[ false]" [(ngModel)]="someRange"></nouislider>
                 </div>
+
             </div>
             <!--Footer-->
             <div class="modal-footer">
-                <button *ngIf="!enableRefreshBtn" type="button" class="btn btn-outline-info float-left" data-dismiss="modal" (click)="noRefresh()" mdbWavesEffect>Stop Refresh</button>
-                <button *ngIf="enableRefreshBtn" type="button" class="btn btn-outline-info float-left" data-dismiss="modal" (click)="doRefresh()" mdbWavesEffect>Start Refresh</button>
-
+                <button *ngIf="!enableRefreshBtn" type="button" class="btn btn-outline-info float-left" data-dismiss="modal" (click)="noRefresh()"
+                    mdbWavesEffect>Stop Refresh</button>
+                <button *ngIf="enableRefreshBtn" type="button" class="btn btn-outline-info float-left" data-dismiss="modal" (click)="doRefresh()"
+                    mdbWavesEffect>Start Refresh</button>
             </div>
         </div>
         <!--/.Content-->
@@ -153,28 +153,66 @@
                     <div class="options_list">
                         <div class="desktop_options col-md-4 col-lg-4 col-sm-12 col-xs-12">
                             <span class="lst_tlt">Desktop</span>
-                            <span class="lst_tlt">Coinlist</span>
-                            <div class="form-check" *ngFor="let desklist of desktoplists">
-                                <input class="form-check-input" [(ngModel)]="desklist.ischecked" (change)="coulumnCustomization({desktop : desktoplists,mobile:mobilelists,app : mobilelists},desktoplists)"
-                                    type="checkbox" name="listsgroup">
-                                <label class="form-check-label">{{desklist.label}}</label>
+                            <!-- <div class="" *ngIf="coinlist_desktop"> -->
+                                <div class="">
+                                <span class="lst_tlt customized-coloum-label">Coinlist</span>
+                                <div class="form-check" *ngFor="let desklist of desktoplists">
+                                    <input class="form-check-input" [(ngModel)]="desklist.ischecked" (change)="coulumnCustomization({'desktop': {'coinlist': desktoplists,'portfolio': desktopPlist},'mobile': {'coinlist': mobilelists,'portfolio': mobilePlist},'app': {'coinlist': appList,'portfolio': appPList}},desktoplists)"
+                                        type="checkbox" name="listsgroup">
+                                    <label class="form-check-label">{{desklist.label}}</label>
+                                </div>
+                            </div>
+                            <!-- <div class="" *ngIf="portfolio_desktop"> -->
+                                <div class="">
+                                <span class="lst_tlt customized-coloum-label">Portfolio</span>
+                                <div class="form-check" *ngFor="let desklist of desktopPlist">
+                                    <input class="form-check-input" [(ngModel)]="desklist.ischecked" (change)="coulumnCustomization({'desktop': {'coinlist': desktoplists,'portfolio': desktopPlist},'mobile': {'coinlist': mobilelists,'portfolio': mobilePlist},'app': {'coinlist': appList,'portfolio': appPList}},desktoplists)"
+                                        type="checkbox" name="listsgroup">
+                                    <label class="form-check-label">{{desklist.label}}</label>
+                                </div>
                             </div>
                         </div>
                         <div class="mobile_options col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                           
                             <span class="lst_tlt">Mobile</span>
+                         
+                                <div class="">
+                            <span class="lst_tlt customized-coloum-label">Coinlist</span>
                             <div class="form-check" *ngFor="let moblist of mobilelists">
-                                <input class="form-check-input" [(ngModel)]="moblist.ischecked" (change)="coulumnCustomization({desktop : desktoplists,mobile:mobilelists,app : mobilelists},mobilelists)"
+                                <input class="form-check-input" [(ngModel)]="moblist.ischecked" (change)="coulumnCustomization({'desktop': {'coinlist': desktoplists,'portfolio': desktopPlist},'mobile': {'coinlist': mobilelists,'portfolio': mobilePlist},'app': {'coinlist': appList,'portfolio': appPList}},mobilelists)"
+                                    type="checkbox" name="listsgroup">
+                                <label class="form-check-label">{{moblist.label}}</label>
+                            </div></div>
+                           
+                                    <div class="">
+                            <span class="lst_tlt customized-coloum-label">Portfolio</span>
+                            <div class="form-check" *ngFor="let moblist of mobilePlist">
+                                <input class="form-check-input" [(ngModel)]="moblist.ischecked" (change)="coulumnCustomization({'desktop': {'coinlist': desktoplists,'portfolio': desktopPlist},'mobile': {'coinlist': mobilelists,'portfolio': mobilePlist},'app': {'coinlist': appList,'portfolio': appPList}},mobilelists)"
                                     type="checkbox" name="listsgroup">
                                 <label class="form-check-label">{{moblist.label}}</label>
                             </div>
                         </div>
+                        </div>
                         <div class="app_options col-md-4 col-lg-4 col-sm-12 col-xs-12">
+                            
                             <span class="lst_tlt">App</span>
+                          
+                                    <div class="">
+                            <span class="lst_tlt customized-coloum-label">Coinlist</span>
                             <div class="form-check" *ngFor="let app of appList">
-                                <input class="form-check-input" [(ngModel)]="app.ischecked" (change)="coulumnCustomization({desktop : desktoplists,mobile:mobilelists,app : appList},appList)"
+                                <input class="form-check-input" [(ngModel)]="app.ischecked" (change)="coulumnCustomization({'desktop': {'coinlist': desktoplists,'portfolio': desktopPlist},'mobile': {'coinlist': mobilelists,'portfolio': mobilePlist},'app': {'coinlist': appList,'portfolio': appPList}},appList)"
+                                    type="checkbox" name="listsgroup">
+                                <label class="form-check-label">{{app.label}}</label>
+                            </div></div>
+                           
+                                    <div class="">
+                            <span class="lst_tlt customized-coloum-label">Portfolio</span>
+                            <div class="form-check" *ngFor="let app of appPList">
+                                <input class="form-check-input" [(ngModel)]="app.ischecked" (change)="coulumnCustomization({'desktop': {'coinlist': desktoplists,'portfolio': desktopPlist},'mobile': {'coinlist': mobilelists,'portfolio': mobilePlist},'app': {'coinlist': appList,'portfolio': appPList}},appList)"
                                     type="checkbox" name="listsgroup">
                                 <label class="form-check-label">{{app.label}}</label>
                             </div>
+                        </div>
                         </div>
 
                     </div>
@@ -186,4 +224,3 @@
 </div>
 <!--Modal: Customize column Form-->
 <!-- popup -->
-

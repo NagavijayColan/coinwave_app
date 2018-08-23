@@ -35,7 +35,7 @@
               </li>
             </ul>
           </div>
-
+          
           <div class="sort_by">
             <h1 class="sort_by_head">
               <i class="fa fa-filter advance_filter float-left" aria-hidden="true"></i>
@@ -45,11 +45,15 @@
               <i class="fa float-right undosymbol mobileViewAdvFltr" [ngClass]="{'fa-chevron-up' :  hideInMobileView == true , 'fa-chevron-down' : hideInMobileView == false }" (click)="hideInMobileView = !hideInMobileView"></i>
               <i class="fa fa-undo float-right undosymbol" (click)="resetAdvFilter()"></i>
             </h1>
-            <accordion id="advancedSearchFilter" [closeOthers]="false" *ngIf="hideInMobileView">
+           
+            <accordion id="advancedSearchFilter" [closeOthers]="false" [hidden]="!hideInMobileView">
               <accordion-group heading="PRICE" [isOpened]="true" >
-                <ion-range-slider #priceVal type="double" [min]="0" [max]="maxPrice" from_min="0" [from_max]="maxPrice" from_shadow="false"
+                  <div (click)="refreshRateChange()" id="priceNoUiSlider">
+                      <nouislider #priceSliderRef [config]="someRange2config" [tooltips]="[true, true]" [(ngModel)]="someRange" (ngModelChange)="priceFilter(someRange)"></nouislider>
+                  </div>
+                <!-- <ion-range-slider #priceVal type="double" [min]="0" [max]="maxPrice" from_min="0" [from_max]="maxPrice" from_shadow="false"
                   [to]="maxPrice" to_min="0" [to_max]="maxPrice" to_shadow="true" grid="true" [postfix]="parameterPrice" decorate_both="false"
-                  (onChange)="priceFilter($event)"></ion-range-slider>
+                  (onChange)="priceFilter($event)"></ion-range-slider> -->
               </accordion-group>
               <accordion-group heading="24 HR (%)" [isOpened]="false">
                 <ion-range-slider #dayChange type="double" min="-100" max="100" from_shadow="false" to_shadow="true" grid="true" grid_num="4"
@@ -58,17 +62,22 @@
               <accordion-group heading="7 DAY (%)" [isOpened]="false">
                 <ion-range-slider #weeklyChange type="double" [min]="-100" max="100" to_shadow="true" grid="true" grid_num="4" postfix="%"
                   decorate_both="false" (onChange)="weeklyFilter($event)"></ion-range-slider>
-
               </accordion-group>
-              <accordion-group heading="VOLUME (24H)" [isOpened]="false">
-                <ion-range-slider #volume24H type="double" [min]="0" [max]="maxVolume" from_min="0" [from_max]="maxVolume" from_shadow="false"
+              <accordion-group heading="VOLUME (24H)" [isOpened]="true">
+                  <div  id="volumeNoUiSlider">
+                      <nouislider [config]="volumeConfig" [tooltips]="[true, true]" [(ngModel)]="volumeRange" (ngModelChange)="dayVolumeFilter(volumeRange)"></nouislider>
+                  </div>
+                <!-- <ion-range-slider #volume24H type="double" [min]="0" [max]="maxVolume" from_min="0" [from_max]="maxVolume" from_shadow="false"
                 [to]="maxVolume" to_min="0" [to_max]="maxVolume" to_shadow="true" grid="true" [postfix]=" parameterVol" decorate_both="false"
-                  (onChange)="dayVolumeFilter($event)"></ion-range-slider>
+                  (onChange)="dayVolumeFilter($event)"></ion-range-slider> -->
               </accordion-group>
-              <accordion-group heading="MARKET CAP" [isOpened]="false">
-                <ion-range-slider #marketCap type="double" min="0" [max]="marketCapVal"  from_min="0" [from_max]="marketCapVal" from_shadow="false" [to]="marketCapVal"
+              <accordion-group heading="MARKET CAP" [isOpened]="true">
+                  <div  id="marketCapNoUiSlider">
+                      <nouislider [config]="marketCapConfig" [tooltips]="[true, true]" [(ngModel)]="marketRange" (ngModelChange)="marketCapFilter(marketRange)"></nouislider>
+                  </div>
+                <!-- <ion-range-slider #marketCap type="double" min="0" [max]="marketCapVal"  from_min="0" [from_max]="marketCapVal" from_shadow="false" [to]="marketCapVal"
                   to_min="0" [to_max]="marketCapVal" to_shadow="true" grid="true" grid_num="4" [postfix]=" parameterMarkCap" decorate_both="false"
-                  (onChange)="marketCapFilter($event)"></ion-range-slider>
+                  (onChange)="marketCapFilter($event)"></ion-range-slider> -->
               </accordion-group>
             </accordion>
           </div>

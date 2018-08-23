@@ -24,6 +24,8 @@ export class CompDataSharingService {
   private portFolio_clear = new Subject<any>();
   private clear_interval = new Subject<any>();
   private amchart_theme = new Subject<any>();
+  private advFilter = new Subject<any>();
+  private resetadvFilter = new Subject<any>();
   private exchange = new Subject<any>();
   
 /* Refresh Rate  */
@@ -47,7 +49,6 @@ export class CompDataSharingService {
   customizeColumns_filter(text: Object) {
      this.customizeCol.next(text);
   }
-  
 
   /*Is logged In */
   isLoggedIn_listener(): Observable<any> {
@@ -156,6 +157,18 @@ export class CompDataSharingService {
   }
   chnageTheme_of_amchart_listener(){
     return this.amchart_theme.asObservable();
+  }
+  advancedFilter_filter(theme : any){
+    this.advFilter.next(theme);
+  }
+  advancedFilter_listener(){
+    return this.advFilter.asObservable();
+  }
+  reset_advancedFilter_filter(){
+    this.resetadvFilter.next();
+  }
+  reset_advancedFilter_listener(){
+    return this.resetadvFilter.asObservable();
   }
   private changeGraphTheme = new BehaviorSubject<string>("default message");
   currentMessage = this.changeGraphTheme.asObservable();

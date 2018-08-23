@@ -3,7 +3,7 @@ import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { Ng2OrderModule } from 'ng2-order-pipe';
 import { HttpModule } from '@angular/http';
-import {  HashLocationStrategy, Location, LocationStrategy} from '@angular/common';
+import { HashLocationStrategy, Location, LocationStrategy} from '@angular/common';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NouisliderModule } from 'ng2-nouislider';
@@ -34,7 +34,8 @@ import { CookieService } from 'ngx-cookie-service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { EmailvalidationDirective } from '../app/directives/emailvalidation.directive'
 import { OnlyalphabetsDirective } from '../app/directives/onlyalphabets.directive';
-
+import { NgDatepickerModule } from 'ng2-datepicker';
+import { AdminloginComponent } from './adminlogin/adminlogin.component';
 function getAuthServiceConfigs() {
   const CONFIG = new AuthServiceConfig([
     {
@@ -70,7 +71,8 @@ function getAuthServiceConfigs() {
     TvChartContainerComponent,
     FooterNavComponent,
     EmailvalidationDirective,
-    OnlyalphabetsDirective
+    OnlyalphabetsDirective,
+    AdminloginComponent
   ],
   imports: [
     FormsModule,
@@ -79,6 +81,7 @@ function getAuthServiceConfigs() {
     BrowserModule,
     AppRoutingModule,
     OrderModule,
+    NgDatepickerModule,
     SocialLoginModule,
     AccordionModule,
     Ng2OrderModule,
@@ -101,4 +104,7 @@ function getAuthServiceConfigs() {
 
 
 })
-export class AppModule { }
+export class AppModule {
+
+  
+ }

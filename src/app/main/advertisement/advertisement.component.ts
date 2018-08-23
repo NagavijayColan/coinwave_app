@@ -10,6 +10,7 @@ export class AdvertisementComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    
   }
 
 }

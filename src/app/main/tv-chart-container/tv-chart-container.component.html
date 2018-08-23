@@ -1,8 +1,8 @@
 <!-- <div class="load_spinner" *ngIf="showLoadSpinner">
   <span class="fa fa-spinner fa-spin fa-2x"></span>
 </div> -->
-<div class="table-responsive">
-  <table  id="coin_list_table" class="table table-condensed table-bordered data-table " style="white-space:nowrap;">
+<div class="table-responsive" *ngIf="coinlist_table">
+  <table  id="coin_list_table" class="coin_list_table table table-condensed table-bordered data-table " style="white-space:nowrap;">
     <thead>
       <th width="50px">#</th>
       <th width="100px" *ngIf="resolutionColumn.coin" (click)="sort('name');">Coins
@@ -86,7 +86,7 @@
         <!-- <label class="typeChangeBtn"><button class=" btn" [ngClass]="{'active' : btnActive  == 'ohlc' }" (click)="changeType('ohlc',coins.pair);">OHLC</button></label> -->
         <label class="typeChangeBtn"><button class=" btn"  (click)="changeType('line',coins.pair);">Line</button></label>
         <!-- <label class="typeChangeBtn"><button class=" btn" [ngClass]="{'active' : btnActive  == 'advanced' }" (click)="changeType('advanced',coins.pair);">Advanced</button></label> -->
-        <div id="candleStick{{i}}" [ngStyle]="{'background-color': backgroundColor  }"  [style.height.px]="350" style="width:95%;float:left;margin-right:10px;" ></div>
+        <div id="candleStick{{i}}" [ngStyle]="{'background-color': backgroundColor  }"  [style.height.px]="350" style="width:98%;float:left;margin-right:10px;" ></div>
            <!-- <div class="col-md-2 float-right chart_rgt_cont">
               <ul>
                 <li><label>Currency</label><div class="in_sel-term"><select><option>USD</option></select></div></li>
@@ -170,5 +170,142 @@
       </tr>
     </tbody>
   </table>
+  
   <div *ngIf="noData" class="noDataFound">No Data found!</div>
 </div>
+
+<!-- <table border="0" cellpadding="0" cellspacing="0" class="table-responsive">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th (click)="sort('name')">Coins
+          <span class="fa sort-icon" *ngIf="key =='name'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}">
+          </span>
+        </th>
+        <th (click)="sort('total_coins')">Totals
+          <span class="fa sort-icon" *ngIf="key =='total_coins'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
+        </th>
+        <th (click)="sort('price_paid')">Price Paid
+          <span class="fa sort-icon" *ngIf="key =='price_paid'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
+        </th>
+        <th (click)="sort('price')">Current Price
+            <span class="fa sort-icon" *ngIf="key =='price'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
+          </th>
+        <th (click)="sort('dayPrice')">Total Gain/Loss
+          <span class="fa sort-icon" *ngIf="key =='dayPrice'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
+        </th>
+        <th>Trade</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let coins of coinList ; let i = index">
+        <td>{{i+1}}</td>
+        <td>{{coins.name}}</td>
+        <td class="ls_price">{{coins.total_coins | number : '.0-2'}}</td>
+        <td class="ls_price">{{coins.price_paid | number : '.0-2'}}</td>
+        <td *ngIf="resolutionColumn.expand" (click)="expandGraph(event,i,coins.pair,coins.name,'tv_chart_containerFav','expandFav')" class="graphTabledata">
+            <i class="fa fa-arrows-alt" ></i>
+          </td>
+        <td class="ls_price" [ngClass]="{'colorGreen': coins.dayPriceStatus === 'true','colorRed': coins.dayPriceStatus === 'false'}">{{coins.price | number : '.0-2'}} 
+            <span class="fa upDownSymbol" [ngClass]="{'arrow-up': coins.dayPriceStatus === 'true','arrow-down': coins.dayPriceStatus === 'false'}"></span>
+          </td>
+        <td class="" [ngClass]="{'colorGreen': coins.price_paid < coins.price * coins.total_coins,'colorRed': coins.price_paid > coins.price *coins.total_coins}">{{ coins.price * coins.total_coins - coins.price_paid}}
+          <span class="fa upDownSymbol" [ngClass]="{'arrow-up': coins.price_paid  < coins.price * coins.total_coins,'arrow-down': coins.price_paid > coins.price * coins.total_coins}"></span>
+        </td>
+        <td class="trade_btn">
+          <button>Trade </button>
+        </td>
+      </tr>
+    </tbody>
+  </table> -->
+
+
+<div class="table-responsive" *ngIf="portfolio_table">
+    <table  id="coin_list_table" class=" coin_list_tabletable table-condensed table-bordered data-table " style="white-space:nowrap;">
+      <thead>
+        <th width="50px">#</th>
+        <th width="100px" *ngIf="resolutionColumn.coins" (click)="sort('name');">Coins
+          <span class="fa sort-icon" *ngIf="key =='name'" [ngClass]="{'fa-sort-up':reverseValue,'fa-sort-down':!reverseValue}"></span>
+        </th>
+        <th width="100px" *ngIf="resolutionColumn.total_coins" (click)="sort('total_coins');">Totals
+            <span class="fa sort-icon" *ngIf="key =='total_coins'" [ngClass]="{'fa-sort-up':reverseValue,'fa-sort-down':!reverseValue}"></span>
+          </th>
+        <th *ngIf="resolutionColumn.price_paid" (click)="sort('price_paid')" style="width:130px;">Price Paid
+          <span class="fa sort-icon" *ngIf="key =='price_paid'" [ngClass]="{'fa-sort-up':reverseValue,'fa-sort-down':!reverseValue}"></span>
+        </th>
+        <th *ngIf="resolutionColumn.graph">Graph</th>
+        <th (click)="sort('price')" *ngIf="resolutionColumn.current_price">Current Price
+            <span class="fa sort-icon" *ngIf="key =='price'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
+          </th>
+        <th  *ngIf="resolutionColumn.gain_loss">Total Gain/Loss
+          <span class="fa sort-icon" *ngIf="key =='gain_loss'" [ngClass]="{'fa-sort-up':reverse,'fa-sort-down':!reverse}"></span>
+        </th>
+        <th  *ngIf="resolutionColumn.trade">Trade</th>
+        <!-- <th (click)="sort('lowestPrice')">24 LOW HIGH  <span class="fa sort-icon" *ngIf="key =='lowestPrice'" [ngClass]="{'fa-sort-up':reverseValue,'fa-sort-down':!reverseValue}"></span></th> -->
+      </thead>
+      <tbody  *ngFor="let coins of portfolioList | filter: searchText; let i = index ">
+        <tr style="cursor:pointer">
+            <td>{{i+1}}</td>
+            <td *ngIf="resolutionColumn.coins">{{coins.name}}</td>
+            <td *ngIf="resolutionColumn.total_coins" class="ls_price">{{coins.total_coins | number : '.0-2'}}</td>
+            <td *ngIf="resolutionColumn.price_paid" class="ls_price">{{coins.price_paid | number : '.0-2'}}</td>
+            <td *ngIf="resolutionColumn.graph" (click)="expandGraph(event,favCoinsList.length+i,coins.pair,coins.name,'chart1div','expand')" class="graphTabledata">
+              <i class="fa fa-arrows-alt" ></i>
+            </td>
+            <td *ngIf="resolutionColumn.current_price" class="ls_price" [ngClass]="{'colorGreen': coins.dayPriceStatus === 'true','colorRed': coins.dayPriceStatus === 'false'}">{{coins.price | number : '.0-2'}} 
+                <span class="fa upDownSymbol" [ngClass]="{'arrow-up': coins.dayPriceStatus === 'true','arrow-down': coins.dayPriceStatus === 'false'}"></span>
+            </td>
+            <td *ngIf="resolutionColumn.gain_loss" class="" [ngClass]="{'colorGreen': coins.price_paid < coins.price * coins.total_coins,'colorRed': coins.price_paid > coins.price *coins.total_coins}">{{ coins.price * coins.total_coins - coins.price_paid | number : '.0-2'}}
+              <span class="fa upDownSymbol" [ngClass]="{'arrow-up': coins.price_paid  < coins.price * coins.total_coins,'arrow-down': coins.price_paid > coins.price * coins.total_coins}"></span>
+            </td>
+            <td *ngIf="resolutionColumn.trade" class="trade_btn">
+              <button>Trade </button>
+            </td>
+        </tr>
+        <tr id="expand{{favCoinsList.length+i}}" class="hidingNow">
+          <td colspan="11" height="300px;" width="100%">
+            <!-- <div class="app-tv-chart-container app-tv-chart-container_multi" id="tv_chart_container{{favCoinsList.length+i}}"></div>
+            <div class="col-md-2 float-right chart_rgt_cont">
+              <ul>
+                <li>
+                  <label>Currency</label>
+                  <div class="in_sel-term">
+                    <select>
+                      <option>USD</option>
+                    </select>
+                  </div>
+                </li>
+                <li>
+                  <label>Low/High 24h</label>
+                  <span>{{coins.highestPrice * currencyValue | number:'.0-2'}} / {{coins.lowestPrice * currencyValue | number:'.0-2'}}</span>
+                </li>
+              </ul>
+            </div> -->
+            <label class="typeChangeBtn "><button  class=" btn active"  (click)="changeType('candlestick',coins.pair);">Candlestick</button></label>
+            <!-- <label class="typeChangeBtn"><button class=" btn" [ngClass]="{'active' : btnActive  == 'ohlc' }" (click)="changeType('ohlc' , favCoinsList.length+i);">OHLC</button></label> -->
+            <label class="typeChangeBtn"><button class=" btn"  (click)="changeType('line', coins.pair);">Line</button></label>
+            <!-- <label class="typeChangeBtn"><button class=" btn" [ngClass]="{'active' : btnActive  == 'advanced' }" (click)="changeType('advanced', favCoinsList.length+i);">Advanced</button></label> -->
+            <div id="candleStick{{favCoinsList.length+i}}" [ngStyle]="{'background-color': backgroundColor  }"  [style.height.px]="450" style="width:99%;float:left;padding:10px;" ></div>
+             <!-- <div class="col-md-2 float-right chart_rgt_cont">
+                <ul>
+                  <li><label>Currency</label><div class="in_sel-term"><select><option>USD</option></select></div></li>
+                  <li><label>Low/High 24h</label><span>$0.08903-$0.09261</span></li>
+                </ul>
+            </div> -->
+           <!-- <div class="buttons_perio_sel0">
+              <button type="button" [ngClass]="{'btnActive': isBtnClicked == 'onehour'}" (click)="chartDispal(coins.pair,15,6,'onehour')">1 Hour</button>
+              <button type="button" [ngClass]="{'btnActive': isBtnClicked == 'sixhour'}" (click)="chartDispal(coins.pair,30,5,'sixhour')">6 Hour</button>
+              <button type="button" [ngClass]="{'btnActive': isBtnClicked == 'oneweek'}" (click)="chartDispal(coins.pair,30,100,'oneweek')">1 Week</button>
+              <button type="button" [ngClass]="{'btnActive': isBtnClicked == 'onemonth'}" (click)="chartDispal(coins.pair,30,365,'onemonth')">1 Month</button>
+              <button type="button" [ngClass]="{'btnActive': isBtnClicked == 'oneyear'}" (click)="chartDispal(coins.pair,30,365,'oneyear')">1 Year</button>
+              <button type="button" [ngClass]="{'btnActive': isBtnClicked == 'max'}" (click)="chartDispal(coins.pair,30,365,'max')">MAX</button>
+           </div> -->
+             <!-- <div id="lineChart{{favCoinsList.length+i}}" [ngStyle]="{'background-color': backgroundColor  }"  [style.height.px]="350" style="width:48%;float:left;margin-right:10px;" ></div> -->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="getLoggedIn"  class="noDataFound">Please Log in to get portfolio list</div>
+    <div *ngIf="noData" class="noDataFound">No Data found!</div>
+  </div>

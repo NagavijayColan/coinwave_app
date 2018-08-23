@@ -7,9 +7,10 @@ import { CoinlistComponent } from './main/content/coinlist/coinlist.component';
 import { CoinpageComponent } from './main/content/coinpage/coinpage.component';
 import { ExchangeComponent } from './main/content/exchange/exchange.component';
 import { PortfolioComponent } from './main/content/portfolio/portfolio.component';
-
+import {AdminloginComponent} from '../app/adminlogin/adminlogin.component'
 const routes: Routes = [
-
+  { path: 'adminlogin',component: AdminloginComponent},
+  { path: '',component: AdminloginComponent},
   {  path: '', component:MainComponent,
      children:[
       { path:'', redirectTo: 'coinlist', pathMatch: 'full'},  

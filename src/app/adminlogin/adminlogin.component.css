@@ -1,0 +1,22 @@
+.adminform{
+    width: 300px;
+    margin: 0 auto;
+    background: #333;
+    padding: 10px;
+    text-align: center;
+    margin-top: 18%;
+}
+.adminform .form_groups{
+    margin: 10px 0px;
+}
+.adminform .form_groups label{
+    width: 100%;
+    float: left;
+    text-align: left;
+}
+.adminform .form_groups input{
+    width: 100%;
+}
+.btn-success{
+    background:#2f6f49
+}

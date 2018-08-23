@@ -3,6 +3,7 @@ import { OrderPipe } from 'ngx-order-pipe';
 import { CompDataSharingService } from "../../comp-data-sharing.service";
 import { document } from 'angular-bootstrap-md/utils/facade/browser';
 import { Http } from '@angular/http';
+import { Router } from '@angular/router'
 import { CommonServiceService } from '../../common-service.service';
 import { CookieService } from 'ngx-cookie-service';
 import { clearInterval } from 'timers';
@@ -61,13 +62,22 @@ export class ThemeHeaderComponent implements OnInit {
   public refreshDefault;
   public successMessagePopup;
   public popUpEnabled;
+  public desktopPlist;
+  public mobilePlist;
+  public appPList;
+  // public coinlist_desktop;
+  // public coinlist_mobile;
+  // public coinlist_app;
+  // public portfolio_desktop;
+  // public portfolio_mobile;
+  // public portfolio_app;
   userLogin: any = {};
   userReg: any = {};
   key: string = '';
   reverse: boolean = false;
   public colorOfSite;
   public enableRefreshBtn;
-  constructor(private cookieService: CookieService, private commonService: CommonServiceService, private http: Http, private orderPipe: OrderPipe, private changeGraphTheme: CompDataSharingService) {
+  constructor(private router : Router,private cookieService: CookieService, private commonService: CommonServiceService, private http: Http, private orderPipe: OrderPipe, private changeGraphTheme: CompDataSharingService) {
     this.changeGraphTheme.changeTo_default_theme_listener().subscribe(() => {
       this.defaultTheme();
     })
@@ -79,6 +89,22 @@ export class ThemeHeaderComponent implements OnInit {
     
   }
   ngOnInit() {
+    // if(this.router.url === '/coinlist'){
+    //   this.coinlist_desktop = true;
+    //   this.coinlist_app = true;
+    //   this.coinlist_mobile = true;
+    //   this.portfolio_app = false;
+    //   this.portfolio_desktop = false;
+    //   this.portfolio_mobile = false;
+    // }
+    // else if(this.router.url === '/portfolio'){
+    //   this.portfolio_app = true;
+    //   this.portfolio_desktop = true;
+    //   this.portfolio_mobile = true;
+    //   this.coinlist_desktop = false;
+    //   this.coinlist_app = false;
+    //   this.coinlist_mobile = false;
+    // }
     this.loadScript()
     this.popUpEnabled = true;
     this.themeBlack = {
@@ -522,9 +548,13 @@ export class ThemeHeaderComponent implements OnInit {
     console.log('User Theme')
     let tokenV = localStorage.getItem('userToken');
     this.http.post('http://54.165.36.80:5687/api/userSetting/getUserData', { token: tokenV }).map(response => response.json()).subscribe(data => {
-      this.desktoplists = data.customizeColumns.desktop;
-      this.mobilelists = data.customizeColumns.mobile;
-      this.appList = data.customizeColumns.app;
+      
+      this.desktoplists = data.customizeColumns.desktop.coinlist;
+      this.desktopPlist = data.customizeColumns.desktop.portfolio;
+      this.mobilelists = data.customizeColumns.mobile.coinlist;
+      this.mobilePlist = data.customizeColumns.mobile.portfolio;
+      this.appList = data.customizeColumns.app.coinlist;
+      this.appPList = data.customizeColumns.app.portfolio;
       this.colorOfSite = data.siteColor;
       this.changeRefreshRate = data.refreshRate;
       this.someRange = data.refreshRate;
@@ -576,7 +606,6 @@ export class ThemeHeaderComponent implements OnInit {
     })
   }
   defaultTheme() {
-    
     this.cookieService.set('googtrans', "/en/en");
     let body = document.getElementsByTagName('body')[0];
     var currentList = body.classList.add('black-theme');
@@ -588,13 +617,16 @@ export class ThemeHeaderComponent implements OnInit {
     this.currencyText = 'USD';
     localStorage.setItem('currencyRate', this.currencyvalue);
     this.refreshDefault = '1';
-    let data = { "desktop": [{ "label": "Graph", "ischecked": true, "key": "expand" }, { "label": "Favourite", "ischecked": true, "key": "favourite" }, { "label": "Coin", "ischecked": true, "key": "coin" }, { "label": "Price", "ischecked": true, "key": "price" }, { "label": "24 HR (%)", "ischecked": true, "key": "dayChange" }, { "label": "7 Day (%)", "ischecked": true, "key": "weaklyChange" }, { "label": "Volume (24 H)", "ischecked": true, "key": "dayVolume" }, { "label": "Market Cap", "ischecked": true, "key": "marketCap" }, { "label": "24 HR High/Low", "ischecked": true, "key": "dayHighLow" }, { "label": "Circulation Supply ", "ischecked": false, "key": "circulationSupply" }, { "label": "Total Supply", "ischecked": false, "key": "totalSupply" }, { "label": "Exchanges ", "ischecked": false, "key": "exchanges" }], "mobile": [{ "label": "Graph", "ischecked": true, "key": "expand" }, { "label": "Favourite", "ischecked": true, "key": "favourite" }, { "label": "Coin", "ischecked": true, "key": "coin" }, { "label": "Price", "ischecked": true, "key": "price" }, { "label": "24 HR (%)", "ischecked": false, "key": "dayChange" }, { "label": "7 Day (%)", "ischecked": false, "key": "weaklyChange" }, { "label": "Volume (24 H)", "ischecked": false, "key": "dayVolume" }, { "label": "Market Cap", "ischecked": false, "key": "marketCap" }, { "label": "24 HR High/Low", "ischecked": false, "key": "dayHighLow" }, { "label": "Circulation Supply ", "ischecked": false, "key": "circulationSupply" }, { "label": "Total Supply", "ischecked": false, "key": "totalSupply" }, { "label": "Exchanges ", "ischecked": false, "key": "exchanges" }], "app": [{ "label": "Graph", "ischecked": true, "key": "expand" }, { "label": "Favourite", "ischecked": true, "key": "favourite" }, { "label": "Coin", "ischecked": true, "key": "coin" }, { "label": "Price", "ischecked": true, "key": "price" }, { "label": "24 HR (%)", "ischecked": true, "key": "dayChange" }, { "label": "7 Day (%)", "ischecked": true, "key": "weaklyChange" }, { "label": "Volume (24 H)", "ischecked": false, "key": "dayVolume" }, { "label": "Market Cap", "ischecked": false, "key": "marketCap" }, { "label": "24 HR High/Low", "ischecked": false, "key": "dayHighLow" }, { "label": "Circulation Supply ", "ischecked": false, "key": "circulationSupply" }, { "label": "Total Supply", "ischecked": false, "key": "totalSupply" }, { "label": "Exchanges ", "ischecked": false, "key": "exchanges" }] }
+    let data = {"desktop":{"coinlist":[{"label":"Graph","ischecked":true,"key":"expand"},{"label":"Favourite","ischecked":true,"key":"favourite"},{"label":"Coin","ischecked":true,"key":"coin"},{"label":"Price","ischecked":true,"key":"price"},{"label":"24 HR (%)","ischecked":true,"key":"dayChange"},{"label":"7 Day (%)","ischecked":true,"key":"weaklyChange"},{"label":"Volume (24 H)","ischecked":true,"key":"dayVolume"},{"label":"Market Cap","ischecked":true,"key":"marketCap"},{"label":"24 HR High/Low","ischecked":true,"key":"dayHighLow"},{"label":"Circulation Supply ","ischecked":false,"key":"circulationSupply"},{"label":"Total Supply","ischecked":false,"key":"totalSupply"},{"label":"Exchanges ","ischecked":false,"key":"exchanges"}],"portfolio":[{"label":"Coins","ischecked":true,"key":"coins"},{"label":"Totals","ischecked":true,"key":"total_coins"},{"label":"Price Paid","ischecked":true,"key":"price_paid"},{"label":"Current Price","ischecked":true,"key":"current_price"},{"label":"Total Gain/Loss","ischecked":true,"key":"gain_loss"},{"label":"Graph","ischecked":true,"key":"graph"},{"label":"Trade","ischecked":true,"key":"trade"}]},"mobile":{"coinlist":[{"label":"Graph","ischecked":true,"key":"expand"},{"label":"Favourite","ischecked":true,"key":"favourite"},{"label":"Coin","ischecked":true,"key":"coin"},{"label":"Price","ischecked":true,"key":"price"},{"label":"24 HR (%)","ischecked":false,"key":"dayChange"},{"label":"7 Day (%)","ischecked":false,"key":"weaklyChange"},{"label":"Volume (24 H)","ischecked":false,"key":"dayVolume"},{"label":"Market Cap","ischecked":false,"key":"marketCap"},{"label":"24 HR High/Low","ischecked":false,"key":"dayHighLow"},{"label":"Circulation Supply ","ischecked":false,"key":"circulationSupply"},{"label":"Total Supply","ischecked":false,"key":"totalSupply"},{"label":"Exchanges ","ischecked":false,"key":"exchanges"}],"portfolio":[{"label":"Coins","ischecked":true,"key":"coins"},{"label":"Totals","ischecked":true,"key":"total_coins"},{"label":"Price Paid","ischecked":true,"key":"price_paid"},{"label":"Current Price","ischecked":true,"key":"current_price"},{"label":"Total Gain/Loss","ischecked":true,"key":"gain_loss"},{"label":"Graph","ischecked":true,"key":"graph"},{"label":"Trade","ischecked":true,"key":"trade"}]},"app":{"coinlist":[{"label":"Graph","ischecked":true,"key":"expand"},{"label":"Favourite","ischecked":true,"key":"favourite"},{"label":"Coin","ischecked":true,"key":"coin"},{"label":"Price","ischecked":true,"key":"price"},{"label":"24 HR (%)","ischecked":false,"key":"dayChange"},{"label":"7 Day (%)","ischecked":false,"key":"weaklyChange"},{"label":"Volume (24 H)","ischecked":false,"key":"dayVolume"},{"label":"Market Cap","ischecked":false,"key":"marketCap"},{"label":"24 HR High/Low","ischecked":false,"key":"dayHighLow"},{"label":"Circulation Supply ","ischecked":false,"key":"circulationSupply"},{"label":"Total Supply","ischecked":false,"key":"totalSupply"},{"label":"Exchanges ","ischecked":false,"key":"exchanges"}],"portfolio":[{"label":"Coins","ischecked":true,"key":"coins"},{"label":"Totals","ischecked":true,"key":"total_coins"},{"label":"Price Paid","ischecked":true,"key":"price_paid"},{"label":"Current Price","ischecked":true,"key":"current_price"},{"label":"Total Gain/Loss","ischecked":true,"key":"gain_loss"},{"label":"Graph","ischecked":true,"key":"graph"},{"label":"Trade","ischecked":true,"key":"trade"}]}}
     let dataS = JSON.stringify(data);
     localStorage.setItem('customizeColumns', dataS);
     this.changeGraphTheme.customizeColumns_filter(data);
-    this.desktoplists = data.desktop;
-    this.mobilelists = data.mobile;
-    this.appList = data.app;
+    this.desktoplists = data.desktop.coinlist;
+    this.desktopPlist = data.desktop.portfolio;
+    this.mobilelists = data.mobile.coinlist;
+    this.mobilePlist = data.mobile.portfolio;
+    this.appList = data.app.coinlist;
+    this.appPList = data.app.portfolio;
     this.passData2Comp['theme'] = this.themeBlack;
     this.passData2Comp['refreshrate'] = this.refreshDefault;
     this.passData2Comp['volumeTheme'] = this.volume_black;

@@ -1,0 +1,13 @@
+<div class="adminform"><from>
+  <label style="font-size:30px;">Login</label>
+  <div class="form_groups">
+    <label>Username</label>
+    <input type="text" [(ngModel)]="user.name">
+  </div>
+  <div class="form_groups">
+    <label>Password</label>
+    <input type="password" [(ngModel)]="user.password">
+  </div>
+  <button class="btn btn-success" (click)="moveToDashboard(user)">Login</button>
+</from>
+</div>

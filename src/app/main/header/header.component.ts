@@ -143,6 +143,15 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(['/login'], { skipLocationChange: false })
   }
   logOut() {
+      // let a = document.querySelector("#google_translate_element select");
+      // console.log(a)
+      // let options = a.getElementsByTagName('option');
+      //  for(let i = 0;i <options.length; i++){
+      //    if( 'en' == options[i].value){
+      //          a.selectedIndex=i;
+      //          a.dispatchEvent(new Event('change'));
+      //    }
+      //  }
     localStorage.removeItem('userToken');
     localStorage.removeItem('userName');
     this.dataShare.callLogOut_filter();
