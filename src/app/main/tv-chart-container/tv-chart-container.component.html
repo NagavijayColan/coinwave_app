@@ -59,7 +59,7 @@
         </td>
         <td *ngIf="resolutionColumn.dayVolume" (click)="coinDetails(coins.pair)">{{coins.dayVolume * currencyValue | number:'.0-2'}}</td>
         <td *ngIf="resolutionColumn.marketCap" (click)="coinDetails(coins.pair)">{{coins.marketCapValue * currencyValue | number:'.0-2'}}</td>
-        <td *ngIf="resolutionColumn.dayHighLow" (click)="coinDetails(coins.pair)">{{coins.highestPrice * currencyValue | number:'.0-2'}} / {{coins.lowestPrice * currencyValue | number:'.0-2'}}</td>
+        <td *ngIf="resolutionColumn.dayHighLow" (click)="coinDetails(coins.pair)">{{coins.high * currencyValue | number:'.0-2'}} / {{coins.low * currencyValue | number:'.0-2'}}</td>
       </tr>
       <tr id="expandFav{{i}}" class="hidingNow">
         <td colspan="11" height="300px;" width="100%">
@@ -125,7 +125,7 @@
         </td>
         <td *ngIf="resolutionColumn.dayVolume" (click)="coinDetails(coins.pair)">{{coins.dayVolume * currencyValue | number:'.0-2'}}</td>
         <td *ngIf="resolutionColumn.marketCap" (click)="coinDetails(coins.pair)">{{coins.marketCapValue * currencyValue | number:'.0-2'}}</td>
-        <td *ngIf="resolutionColumn.dayHighLow" (click)="coinDetails(coins.pair)">{{coins.highestPrice * currencyValue | number:'.0-2'}} / {{coins.lowestPrice * currencyValue | number:'.0-2'}}</td>
+        <td *ngIf="resolutionColumn.dayHighLow" (click)="coinDetails(coins.pair)">{{coins.high | number:'.0-2'}} / {{coins.low | number:'.0-2'}}</td>
       </tr>
       <tr id="expand{{favCoinsList.length+i}}" class="hidingNow">
         <td colspan="11" height="300px;" width="100%">
@@ -247,19 +247,19 @@
       <tbody  *ngFor="let coins of portfolioList | filter: searchText; let i = index ">
         <tr style="cursor:pointer">
             <td>{{i+1}}</td>
-            <td *ngIf="resolutionColumn.coins">{{coins.name}}</td>
-            <td *ngIf="resolutionColumn.total_coins" class="ls_price">{{coins.total_coins | number : '.0-2'}}</td>
-            <td *ngIf="resolutionColumn.price_paid" class="ls_price">{{coins.price_paid | number : '.0-2'}}</td>
-            <td *ngIf="resolutionColumn.graph" (click)="expandGraph(event,favCoinsList.length+i,coins.pair,coins.name,'chart1div','expand')" class="graphTabledata">
+            <td *ngIf="resolutionColumn.coins" (click)="coinDetails(coins.pair)">{{coins.name}}</td>
+            <td *ngIf="resolutionColumn.total_coins" (click)="coinDetails(coins.pair)" class="ls_price">{{coins.total_coins | number : '.0-2'}}</td>
+            <td *ngIf="resolutionColumn.price_paid" (click)="coinDetails(coins.pair)" class="ls_price">{{coins.price_paid | number : '.0-2'}}</td>
+            <td *ngIf="resolutionColumn.graph"  (click)="expandGraph(event,favCoinsList.length+i,coins.pair,coins.name,'chart1div','expand')" class="graphTabledata">
               <i class="fa fa-arrows-alt" ></i>
             </td>
-            <td *ngIf="resolutionColumn.current_price" class="ls_price" [ngClass]="{'colorGreen': coins.dayPriceStatus === 'true','colorRed': coins.dayPriceStatus === 'false'}">{{coins.price | number : '.0-2'}} 
+            <td *ngIf="resolutionColumn.current_price" (click)="coinDetails(coins.pair)" class="ls_price" [ngClass]="{'colorGreen': coins.dayPriceStatus === 'true','colorRed': coins.dayPriceStatus === 'false'}">{{coins.price | number : '.0-2'}} 
                 <span class="fa upDownSymbol" [ngClass]="{'arrow-up': coins.dayPriceStatus === 'true','arrow-down': coins.dayPriceStatus === 'false'}"></span>
             </td>
-            <td *ngIf="resolutionColumn.gain_loss" class="" [ngClass]="{'colorGreen': coins.price_paid < coins.price * coins.total_coins,'colorRed': coins.price_paid > coins.price *coins.total_coins}">{{ coins.price * coins.total_coins - coins.price_paid | number : '.0-2'}}
+            <td *ngIf="resolutionColumn.gain_loss" (click)="coinDetails(coins.pair)" class="" [ngClass]="{'colorGreen': coins.price_paid < coins.price * coins.total_coins,'colorRed': coins.price_paid > coins.price *coins.total_coins}">{{ coins.price * coins.total_coins - coins.price_paid | number : '.0-2'}}
               <span class="fa upDownSymbol" [ngClass]="{'arrow-up': coins.price_paid  < coins.price * coins.total_coins,'arrow-down': coins.price_paid > coins.price * coins.total_coins}"></span>
             </td>
-            <td *ngIf="resolutionColumn.trade" class="trade_btn">
+            <td *ngIf="resolutionColumn.trade"  class="trade_btn">
               <button>Trade </button>
             </td>
         </tr>

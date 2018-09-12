@@ -38,7 +38,20 @@ export class PortfolioComponent implements OnInit {
       this.coinList = [];
       this.coinList = searchT;
     })
+    this.changeGraphTheme.clear_portfolio_Data_listener().subscribe(() => {
+      this.isLoggedin = false;
+      // this.isLoggedin = true;
+     
+
+  })
+  this.changeGraphTheme.portfolio_Data_listener().subscribe(() => {
+      this.clearInterval = true;
+      this.isLoggedin = true;
+      // this.getLoggedIn = true;
+      // this.isLoggedin = true;
+      this.coinList = [];
   
+  })
    
   }
   changeGridView(ev) {

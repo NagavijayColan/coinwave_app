@@ -15,7 +15,7 @@
       <div class="grid_list_tab">
         <ul>
           <li style="cursor:pointer">
-            <button (click)="addCoin.show()" class="addCoin_btn">Add Coins</button>
+            <button (click)="addCoin.show()" *ngIf="isLoggedin" class="addCoin_btn">Add Coins</button>
           </li>
           <!-- <li (click)="changeGridView('list_view')" style="cursor:pointer" class="active" id="list_view">
             <i class="fa fa-list-ul" aria-hidden="true"></i>
@@ -125,8 +125,13 @@
           </div> -->
           <div class="md-form form-sm">
             <!-- <i class="fa fa-envelope prefix"></i> -->
-            <input type="date" name="trade_date" [(ngModel)]="addCoinModel.trade_date" class="form-control required placeholder_color" placeholder="Date of Purchase">
-            
+            <!-- <input type="date" name="trade_date" [(ngModel)]="addCoinModel.trade_date" class="form-control required placeholder_color" placeholder="Date of Purchase"> -->
+            <div class="col-xs-12  form-group">
+              <input type="text" [(ngModel)]="addCoinModel.trade_date"
+                     placeholder="Datepicker"
+                     class="form-control"
+                     bsDatepicker>
+            </div>
           </div>
           <div class="text-center mt-2">
             <button class="btn btn-info waves-light" (click)="AddCoinIntoPortfolio(addCoinModel)" mdbWavesEffect>Add Coin

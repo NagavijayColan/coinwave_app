@@ -141,6 +141,9 @@ font-family: ProximaNova-Bold;}
 .data-table.table-bordered {border: 0px;box-shadow: inherit !important;}
 .data-table.table th, .data-table.table th span i{ text-align: center;
  vertical-align: bottom; position: relative;}
+ .data-table.table th{
+  vertical-align: middle;
+ }
 .data-table.table th{font-size:13px; padding: 8px !important;}
 .data-table.table td {padding: 0.95rem 0px !important;text-align: center;}
 .button_icon, .button_icon:hover{line-height: 20px; border:0px;  cursor:pointer; margin-top:0px !important;}

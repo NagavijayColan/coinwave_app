@@ -150,6 +150,7 @@ export class TvChartContainerComponent implements OnInit {
     constructor(private AmCharts: AmChartsService, private commonService: CommonServiceService, private http: Http, private router: Router, private changeGraphTheme: CompDataSharingService) {
         this.changeGraphTheme.clear_portfolio_Data_listener().subscribe(() => {
             this.getLoggedIn = true;
+           
             this.portfolioList = [];
 
         })
@@ -286,7 +287,7 @@ export class TvChartContainerComponent implements OnInit {
                 let tokenV = localStorage.getItem('userToken');
                 this.http.post('http://54.165.36.80:5687/api/userSetting/getUserData', { token: tokenV }).map(response => response.json()).subscribe(data => {
                     this.changeGraphTheme.customizeColumns_filter(data.customizeColumns);
-                    debugger
+                    
                     this.customizeColUpdate(data.customizeColumns);
                     this.setIntervalTime = data.refreshRate + '000';
                     this.favCoinsList = [];
@@ -374,6 +375,22 @@ export class TvChartContainerComponent implements OnInit {
             //     }
             // })
         }
+    }
+    getCoinListNew(){
+        
+        this.http.get('https://sypd4mnp3j.execute-api.us-east-2.amazonaws.com/preprod/GetExchangeList').map(
+                response => response.json()).subscribe(
+                data => {
+                   this.coinList = data;
+                })
+                if(this.coinList.length == 0){
+                    if (parseInt(this.setIntervalTime) >= 1000) {
+                        console.log(this.setIntervalTime)
+                        this.runningInterval = setInterval(() => {
+                            this.getCoinListNew();
+                        }, this.setIntervalTime);
+                    }
+                }
     }
     getCoinList() {
         if (!localStorage.getItem('userToken') && this.clearInterval) {
@@ -508,7 +525,7 @@ export class TvChartContainerComponent implements OnInit {
         }
     }
     expandGraph(ev, i, coinToken, coinName, chartId, rowId) {
-        debugger
+        
 
         if (document.getElementById(rowId + i).classList.contains('showingNow')) {
             document.getElementById(rowId + i).classList.remove('showingNow');
@@ -553,7 +570,7 @@ export class TvChartContainerComponent implements OnInit {
     }
 
     sort(key) {
-        debugger
+        
 
         this.clearInterval = false;
         clearInterval(this.subscriptionOfHttp);
@@ -578,7 +595,7 @@ export class TvChartContainerComponent implements OnInit {
                 let request = this.http.post('http://54.165.36.80:5687/api/coins/getFavourites', { token: tokenV, filter: this.advFilter, from: 0, to: toL, sort: { key: this.sortingKey, value: this.reverse } }).map(
                     response => response.json()).subscribe(
                     data => {
-                        debugger
+                        
                         if (data.length <= 2) {
 
                             this.noData = false;
@@ -629,6 +646,11 @@ export class TvChartContainerComponent implements OnInit {
 
                 response => response.json()).subscribe(
                 data => {
+                   
+                    
+                    let lucky = data.portfolioList.filter(function(item) {
+                        return item.pair == 'btcusd';
+                      });
                     this.portfolioList = [];
                     this.portfolioList = data.portfolioList;
                     setInterval(() => {
@@ -1056,63 +1078,63 @@ export class TvChartContainerComponent implements OnInit {
         this.ngUnsubscribe.next();
         this.ngUnsubscribe.complete();
     }
-    @HostListener("window:scroll", ['$event'])
-    onWindowScroll(event) {
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-            if (localStorage.getItem('userToken')) {
-                this.url = 'http://54.165.36.80:5687/api/coins/getFavourites';
-                let tokenv = localStorage.getItem('userToken');
+    // @HostListener("window:scroll", ['$event'])
+    // onWindowScroll(event) {
+    //     if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+    //         if (localStorage.getItem('userToken')) {
+    //             this.url = 'http://54.165.36.80:5687/api/coins/getFavourites';
+    //             let tokenv = localStorage.getItem('userToken');
 
-                this.subscriptionOfHttp = this.http.post(this.url, { token: tokenv, from: this.coinList.length + this.favCoinsList.length, to: 20 }).map(
-                    response => response.json()).subscribe(
-                    data => {
-                        if (this.clearInterval && data.length <= 2) {
-                            for (let n = 0; n < data.length; n++) {
-                                if (data[n].favourite == true) {
-                                    data[n].data.forEach(element => {
-                                        this.favCoinsList.push(element)
-                                    });
-                                }
-                                else if (data[n].favourite == false) {
-                                    data[n].data.forEach(element => {
-                                        this.coinList.push(element)
-                                    });
-                                    //this.updateAllCoinsData(data[n].data);
-                                }
-                            }
-                        }
-                        else {
-                            data.forEach(element => {
-                                this.coinList.push(element)
-                            });
+    //             this.subscriptionOfHttp = this.http.post(this.url, { token: tokenv, from: this.coinList.length + this.favCoinsList.length, to: 20 }).map(
+    //                 response => response.json()).subscribe(
+    //                 data => {
+    //                     if (this.clearInterval && data.length <= 2) {
+    //                         for (let n = 0; n < data.length; n++) {
+    //                             if (data[n].favourite == true) {
+    //                                 data[n].data.forEach(element => {
+    //                                     this.favCoinsList.push(element)
+    //                                 });
+    //                             }
+    //                             else if (data[n].favourite == false) {
+    //                                 data[n].data.forEach(element => {
+    //                                     this.coinList.push(element)
+    //                                 });
+    //                                 //this.updateAllCoinsData(data[n].data);
+    //                             }
+    //                         }
+    //                     }
+    //                     else {
+    //                         data.forEach(element => {
+    //                             this.coinList.push(element)
+    //                         });
 
-                        }
-                        this.showLoadSpinner = false;
-                    },
-                    err => {
-                        console.log(err)
-                    })
-            }
-            else {
-                this.url = 'http://54.165.36.80:5687/exchange/getusd';
+    //                     }
+    //                     this.showLoadSpinner = false;
+    //                 },
+    //                 err => {
+    //                     console.log(err)
+    //                 })
+    //         }
+    //         else {
+    //             this.url = 'http://54.165.36.80:5687/exchange/getusd';
 
-                this.subscriptionOfHttp = this.http.post(this.url, { from: this.coinList.length + 1, to: 21, token: localStorage.getItem('userToken') ? localStorage.getItem('userToken') : '' }).map(
-                    response => response.json()).subscribe(
-                    data => {
-                        data.forEach(element => {
-                            this.coinList.push(element)
-                        });
-                        this.showLoadSpinner = false;
-                    },
-                    err => {
-                        console.log(err)
-                    })
-            }
-            this.showLoadSpinner = true;
+    //             this.subscriptionOfHttp = this.http.post(this.url, { from: this.coinList.length + 1, to: 21, token: localStorage.getItem('userToken') ? localStorage.getItem('userToken') : '' }).map(
+    //                 response => response.json()).subscribe(
+    //                 data => {
+    //                     data.forEach(element => {
+    //                         this.coinList.push(element)
+    //                     });
+    //                     this.showLoadSpinner = false;
+    //                 },
+    //                 err => {
+    //                     console.log(err)
+    //                 })
+    //         }
+    //         this.showLoadSpinner = true;
 
-            this.showScrollTop = true;
-        }
-    }
+    //         this.showScrollTop = true;
+    //     }
+    // }
 
 
     /*AmChart Implementation */
@@ -1426,7 +1448,15 @@ export class TvChartContainerComponent implements OnInit {
             response => response.json()).subscribe(
             data => {
                 this.getLoggedIn = false;
-                debugger
+                let normalisation = [];
+                // for(let k = 0 ; k < data.portfolioList.length ; k++){
+                //     let obj = data.portfolioList.filter(x => x.pair ==  data.portfolioList[k].pair);
+                //     for(let i = 0; i < data.portfolioList.length; i++){
+                //         if(data.portfolioList[k].pair == data.portfolioList[i].pair){
+                //             delete data.portfolioList[i]
+                //         }
+                //     }
+                // }
                 if (this.portfolioList.length > 0) {
                     this.updatePortfolio(data.portfolioList)
                     this.showLoadSpinner = false
@@ -1439,6 +1469,21 @@ export class TvChartContainerComponent implements OnInit {
                 else {
 
                     this.portfolioList = data.portfolioList;
+                    
+                    // for(let k = 0; k < this.portfolioList.length ; k++){
+                    //     let lucky = data.portfolioList.filter(() => (item) {
+                    //                 if(item.pair == this.portfolioList[k].pair){
+                    //                     return item.pair == this.portfolioList[k].pair;
+                    //                 }
+                    //     });
+                    // }
+                    // for(let m = 0; m < this.portfolioList.length; m++){
+                    //     let lucky = data.portfolioList.filter(function(item) {
+                    //         if(item.pair == this.portfolioList[m].pair){
+                    //             return item.pair == this.portfolioList[m].pair;
+                    //         }
+                    //       });
+                    // }
                     console.log(data)
                     this.showLoadSpinner = false;
 
@@ -1448,16 +1493,17 @@ export class TvChartContainerComponent implements OnInit {
                 }
             },
         );
-
     }
 
-    updatePortfolio(allCoins) {debugger
+    updatePortfolio(allCoins) {
         console.log(allCoins)
         for (let i = 0; i < allCoins.length; i++) {
             let checkIsThere = true;
             let obj = this.portfolioList.findIndex(coin => allCoins[i].pair === coin.pair);
             if (obj != -1) {
                 this.portfolioList[obj].price = allCoins[i].price;
+                this.portfolioList[obj].total_coins = allCoins[i].total_coins;
+                this.portfolioList[obj].price_paid = allCoins[i].price_paid;
                 console.log(this.portfolioList[obj].price, allCoins[i].price)
                 this.portfolioList[obj].priceStatus = allCoins[i].priceStatus;
                 this.portfolioList[obj].dayPrice = allCoins[i].dayPrice;

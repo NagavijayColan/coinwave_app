@@ -186,7 +186,7 @@ export class CoinpageComponent implements OnInit {
         console.log(this.graphThemeColor)
         this.themeType = this.graphThemeColor.theme;
         this.backgroundColor = this.graphThemeColor.bgColor;
-        this.setIntervalTime = 1000;
+        this.setIntervalTime = 300000;
         this.overrides_obj = this.graphThemeColor;
 
         // this.generateGraph(this.coinKey);
